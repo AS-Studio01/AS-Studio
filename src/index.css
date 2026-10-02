@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #121212;
+    background-color: #FAF8F5;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  html.dark {
+    color: #F4F4F6;
+    background-color: #0E0E10;
+  }
+}
+
+/* Apple-style Glassmorphic Buttons with adaptive depth */
+.glass-btn {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(220, 215, 205, 0.6);
+  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-btn:hover {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(18, 18, 18, 0.25);
+  box-shadow: 0 6px 20px -2px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 1);
+  transform: translateY(-1px);
+}
+
+.dark .glass-btn {
+  background: rgba(28, 28, 32, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+}
+
+.dark .glass-btn:hover {
+  background: rgba(38, 38, 44, 0.85);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 6px 24px -2px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.18);
+}
+
+/* Primary Cobalt Glass Button */
+.glass-btn-primary {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(0, 71, 171, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: 0 4px 18px -2px rgba(0, 71, 171, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-btn-primary:hover {
+  background: rgba(0, 60, 150, 0.98);
+  box-shadow: 0 6px 24px -2px rgba(0, 71, 171, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.55);
+  transform: translateY(-1px);
+}
+
+.dark .glass-btn-primary {
+  background: rgba(43, 108, 238, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 22px -2px rgba(43, 108, 238, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+}
+
+.dark .glass-btn-primary:hover {
+  background: rgba(56, 120, 255, 1);
+  box-shadow: 0 6px 28px -2px rgba(43, 108, 238, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.45);
+}
+
+/* Subtle, calm fade-in */
+@keyframes subtleFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: subtleFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
