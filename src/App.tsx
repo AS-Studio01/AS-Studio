@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { Analytics } from '@vercel/analytics/react';
 import { ThemeProvider } from './context/ThemeContext';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
@@ -137,6 +138,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <AppContent />
+      <Analytics />
     </ThemeProvider>
   );
 }
