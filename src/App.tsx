@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
+import { FixedBottomLegalBar } from './components/FixedBottomLegalBar';
 import { ProjectModal } from './components/ProjectModal';
 import { LegalModal } from './components/LegalModal';
 import { SecretAdminPanel } from './components/SecretAdminPanel';
@@ -43,7 +44,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0E0E10] text-[#F4F4F6] flex flex-col font-sans selection:bg-[#3B82F6] selection:text-white">
+    <div className="min-h-screen bg-[#0E0E10] text-[#F4F4F6] flex flex-col font-sans selection:bg-[#3B82F6] selection:text-white pb-14 sm:pb-12">
       {/* Header with clean navigation, AI Concierge, and secret founder trigger */}
       <Header
         currentPage={currentPage}
@@ -52,15 +53,18 @@ export default function App() {
         onOpenSecretAdmin={() => setIsAdminOpen(true)}
       />
 
-      {/* Main Page View with Pure Subtle Cross-Fade Transition */}
-      <main className="flex-1 relative">
+      {/* Main Page View with Modern Slide-In + Cross-Fade Transition */}
+      <main className="flex-1 relative overflow-x-hidden">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentPage}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.22, ease: 'easeInOut' }}
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -14 }}
+            transition={{ 
+              duration: 0.28, 
+              ease: [0.22, 1, 0.36, 1] 
+            }}
             className="w-full"
           >
             {currentPage === 'home' && (
@@ -102,6 +106,11 @@ export default function App() {
       <Footer
         onOpenLegal={(type) => setLegalModalType(type)}
         onNavigate={navigateTo}
+      />
+
+      {/* Persistent Fixed Bottom Legal & Compliance Notice (Visible across all pages, moves with scroll, immune to overlap) */}
+      <FixedBottomLegalBar
+        onOpenLegal={(type) => setLegalModalType(type)}
       />
 
       {/* Floating Bottom-Right Direct Channels Launcher */}

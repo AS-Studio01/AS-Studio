@@ -14,7 +14,8 @@ import {
   X, ShieldCheck, ShieldAlert, Database, Mail, Trash2, 
   RefreshCw, CheckCircle2, Clock, Search, Filter, 
   ExternalLink, Send, LogOut, Check, Sparkles, AlertTriangle, 
-  Server, User, FileText, KeyRound, Lock, MessageSquare, ArrowUpRight
+  Server, User, FileText, KeyRound, Lock, MessageSquare, ArrowUpRight,
+  Inbox, CheckCheck
 } from 'lucide-react';
 import { 
   collection, getDocs, doc, deleteDoc, updateDoc 
@@ -24,7 +25,8 @@ import { useAuth } from '../context/AuthContext';
 import { STUDIO_CONTACT } from '../constants/communication';
 import { 
   sendEmailViaGmail, getSentEmailLogs, EmailSendResult, 
-  buildGmailWebComposeUrl 
+  buildGmailWebComposeUrl, listGmailInboxMessages, 
+  GmailInboxItem, getGmailProfile 
 } from '../services';
 
 interface SecretAdminPanelProps {
@@ -50,7 +52,9 @@ export function SecretAdminPanel({ isOpen, onClose }: SecretAdminPanelProps) {
     user, 
     isAdmin, 
     isSecretCodeAdmin, 
+    gmailAccessToken,
     signInWithGoogle, 
+    connectGmail,
     loginWithSecretCode, 
     signOut 
   } = useAuth();
@@ -59,7 +63,7 @@ export function SecretAdminPanel({ isOpen, onClose }: SecretAdminPanelProps) {
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [activeTab, setActiveTab] = useState<'inquiries' | 'database' | 'email'>('inquiries');
+  const [activeTab, setActiveTab] = useState<'inquiries' | 'email' | 'database'>('inquiries');
   const [latency, setLatency] = useState<number | null>(null);
   const [notificationMsg, setNotificationMsg] = useState<string | null>(null);
 
@@ -73,6 +77,11 @@ export function SecretAdminPanel({ isOpen, onClose }: SecretAdminPanelProps) {
   const [emailBody, setEmailBody] = useState('');
   const [isSendingEmail, setIsSendingEmail] = useState(false);
   const [sentLogs, setSentLogs] = useState<EmailSendResult[]>([]);
+
+  // Live Gmail Inbox state
+  const [gmailInbox, setGmailInbox] = useState<GmailInboxItem[]>([]);
+  const [loadingInbox, setLoadingInbox] = useState(false);
+  const [gmailProfile, setGmailProfile] = useState<{ emailAddress: string; messagesTotal: number } | null>(null);
 
   // Direct manual email composer
   const [customTo, setCustomTo] = useState('');
@@ -113,11 +122,31 @@ export function SecretAdminPanel({ isOpen, onClose }: SecretAdminPanelProps) {
     }
   };
 
+  const fetchGmailData = async () => {
+    if (!gmailAccessToken) return;
+    setLoadingInbox(true);
+    try {
+      const [messages, profile] = await Promise.all([
+        listGmailInboxMessages(gmailAccessToken, 6),
+        getGmailProfile(gmailAccessToken),
+      ]);
+      setGmailInbox(messages);
+      if (profile) setGmailProfile(profile);
+    } catch (e) {
+      console.warn('[Gmail] Could not load inbox messages:', e);
+    } finally {
+      setLoadingInbox(false);
+    }
+  };
+
   useEffect(() => {
     if (isOpen && isAdmin) {
       fetchInquiries();
+      if (gmailAccessToken) {
+        fetchGmailData();
+      }
     }
-  }, [isOpen, isAdmin]);
+  }, [isOpen, isAdmin, gmailAccessToken]);
 
   const handleSecretCodeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -192,20 +221,20 @@ asbusinessofficial01@gmail.com`
     if (!replyingInquiry) return;
     setIsSendingEmail(true);
     try {
-      const result = await sendEmailViaGmail({
+      await sendEmailViaGmail({
         to: replyingInquiry.contactChannel,
         from: 'asbusinessofficial01@gmail.com',
         subject: emailSubject,
         bodyText: emailBody,
-      });
+      }, gmailAccessToken);
 
-      // Update inquiry status to 'contacted'
       await handleUpdateStatus(replyingInquiry.id, 'contacted');
       setSentLogs(getSentEmailLogs());
       setReplyingInquiry(null);
       showNotification(`Gmail response dispatched to ${replyingInquiry.contactChannel}`);
     } catch (e) {
       console.error('Failed to send email:', e);
+      showNotification('Email dispatch encountered an issue.');
     } finally {
       setIsSendingEmail(false);
     }
@@ -221,7 +250,7 @@ asbusinessofficial01@gmail.com`
         from: 'asbusinessofficial01@gmail.com',
         subject: customSubject,
         bodyText: customBody,
-      });
+      }, gmailAccessToken);
       setSentLogs(getSentEmailLogs());
       setCustomTo('');
       setCustomSubject('');
@@ -231,6 +260,17 @@ asbusinessofficial01@gmail.com`
       console.error('Error:', e);
     } finally {
       setIsSendingEmail(false);
+    }
+  };
+
+  const handleConnectGmailOAuth = async () => {
+    try {
+      await connectGmail();
+      showNotification('Google Workspace Gmail account connected successfully!');
+      fetchGmailData();
+    } catch (e) {
+      console.error('Failed to connect Gmail:', e);
+      showNotification('Could not authenticate Google Workspace account.');
     }
   };
 
@@ -287,7 +327,7 @@ asbusinessofficial01@gmail.com`
                   </span>
                 </div>
                 <p className="text-xs text-[#A1A1AA]">
-                  Full Access · Firestore Inquiries · Integrated Gmail Communications
+                  Full Access · Firestore Inquiries · Google Workspace Gmail Integration
                 </p>
               </div>
             </div>
@@ -295,7 +335,10 @@ asbusinessofficial01@gmail.com`
             <div className="flex items-center gap-2">
               {isAdmin && (
                 <button
-                  onClick={fetchInquiries}
+                  onClick={() => {
+                    fetchInquiries();
+                    if (gmailAccessToken) fetchGmailData();
+                  }}
                   disabled={loading}
                   className="p-2 text-[#A1A1AA] hover:text-white hover:bg-white/5 rounded-lg transition-colors"
                   title="Reload data"
@@ -331,7 +374,7 @@ asbusinessofficial01@gmail.com`
               <div className="max-w-md space-y-1.5">
                 <h4 className="text-xl font-black text-white">Founder Passphrase Required</h4>
                 <p className="text-xs text-[#A1A1AA] leading-relaxed">
-                  Enter founder passphrase or authenticate with authorized Google account.
+                  Enter founder passphrase or authenticate with authorized Google Workspace account.
                 </p>
               </div>
 
@@ -407,7 +450,8 @@ asbusinessofficial01@gmail.com`
                     }`}
                   >
                     <Mail className="w-3.5 h-3.5" />
-                    <span>Integrated Gmail</span>
+                    <span>Google Workspace Gmail</span>
+                    {gmailAccessToken && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />}
                   </button>
 
                   <button
@@ -557,11 +601,36 @@ asbusinessofficial01@gmail.com`
               {activeTab === 'email' && (
                 <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
                   {/* Account Status Strip */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className="p-4 bg-[#141418] border border-white/10 rounded-xl space-y-1">
                       <span className="text-[11px] font-mono uppercase text-[#A1A1AA]">Official Studio Sender</span>
                       <div className="text-sm font-bold font-mono text-white">asbusinessofficial01@gmail.com</div>
-                      <span className="text-[11px] text-emerald-400 font-mono">Google Workspace Integration Active</span>
+                      <span className="text-[11px] text-emerald-400 font-mono">Workspace Sender Configured</span>
+                    </div>
+
+                    <div className="p-4 bg-[#141418] border border-white/10 rounded-xl space-y-1">
+                      <span className="text-[11px] font-mono uppercase text-[#A1A1AA]">OAuth Connection Status</span>
+                      <div className="text-sm font-bold font-mono text-white flex items-center gap-1.5">
+                        {gmailAccessToken ? (
+                          <>
+                            <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                            <span className="text-emerald-400">Gmail OAuth Connected</span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="w-2 h-2 rounded-full bg-amber-400" />
+                            <span className="text-[#A1A1AA]">Proxy Dispatch Ready</span>
+                          </>
+                        )}
+                      </div>
+                      {!gmailAccessToken && (
+                        <button
+                          onClick={handleConnectGmailOAuth}
+                          className="text-[11px] text-[#60A5FA] hover:underline font-mono font-bold block pt-0.5"
+                        >
+                          + Authenticate Workspace Gmail
+                        </button>
+                      )}
                     </div>
 
                     <div className="p-4 bg-[#141418] border border-white/10 rounded-xl space-y-1">
@@ -570,6 +639,56 @@ asbusinessofficial01@gmail.com`
                       <span className="text-[11px] text-emerald-400 font-mono">Delivery & Receipts Verified</span>
                     </div>
                   </div>
+
+                  {/* Live Gmail Inbox Viewer (if OAuth connected) */}
+                  {gmailAccessToken && (
+                    <div className="p-5 bg-[#141418] border border-white/10 rounded-xl space-y-3">
+                      <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
+                        <div className="flex items-center gap-2">
+                          <Inbox className="w-4 h-4 text-[#60A5FA]" />
+                          <h5 className="text-xs font-mono font-bold uppercase tracking-wider text-white">
+                            Live Gmail Inbox ({gmailProfile?.emailAddress || 'Connected Account'})
+                          </h5>
+                        </div>
+                        <button
+                          onClick={fetchGmailData}
+                          disabled={loadingInbox}
+                          className="text-[11px] font-mono text-[#60A5FA] hover:text-white flex items-center gap-1"
+                        >
+                          <RefreshCw className={`w-3 h-3 ${loadingInbox ? 'animate-spin' : ''}`} />
+                          <span>Refresh Inbox</span>
+                        </button>
+                      </div>
+
+                      {loadingInbox ? (
+                        <div className="py-6 text-center text-xs font-mono text-[#71717A]">
+                          Syncing with Gmail API...
+                        </div>
+                      ) : gmailInbox.length === 0 ? (
+                        <div className="py-6 text-center text-xs font-mono text-[#71717A]">
+                          No recent inbox messages retrieved.
+                        </div>
+                      ) : (
+                        <div className="space-y-2">
+                          {gmailInbox.map((msg) => (
+                            <div
+                              key={msg.id}
+                              className="p-3 bg-[#0C0C0F] border border-white/[0.06] rounded-lg space-y-1 text-xs font-mono"
+                            >
+                              <div className="flex items-center justify-between text-[#D4D4D8]">
+                                <span className="font-bold text-white truncate max-w-[200px]">{msg.from}</span>
+                                <span className="text-[10px] text-[#71717A]">
+                                  {new Date(msg.date).toLocaleDateString()}
+                                </span>
+                              </div>
+                              <div className="font-semibold text-[#60A5FA] truncate">{msg.subject}</div>
+                              <p className="text-[11px] text-[#A1A1AA] truncate">{msg.snippet}</p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                   {/* Manual Compose Form */}
                   <div className="p-5 bg-[#141418] border border-white/10 rounded-xl space-y-4">
@@ -606,7 +725,7 @@ asbusinessofficial01@gmail.com`
                       />
                       <div className="flex items-center justify-between pt-1">
                         <span className="text-[11px] font-mono text-[#71717A]">
-                          Dispatches from official studio sender address
+                          {gmailAccessToken ? 'Dispatches via Google Gmail API OAuth' : 'Dispatches from official studio sender'}
                         </span>
                         <button
                           type="submit"
@@ -640,9 +759,14 @@ asbusinessofficial01@gmail.com`
                               <span className="text-white font-bold">{log.recipient}</span>
                               <span className="text-[#A1A1AA] truncate max-w-[240px]">— {log.subject}</span>
                             </div>
-                            <span className="text-[#71717A] text-[10px]">
-                              {new Date(log.timestamp).toLocaleString()}
-                            </span>
+                            <div className="flex items-center gap-2">
+                              <span className="text-[10px] text-emerald-400 uppercase font-bold">
+                                {log.provider === 'gmail_api_oauth' ? 'Gmail API' : 'Sent'}
+                              </span>
+                              <span className="text-[#71717A] text-[10px]">
+                                {new Date(log.timestamp).toLocaleString()}
+                              </span>
+                            </div>
                           </div>
                         ))}
                       </div>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Bot, User, LogIn } from 'lucide-react';
+import { Menu, X, Bot, User, LogIn, ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { PageType } from '../types';
 import { useAuth } from '../context/AuthContext';
 import { STUDIO_CONTACT, buildMailtoLink } from '../constants/communication';
@@ -121,7 +122,7 @@ export function Header({
               })}
             </nav>
 
-            {/* Clean Sign In / Login button (instead of database logo) */}
+            {/* Clean Sign In / Login button */}
             {onOpenPortal && (
               <button
                 onClick={onOpenPortal}
@@ -195,76 +196,107 @@ export function Header({
           </div>
         </div>
 
-        {/* Mobile Drawer */}
-        {mobileMenuOpen && (
-          <div className="relative z-40 md:hidden border-t border-[#27272A] bg-[#0E0E10]/95 backdrop-blur-xl px-5 sm:px-6 py-5 shadow-2xl fade-in max-h-[calc(100dvh-4.5rem)] overflow-y-auto">
-            <nav className="flex flex-col space-y-3 text-base font-semibold">
-              {navLinks.map((link) => (
-                <button
-                  key={link.page}
-                  onClick={() => handleLinkClick(link.page)}
-                  className={`text-left py-2 px-3 rounded-lg transition-colors flex items-center justify-between ${
-                    currentPage === link.page
-                      ? 'bg-white/10 text-white font-bold'
-                      : 'text-[#D4D4D8] hover:bg-white/5 hover:text-white'
-                  }`}
-                >
-                  <span>{link.label}</span>
-                  {currentPage === link.page && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#3B82F6]" />
-                  )}
-                </button>
-              ))}
-
-              {onOpenPortal && (
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    onOpenPortal();
-                  }}
-                  className="text-left py-2.5 px-3 rounded-lg text-white bg-white/5 border border-white/10 transition-colors flex items-center justify-between"
-                >
-                  <span className="flex items-center gap-2 text-sm font-bold">
-                    <User className="w-4 h-4 text-[#60A5FA]" />
-                    <span>{user ? `Account (${user.displayName || user.email})` : 'Sign In / Login'}</span>
-                  </span>
-                  {user ? (
-                    <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                  ) : (
-                    <span className="text-xs text-[#60A5FA] font-mono font-bold">Sign In →</span>
-                  )}
-                </button>
-              )}
-
-              <div className="pt-3 border-t border-[#27272A] space-y-2">
-                <a
-                  href={STUDIO_CONTACT.telegramUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-xs text-[#60A5FA] font-mono py-1.5 px-3 rounded-lg hover:bg-white/5"
-                >
-                  <span>Telegram: @AS_Studio_official01</span>
-                </a>
-                <a
-                  href={buildMailtoLink()}
-                  className="flex items-center gap-2 text-xs text-[#D4D4D8] font-mono py-1.5 px-3 rounded-lg hover:bg-white/5"
-                >
-                  <span>Email: {STUDIO_CONTACT.email}</span>
-                </a>
+        {/* Touch-Optimized Mobile Navigation Drawer with Swipe-to-Dismiss */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ y: -24, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -24, opacity: 0 }}
+              transition={{ type: 'spring', damping: 28, stiffness: 320 }}
+              drag="y"
+              dragConstraints={{ top: 0, bottom: 0 }}
+              dragElastic={{ top: 0.05, bottom: 0.6 }}
+              onDragEnd={(_e, info) => {
+                // Smooth touch swipe down to close
+                if (info.offset.y > 55 || info.velocity.y > 250) {
+                  setMobileMenuOpen(false);
+                }
+              }}
+              className="relative z-40 md:hidden border-t border-[#27272A] bg-[#0E0E10]/98 backdrop-blur-2xl px-5 sm:px-6 pt-2 pb-6 shadow-2xl max-h-[calc(100dvh-4.5rem)] overflow-y-auto touch-pan-y"
+            >
+              {/* Tactile Swipe Handle */}
+              <div className="w-full flex flex-col items-center justify-center pt-1 pb-3 touch-none cursor-grab active:cursor-grabbing select-none">
+                <div className="w-12 h-1.5 rounded-full bg-white/25 active:bg-[#3B82F6] transition-colors" />
+                <span className="text-[9px] font-mono text-[#71717A] tracking-wider uppercase mt-1">
+                  Swipe down to close
+                </span>
               </div>
-            </nav>
-          </div>
-        )}
+
+              <nav className="flex flex-col space-y-2 text-base font-semibold">
+                {navLinks.map((link) => (
+                  <button
+                    key={link.page}
+                    onClick={() => handleLinkClick(link.page)}
+                    className={`text-left py-2.5 px-3 rounded-lg transition-colors flex items-center justify-between ${
+                      currentPage === link.page
+                        ? 'bg-white/10 text-white font-bold'
+                        : 'text-[#D4D4D8] hover:bg-white/5 hover:text-white'
+                    }`}
+                  >
+                    <span>{link.label}</span>
+                    {currentPage === link.page && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#3B82F6]" />
+                    )}
+                  </button>
+                ))}
+
+                {onOpenPortal && (
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onOpenPortal();
+                    }}
+                    className="text-left py-2.5 px-3 rounded-lg text-white bg-white/5 border border-white/10 transition-colors flex items-center justify-between mt-1"
+                  >
+                    <span className="flex items-center gap-2 text-sm font-bold">
+                      <User className="w-4 h-4 text-[#60A5FA]" />
+                      <span>{user ? `Account (${user.displayName || user.email})` : 'Sign In / Login'}</span>
+                    </span>
+                    {user ? (
+                      <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                    ) : (
+                      <span className="text-xs text-[#60A5FA] font-mono font-bold">Sign In →</span>
+                    )}
+                  </button>
+                )}
+
+                <div className="pt-3 border-t border-[#27272A] space-y-2">
+                  <a
+                    href={STUDIO_CONTACT.telegramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-xs text-[#60A5FA] font-mono py-1.5 px-3 rounded-lg hover:bg-white/5"
+                  >
+                    <span>Telegram: @AS_Studio_official01</span>
+                  </a>
+                  <a
+                    href={buildMailtoLink()}
+                    className="flex items-center gap-2 text-xs text-[#D4D4D8] font-mono py-1.5 px-3 rounded-lg hover:bg-white/5"
+                  >
+                    <span>Email: {STUDIO_CONTACT.email}</span>
+                  </a>
+                </div>
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
-      {/* Glassmorphic Backdrop for Mobile Menu */}
-      {mobileMenuOpen && (
-        <div
-          onClick={() => setMobileMenuOpen(false)}
-          className="fixed inset-0 z-30 bg-black/65 backdrop-blur-md transition-opacity duration-300 md:hidden"
-          aria-hidden="true"
-        />
-      )}
+      {/* Glassmorphic Touch Backdrop for Mobile Menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setMobileMenuOpen(false)}
+            className="fixed inset-0 z-30 bg-black/75 backdrop-blur-md md:hidden"
+            aria-hidden="true"
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }

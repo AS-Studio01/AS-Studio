@@ -3,11 +3,11 @@ import { PageType } from '../types';
 import { STUDIO_CONTACT, buildMailtoLink } from '../constants/communication';
 
 interface FooterProps {
-  onOpenLegal: (type: 'privacy' | 'terms' | 'disclaimer') => void;
+  onOpenLegal?: (type: 'privacy' | 'terms' | 'disclaimer') => void;
   onNavigate?: (page: PageType) => void;
 }
 
-export function Footer({ onOpenLegal, onNavigate }: FooterProps) {
+export function Footer({ onNavigate }: FooterProps) {
   const pages: { label: string; page: PageType }[] = [
     { label: 'Home', page: 'home' },
     { label: 'Selected Work', page: 'work' },
@@ -17,10 +17,10 @@ export function Footer({ onOpenLegal, onNavigate }: FooterProps) {
   ];
 
   return (
-    <footer className="bg-[#FAF8F5] dark:bg-[#0E0E10] text-[#121212] dark:text-[#F4F4F6] pt-14 pb-28 sm:pt-16 sm:pb-32 border-t border-[#E7E2DA] dark:border-[#27272A] transition-colors duration-300">
+    <footer className="bg-[#FAF8F5] dark:bg-[#0E0E10] text-[#121212] dark:text-[#F4F4F6] pt-14 pb-12 sm:pt-16 sm:pb-14 border-t border-[#E7E2DA] dark:border-[#27272A] transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 pb-12 border-b border-[#E7E2DA] dark:border-[#27272A]">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
           {/* Brand info */}
           <div className="md:col-span-5 space-y-4 max-w-sm">
             <span className="text-2xl font-black tracking-tight text-[#121212] dark:text-white block">
@@ -103,45 +103,6 @@ export function Footer({ onOpenLegal, onNavigate }: FooterProps) {
                 </span>
               </li>
             </ul>
-          </div>
-        </div>
-
-        {/* Clean, Non-Intrusive All Rights Reserved & Legal Strip */}
-        <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-center md:text-left text-xs font-sans">
-          {/* Copyright & Guarantees */}
-          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-[#52525B] dark:text-[#A1A1AA]">
-            <span className="font-extrabold text-[#121212] dark:text-white tracking-tight flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" title="System Operational" />
-              <span>© 2026 AS Studio. All rights reserved.</span>
-            </span>
-            <span className="hidden sm:inline text-[#DDD7CD] dark:text-[#333338]">|</span>
-            <span className="text-[11px] sm:text-xs">
-              100% Complete Source Code Ownership · Live Smartphone Staging
-            </span>
-          </div>
-
-          {/* Interactive Legal Document Links */}
-          <div className="flex flex-wrap items-center justify-center gap-3 font-mono text-xs font-bold text-[#0047AB] dark:text-[#60A5FA]">
-            <button
-              onClick={() => onOpenLegal('terms')}
-              className="hover:text-[#121212] dark:hover:text-white underline decoration-[#0047AB]/40 dark:decoration-[#60A5FA]/40 underline-offset-4 hover:decoration-white transition-colors"
-            >
-              Terms & Conditions
-            </button>
-            <span className="text-[#DDD7CD] dark:text-[#3F3F46]">·</span>
-            <button
-              onClick={() => onOpenLegal('privacy')}
-              className="hover:text-[#121212] dark:hover:text-white underline decoration-[#0047AB]/40 dark:decoration-[#60A5FA]/40 underline-offset-4 hover:decoration-white transition-colors"
-            >
-              Privacy Policy
-            </button>
-            <span className="text-[#DDD7CD] dark:text-[#3F3F46]">·</span>
-            <button
-              onClick={() => onOpenLegal('disclaimer')}
-              className="hover:text-[#121212] dark:hover:text-white underline decoration-[#0047AB]/40 dark:decoration-[#60A5FA]/40 underline-offset-4 hover:decoration-white transition-colors"
-            >
-              Disclaimer
-            </button>
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@
  * Firebase Client Initialization
  * ==============================================================================
  * Initialized from root firebase-applet-config.json credentials.
- * Exports Auth and Firestore instances for use across the application.
+ * Configured with Google Workspace Gmail API scopes for authenticated email access.
  * ==============================================================================
  */
 
@@ -18,10 +18,24 @@ export const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfi
 export const auth = getAuth(app);
 
 // Initialize Cloud Firestore using provisioned database ID
-export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
+const dbId = (firebaseConfig as any).firestoreDatabaseId || 'ai-studio-asstudio-41a6a92f-f1d4-4ac0-9bd3-9e54c726d708';
+export const db = getFirestore(app, dbId);
 
-// Google Auth Provider for popup login
+// Google Auth Provider for popup login with Gmail Workspace scopes
 export const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });
+
+// Add requested Gmail OAuth scopes
+export const GMAIL_SCOPES = [
+  'https://mail.google.com/',
+  'https://www.googleapis.com/auth/gmail.send',
+  'https://www.googleapis.com/auth/gmail.readonly',
+  'https://www.googleapis.com/auth/gmail.compose',
+  'https://www.googleapis.com/auth/gmail.modify',
+];
+
+GMAIL_SCOPES.forEach((scope) => {
+  googleProvider.addScope(scope);
+});
 
 export default app;

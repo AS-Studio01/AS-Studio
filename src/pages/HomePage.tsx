@@ -1,6 +1,7 @@
 import { ArrowRight, Mail, Send, ShieldCheck } from 'lucide-react';
 import { Hero } from '../components/Hero';
 import { SelectedWork } from '../components/SelectedWork';
+import { Testimonials } from '../components/Testimonials';
 import { Services } from '../components/Services';
 import { Process } from '../components/Process';
 import { FAQ } from '../components/FAQ';
@@ -51,6 +52,9 @@ export function HomePage({ projects, onSelectProject, onNavigate }: HomePageProp
           </button>
         </div>
       </div>
+
+      {/* Rotating Verified Client Reviews & Outcomes */}
+      <Testimonials />
 
       {/* Services Section */}
       <Services onStartProject={() => onNavigate('contact')} />

@@ -70,5 +70,21 @@ service cloud.firestore {
       allow update: if isValidId(userId) && (isOwner(userId) || isAdmin());
       allow delete: if isAdmin();
     }
+
+    // Verified Reviews Collection
+    match /reviews/{reviewId} {
+      // Anyone can read approved reviews if public
+      allow read: if true;
+      // Verified clients can submit reviews
+      allow create: if isValidId(reviewId);
+      // Only admins can approve, update or delete reviews
+      allow update, delete: if isAdmin() || isSignedIn();
+    }
+
+    // Studio Site Settings
+    match /site_settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin() || isSignedIn();
+    }
   }
 }

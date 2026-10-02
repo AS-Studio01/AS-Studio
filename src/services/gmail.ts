@@ -1,9 +1,11 @@
 /**
- * REAL GMAIL & COMMUNICATIONS SERVICE
+ * REAL GMAIL & GOOGLE WORKSPACE SERVICE
  * ==============================================================================
- * Dispatches client confirmation emails and founder project notifications.
+ * Connects directly to Google's Gmail REST API using OAuth2 tokens,
+ * dispatches client confirmation receipts, alerts founders, and enables
+ * direct reading and sending of Gmail emails.
  * Official Sender: asbusinessofficial01@gmail.com
- * Recipient / Alerts: asstudioofficial001@gmail.com
+ * Alerts Recipient: asstudioofficial001@gmail.com
  * ==============================================================================
  */
 
@@ -22,7 +24,16 @@ export interface EmailSendResult {
   timestamp: string;
   recipient: string;
   subject: string;
-  provider: 'gmail_api' | 'workspace_smtp' | 'direct_dispatch';
+  provider: 'gmail_api_oauth' | 'gmail_proxy' | 'direct_dispatch';
+}
+
+export interface GmailInboxItem {
+  id: string;
+  threadId: string;
+  snippet: string;
+  subject: string;
+  from: string;
+  date: string;
 }
 
 export interface GmailConfig {
@@ -62,20 +73,81 @@ function persistSentEmail(record: EmailSendResult) {
 }
 
 /**
- * Dispatch an email via the server-side Gmail proxy route
+ * Send an email directly using Google's official Gmail REST API with an OAuth access token
  */
-export async function sendEmailViaGmail(payload: EmailMessagePayload): Promise<EmailSendResult> {
+export async function sendViaGoogleGmailApi(
+  accessToken: string,
+  payload: EmailMessagePayload
+): Promise<EmailSendResult> {
+  const utf8Subject = `=?utf-8?B?${btoa(unescape(encodeURIComponent(payload.subject)))}?=`;
+  const messageParts = [
+    `To: ${payload.to}`,
+    `Subject: ${utf8Subject}`,
+    'MIME-Version: 1.0',
+    'Content-Type: text/plain; charset=UTF-8',
+    'Content-Transfer-Encoding: 7bit',
+    '',
+    payload.bodyText,
+  ];
+  const rawMessage = messageParts.join('\n');
+  const base64Encoded = btoa(unescape(encodeURIComponent(rawMessage)))
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, '');
+
+  const response = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ raw: base64Encoded }),
+  });
+
+  if (!response.ok) {
+    const errData = await response.json().catch(() => ({}));
+    throw new Error(`Gmail API error: ${errData.error?.message || response.statusText}`);
+  }
+
+  const data = await response.json();
+  const result: EmailSendResult = {
+    success: true,
+    messageId: data.id || `gapi_${Date.now()}`,
+    timestamp: new Date().toISOString(),
+    recipient: payload.to,
+    subject: payload.subject,
+    provider: 'gmail_api_oauth',
+  };
+
+  persistSentEmail(result);
+  return result;
+}
+
+/**
+ * Dispatch email via OAuth if available, or fall back to server proxy route
+ */
+export async function sendEmailViaGmail(
+  payload: EmailMessagePayload,
+  accessToken?: string | null
+): Promise<EmailSendResult> {
+  if (accessToken) {
+    try {
+      return await sendViaGoogleGmailApi(accessToken, payload);
+    } catch (e) {
+      console.warn('[Gmail] OAuth send failed, falling back to server route:', e);
+    }
+  }
+
   const result: EmailSendResult = {
     success: true,
     messageId: `gmsg_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
     timestamp: new Date().toISOString(),
     recipient: payload.to,
     subject: payload.subject,
-    provider: 'gmail_api',
+    provider: 'gmail_proxy',
   };
 
   try {
-    // Call server proxy route to dispatch email
     const res = await fetch('/api/send-email', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -95,6 +167,87 @@ export async function sendEmailViaGmail(payload: EmailMessagePayload): Promise<E
 }
 
 /**
+ * Fetch messages list from user's authentic Gmail inbox
+ */
+export async function listGmailInboxMessages(
+  accessToken: string,
+  maxResults: number = 8
+): Promise<GmailInboxItem[]> {
+  const url = `https://gmail.googleapis.com/gmail/v1/users/me/messages?maxResults=${maxResults}`;
+  const response = await fetch(url, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch Gmail messages');
+  }
+
+  const data = await response.json();
+  if (!data.messages || !Array.isArray(data.messages)) {
+    return [];
+  }
+
+  // Fetch header snippets for each message
+  const detailed: GmailInboxItem[] = await Promise.all(
+    data.messages.slice(0, maxResults).map(async (msg: { id: string; threadId: string }) => {
+      try {
+        const detailRes = await fetch(
+          `https://gmail.googleapis.com/gmail/v1/users/me/messages/${msg.id}?format=metadata&metadataHeaders=Subject&metadataHeaders=From&metadataHeaders=Date`,
+          { headers: { Authorization: `Bearer ${accessToken}` } }
+        );
+        if (!detailRes.ok) throw new Error();
+        const detailData = await detailRes.json();
+        const headers = detailData.payload?.headers || [];
+        const subject = headers.find((h: any) => h.name.toLowerCase() === 'subject')?.value || '(No Subject)';
+        const from = headers.find((h: any) => h.name.toLowerCase() === 'from')?.value || 'Unknown';
+        const date = headers.find((h: any) => h.name.toLowerCase() === 'date')?.value || new Date().toISOString();
+
+        return {
+          id: msg.id,
+          threadId: msg.threadId,
+          snippet: detailData.snippet || '',
+          subject,
+          from,
+          date,
+        };
+      } catch {
+        return {
+          id: msg.id,
+          threadId: msg.threadId,
+          snippet: 'Unable to load preview',
+          subject: 'Gmail Message',
+          from: 'Contact',
+          date: new Date().toISOString(),
+        };
+      }
+    })
+  );
+
+  return detailed;
+}
+
+/**
+ * Fetch user profile from Gmail API
+ */
+export async function getGmailProfile(accessToken: string): Promise<{
+  emailAddress: string;
+  messagesTotal: number;
+  threadsTotal: number;
+} | null> {
+  try {
+    const res = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/profile', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    console.error('Failed to load Gmail profile:', err);
+  }
+  return null;
+}
+
+/**
  * Dispatch notification email to studio founders when a new brief arrives
  */
 export async function sendInquiryNotificationToFounders(inquiry: {
@@ -105,6 +258,17 @@ export async function sendInquiryNotificationToFounders(inquiry: {
   targetBudget?: string;
   source?: string;
 }): Promise<EmailSendResult> {
+  // Fire server-side inbound notification to AS Studio inbox using .env credentials
+  try {
+    fetch('/api/inquiry/notify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(inquiry),
+    }).catch((err) => console.warn('[Inquiry Notification API warning]:', err));
+  } catch (err) {
+    console.warn('[Inquiry Notification error]:', err);
+  }
+
   return sendEmailViaGmail({
     to: GMAIL_CONFIG.founderAlertEmail,
     from: GMAIL_CONFIG.officialSenderEmail,
@@ -149,7 +313,7 @@ export async function verifyGmailServiceStatus(): Promise<{
     active: true,
     sender: GMAIL_CONFIG.officialSenderEmail,
     totalSent: sent.length,
-    mode: 'Google Workspace Gmail Dispatcher (Active)',
+    mode: 'Google Workspace Gmail API (OAuth & Proxy Active)',
   };
 }
 

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import confetti from 'canvas-confetti';
 import { Mail, Send, CheckCircle2, AlertCircle, Copy, Check, Clock, ShieldCheck, Database, ArrowRight } from 'lucide-react';
 import { STUDIO_CONTACT, buildMailtoLink } from '../constants/communication';
 import { saveProjectInquiry, sendInquiryNotificationToFounders, sendClientConfirmationReceipt } from '../services';
@@ -65,12 +66,58 @@ export function ContactPage({ onOpenLegal, onNavigate, onOpenPortal }: ContactPa
       }
 
       setSubmitted(true);
+      triggerConfetti();
     } catch (err) {
       console.error('Submission error:', err);
       // Even if background network fails, mark submitted with local confirmation
       setSubmitted(true);
+      triggerConfetti();
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const triggerConfetti = () => {
+    try {
+      // Subtle, elegant studio-branded confetti burst
+      confetti({
+        particleCount: 50,
+        spread: 60,
+        origin: { y: 0.62 },
+        colors: ['#0047AB', '#3B82F6', '#60A5FA', '#10B981', '#F59E0B'],
+        disableForReducedMotion: true,
+        gravity: 0.85,
+        scalar: 0.85,
+        ticks: 160,
+      });
+
+      // Subtle flanking shimmers
+      setTimeout(() => {
+        confetti({
+          particleCount: 22,
+          angle: 60,
+          spread: 45,
+          origin: { x: 0.25, y: 0.65 },
+          colors: ['#3B82F6', '#93C5FD', '#10B981'],
+          disableForReducedMotion: true,
+          gravity: 0.9,
+          scalar: 0.75,
+          ticks: 140,
+        });
+        confetti({
+          particleCount: 22,
+          angle: 120,
+          spread: 45,
+          origin: { x: 0.75, y: 0.65 },
+          colors: ['#3B82F6', '#93C5FD', '#10B981'],
+          disableForReducedMotion: true,
+          gravity: 0.9,
+          scalar: 0.75,
+          ticks: 140,
+        });
+      }, 200);
+    } catch (err) {
+      console.warn('[Confetti] Canvas error:', err);
     }
   };
 

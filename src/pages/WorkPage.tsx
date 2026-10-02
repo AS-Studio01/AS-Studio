@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { ArrowRight, Check, ShieldAlert, ShieldCheck, Eye } from 'lucide-react';
+import { motion } from 'motion/react';
 import { Project, PageType } from '../types';
 import { ProjectVisual } from '../components/ProjectVisual';
 import { ProjectCardSkeleton } from '../components/ProjectCardSkeleton';
+import { PerformanceStats } from '../components/PerformanceStats';
 
 interface WorkPageProps {
   projects: Project[];
@@ -148,9 +150,10 @@ export function WorkPage({ projects, onSelectProject, onNavigate }: WorkPageProp
             </>
           ) : (
             filteredProjects.map((project, index) => (
-              <article
+              <motion.article
                 key={project.id}
-                className="bg-white/80 dark:bg-[#18181B]/80 border border-[#DDD7CD] dark:border-[#27272A] grid grid-cols-1 lg:grid-cols-12 overflow-hidden hover:border-[#121212] dark:hover:border-white transition-colors shadow-sm fade-in"
+                whileTap={{ scale: 0.992 }}
+                className="bg-white/80 dark:bg-[#18181B]/80 border border-[#DDD7CD] dark:border-[#27272A] grid grid-cols-1 lg:grid-cols-12 overflow-hidden hover:border-[#121212] dark:hover:border-white transition-colors shadow-sm fade-in select-none"
               >
                 {/* Visual Preview */}
                 <div className="lg:col-span-7 bg-[#F4F1EA] dark:bg-[#141416] border-b lg:border-b-0 lg:border-r border-[#DDD7CD] dark:border-[#27272A] flex items-center">
@@ -228,10 +231,16 @@ export function WorkPage({ projects, onSelectProject, onNavigate }: WorkPageProp
                     </span>
                   </div>
                 </div>
-              </article>
+              </motion.article>
             ))
           )}
         </div>
+
+        {/* Dynamic Performance Stats & Google Lighthouse Speed Scores Section */}
+        <PerformanceStats 
+          projects={projects}
+          onSelectProject={onSelectProject}
+        />
 
         {/* Client Security & Protection Guarantee Box */}
         <div className="mt-16 p-8 bg-white/80 dark:bg-[#18181B]/80 border border-[#DDD7CD] dark:border-[#27272A] space-y-4 shadow-sm backdrop-blur-sm">
