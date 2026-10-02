@@ -79,3 +79,74 @@
 .fade-in {
   animation: subtleFadeIn 0.2s ease-out forwards;
 }
+
+
+/* Premium system layer */
+:root {
+  --glass-bg: rgba(255,255,255,.045);
+  --glass-border: rgba(255,255,255,.11);
+}
+html { scroll-behavior: smooth; }
+body { overflow-x: hidden; }
+button, a { -webkit-tap-highlight-color: transparent; }
+.glass-panel {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 18px 60px rgba(0,0,0,.16);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.pill-btn {
+  min-height: 38px;
+  padding: .55rem .9rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.045);
+  color: #e4e4e7;
+  transition: transform .18s ease, border-color .18s ease, background-color .18s ease;
+}
+.pill-btn:hover { transform: translateY(-1px); border-color: rgba(255,255,255,.24); background: rgba(255,255,255,.08); }
+.pill-btn-active { background: rgba(59,130,246,.16); border-color: rgba(96,165,250,.3); color: #bfdbfe; }
+.pill-btn-primary { background: linear-gradient(135deg,#2563eb,#4f46e5); border-color: rgba(255,255,255,.2); color: white; box-shadow: 0 8px 26px rgba(37,99,235,.2); }
+.pill-icon { width: 36px; height: 36px; border-radius: 9999px; display:grid; place-items:center; color:#a1a1aa; }
+.pill-icon:hover { background: rgba(255,255,255,.07); color:white; }
+.pill-badge { border:1px solid rgba(96,165,250,.22); background:rgba(59,130,246,.1); color:#93c5fd; border-radius:9999px; padding:.35rem .65rem; font-size:10px; text-transform:uppercase; font-weight:800; letter-spacing:.08em; }
+.eyebrow { font-size:10px; line-height:1; text-transform:uppercase; letter-spacing:.16em; color:#60a5fa; font-weight:800; }
+.admin-input {
+  width:100%; margin-top:.35rem; border-radius:14px; border:1px solid rgba(255,255,255,.1);
+  background:rgba(0,0,0,.2); color:white; padding:.7rem .8rem; outline:none; font-size:12px;
+}
+.admin-input:focus { border-color: rgba(96,165,250,.45); box-shadow:0 0 0 3px rgba(59,130,246,.08); }
+.legal-editor h2,.legal-editor h3 { color:white; font-weight:800; margin:1.2rem 0 .5rem; }
+.legal-editor p { margin:.7rem 0; }
+.legal-content h2,.legal-content h3 { color:white; font-weight:800; margin:1.4rem 0 .6rem; }
+.legal-content p { margin:.7rem 0; }
+.site-reading-progress { position:fixed; top:0; left:0; right:0; height:2px; z-index:100; pointer-events:none; background:transparent; }
+.site-reading-progress span { display:block; height:100%; background:linear-gradient(90deg,#3b82f6,#8b5cf6); box-shadow:0 0 12px rgba(59,130,246,.55); }
+.back-to-top { position:fixed; right:1rem; bottom:5.5rem; z-index:45; width:42px; height:42px; border-radius:9999px; display:grid; place-items:center; color:white; background:rgba(18,18,24,.72); border:1px solid rgba(255,255,255,.14); backdrop-filter:blur(12px); box-shadow:0 10px 30px rgba(0,0,0,.25); }
+[data-reveal], section {
+  opacity:0;
+  transform:translateY(18px);
+  transition:opacity .55s ease, transform .55s cubic-bezier(.22,1,.36,1);
+  content-visibility:auto;
+  contain-intrinsic-size: 500px;
+}
+.reveal-visible, section.reveal-visible { opacity:1; transform:none; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior:auto; }
+  [data-reveal], section { opacity:1; transform:none; transition:none; }
+  .back-to-top,.pill-btn { transition:none; }
+}
+@media print {
+  html, body { background:white !important; color:#111 !important; }
+  header, footer, nav, .back-to-top, .site-reading-progress, button, [role="dialog"] > div:first-child { display:none !important; }
+  .glass-panel, article, section { background:white !important; color:#111 !important; border:0 !important; box-shadow:none !important; backdrop-filter:none !important; opacity:1 !important; transform:none !important; }
+  section { break-inside:avoid; page-break-inside:avoid; content-visibility:visible !important; }
+  h1,h2,h3,h4,h5,p,li,span { color:#111 !important; }
+  img { max-width:100% !important; break-inside:avoid; }
+  a { color:#111 !important; text-decoration:none !important; }
+}
