@@ -45,6 +45,19 @@ service cloud.firestore {
         && data.status in ['new', 'in_review', 'contacted', 'completed'];
     }
 
+
+    // Editable legal content: public read, founder-only write.
+    match /legal_documents/{documentId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Client sprint records: each client sees only their own project; founders manage all.
+    match /client_projects/{projectId} {
+      allow read: if isAdmin() || (isSignedIn() && resource.data.clientUid == request.auth.uid);
+      allow create, update, delete: if isAdmin();
+    }
+
     // Inquiries Collection
     match /inquiries/{inquiryId} {
       // Anyone can submit a project brief (public contact form / AI chat assistant)
