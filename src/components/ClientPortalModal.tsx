@@ -19,6 +19,7 @@ import {
   verifyGmailServiceStatus, deleteProjectInquiry, updateInquiryStatus 
 } from '../services';
 import { STUDIO_CONTACT } from '../constants/communication';
+import { ClientProject, getClientProjects } from '../services/siteContent';
 
 interface ClientPortalModalProps {
   isOpen: boolean;
@@ -39,6 +40,7 @@ export function ClientPortalModal({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [dbHealth, setDbHealth] = useState<{ status: string; latencyMs: number; totalRecords: number; storage: string } | null>(null);
+  const [projects, setProjects] = useState<ClientProject[]>([]);
   const [gmailStatus, setGmailStatus] = useState<{ active: boolean; sender: string; totalSent: number; mode: string } | null>(null);
 
   const refreshData = async () => {
@@ -46,6 +48,7 @@ export function ClientPortalModal({
       setLoading(true);
       const inqs = await getProjectInquiries();
       setInquiries(inqs);
+      if (user) setProjects(await getClientProjects(user.uid)); else setProjects([]);
       const health = await checkDatabaseHealth();
       setDbHealth(health);
       const gmail = await verifyGmailServiceStatus();
@@ -306,6 +309,33 @@ export function ClientPortalModal({
                     <span>Sign Out</span>
                   </button>
                 </div>
+              </div>
+            )}
+
+            {user && !isAdmin && (
+              <div className="space-y-4" data-reveal>
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                  <div>
+                    <p className="text-[10px] uppercase tracking-[0.18em] text-blue-400 font-bold">Client dashboard</p>
+                    <h4 className="text-lg font-black text-white">My Projects</h4>
+                  </div>
+                  <span className="text-xs text-zinc-500">{projects.length} active record{projects.length === 1 ? '' : 's'}</span>
+                </div>
+                {projects.length === 0 ? (
+                  <div className="glass-panel p-6 text-sm text-zinc-400">Your project sprint will appear here once AS Studio creates your project record.</div>
+                ) : projects.map(project => (
+                  <div key={project.id} className="glass-panel p-5 space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                      <div><p className="text-xs text-blue-400 font-bold uppercase tracking-wider">{project.businessName}</p><h5 className="text-lg font-black text-white mt-1">{project.title}</h5><p className="text-xs text-zinc-400 mt-1">{project.summary}</p></div>
+                      <span className="pill-badge">{project.status}</span>
+                    </div>
+                    <div>
+                      <div className="flex justify-between text-[11px] text-zinc-400 mb-1.5"><span>{project.phase}</span><span>{project.progress}%</span></div>
+                      <div className="h-2 rounded-full bg-white/10 overflow-hidden"><div className="h-full rounded-full bg-gradient-to-r from-blue-500 to-violet-500" style={{width:`${Math.max(0,Math.min(100,project.progress))}%`}}/></div>
+                    </div>
+                    <div className="grid sm:grid-cols-2 gap-3 text-xs"><div className="p-3 rounded-xl bg-white/[.03] border border-white/10"><span className="text-zinc-500 block mb-1">Next milestone</span><span className="text-zinc-200">{project.nextMilestone || 'To be scheduled'}</span></div><div className="p-3 rounded-xl bg-white/[.03] border border-white/10"><span className="text-zinc-500 block mb-1">Last updated</span><span className="text-zinc-200">{new Date(project.updatedAt).toLocaleDateString()}</span></div></div>
+                  </div>
+                ))}
               </div>
             )}
 
