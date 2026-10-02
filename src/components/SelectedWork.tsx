@@ -39,7 +39,7 @@ export function SelectedWork({ projects, onSelectProject }: SelectedWorkProps) {
         </div>
 
         {/* Three Large Project Cards Grid (or Skeletons) */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {isLoading ? (
             <>
               <ProjectCardSkeleton variant="grid" />

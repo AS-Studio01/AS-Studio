@@ -3,7 +3,7 @@ import { PageType } from '../types';
 import { STUDIO_CONTACT, buildMailtoLink } from '../constants/communication';
 
 interface FooterProps {
-  onOpenLegal: (type: 'privacy' | 'terms') => void;
+  onOpenLegal: (type: 'privacy' | 'terms' | 'disclaimer') => void;
   onNavigate?: (page: PageType) => void;
 }
 
@@ -17,9 +17,9 @@ export function Footer({ onOpenLegal, onNavigate }: FooterProps) {
   ];
 
   return (
-    <footer className="bg-[#FAF8F5] dark:bg-[#0E0E10] text-[#121212] dark:text-[#F4F4F6] pt-20 pb-16 border-t border-[#E7E2DA] dark:border-[#27272A] transition-colors duration-300">
+    <footer className="bg-[#FAF8F5] dark:bg-[#0E0E10] text-[#121212] dark:text-[#F4F4F6] pt-16 pb-12 border-t border-[#E7E2DA] dark:border-[#27272A] transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-5 sm:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-16 border-b border-[#E7E2DA] dark:border-[#27272A]">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
           {/* Brand info */}
           <div className="md:col-span-5 space-y-4 max-w-sm">
             <span className="text-2xl font-black tracking-tight text-[#121212] dark:text-white block">
@@ -108,27 +108,6 @@ export function Footer({ onOpenLegal, onNavigate }: FooterProps) {
                 </span>
               </li>
             </ul>
-          </div>
-        </div>
-
-        {/* Copyright and Legal Links */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#736E66] dark:text-[#A1A1AA] font-medium">
-          <p>© 2026 AS Studio. All rights reserved.</p>
-
-          <div className="flex items-center gap-6">
-            <button
-              onClick={() => onOpenLegal('privacy')}
-              className="hover:text-[#121212] dark:hover:text-white transition-colors font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0047AB]"
-            >
-              Privacy Policy
-            </button>
-            <span className="text-[#DDD7CD] dark:text-[#3F3F46]">·</span>
-            <button
-              onClick={() => onOpenLegal('terms')}
-              className="hover:text-[#121212] dark:hover:text-white transition-colors font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0047AB]"
-            >
-              Terms & Conditions
-            </button>
           </div>
         </div>
       </div>

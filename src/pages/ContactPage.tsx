@@ -3,16 +3,23 @@ import { Mail, Send, CheckCircle2, AlertCircle, Copy, Check, Clock, ShieldCheck 
 import { STUDIO_CONTACT, buildMailtoLink } from '../constants/communication';
 
 interface ContactPageProps {
-  onOpenLegal: (type: 'privacy' | 'terms') => void;
+  onOpenLegal: (type: 'privacy' | 'terms' | 'disclaimer') => void;
   onNavigate?: (page: any) => void;
 }
 
 export function ContactPage({ onOpenLegal, onNavigate }: ContactPageProps) {
-  const [formData, setFormData] = useState({
-    name: '',
-    businessName: '',
-    contactInfo: '',
-    helpDetails: '',
+  const [formData, setFormData] = useState(() => {
+    const prefill = typeof window !== 'undefined' ? sessionStorage.getItem('as_studio_prefilled_inquiry') : null;
+    return {
+      name: '',
+      businessName: '',
+      contactInfo: '',
+      helpDetails: prefill || '',
+    };
+  });
+
+  const [hasPrefill, setHasPrefill] = useState(() => {
+    return typeof window !== 'undefined' ? Boolean(sessionStorage.getItem('as_studio_prefilled_inquiry')) : false;
   });
 
   const [submitted, setSubmitted] = useState(false);
@@ -271,6 +278,25 @@ export function ContactPage({ onOpenLegal, onNavigate }: ContactPageProps) {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  {hasPrefill && (
+                    <div className="p-3.5 bg-[#3B82F6]/15 border border-[#3B82F6]/30 text-xs text-[#93C5FD] rounded-sm flex items-center justify-between gap-2 fade-in">
+                      <div className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                        <span>Pre-filled with your customized project brief drafted by AS Studio Helper AI.</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          sessionStorage.removeItem('as_studio_prefilled_inquiry');
+                          setHasPrefill(false);
+                        }}
+                        className="text-[11px] underline opacity-75 hover:opacity-100 font-mono"
+                      >
+                        Dismiss
+                      </button>
+                    </div>
+                  )}
+
                   {error && (
                     <div className="p-3 bg-[#FFF3F3] dark:bg-[#2A1215] border border-[#E5B5B5] dark:border-[#7F1D1D] text-xs text-[#B91C1C] dark:text-[#F87171] font-semibold">
                       {error}
@@ -358,21 +384,29 @@ export function ContactPage({ onOpenLegal, onNavigate }: ContactPageProps) {
 
                   {/* Exact text below the form */}
                   <p className="text-xs text-[#736E66] dark:text-[#A1A1AA] pt-2 font-medium">
-                    By submitting this form, you agree to our{' '}
-                    <button
-                      type="button"
-                      onClick={() => onOpenLegal('privacy')}
-                      className="underline hover:text-[#121212] dark:hover:text-white font-bold"
-                    >
-                      Privacy Policy
-                    </button>{' '}
-                    and{' '}
+                    By submitting this form, you acknowledge and agree to our{' '}
                     <button
                       type="button"
                       onClick={() => onOpenLegal('terms')}
                       className="underline hover:text-[#121212] dark:hover:text-white font-bold"
                     >
                       Terms & Conditions
+                    </button>
+                    ,{' '}
+                    <button
+                      type="button"
+                      onClick={() => onOpenLegal('privacy')}
+                      className="underline hover:text-[#121212] dark:hover:text-white font-bold"
+                    >
+                      Privacy Policy
+                    </button>
+                    , and{' '}
+                    <button
+                      type="button"
+                      onClick={() => onOpenLegal('disclaimer')}
+                      className="underline hover:text-[#121212] dark:hover:text-white font-bold"
+                    >
+                      Disclaimer
                     </button>
                     .
                   </p>
