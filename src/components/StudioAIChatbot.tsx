@@ -4,9 +4,10 @@ import {
   Send, Bot, X, Sparkles, User, RefreshCw, AlertCircle, 
   Mail, Send as TelegramIcon, Copy, Check, MessageSquare, 
   ShieldCheck, ArrowUpRight, Zap, CheckCheck, FileText, 
-  FileCheck2, ExternalLink, Edit3
+  FileCheck2, ExternalLink, Edit3, Database
 } from 'lucide-react';
 import { STUDIO_CONTACT, buildMailtoLink } from '../constants/communication';
+import { saveProjectInquiry, sendEmailViaGmail } from '../services';
 
 interface ChatMessage {
   id: string;
@@ -48,6 +49,28 @@ You can ask me anything below, tap **Direct Contact**, or tap **✨ Draft Pre-bu
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedInquiryId, setCopiedInquiryId] = useState<string | null>(null);
   const [editingInquiryId, setEditingInquiryId] = useState<string | null>(null);
+  const [savedInquiryIds, setSavedInquiryIds] = useState<Record<string, boolean>>({});
+
+  const handleSaveInquiryToDatabase = async (inquiryText: string, msgId: string) => {
+    try {
+      await saveProjectInquiry({
+        clientName: 'Client via Assistant',
+        businessName: 'Synthesized Brief',
+        contactChannel: STUDIO_CONTACT.email,
+        scopeSummary: inquiryText,
+        targetBudget: 'Flexible (Negotiable)',
+        source: 'ai_chat_assistant',
+      });
+      await sendEmailViaGmail({
+        to: STUDIO_CONTACT.email,
+        subject: '[Inquiry Saved] Synthesized Chat Brief',
+        bodyText: inquiryText,
+      });
+      setSavedInquiryIds((prev) => ({ ...prev, [msgId]: true }));
+    } catch (e) {
+      console.error('Failed to log to database:', e);
+    }
+  };
 
   // Active editable inquiry in modal view
   const [activeModalInquiry, setActiveModalInquiry] = useState<string | null>(null);
@@ -593,31 +616,55 @@ Ask me anything or tap **Direct Contact** or **Draft Pre-built Inquiry** at any 
                         </span>
                       </a>
 
-                      {/* Send via Gmail + Copy + Fill Form Buttons */}
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                      {/* Send via Gmail + Copy + Fill Form + Save to DB Buttons */}
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        {/* Save to Database */}
+                        <button
+                          onClick={() => handleSaveInquiryToDatabase(msg.inquiryData!, msg.id)}
+                          disabled={savedInquiryIds[msg.id]}
+                          className={`py-2 px-2 flex items-center justify-center gap-1.5 text-xs font-bold rounded-lg border transition-colors ${
+                            savedInquiryIds[msg.id]
+                              ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300'
+                              : 'glass-btn border-white/10 hover:border-white/25 text-white'
+                          }`}
+                          title="Save this inquiry to AS Studio database"
+                        >
+                          {savedInquiryIds[msg.id] ? (
+                            <>
+                              <Check className="w-3.5 h-3.5 text-emerald-400" />
+                              <span className="text-[11px]">Saved in DB</span>
+                            </>
+                          ) : (
+                            <>
+                              <Database className="w-3.5 h-3.5 text-[#60A5FA]" />
+                              <span className="text-[11px]">Save to DB</span>
+                            </>
+                          )}
+                        </button>
+
                         {/* Send Email */}
                         <a
                           href={`mailto:${STUDIO_CONTACT.email}?subject=${encodeURIComponent('AS Studio Project Inquiry')}&body=${encodeURIComponent(msg.inquiryData)}`}
-                          className="glass-btn py-2 px-2.5 flex items-center justify-center gap-1.5 text-xs font-bold text-white border border-white/10 hover:border-white/25"
+                          className="glass-btn py-2 px-2 flex items-center justify-center gap-1.5 text-xs font-bold text-white border border-white/10 hover:border-white/25 rounded-lg"
                         >
                           <Mail className="w-3.5 h-3.5 text-[#60A5FA]" />
-                          <span>Send Email</span>
+                          <span className="text-[11px]">Email</span>
                         </a>
 
                         {/* Copy Inquiry Text */}
                         <button
                           onClick={() => copyInquiryText(msg.inquiryData!, msg.id)}
-                          className="glass-btn py-2 px-2.5 flex items-center justify-center gap-1.5 text-xs font-bold text-white border border-white/10 hover:border-white/25"
+                          className="glass-btn py-2 px-2 flex items-center justify-center gap-1.5 text-xs font-bold text-white border border-white/10 hover:border-white/25 rounded-lg"
                         >
                           {copiedInquiryId === msg.id ? (
                             <>
                               <Check className="w-3.5 h-3.5 text-emerald-400" />
-                              <span className="text-emerald-400">Copied!</span>
+                              <span className="text-emerald-400 text-[11px]">Copied</span>
                             </>
                           ) : (
                             <>
                               <Copy className="w-3.5 h-3.5" />
-                              <span>Copy Text</span>
+                              <span className="text-[11px]">Copy</span>
                             </>
                           )}
                         </button>
@@ -625,11 +672,11 @@ Ask me anything or tap **Direct Contact** or **Draft Pre-built Inquiry** at any 
                         {/* Transfer to Website Contact Form */}
                         <button
                           onClick={() => handleFillContactForm(msg.inquiryData!)}
-                          className="glass-btn py-2 px-2.5 flex items-center justify-center gap-1.5 text-xs font-bold text-white border border-white/10 hover:border-white/25"
+                          className="glass-btn py-2 px-2 flex items-center justify-center gap-1.5 text-xs font-bold text-white border border-white/10 hover:border-white/25 rounded-lg"
                           title="Pre-fill into official contact page form"
                         >
                           <FileText className="w-3.5 h-3.5 text-[#60A5FA]" />
-                          <span>Fill Form</span>
+                          <span className="text-[11px]">Fill Form</span>
                         </button>
                       </div>
                     </div>

@@ -1,16 +1,27 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Bot, Sparkles, Send, Mail } from 'lucide-react';
+import { Menu, X, Bot, User, LogIn } from 'lucide-react';
 import { PageType } from '../types';
+import { useAuth } from '../context/AuthContext';
 import { STUDIO_CONTACT, buildMailtoLink } from '../constants/communication';
 
 interface HeaderProps {
   currentPage: PageType;
   onNavigate: (page: PageType) => void;
   onOpenAIChat?: () => void;
+  onOpenPortal?: () => void;
+  onOpenSecretAdmin?: () => void;
 }
 
-export function Header({ currentPage, onNavigate, onOpenAIChat }: HeaderProps) {
+export function Header({ 
+  currentPage, 
+  onNavigate, 
+  onOpenAIChat, 
+  onOpenPortal, 
+  onOpenSecretAdmin 
+}: HeaderProps) {
+  const { user, isAdmin } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [logoClickCount, setLogoClickCount] = useState(0);
 
   const navLinks: { label: string; page: PageType }[] = [
     { label: 'Home', page: 'home' },
@@ -34,6 +45,34 @@ export function Header({ currentPage, onNavigate, onOpenAIChat }: HeaderProps) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [mobileMenuOpen]);
 
+  // ONLY access method: Rapid 3-5 clicks on the studio logo (randomized session hash)
+  const handleLogoClick = () => {
+    const nextCount = logoClickCount + 1;
+    setLogoClickCount(nextCount);
+
+    if (nextCount >= 4) {
+      setLogoClickCount(0);
+      // Randomize hash so hackers/spammers cannot predict or bookmark a static URL
+      const randomSecretHash = 'sec_' + Math.random().toString(36).slice(2, 11) + Math.random().toString(36).slice(2, 7);
+      if (typeof window !== 'undefined') {
+        window.history.replaceState(null, '', `#${randomSecretHash}`);
+      }
+      if (onOpenSecretAdmin) {
+        onOpenSecretAdmin();
+      }
+      return;
+    }
+
+    setTimeout(() => {
+      setLogoClickCount(0);
+    }, 1500);
+
+    // On single click, navigate to home as normal
+    if (nextCount === 1) {
+      handleLinkClick('home');
+    }
+  };
+
   const handleLinkClick = (page: PageType) => {
     setMobileMenuOpen(false);
     onNavigate(page);
@@ -42,31 +81,32 @@ export function Header({ currentPage, onNavigate, onOpenAIChat }: HeaderProps) {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full bg-[#0E0E10]/90 backdrop-blur-md border-b border-[#27272A] text-[#F4F4F6]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
-          {/* Left: AS STUDIO as a text logo (Responsive so it never collides with navigation) */}
+      <header className="sticky top-0 z-40 w-full bg-[#0E0E10]/92 backdrop-blur-md border-b border-[#27272A] text-[#F4F4F6]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-3 md:gap-4">
+          {/* Left: AS STUDIO as a text logo */}
           <button
-            onClick={() => handleLinkClick('home')}
-            className="text-lg sm:text-xl md:text-2xl font-black tracking-tight text-white hover:opacity-85 transition-opacity flex items-center gap-3 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#3B82F6]"
+            onClick={handleLogoClick}
+            className="text-lg sm:text-xl md:text-2xl font-black tracking-tight text-white hover:opacity-85 transition-opacity flex items-center gap-2.5 sm:gap-3 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#3B82F6] select-none"
             aria-label="AS Studio home page"
+            title="AS Studio"
           >
             <span className="font-extrabold tracking-tighter">AS STUDIO</span>
-            {/* Show 'Digital Studio' only on large screens (xl: 1280px+) to prevent any overlap on tablets */}
+            {/* Show 'Digital Studio' only on large screens (xl: 1280px+) */}
             <span className="hidden xl:inline-block text-[10px] font-bold uppercase tracking-widest text-[#9E9A93] border-l border-[#333338] pl-3">
               Digital Studio
             </span>
           </button>
 
-          {/* Desktop Navigation: Visible on laptops & wide tablets (lg: 1024px+) */}
-          <div className="hidden lg:flex items-center gap-6 xl:gap-7 shrink-0">
-            <nav className="flex items-center gap-6 xl:gap-8 text-sm font-semibold" aria-label="Main Navigation">
+          {/* Tablet & Desktop Navigation (Visible from md: 768px+) */}
+          <div className="hidden md:flex items-center gap-3.5 lg:gap-5 xl:gap-6 shrink-0">
+            <nav className="flex items-center gap-3.5 lg:gap-5 xl:gap-7 text-xs lg:text-sm font-semibold" aria-label="Main Navigation">
               {navLinks.map((link) => {
                 const isActive = currentPage === link.page;
                 return (
                   <button
                     key={link.page}
                     onClick={() => handleLinkClick(link.page)}
-                    className={`py-1.5 transition-colors relative text-sm tracking-wide focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#3B82F6] ${
+                    className={`py-1.5 transition-colors relative text-xs lg:text-sm tracking-wide focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#3B82F6] ${
                       isActive
                         ? 'text-white font-bold'
                         : 'text-[#A1A1AA] hover:text-white'
@@ -81,11 +121,28 @@ export function Header({ currentPage, onNavigate, onOpenAIChat }: HeaderProps) {
               })}
             </nav>
 
+            {/* Clean Sign In / Login button (instead of database logo) */}
+            {onOpenPortal && (
+              <button
+                onClick={onOpenPortal}
+                className="glass-btn px-2.5 py-1.5 lg:px-3 lg:py-1.5 text-xs font-bold text-[#E4E4E7] hover:text-white inline-flex items-center gap-1.5 border border-white/10 hover:border-white/30 rounded-lg transition-colors"
+                title={user ? 'My Account & Inquiries' : 'Sign In / Register'}
+              >
+                {user?.photoURL ? (
+                  <img src={user.photoURL} alt="User" className="w-4 h-4 rounded-full" />
+                ) : (
+                  <User className="w-3.5 h-3.5 text-[#60A5FA]" />
+                )}
+                <span>{user ? (user.displayName?.split(' ')[0] || 'Account') : 'Sign In / Login'}</span>
+                {user && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />}
+              </button>
+            )}
+
             {/* AI Helper Assistant Button */}
             {onOpenAIChat && (
               <button
                 onClick={onOpenAIChat}
-                className="glass-btn px-3 py-1.5 xl:px-3.5 xl:py-2 text-xs font-bold text-white inline-flex items-center gap-1.5 border border-[#3B82F6]/30 hover:border-[#3B82F6] transition-colors"
+                className="glass-btn px-2.5 py-1.5 lg:px-3 lg:py-1.5 text-xs font-bold text-white inline-flex items-center gap-1.5 border border-[#3B82F6]/30 hover:border-[#3B82F6] transition-colors rounded-lg"
                 title="Open AS Studio Helper AI"
               >
                 <Bot className="w-3.5 h-3.5 text-[#3B82F6]" />
@@ -93,35 +150,39 @@ export function Header({ currentPage, onNavigate, onOpenAIChat }: HeaderProps) {
               </button>
             )}
 
-            {/* Apple-style Glassmorphic CTA button: Start a project */}
+            {/* CTA button: Start a project */}
             <button
               onClick={() => handleLinkClick('contact')}
-              className="glass-btn-primary px-4 py-2 xl:px-5 xl:py-2.5 text-xs font-bold uppercase tracking-wider text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3B82F6]"
+              className="glass-btn-primary px-3.5 py-1.5 lg:px-5 lg:py-2 text-xs font-bold uppercase tracking-wider text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3B82F6] rounded-lg"
             >
-              Start a project
+              Start project
             </button>
           </div>
 
-          {/* Mobile & Tablet menu trigger (Handles mobile, tablet portrait, and rotated phone views) */}
-          <div className="flex lg:hidden items-center gap-2 sm:gap-2.5">
+          {/* Mobile menu trigger (< 768px) */}
+          <div className="flex md:hidden items-center gap-2">
+            {onOpenPortal && (
+              <button
+                onClick={onOpenPortal}
+                className="glass-btn px-2.5 py-1.5 text-white border border-white/15 rounded-lg flex items-center gap-1 text-[11px] font-bold"
+                aria-label="Sign In or User Account"
+                title={user ? 'My Account' : 'Sign In / Login'}
+              >
+                <User className="w-3.5 h-3.5 text-[#60A5FA]" />
+                <span>{user ? 'Account' : 'Login'}</span>
+              </button>
+            )}
+
             {onOpenAIChat && (
               <button
                 onClick={onOpenAIChat}
-                className="glass-btn p-2 text-white border border-[#3B82F6]/30 rounded-lg flex items-center gap-1.5 text-xs font-bold"
+                className="glass-btn p-2 text-white border border-[#3B82F6]/30 rounded-lg flex items-center gap-1 text-xs font-bold"
                 aria-label="Open AS Studio Helper AI"
                 title="Open AI Assistant"
               >
                 <Bot className="w-4 h-4 text-[#3B82F6]" />
-                <span className="hidden sm:inline">AI Help</span>
               </button>
             )}
-
-            <button
-              onClick={() => handleLinkClick('contact')}
-              className="glass-btn-primary px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-white rounded-lg"
-            >
-              Start project
-            </button>
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -134,10 +195,10 @@ export function Header({ currentPage, onNavigate, onOpenAIChat }: HeaderProps) {
           </div>
         </div>
 
-        {/* Mobile & Tablet Drawer (With landscape scroll support so rotated phones/tablets never clip content) */}
+        {/* Mobile Drawer */}
         {mobileMenuOpen && (
-          <div className="relative z-40 lg:hidden border-t border-[#27272A] bg-[#0E0E10]/95 backdrop-blur-xl px-5 sm:px-6 py-5 landscape:py-4 shadow-2xl fade-in max-h-[calc(100dvh-4.5rem)] overflow-y-auto">
-            <nav className="flex flex-col space-y-3.5 landscape:space-y-2 text-base font-semibold">
+          <div className="relative z-40 md:hidden border-t border-[#27272A] bg-[#0E0E10]/95 backdrop-blur-xl px-5 sm:px-6 py-5 shadow-2xl fade-in max-h-[calc(100dvh-4.5rem)] overflow-y-auto">
+            <nav className="flex flex-col space-y-3 text-base font-semibold">
               {navLinks.map((link) => (
                 <button
                   key={link.page}
@@ -155,6 +216,26 @@ export function Header({ currentPage, onNavigate, onOpenAIChat }: HeaderProps) {
                 </button>
               ))}
 
+              {onOpenPortal && (
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onOpenPortal();
+                  }}
+                  className="text-left py-2.5 px-3 rounded-lg text-white bg-white/5 border border-white/10 transition-colors flex items-center justify-between"
+                >
+                  <span className="flex items-center gap-2 text-sm font-bold">
+                    <User className="w-4 h-4 text-[#60A5FA]" />
+                    <span>{user ? `Account (${user.displayName || user.email})` : 'Sign In / Login'}</span>
+                  </span>
+                  {user ? (
+                    <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                  ) : (
+                    <span className="text-xs text-[#60A5FA] font-mono font-bold">Sign In →</span>
+                  )}
+                </button>
+              )}
+
               <div className="pt-3 border-t border-[#27272A] space-y-2">
                 <a
                   href={STUDIO_CONTACT.telegramUrl}
@@ -162,14 +243,12 @@ export function Header({ currentPage, onNavigate, onOpenAIChat }: HeaderProps) {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-xs text-[#60A5FA] font-mono py-1.5 px-3 rounded-lg hover:bg-white/5"
                 >
-                  <Send className="w-3.5 h-3.5" />
                   <span>Telegram: @AS_Studio_official01</span>
                 </a>
                 <a
                   href={buildMailtoLink()}
                   className="flex items-center gap-2 text-xs text-[#D4D4D8] font-mono py-1.5 px-3 rounded-lg hover:bg-white/5"
                 >
-                  <Mail className="w-3.5 h-3.5" />
                   <span>Email: {STUDIO_CONTACT.email}</span>
                 </a>
               </div>
@@ -178,7 +257,7 @@ export function Header({ currentPage, onNavigate, onOpenAIChat }: HeaderProps) {
         )}
       </header>
 
-      {/* Glassmorphic Blur Backdrop for Mobile Menu */}
+      {/* Glassmorphic Backdrop for Mobile Menu */}
       {mobileMenuOpen && (
         <div
           onClick={() => setMobileMenuOpen(false)}

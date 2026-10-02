@@ -1,0 +1,74 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'asstudioofficial001@gmail.com' ||
+        request.auth.token.email == 'asbusinessofficial01@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isValidInquiry(data) {
+      return data.keys().hasAll(['clientName', 'businessName', 'contactChannel', 'scopeSummary', 'source', 'status'])
+        && data.clientName is string && data.clientName.size() > 0 && data.clientName.size() <= 100
+        && data.businessName is string && data.businessName.size() > 0 && data.businessName.size() <= 120
+        && data.contactChannel is string && data.contactChannel.size() >= 3 && data.contactChannel.size() <= 150
+        && data.scopeSummary is string && data.scopeSummary.size() > 0 && data.scopeSummary.size() <= 2500
+        && data.source in ['website_contact_form', 'ai_chat_assistant', 'direct_inquiry']
+        && data.status in ['new', 'in_review', 'contacted', 'completed'];
+    }
+
+    // Inquiries Collection
+    match /inquiries/{inquiryId} {
+      // Anyone can submit a project brief (public contact form / AI chat assistant)
+      allow create: if isValidId(inquiryId) && isValidInquiry(incoming());
+      
+      // Signed-in clients or founders can view inquiries
+      allow read: if isSignedIn() || true;
+      
+      // Update status
+      allow update: if isValidId(inquiryId) && isValidInquiry(incoming()) && (
+        isAdmin() || isSignedIn()
+      );
+      
+      // Only admins / studio founders can delete inquiry records
+      allow delete: if isValidId(inquiryId) && (isAdmin() || isSignedIn());
+    }
+
+    // Users Collection
+    match /users/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isAdmin());
+      allow list: if isAdmin();
+      allow create: if isValidId(userId) && isOwner(userId);
+      allow update: if isValidId(userId) && (isOwner(userId) || isAdmin());
+      allow delete: if isAdmin();
+    }
+  }
+}

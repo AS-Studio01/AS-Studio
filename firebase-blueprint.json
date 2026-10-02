@@ -1,0 +1,99 @@
+{
+  "entities": {
+    "Inquiry": {
+      "title": "Inquiry",
+      "description": "Project inquiry submitted by prospective clients",
+      "type": "object",
+      "properties": {
+        "clientName": {
+          "type": "string",
+          "description": "Client full name",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "businessName": {
+          "type": "string",
+          "description": "Client company, clinic, cafe, or business name",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "contactChannel": {
+          "type": "string",
+          "description": "Email or Telegram handle for direct contact",
+          "minLength": 3,
+          "maxLength": 150
+        },
+        "scopeSummary": {
+          "type": "string",
+          "description": "Overview of project requirements and desired turnaround",
+          "minLength": 1,
+          "maxLength": 2500
+        },
+        "targetBudget": {
+          "type": "string",
+          "description": "Budget tier or flexible note",
+          "maxLength": 100
+        },
+        "source": {
+          "type": "string",
+          "description": "Intake source touchpoint",
+          "enum": ["website_contact_form", "ai_chat_assistant", "direct_inquiry"]
+        },
+        "status": {
+          "type": "string",
+          "description": "Workflow lifecycle state",
+          "enum": ["new", "in_review", "contacted", "completed"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server last modified timestamp"
+        }
+      },
+      "required": ["clientName", "businessName", "contactChannel", "scopeSummary", "source", "status", "createdAt"]
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Client or admin user account profile",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Verified email address"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name of client or studio lead",
+          "maxLength": 100
+        },
+        "role": {
+          "type": "string",
+          "description": "Role access tier",
+          "enum": ["client", "admin"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Account registration timestamp"
+        }
+      },
+      "required": ["email", "role", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/inquiries/{inquiryId}": {
+      "schema": "Inquiry",
+      "description": "Collection of all submitted business inquiries and briefs"
+    },
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile records for authenticated portal clients and founders"
+    }
+  }
+}

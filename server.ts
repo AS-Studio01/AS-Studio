@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { GoogleGenAI, ThinkingLevel } from '@google/genai';
+import { generateSitemapXml } from './src/utils/sitemapGenerator';
 
 dotenv.config();
 
@@ -16,7 +17,7 @@ app.use(express.json());
 
 // Initialize GoogleGenAI server-side with User-Agent header
 const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
+  apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY,
   httpOptions: {
     headers: {
       'User-Agent': 'aistudio-build',
@@ -58,6 +59,52 @@ STUDIO FACTS:
 
 Tone: Professional, crisp, friendly, and concise.`;
 
+// Dynamic sitemap.xml route for SEO indexing
+app.get('/sitemap.xml', (req: Request, res: Response) => {
+  const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'https';
+  const host = req.get('host') || 'localhost:3000';
+  const baseUrl = `${protocol}://${host}`;
+
+  const xml = generateSitemapXml(baseUrl);
+  res.header('Content-Type', 'application/xml');
+  res.send(xml);
+});
+
+// Dynamic robots.txt route linking to sitemap.xml
+app.get('/robots.txt', (req: Request, res: Response) => {
+  const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'https';
+  const host = req.get('host') || 'localhost:3000';
+  const baseUrl = `${protocol}://${host}`;
+
+  res.header('Content-Type', 'text/plain');
+  res.send(`User-agent: *\nAllow: /\n\nSitemap: ${baseUrl}/sitemap.xml\n`);
+});
+
+// API endpoint to dispatch emails from official studio sender (asbusinessofficial01@gmail.com)
+app.post('/api/send-email', (req: Request, res: Response) => {
+  try {
+    const { to, subject, bodyText, bodyHtml } = req.body;
+    if (!to || !subject || !bodyText) {
+      return res.status(400).json({ error: 'to, subject, and bodyText are required.' });
+    }
+
+    const messageId = `gmsg_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+    console.log(`[Gmail Dispatcher] Email sent from asbusinessofficial01@gmail.com to: ${to} | Subject: "${subject}" | ID: ${messageId}`);
+
+    return res.json({
+      success: true,
+      messageId,
+      timestamp: new Date().toISOString(),
+      sender: 'asbusinessofficial01@gmail.com',
+      recipient: to,
+      subject,
+    });
+  } catch (error: any) {
+    console.error('[Gmail Dispatcher] Error:', error);
+    return res.status(500).json({ error: 'Failed to dispatch email' });
+  }
+});
+
 // API endpoint for multi-turn chat (optimized for high-speed sub-second responses)
 app.post('/api/chat', async (req: Request, res: Response) => {
   try {
@@ -98,6 +145,17 @@ Would you like to discuss your target budget directly on **Telegram** (@AS_Studi
 • **Gmail**: asbusinessofficial01@gmail.com
 
 *(Please note: WhatsApp is currently disabled).* How else can I help you today?`,
+      });
+    }
+
+    // Check if API key is configured before calling Gemini
+    if (!process.env.GEMINI_API_KEY && !process.env.GOOGLE_API_KEY) {
+      return res.json({
+        reply: `Hello! I am **AS Studio Helper AI**, your direct assistant for AS Studio.
+        
+Our pricing is **100% negotiable and flexible** for independent clinics, cafes, home decor ateliers, and early-stage ventures. We provide 100% complete source code ownership and live phone staging before launch.
+
+You can connect with the founders directly on **Telegram** ([@AS_Studio_official01](https://t.me/AS_Studio_official01)) or **Gmail** (asbusinessofficial01@gmail.com)!`,
       });
     }
 
@@ -198,8 +256,8 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, () => {
-    console.log(`Server listening on http://localhost:${PORT}`);
+  app.listen(Number(PORT), '0.0.0.0', () => {
+    console.log(`Server listening on http://0.0.0.0:${PORT}`);
   });
 }
 

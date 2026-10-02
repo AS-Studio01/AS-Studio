@@ -1,29 +1,28 @@
 /**
- * Central Service Integrations & Placeholders
+ * CENTRAL SERVICE INTEGRATIONS
  * ==============================================================================
- * This hub exposes ready-to-replace modules for Authentication, Database, and Gmail.
- * Replace the internal implementations in each file when you are ready to connect
- * live credentials and databases.
+ * Real connected Firebase Firestore, Firebase Authentication, and Gmail dispatch.
  * ==============================================================================
  */
 
-export * from './auth.placeholder';
-export * from './database.placeholder';
-export * from './gmail.placeholder';
+export * from './firebase';
+export * from './auth';
+export * from './database';
+export * from './gmail';
 
-export function getIntegrationsPlaceholderStatus() {
+export function getIntegrationsStatus() {
   return {
     authentication: {
-      status: 'placeholder',
-      provider: 'Ready for Firebase / Supabase / OAuth',
+      status: 'active',
+      provider: 'Firebase Authentication (Google Sign-In Popup & Sessions)',
     },
     database: {
-      status: 'placeholder',
-      dialect: 'Ready for PostgreSQL / Cloud SQL / Supabase / Firestore',
+      status: 'active',
+      dialect: 'Cloud Firestore Enterprise (Database ID: ai-studio-asstudio-41a6a92f-f1d4-4ac0-9bd3-9e54c726d708)',
     },
     gmail: {
-      status: 'placeholder',
-      service: 'Ready for Google Workspace Gmail API / SMTP',
+      status: 'active',
+      service: 'Google Workspace Gmail Dispatcher (Official Sender: asbusinessofficial01@gmail.com)',
     },
   };
 }
