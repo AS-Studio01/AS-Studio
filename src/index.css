@@ -83,6 +83,11 @@
 
 /* Premium system layer */
 :root {
+  --accent: #3B82F6;
+  --section-work: #3B82F6;
+  --section-services: #8B5CF6;
+  --section-process: #10B981;
+  --section-contact: #F59E0B;
   --glass-bg: rgba(255,255,255,.045);
   --glass-border: rgba(255,255,255,.11);
 }
@@ -128,7 +133,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .site-reading-progress { position:fixed; top:0; left:0; right:0; height:2px; z-index:100; pointer-events:none; background:transparent; }
 .site-reading-progress span { display:block; height:100%; background:linear-gradient(90deg,#3b82f6,#8b5cf6); box-shadow:0 0 12px rgba(59,130,246,.55); }
 .back-to-top { position:fixed; right:1rem; bottom:5.5rem; z-index:45; width:42px; height:42px; border-radius:9999px; display:grid; place-items:center; color:white; background:rgba(18,18,24,.72); border:1px solid rgba(255,255,255,.14); backdrop-filter:blur(12px); box-shadow:0 10px 30px rgba(0,0,0,.25); }
-[data-reveal], .reveal-target {
+.reveal-target {
   opacity:0;
   transform:translateY(18px);
   transition:opacity .55s ease, transform .55s cubic-bezier(.22,1,.36,1);
@@ -138,7 +143,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .reveal-visible { opacity:1; transform:none; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior:auto; }
-  [data-reveal], .reveal-target { opacity:1; transform:none; transition:none; }
+  .reveal-target { opacity:1; transform:none; transition:none; }
   .back-to-top,.pill-btn { transition:none; }
 }
 @media print {
@@ -226,3 +231,50 @@ main a.glass-btn, main a.glass-btn-primary {
   .site-shell { background:white !important; }
   .glass-card { background:white !important; border:0 !important; box-shadow:none !important; backdrop-filter:none !important; }
 }
+
+
+/* Connected section colour system */
+#work, #services, #process {
+  border-top: 1px solid color-mix(in srgb, var(--section-accent, var(--accent)) 14%, transparent);
+}
+#work { --section-accent: var(--section-work); background-image: radial-gradient(700px 260px at 10% 0%, color-mix(in srgb, var(--section-work) 10%, transparent), transparent 70%); }
+#services { --section-accent: var(--section-services); background-image: radial-gradient(700px 260px at 90% 0%, color-mix(in srgb, var(--section-services) 10%, transparent), transparent 70%); }
+#process { --section-accent: var(--section-process); background-image: radial-gradient(700px 260px at 12% 0%, color-mix(in srgb, var(--section-process) 9%, transparent), transparent 70%); }
+.section-accent, #work .glass-card, #services .glass-card, #process .glass-card {
+  --card-accent: var(--section-accent, var(--accent));
+}
+#work .glass-card:hover, #services .glass-card:hover, #process .glass-card:hover {
+  border-color: color-mix(in srgb, var(--card-accent) 45%, rgba(255,255,255,.14)) !important;
+  box-shadow: 0 22px 60px rgba(0,0,0,.24), 0 0 34px color-mix(in srgb, var(--card-accent) 13%, transparent) !important;
+}
+#work h2::after { background: var(--section-work) !important; }
+#services h2::after { background: var(--section-services) !important; }
+#process h2::after { background: var(--section-process) !important; }
+.glass-btn-primary { background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 92%, white), color-mix(in srgb, var(--accent) 72%, #111)) !important; }
+
+
+/* Demo presentation: browser-frame treatment makes portfolio prototypes feel like real product previews. */
+.demo-browser {
+  position: relative;
+  padding-top: 3.2rem !important;
+  border-radius: 1.35rem;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0,0,0,.20), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.demo-browser::before {
+  content: '●  ●  ●     AS STUDIO / LIVE PROTOTYPE';
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 2.35rem;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  background: rgba(15,15,20,.92);
+  color: rgba(255,255,255,.48);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  font: 700 9px/1 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: .13em;
+}
+.demo-browser > * { position: relative; z-index: 1; }
+.demo-browser button { border-radius: 9999px; }
+@media print { .demo-browser { padding-top: 1rem !important; box-shadow:none; } .demo-browser::before { display:none; } }
