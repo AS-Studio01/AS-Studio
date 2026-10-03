@@ -1,7 +1,7 @@
 import { Bot } from 'lucide-react';
 
 interface FloatingCommunicationHubProps {
-  onNavigateToContact: () => void;
+  onNavigateToContact?: () => void;
   onOpenAIChat: () => void;
 }
 

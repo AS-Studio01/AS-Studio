@@ -12,8 +12,14 @@ export interface SeoEntry {
   ogTitle: string;
   ogDescription: string;
   ogImage: string;
+  twitterTitle?: string;
+  twitterDescription?: string;
+  twitterImage?: string;
   canonical?: string;
   noIndex: boolean;
+  primaryKeyword?: string;
+  secondaryKeywords?: string[];
+  searchIntent?: string;
 }
 
 export interface LegalEntry {
@@ -194,50 +200,7 @@ export const DEFAULT_PROCESS_STEPS: ProcessStep[] = [
   },
 ];
 
-export const DEFAULT_TESTIMONIALS: TestimonialItem[] = [
-  {
-    id: 'test-dr-rahul',
-    clientName: 'Dr. Rahul Jaiswal',
-    businessName: 'Apex Dental Care & Implantology',
-    role: 'Lead Prosthodontist & Clinic Director',
-    quote: 'Before AS Studio rebuilt our web presence, patients found our old site confusing and slow on mobile. The new design has completely transformed how first-time patients perceive our clinic—they walk in already reassured by our doctors and services.',
-    rating: 5,
-    outcome: '+42% increase in mobile consultation bookings in the first 60 days',
-    serviceType: 'Business Website & Healthcare Triage',
-    verified: true,
-    enabled: true,
-    date: '2026-06-18',
-    order: 1,
-  },
-  {
-    id: 'test-ananya-roy',
-    clientName: 'Ananya Roy',
-    businessName: 'Mitti Artisan Café & Roastery',
-    role: 'Founder & Head Roaster',
-    quote: 'Our previous website forced customers to download a 12MB PDF just to see lunch specials! AS Studio built an instant, zero-PDF mobile menu and live table reservations. Customers love how smooth it is, and our weekend tables are fully booked through the site.',
-    rating: 5,
-    outcome: 'Eliminated PDF downloads entirely; 3.8x faster page loads',
-    serviceType: 'Hospitality Landing Page & Reservation Flow',
-    verified: true,
-    enabled: true,
-    date: '2026-07-24',
-    order: 2,
-  },
-  {
-    id: 'test-vikram-mehta',
-    clientName: 'Vikram Mehta',
-    businessName: 'Aura Living Furniture Atelier',
-    role: 'Creative Director',
-    quote: 'The team understood our tactile materials immediately. The interactive room lookbook and material swatch inspector allow architects to browse our natural travertine and oak collections with extraordinary clarity. The 100% code ownership gave us complete independence.',
-    rating: 5,
-    outcome: '100% clean code delivered with zero recurring platform fees',
-    serviceType: 'Tactile Showroom & Digital Lookbook',
-    verified: true,
-    enabled: true,
-    date: '2026-08-30',
-    order: 3,
-  },
-];
+export const DEFAULT_TESTIMONIALS: TestimonialItem[] = [];
 
 export const DEFAULT_SITE_CONTENT: SiteContent = {
   brand: {
@@ -300,8 +263,14 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       ogTitle: 'AS Studio — Clean Business Websites & Digital Experiences',
       ogDescription: 'Websites that make your business easier to choose. Mobile-first engineering, live phone staging, and flexible negotiable pricing.',
       ogImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
-      canonical: 'https://asstudio.in',
+      twitterTitle: 'AS Studio — Clean Business Websites & Redesigns',
+      twitterDescription: 'Bespoke websites that make your business easier to choose. Mobile-first engineering, 100% source code ownership, and live phone staging.',
+      twitterImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
+      canonical: 'https://as-studio-delta.vercel.app/',
       noIndex: false,
+      primaryKeyword: 'bespoke business websites',
+      secondaryKeywords: ['mobile-first web design', 'website redesign studio', 'clinic website design', 'independent digital design practice'],
+      searchIntent: 'commercial_discovery',
     },
     work: {
       title: 'Selected Work & Interactive Demos — AS Studio',
@@ -309,8 +278,14 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       ogTitle: 'Selected Work & Live Prototypes — AS Studio',
       ogDescription: 'Tactile showrooms, clinic websites, and hospitality landing pages with zero-PDF menus.',
       ogImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
-      canonical: 'https://asstudio.in/work',
+      twitterTitle: 'Selected Work & Interactive Demos — AS Studio',
+      twitterDescription: 'Interactive prototypes for healthcare clinics, furniture lookbooks, and zero-PDF cafe menus.',
+      twitterImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
+      canonical: 'https://as-studio-delta.vercel.app/work',
       noIndex: false,
+      primaryKeyword: 'web design portfolio and live prototypes',
+      secondaryKeywords: ['clinic appointment triage prototype', 'tactile furniture lookbook', 'zero-pdf cafe menu website', 'case studies'],
+      searchIntent: 'portfolio_credibility',
     },
     services: {
       title: 'Web Design & Development Capabilities — AS Studio',
@@ -318,8 +293,14 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       ogTitle: 'Web Services & Sprints — AS Studio',
       ogDescription: 'Turnaround in 7–14 business days with 100% full source code ownership.',
       ogImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
-      canonical: 'https://asstudio.in/services',
+      twitterTitle: 'Web Design Services & Sprints — AS Studio',
+      twitterDescription: 'Turnaround in 5–14 days. 100% source code ownership and live smartphone staging.',
+      twitterImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
+      canonical: 'https://as-studio-delta.vercel.app/services',
       noIndex: false,
+      primaryKeyword: 'web design services for local businesses',
+      secondaryKeywords: ['business website development', 'high-converting landing pages', 'website redesign sprint', '100% code ownership'],
+      searchIntent: 'service_investigation',
     },
     process: {
       title: 'Our Methodology & 6-Phase Sprint — AS Studio',
@@ -327,8 +308,14 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       ogTitle: 'The Studio Methodology — AS Studio',
       ogDescription: 'How AS Studio builds fast, bespoke business websites in 7–14 days.',
       ogImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
-      canonical: 'https://asstudio.in/process',
+      twitterTitle: 'The Studio Methodology & Sprint — AS Studio',
+      twitterDescription: '6 transparent phases from brief to launch with live smartphone staging and 30-day warranty.',
+      twitterImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
+      canonical: 'https://as-studio-delta.vercel.app/process',
       noIndex: false,
+      primaryKeyword: 'website design process and sprint timeline',
+      secondaryKeywords: ['6-phase website sprint', 'live phone staging preview', 'source code handover process', 'rapid web design methodology'],
+      searchIntent: 'methodology_evaluation',
     },
     contact: {
       title: 'Start a Project & Inquiries — AS Studio',
@@ -336,8 +323,14 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       ogTitle: 'Start a Project — AS Studio',
       ogDescription: 'Direct founder inquiries with negotiable, flexible pricing for local businesses.',
       ogImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
-      canonical: 'https://asstudio.in/contact',
+      twitterTitle: 'Start a Project with AS Studio',
+      twitterDescription: 'Direct founder inquiries via Telegram & Gmail with flexible, negotiable pricing for independent practices.',
+      twitterImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
+      canonical: 'https://as-studio-delta.vercel.app/contact',
       noIndex: false,
+      primaryKeyword: 'hire independent web design studio',
+      secondaryKeywords: ['start website project', 'negotiable web design pricing', 'clinic website inquiry', 'telegram web design consultation'],
+      searchIntent: 'direct_conversion',
     },
   },
   legal: {
@@ -429,7 +422,7 @@ function mergeContent(base: SiteContent, incoming: Partial<SiteContent>): SiteCo
     services: incoming.services && incoming.services.length > 0 ? incoming.services : base.services,
     projects: incoming.projects && incoming.projects.length > 0 ? incoming.projects : base.projects,
     processSteps: incoming.processSteps && incoming.processSteps.length > 0 ? incoming.processSteps : base.processSteps,
-    testimonials: incoming.testimonials && incoming.testimonials.length > 0 ? incoming.testimonials : base.testimonials,
+    testimonials: Array.isArray(incoming.testimonials) ? incoming.testimonials : base.testimonials,
     sections: {
       ...base.sections,
       ...(incoming.sections || {}),

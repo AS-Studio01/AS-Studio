@@ -24,25 +24,7 @@ export function Testimonials({ onOpenRateModal }: TestimonialsProps) {
   }, [isPaused, testimonials.length]);
 
   if (testimonials.length === 0) {
-    return (
-      <section className="py-16 zone-testimonials border-b border-white/[0.08]">
-        <div className="max-w-4xl mx-auto px-4 text-center space-y-4">
-          <span className="section-kicker text-[var(--testimonials-accent)]">Verified Client Trust</span>
-          <h3 className="text-xl font-bold text-white">Trust is built on real outcomes</h3>
-          <p className="text-xs text-[#A1A1AA] max-w-md mx-auto">
-            Reviews on AS Studio are 100% verified from actual client engagements. Have you completed a sprint with us?
-          </p>
-          {onOpenRateModal && (
-            <button
-              onClick={onOpenRateModal}
-              className="glass-btn px-6 py-2.5 text-xs uppercase tracking-wider text-white"
-            >
-              Submit Client Feedback
-            </button>
-          )}
-        </div>
-      </section>
-    );
+    return null;
   }
 
   const current = testimonials[currentIndex];

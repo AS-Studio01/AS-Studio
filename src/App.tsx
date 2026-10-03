@@ -23,8 +23,17 @@ import { ProcessPage } from './pages/ProcessPage';
 import { ContactPage } from './pages/ContactPage';
 import { Project, PageType } from './types';
 
+function getInitialPage(): PageType {
+  if (typeof window === 'undefined') return 'home';
+  const path = window.location.pathname.replace(/^\//, '').split('/')[0];
+  if (path === 'work' || path === 'services' || path === 'process' || path === 'contact') {
+    return path;
+  }
+  return 'home';
+}
+
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<PageType>('home');
+  const [currentPage, setCurrentPage] = useState<PageType>(getInitialPage);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [legalModalType, setLegalModalType] = useState<'privacy' | 'terms' | 'disclaimer' | null>(null);
   const [isAIChatOpen, setIsAIChatOpen] = useState(false);
@@ -32,16 +41,23 @@ export default function App() {
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const { content } = useSiteContent();
 
-  // Guarantee clean landing on 'home'
+  // Listen to browser popstate (Back/Forward navigation)
   useEffect(() => {
-    if (window.location.hash) {
-      window.history.replaceState(null, '', window.location.pathname);
-    }
-    setCurrentPage('home');
+    const handlePopState = () => {
+      const page = getInitialPage();
+      setCurrentPage(page);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   const navigateTo = (page: PageType) => {
     setCurrentPage(page);
+    const targetPath = page === 'home' ? '/' : `/${page}`;
+    if (window.location.pathname !== targetPath) {
+      window.history.pushState(null, '', targetPath);
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -52,6 +68,7 @@ export default function App() {
         currentPage={currentPage}
         onNavigate={navigateTo}
         onOpenAIChat={() => setIsAIChatOpen(true)}
+        onOpenPortal={() => setIsPortalOpen(true)}
         onOpenSecretAdmin={() => setIsAdminOpen(true)}
       />
 
@@ -60,11 +77,11 @@ export default function App() {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentPage}
-            initial={{ opacity: 0, y: 18 }}
+            initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -14 }}
+            exit={{ opacity: 0, y: -10 }}
             transition={{ 
-              duration: 0.28, 
+              duration: 0.22, 
               ease: [0.22, 1, 0.36, 1] 
             }}
             className="w-full"
@@ -104,24 +121,16 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      {/* Footer with clean All Rights Reserved and legal strip */}
-      <Footer
-        onOpenLegal={(type) => setLegalModalType(type)}
-        onNavigate={navigateTo}
-      />
-
-      {/* Persistent Fixed Bottom Legal & Compliance Notice (Visible across all pages, moves with scroll, immune to overlap) */}
-      <FixedBottomLegalBar
+      {/* Clean Footer with page navigation and direct contact channels */}
+      <Footer 
+        onNavigate={navigateTo} 
         onOpenLegal={(type) => setLegalModalType(type)}
       />
 
-      {/* Floating Bottom-Right Direct Channels Launcher */}
-      <FloatingCommunicationHub
-        onNavigateToContact={() => navigateTo('contact')}
-        onOpenAIChat={() => setIsAIChatOpen(true)}
-      />
+      {/* Fixed bottom legal compliance bar */}
+      <FixedBottomLegalBar onOpenLegal={(type) => setLegalModalType(type)} />
 
-      {/* AS Studio Helper AI Chatbot (Multi-turn Gemini interface) */}
+      {/* Studio Helper AI Multi-Turn Drawer */}
       <StudioAIChatbot
         isOpen={isAIChatOpen}
         onClose={() => setIsAIChatOpen(false)}
@@ -131,24 +140,30 @@ export default function App() {
         }}
       />
 
-      {/* Secret Founder Admin Console (Restricted & Locked from Client Side) */}
+      {/* Floating Communication Hub */}
+      <FloatingCommunicationHub onOpenAIChat={() => setIsAIChatOpen(true)} />
+
+      {/* Founder Secret Admin Panel */}
       <SecretAdminPanel
         isOpen={isAdminOpen}
         onClose={() => setIsAdminOpen(false)}
       />
 
-      {/* Client Portal Modal (Used when client submits an inquiry or tracks their brief) */}
+      {/* Client & Inquiries Portal */}
       <ClientPortalModal
         isOpen={isPortalOpen}
         onClose={() => setIsPortalOpen(false)}
-        onNavigateToContact={() => navigateTo('contact')}
+        onNavigateToContact={() => {
+          setIsPortalOpen(false);
+          navigateTo('contact');
+        }}
         onOpenAdminPanel={() => {
           setIsPortalOpen(false);
           setIsAdminOpen(true);
         }}
       />
 
-      {/* Project details modal with Live Interactive Demo */}
+      {/* Interactive Project Showcase & Live Demo Modal */}
       <ProjectModal
         project={selectedProject}
         onClose={() => setSelectedProject(null)}
@@ -163,7 +178,9 @@ export default function App() {
         type={legalModalType}
         onClose={() => setLegalModalType(null)}
       />
-      <SiteEnhancements />
+
+      {/* Dynamic SEO Meta, Social Cards, JSON-LD, Reading Progress Bar & Back to Top */}
+      <SiteEnhancements currentPage={currentPage} />
     </div>
   );
 }

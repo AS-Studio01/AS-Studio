@@ -1,5 +1,9 @@
 import { useState } from 'react';
-import { ArrowRight, ShieldCheck, Zap, Lock, Sparkles, Smartphone, Monitor, Star, CheckCircle2 } from 'lucide-react';
+import { 
+  ArrowRight, ShieldCheck, Zap, Lock, Sparkles, Smartphone, Monitor, 
+  Star, CheckCircle2, Sun, Moon, Plus, Minus, Check, Calendar, Coffee,
+  Armchair, Stethoscope
+} from 'lucide-react';
 import { useSiteContent } from '../context/SiteContentContext';
 import { PageType } from '../types';
 
@@ -12,6 +16,17 @@ export function Hero({ onNavigate }: HeroProps) {
   const brand = content.brand;
   const [previewTab, setPreviewTab] = useState<'clinic' | 'decor' | 'cafe'>('clinic');
   const [deviceMode, setDeviceMode] = useState<'mobile' | 'desktop'>('mobile');
+
+  // Interactive micro-states for live staging hero preview
+  const [clinicService, setClinicService] = useState<'aligners' | 'smile' | 'implants'>('aligners');
+  const [clinicBooked, setClinicBooked] = useState(false);
+
+  const [decorLighting, setDecorLighting] = useState<'day' | 'evening'>('evening');
+  const [decorSwatch, setDecorSwatch] = useState<'travertine' | 'oak' | 'brass'>('travertine');
+
+  const [cafeCoffeeQty, setCafeCoffeeQty] = useState(1);
+  const [cafeBunQty, setCafeBunQty] = useState(1);
+  const [cafeOrdered, setCafeOrdered] = useState(false);
 
   const guarantees = [
     { label: 'Turnaround Sprint', value: '7–14 Days', note: 'Fast staging preview', icon: Zap },
@@ -54,7 +69,7 @@ export function Hero({ onNavigate }: HeroProps) {
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
               <button
                 onClick={() => onNavigate('contact')}
-                className="glass-btn-primary px-7 py-3.5 text-xs uppercase tracking-wider text-white shadow-lg"
+                className="glass-btn-primary px-7 py-3.5 text-xs uppercase tracking-wider text-white shadow-lg rounded-xl"
               >
                 <span>{brand.primaryCta || 'Start a project'}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -62,7 +77,7 @@ export function Hero({ onNavigate }: HeroProps) {
 
               <button
                 onClick={() => onNavigate('work')}
-                className="glass-btn px-7 py-3.5 text-xs uppercase tracking-wider text-white"
+                className="glass-btn px-7 py-3.5 text-xs uppercase tracking-wider text-white rounded-xl"
               >
                 <span>{brand.secondaryCta || 'View selected work'}</span>
                 <ArrowRight className="w-4 h-4 text-[#60A5FA]" />
@@ -75,7 +90,7 @@ export function Hero({ onNavigate }: HeroProps) {
               <span>{brand.reassurance}</span>
             </div>
 
-            {/* Four Studio Guarantees (Medical & Creative Quality Standard) */}
+            {/* Four Studio Guarantees */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-white/[0.08]">
               {guarantees.map((g) => {
                 const IconComponent = g.icon;
@@ -93,18 +108,18 @@ export function Hero({ onNavigate }: HeroProps) {
             </div>
           </div>
 
-          {/* Right Column: Floating Interactive Showroom & Triage Preview */}
+          {/* Right Column: Interactive Staging Preview Device Frame */}
           <div className="lg:col-span-5 relative">
-            <div className="glass-card p-5 sm:p-6 space-y-4">
-              {/* Preview Header & Controls */}
+            <div className="glass-card p-5 sm:p-6 space-y-4 shadow-2xl border-white/15">
+              
+              {/* Device Header Bar & Viewport Switcher */}
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#EC4899]" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#EC4899] animate-pulse" />
                   <span className="text-xs font-bold text-white font-mono uppercase tracking-wider">
-                    Interactive Live Staging
+                    Live Smartphone Staging
                   </span>
                 </div>
-                {/* Viewport device switcher */}
                 <div className="flex items-center gap-1 p-0.5 rounded-full bg-white/[0.06] border border-white/10">
                   <button
                     onClick={() => setDeviceMode('mobile')}
@@ -132,9 +147,12 @@ export function Hero({ onNavigate }: HeroProps) {
               {/* Prototype Category Switcher Tabs */}
               <div className="grid grid-cols-3 gap-1 p-1 rounded-xl bg-white/[0.03] border border-white/[0.06]">
                 <button
-                  onClick={() => setPreviewTab('clinic')}
+                  onClick={() => {
+                    setPreviewTab('clinic');
+                    setClinicBooked(false);
+                  }}
                   className={`py-1.5 text-[11px] font-bold rounded-lg transition-colors ${
-                    previewTab === 'clinic' ? 'bg-white/15 text-white shadow-sm' : 'text-[#A1A1AA] hover:text-white'
+                    previewTab === 'clinic' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 shadow-sm' : 'text-[#A1A1AA] hover:text-white'
                   }`}
                 >
                   Clinic Triage
@@ -142,101 +160,246 @@ export function Hero({ onNavigate }: HeroProps) {
                 <button
                   onClick={() => setPreviewTab('decor')}
                   className={`py-1.5 text-[11px] font-bold rounded-lg transition-colors ${
-                    previewTab === 'decor' ? 'bg-white/15 text-white shadow-sm' : 'text-[#A1A1AA] hover:text-white'
+                    previewTab === 'decor' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 shadow-sm' : 'text-[#A1A1AA] hover:text-white'
                   }`}
                 >
                   Home Decor
                 </button>
                 <button
-                  onClick={() => setPreviewTab('cafe')}
+                  onClick={() => {
+                    setPreviewTab('cafe');
+                    setCafeOrdered(false);
+                  }}
                   className={`py-1.5 text-[11px] font-bold rounded-lg transition-colors ${
-                    previewTab === 'cafe' ? 'bg-white/15 text-white shadow-sm' : 'text-[#A1A1AA] hover:text-white'
+                    previewTab === 'cafe' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30 shadow-sm' : 'text-[#A1A1AA] hover:text-white'
                   }`}
                 >
                   Café Menu
                 </button>
               </div>
 
-              {/* Dynamic Preview Container with Browser Frame */}
-              <div className={`demo-browser p-4 transition-all duration-300 ${deviceMode === 'mobile' ? 'max-w-[320px] mx-auto' : 'w-full'}`}>
+              {/* Dynamic Interactive Mini-App Inside the Browser Frame */}
+              <div className={`p-4 rounded-xl bg-[#090B0E] border border-white/10 transition-all duration-300 ${deviceMode === 'mobile' ? 'max-w-[320px] mx-auto' : 'w-full'}`}>
+                
+                {/* 1. CLINIC TRIAGE LIVE INTERACTION */}
                 {previewTab === 'clinic' && (
                   <div className="space-y-3 font-sans">
                     <div className="flex items-center justify-between border-b border-white/[0.06] pb-2">
-                      <span className="text-[11px] font-black text-cyan-400 font-mono tracking-wider">APEX DENTAL CLINIC</span>
-                      <span className="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full">Open Today</span>
+                      <div className="flex items-center gap-1.5">
+                        <Stethoscope className="w-3.5 h-3.5 text-cyan-400" />
+                        <span className="text-[11px] font-black text-white font-mono tracking-wider">APEX DENTAL CLINIC</span>
+                      </div>
+                      <span className="text-[9px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                        Open Now
+                      </span>
                     </div>
-                    <p className="text-xs font-bold text-white leading-snug">
-                      Comprehensive Smile Aesthetics & Implantology
-                    </p>
-                    <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] space-y-1">
-                      <span className="text-[10px] uppercase font-mono text-[#A1A1AA] block">Quick Appointment Triage</span>
-                      <div className="flex items-center justify-between text-xs text-white">
-                        <span>Tomorrow at 10:30 AM</span>
-                        <span className="text-cyan-400 font-bold">Selected</span>
+
+                    <div className="space-y-1">
+                      <span className="text-[10px] font-mono text-[#A1A1AA] block">Dr. Rahul Jaiswal, BDS, MDS</span>
+                      <p className="text-xs font-bold text-white">
+                        Select consultation reason:
+                      </p>
+                    </div>
+
+                    {/* Interactive Service Buttons */}
+                    <div className="grid grid-cols-3 gap-1.5">
+                      {[
+                        { id: 'aligners', label: 'Aligners', icon: '✨' },
+                        { id: 'smile', label: 'Veneers', icon: '💎' },
+                        { id: 'implants', label: 'Implants', icon: '🦷' },
+                      ].map((s) => (
+                        <button
+                          key={s.id}
+                          onClick={() => {
+                            setClinicService(s.id as any);
+                            setClinicBooked(false);
+                          }}
+                          className={`py-1.5 px-1 rounded-lg text-[10px] font-mono font-bold transition-all border ${
+                            clinicService === s.id
+                              ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400'
+                              : 'bg-white/[0.02] border-white/10 text-[#A1A1AA] hover:text-white'
+                          }`}
+                        >
+                          {s.icon} {s.label}
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Dynamic appointment slot status */}
+                    <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] space-y-1">
+                      <div className="flex items-center justify-between text-[11px] text-white">
+                        <span className="text-[#A1A1AA]">Next Available Slot:</span>
+                        <span className="text-cyan-400 font-bold font-mono">Tomorrow · 10:30 AM</span>
                       </div>
                     </div>
-                    <button
-                      onClick={() => onNavigate('work')}
-                      className="w-full glass-btn-primary py-2 text-[11px] font-bold rounded-full justify-center"
-                    >
-                      <span>Explore Clinic Demo</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </button>
+
+                    {clinicBooked ? (
+                      <div className="p-2 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-bold text-center flex items-center justify-center gap-1.5 animate-in fade-in">
+                        <Check className="w-3.5 h-3.5 text-emerald-400" />
+                        <span>Pass #APX-482 Reserved for 10:30 AM!</span>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => setClinicBooked(true)}
+                        className="w-full glass-btn-primary py-2 text-[11px] font-bold uppercase rounded-lg justify-center flex items-center gap-1.5"
+                      >
+                        <Calendar className="w-3 h-3" />
+                        <span>Simulate 1-Tap Booking</span>
+                      </button>
+                    )}
                   </div>
                 )}
 
+                {/* 2. AURA HOME DECOR LIVE INTERACTION */}
                 {previewTab === 'decor' && (
                   <div className="space-y-3 font-sans">
                     <div className="flex items-center justify-between border-b border-white/[0.06] pb-2">
-                      <span className="text-[11px] font-black text-indigo-400 font-mono tracking-wider">AURA LIVING ATELIER</span>
-                      <span className="text-[10px] text-[#A1A1AA] font-mono">Lookbook 2026</span>
+                      <div className="flex items-center gap-1.5">
+                        <Armchair className="w-3.5 h-3.5 text-indigo-400" />
+                        <span className="text-[11px] font-black text-white font-mono tracking-wider">AURA LIVING ATELIER</span>
+                      </div>
+                      {/* Interactive Lighting Toggle */}
+                      <button
+                        onClick={() => setDecorLighting(decorLighting === 'day' ? 'evening' : 'day')}
+                        className="flex items-center gap-1 text-[10px] font-mono text-indigo-300 bg-indigo-500/20 px-2 py-0.5 rounded-full border border-indigo-500/30"
+                      >
+                        {decorLighting === 'day' ? <Sun className="w-3 h-3" /> : <Moon className="w-3 h-3" />}
+                        <span>{decorLighting === 'day' ? '5000K' : '2700K'}</span>
+                      </button>
                     </div>
-                    <div className="aspect-video w-full rounded-xl bg-neutral-900 border border-white/10 overflow-hidden relative flex items-center justify-center">
+
+                    <div className="aspect-[16/9] w-full rounded-xl overflow-hidden relative border border-white/10 group">
                       <img
-                        src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=600&q=80"
-                        alt="Sculptural travertine lamp and minimalist lounge chair in a modern aesthetic atelier"
-                        className="w-full h-full object-cover"
-                        loading="lazy"
+                        src={decorLighting === 'day' 
+                          ? 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=600&q=80'
+                          : 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80'
+                        }
+                        alt="Aura Living interior piece"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-2.5">
-                        <span className="text-[11px] font-bold text-white">Travertine & Oak Collection</span>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-2.5 justify-between">
+                        <span className="text-[11px] font-bold text-white">Monolith Lounge Table</span>
+                        <span className="text-[10px] font-mono text-emerald-400 font-bold">$1,450 USD</span>
                       </div>
                     </div>
+
+                    {/* Interactive Material Chips */}
+                    <div className="flex items-center justify-between gap-1 pt-1">
+                      {[
+                        { id: 'travertine', label: 'Travertine', color: '#DCD5C6' },
+                        { id: 'oak', label: 'Smoked Oak', color: '#8F6C47' },
+                        { id: 'brass', label: 'Brass Halo', color: '#BFA05A' },
+                      ].map((m) => (
+                        <button
+                          key={m.id}
+                          onClick={() => setDecorSwatch(m.id as any)}
+                          className={`flex-1 py-1 px-1.5 rounded-lg flex items-center justify-center gap-1 border text-[10px] font-mono ${
+                            decorSwatch === m.id
+                              ? 'border-indigo-400 bg-indigo-500/20 text-white font-bold'
+                              : 'border-white/10 bg-white/[0.02] text-[#A1A1AA]'
+                          }`}
+                        >
+                          <span className="w-2 h-2 rounded-full" style={{ backgroundColor: m.color }} />
+                          <span>{m.label}</span>
+                        </button>
+                      ))}
+                    </div>
+
                     <button
                       onClick={() => onNavigate('work')}
-                      className="w-full glass-btn py-2 text-[11px] font-bold rounded-full justify-center text-white"
+                      className="w-full glass-btn py-1.5 text-[10px] uppercase font-bold rounded-lg justify-center text-white flex items-center gap-1"
                     >
-                      <span>Inspect Material Swatches</span>
+                      <span>Open Full 3D Showroom</span>
                       <ArrowRight className="w-3 h-3 text-indigo-400" />
                     </button>
                   </div>
                 )}
 
+                {/* 3. CAFÉ MENU & INSTANT ORDER LIVE INTERACTION */}
                 {previewTab === 'cafe' && (
                   <div className="space-y-3 font-sans">
                     <div className="flex items-center justify-between border-b border-white/[0.06] pb-2">
-                      <span className="text-[11px] font-black text-amber-400 font-mono tracking-wider">MITTI ARTISAN CAFÉ</span>
-                      <span className="text-[10px] text-emerald-400 font-bold">Zero-PDF Menu</span>
+                      <div className="flex items-center gap-1.5">
+                        <Coffee className="w-3.5 h-3.5 text-amber-400" />
+                        <span className="text-[11px] font-black text-white font-mono tracking-wider">MITTI CAFÉ</span>
+                      </div>
+                      <span className="text-[9px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full">
+                        Zero-PDF
+                      </span>
                     </div>
+
+                    {/* Interactive Item Steppers */}
                     <div className="space-y-1.5 text-xs">
-                      <div className="flex justify-between items-center p-2 rounded-lg bg-white/[0.03]">
-                        <span className="text-white font-medium">Single Origin Pourover</span>
-                        <span className="text-amber-400 font-mono font-bold">$4.50</span>
+                      <div className="flex justify-between items-center p-2 rounded-lg bg-white/[0.03] border border-white/[0.06]">
+                        <div>
+                          <span className="text-white font-bold block text-[11px]">Single Origin Pourover</span>
+                          <span className="text-[10px] text-amber-400 font-mono font-bold">$4.50</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <button
+                            onClick={() => setCafeCoffeeQty(Math.max(0, cafeCoffeeQty - 1))}
+                            className="w-5 h-5 rounded bg-white/10 flex items-center justify-center text-white text-xs"
+                          >
+                            <Minus className="w-2.5 h-2.5" />
+                          </button>
+                          <span className="font-mono text-white text-[11px] w-3 text-center">{cafeCoffeeQty}</span>
+                          <button
+                            onClick={() => setCafeCoffeeQty(cafeCoffeeQty + 1)}
+                            className="w-5 h-5 rounded bg-white/10 flex items-center justify-center text-white text-xs"
+                          >
+                            <Plus className="w-2.5 h-2.5" />
+                          </button>
+                        </div>
                       </div>
-                      <div className="flex justify-between items-center p-2 rounded-lg bg-white/[0.03]">
-                        <span className="text-white font-medium">Sourdough Cardamom Buns</span>
-                        <span className="text-amber-400 font-mono font-bold">$3.80</span>
+
+                      <div className="flex justify-between items-center p-2 rounded-lg bg-white/[0.03] border border-white/[0.06]">
+                        <div>
+                          <span className="text-white font-bold block text-[11px]">Cardamom Sourdough Knot</span>
+                          <span className="text-amber-400 font-mono font-bold">$3.80</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <button
+                            onClick={() => setCafeBunQty(Math.max(0, cafeBunQty - 1))}
+                            className="w-5 h-5 rounded bg-white/10 flex items-center justify-center text-white text-xs"
+                          >
+                            <Minus className="w-2.5 h-2.5" />
+                          </button>
+                          <span className="font-mono text-white text-[11px] w-3 text-center">{cafeBunQty}</span>
+                          <button
+                            onClick={() => setCafeBunQty(cafeBunQty + 1)}
+                            className="w-5 h-5 rounded bg-white/10 flex items-center justify-center text-white text-xs"
+                          >
+                            <Plus className="w-2.5 h-2.5" />
+                          </button>
+                        </div>
                       </div>
                     </div>
-                    <button
-                      onClick={() => onNavigate('work')}
-                      className="w-full glass-btn-primary py-2 text-[11px] font-bold rounded-full justify-center"
-                    >
-                      <span>View Live Reservation Demo</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </button>
+
+                    {/* Total pill */}
+                    <div className="flex items-center justify-between text-[11px] font-mono p-1.5 bg-amber-500/10 rounded-lg border border-amber-500/20 text-amber-300">
+                      <span>Live Order (Table 4):</span>
+                      <span className="font-bold font-mono text-white">
+                        ${(cafeCoffeeQty * 4.5 + cafeBunQty * 3.8).toFixed(2)} USD
+                      </span>
+                    </div>
+
+                    {cafeOrdered ? (
+                      <div className="p-2 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-bold text-center flex items-center justify-center gap-1.5">
+                        <Check className="w-3.5 h-3.5 text-emerald-400" />
+                        <span>Order dispatched to barista counter!</span>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => setCafeOrdered(true)}
+                        className="w-full glass-btn-primary py-2 text-[11px] font-bold rounded-lg justify-center flex items-center gap-1"
+                      >
+                        <span>Simulate Instant Table Order</span>
+                        <ArrowRight className="w-3 h-3" />
+                      </button>
+                    )}
                   </div>
                 )}
+
               </div>
 
               {/* Bottom Card Footer */}
@@ -249,9 +412,10 @@ export function Hero({ onNavigate }: HeroProps) {
                   onClick={() => onNavigate('work')}
                   className="text-white font-bold hover:text-[var(--accent)] transition-colors underline"
                 >
-                  View all 3 prototypes →
+                  View full prototypes →
                 </button>
               </div>
+
             </div>
           </div>
 

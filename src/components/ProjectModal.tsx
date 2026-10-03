@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, Mail, Send, PlayCircle, FileText, CheckCircle2, ArrowRight } from 'lucide-react';
+import { X, Mail, Send, PlayCircle, FileText, CheckCircle2, ArrowRight, ExternalLink } from 'lucide-react';
 import { Project } from '../types';
 import { buildMailtoLink, buildTelegramLink } from '../constants/communication';
 import { ProjectLiveDemo } from './ProjectLiveDemo';
@@ -38,7 +38,7 @@ export function ProjectModal({ project, onClose, onStartProject }: ProjectModalP
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-md">
       <div 
-        className="w-full max-w-3xl glass-panel border border-white/15 shadow-2xl overflow-hidden flex flex-col max-h-[92vh] fade-in"
+        className="w-full max-w-4xl glass-panel border border-white/15 shadow-2xl overflow-hidden flex flex-col max-h-[92vh] fade-in"
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-project-title"
@@ -98,9 +98,22 @@ export function ProjectModal({ project, onClose, onStartProject }: ProjectModalP
         <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6">
           {activeTab === 'demo' ? (
             <div className="space-y-4">
-              <div className="p-3 rounded-2xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-between text-xs text-[#A1A1AA]">
+              <div className="p-3 rounded-2xl bg-white/[0.03] border border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-[#A1A1AA]">
                 <span className="font-mono">Live Staging Mode: Test user interactions & mobile booking flow</span>
-                <span className="text-emerald-400 font-bold font-mono">100% Client Code Handover</span>
+                <div className="flex items-center gap-3">
+                  {project.liveDemoUrl && (
+                    <a
+                      href={project.liveDemoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 font-bold font-mono transition-colors"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                      <span>Live Site Inspiration</span>
+                    </a>
+                  )}
+                  <span className="text-emerald-400 font-bold font-mono">100% Client Code Handover</span>
+                </div>
               </div>
               <ProjectLiveDemo projectId={project.id} />
             </div>

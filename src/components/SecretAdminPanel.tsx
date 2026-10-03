@@ -68,8 +68,9 @@ export function SecretAdminPanel({ isOpen, onClose }: SecretAdminPanelProps) {
   const [latency, setLatency] = useState<number | null>(null);
   const [notificationMsg, setNotificationMsg] = useState<string | null>(null);
 
-  // Secret code login state (strictly confidential, no hints displayed)
+  // Secret code login state (strictly confidential, remember device permanently)
   const [secretCodeInput, setSecretCodeInput] = useState('');
+  const [rememberDevice, setRememberDevice] = useState(true);
   const [codeError, setCodeError] = useState<string | null>(null);
 
   // Integrated Gmail Composer state
@@ -155,11 +156,11 @@ export function SecretAdminPanel({ isOpen, onClose }: SecretAdminPanelProps) {
       setCodeError('Please enter the founder passphrase.');
       return;
     }
-    const success = loginWithSecretCode(secretCodeInput);
+    const success = loginWithSecretCode(secretCodeInput, rememberDevice);
     if (success) {
       setCodeError(null);
       setSecretCodeInput('');
-      showNotification('Founder access granted.');
+      showNotification(rememberDevice ? 'Founder access granted (Device remembered permanently).' : 'Founder access granted for this session.');
     } else {
       setCodeError('Incorrect passphrase. Access denied.');
     }
@@ -395,6 +396,15 @@ asbusinessofficial01@gmail.com`
                     autoFocus
                     className="w-full px-3.5 py-2.5 bg-[#0C0C0F] border border-white/15 rounded-lg text-xs font-mono text-white placeholder:text-[#52525B] focus:outline-none focus:border-rose-500"
                   />
+                  <label className="flex items-center gap-2 cursor-pointer text-[11px] text-[#A1A1AA] select-none">
+                    <input
+                      type="checkbox"
+                      checked={rememberDevice}
+                      onChange={(e) => setRememberDevice(e.target.checked)}
+                      className="rounded bg-[#0C0C0F] border-white/20 text-rose-500 focus:ring-0"
+                    />
+                    <span>Remember this device permanently (no code needed next time)</span>
+                  </label>
                   {codeError && (
                     <span className="text-[11px] text-rose-400 font-mono block">
                       {codeError}
