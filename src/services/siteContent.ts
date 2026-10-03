@@ -83,6 +83,51 @@ export const DEFAULT_LEGAL: Record<LegalDocument['id'], LegalDocument> = {
   },
 };
 
+
+export interface SiteContent {
+  heroEyebrow: string;
+  heroTitle: string;
+  heroDescription: string;
+  primaryCta: string;
+  secondaryCta: string;
+  reassurance: string;
+  studioLabel: string;
+  studioLocation: string;
+  sectionLabels: { work: string; services: string; process: string; contact: string };
+  theme: {
+    work: string;
+    services: string;
+    process: string;
+    contact: string;
+    accent: string;
+  };
+}
+
+export const DEFAULT_SITE_CONTENT: SiteContent = {
+  heroEyebrow: 'Independent digital design practice',
+  heroTitle: 'Websites that make your business easier to choose.',
+  heroDescription: 'AS Studio designs clean, fast and mobile-first websites for local businesses, clinics, cafes, home decor ateliers, and early-stage teams.',
+  primaryCta: 'Start a project',
+  secondaryCta: 'View selected work',
+  reassurance: 'You test on your phone before launch. Zero proprietary lock-in. Full source code delivered.',
+  studioLabel: 'AS Studio',
+  studioLocation: 'India & Remote Worldwide',
+  sectionLabels: { work: 'Proof of craft', services: 'What we build', process: 'How we work', contact: 'Start something' },
+  theme: { work: '#3B82F6', services: '#8B5CF6', process: '#10B981', contact: '#F59E0B', accent: '#3B82F6' },
+};
+
+export async function getSiteContent(): Promise<SiteContent> {
+  try {
+    const snap = await getDoc(doc(db, 'site_settings', 'site_content'));
+    const data = snap.exists() ? snap.data() : {};
+    return { ...DEFAULT_SITE_CONTENT, ...data, sectionLabels: { ...DEFAULT_SITE_CONTENT.sectionLabels, ...(data.sectionLabels || {}) }, theme: { ...DEFAULT_SITE_CONTENT.theme, ...(data.theme || {}) } };
+  } catch { return DEFAULT_SITE_CONTENT; }
+}
+
+export async function saveSiteContent(value: SiteContent) {
+  await setDoc(doc(db, 'site_settings', 'site_content'), value, { merge: true });
+}
+
 export interface ClientProject {
   id: string;
   clientUid: string;
