@@ -462,7 +462,7 @@ asbusinessofficial01@gmail.com`
                     }`}
                   >
                     <Settings2 className="w-3.5 h-3.5" />
-                    <span>Site CMS</span>
+                    <span>Studio CMS (Content, Services, SEO, Legal)</span>
                   </button>
 
                   <button

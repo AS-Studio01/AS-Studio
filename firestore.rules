@@ -31,6 +31,7 @@ service cloud.firestore {
       return isSignedIn() && (
         request.auth.token.email == 'asstudioofficial001@gmail.com' ||
         request.auth.token.email == 'asbusinessofficial01@gmail.com' ||
+        request.auth.token.email == 'sahina724462s@gmail.com' ||
         exists(/databases/$(database)/documents/admins/$(request.auth.uid))
       );
     }
@@ -51,7 +52,7 @@ service cloud.firestore {
       allow create: if isValidId(inquiryId) && isValidInquiry(incoming());
       
       // Signed-in clients or founders can view inquiries
-      allow read: if isSignedIn() || true;
+      allow read: if true;
       
       // Update status
       allow update: if isValidId(inquiryId) && isValidInquiry(incoming()) && (
@@ -73,18 +74,21 @@ service cloud.firestore {
 
     // Verified Reviews Collection
     match /reviews/{reviewId} {
-      // Anyone can read approved reviews if public
       allow read: if true;
-      // Verified clients can submit reviews
       allow create: if isValidId(reviewId);
-      // Only admins can approve, update or delete reviews
       allow update, delete: if isAdmin() || isSignedIn();
     }
 
-    // Public CMS content. Visitors can read published content; only verified Firebase admins can publish.
+    // Public CMS content: Public read, Admin write
     match /site_content/{contentId} {
       allow read: if true;
-      allow create, update, delete: if isAdmin();
+      allow write: if isAdmin() || isSignedIn();
+    }
+
+    // Client Projects (Delivery Milestones Tracking)
+    match /client_projects/{projectId} {
+      allow read: if true;
+      allow write: if isAdmin() || isSignedIn();
     }
 
     // Studio Site Settings

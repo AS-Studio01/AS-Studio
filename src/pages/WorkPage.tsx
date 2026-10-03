@@ -62,47 +62,47 @@ export function WorkPage({ projects, onSelectProject, onNavigate }: WorkPageProp
           </p>
         </div>
 
-        {/* Interactive Filter Controls (Glassmorphic) */}
-        <div className="mb-10 flex flex-wrap items-center gap-2.5 border-b border-[#E7E2DA] dark:border-[#27272A] pb-5">
+        {/* Interactive Filter Controls (Pill Rounded) */}
+        <div className="mb-10 flex flex-wrap items-center gap-2.5 border-b border-white/10 pb-5">
           <button
             onClick={() => setFilter('all')}
-            className={`px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all rounded-[2px] ${
+            className={`px-5 py-2 text-xs font-bold uppercase tracking-wider transition-all rounded-full ${
               filter === 'all'
-                ? 'bg-[#0047AB] dark:bg-[#3B82F6] text-white shadow-sm'
-                : 'glass-btn text-[#55514B] dark:text-[#D4D4D8] hover:text-[#121212] dark:hover:text-white'
+                ? 'bg-[var(--accent)] text-white shadow-md'
+                : 'glass-btn text-[#A1A1AA] hover:text-white'
             }`}
           >
             All Work ({projects.length})
           </button>
           <button
             onClick={() => setFilter('decor')}
-            className={`px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all rounded-[2px] ${
+            className={`px-5 py-2 text-xs font-bold uppercase tracking-wider transition-all rounded-full ${
               filter === 'decor'
-                ? 'bg-[#0047AB] dark:bg-[#3B82F6] text-white shadow-sm'
-                : 'glass-btn text-[#55514B] dark:text-[#D4D4D8] hover:text-[#121212] dark:hover:text-white'
+                ? 'bg-[var(--accent)] text-white shadow-md'
+                : 'glass-btn text-[#A1A1AA] hover:text-white'
             }`}
           >
-            Home Decor & Living (1)
+            Home Decor & Living
           </button>
           <button
             onClick={() => setFilter('clinic')}
-            className={`px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all rounded-[2px] ${
+            className={`px-5 py-2 text-xs font-bold uppercase tracking-wider transition-all rounded-full ${
               filter === 'clinic'
-                ? 'bg-[#0047AB] dark:bg-[#3B82F6] text-white shadow-sm'
-                : 'glass-btn text-[#55514B] dark:text-[#D4D4D8] hover:text-[#121212] dark:hover:text-white'
+                ? 'bg-[var(--accent)] text-white shadow-md'
+                : 'glass-btn text-[#A1A1AA] hover:text-white'
             }`}
           >
-            Clinic Redesign (1)
+            Clinic Redesign
           </button>
           <button
             onClick={() => setFilter('restaurant')}
-            className={`px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all rounded-[2px] ${
+            className={`px-5 py-2 text-xs font-bold uppercase tracking-wider transition-all rounded-full ${
               filter === 'restaurant'
-                ? 'bg-[#0047AB] dark:bg-[#3B82F6] text-white shadow-sm'
-                : 'glass-btn text-[#55514B] dark:text-[#D4D4D8] hover:text-[#121212] dark:hover:text-white'
+                ? 'bg-[var(--accent)] text-white shadow-md'
+                : 'glass-btn text-[#A1A1AA] hover:text-white'
             }`}
           >
-            Restaurant Landing (1)
+            Restaurant Landing
           </button>
         </div>
 

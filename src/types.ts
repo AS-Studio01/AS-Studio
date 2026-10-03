@@ -10,6 +10,12 @@ export interface Project {
   buttonText: string;
   tags?: string[];
   turnaround?: string;
+  accentColor?: string;
+  liveDemoUrl?: string;
+  imageUrl?: string;
+  featured?: boolean;
+  enabled?: boolean;
+  order?: number;
   conceptDetails: {
     overview: string;
     keyDeliverables: string[];
@@ -18,10 +24,81 @@ export interface Project {
   };
 }
 
+export interface ServiceItem {
+  id: string;
+  number: string;
+  title: string;
+  description: string;
+  idealFor: string;
+  icon?: string; // 'armchair' | 'stethoscope' | 'coffee' | 'sparkles' | 'globe' | 'layout' | 'code' | 'zap'
+  accentColor?: string;
+  features?: string[];
+  ctaText?: string;
+  enabled?: boolean;
+  order?: number;
+}
+
+export interface ProcessStep {
+  id: string;
+  step: string;
+  title: string;
+  description: string;
+  details: string;
+  duration?: string;
+  deliverables?: string[];
+  enabled?: boolean;
+  order?: number;
+}
+
+export interface TestimonialItem {
+  id: string;
+  clientName: string;
+  businessName: string;
+  role: string;
+  quote: string;
+  rating: number; // 1-5
+  outcome?: string;
+  serviceType?: string;
+  verified: boolean;
+  enabled: boolean;
+  date?: string;
+  order?: number;
+}
+
+export type ClientProjectStatus = 
+  | 'discovery'
+  | 'planning'
+  | 'design'
+  | 'development'
+  | 'review'
+  | 'launch'
+  | 'completed';
+
+export interface ClientProject {
+  id: string;
+  clientUid: string;
+  clientEmail: string;
+  clientName?: string;
+  businessName: string;
+  title: string;
+  projectType: string;
+  status: ClientProjectStatus;
+  progress: number; // 0 - 100
+  currentSprint?: string;
+  nextMilestone?: string;
+  deadline?: string;
+  recentUpdate?: string;
+  timeline?: string;
+  deliverables?: string[];
+  notes?: string;
+  liveStagingUrl?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface EnquiryFormData {
   name: string;
   businessName: string;
   contactInfo: string;
   helpDetails: string;
 }
-

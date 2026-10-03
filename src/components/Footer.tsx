@@ -7,7 +7,7 @@ interface FooterProps {
   onNavigate?: (page: PageType) => void;
 }
 
-export function Footer({ onNavigate }: FooterProps) {
+export function Footer({ onNavigate, onOpenLegal }: FooterProps) {
   const pages: { label: string; page: PageType }[] = [
     { label: 'Home', page: 'home' },
     { label: 'Selected Work', page: 'work' },
@@ -104,6 +104,38 @@ export function Footer({ onNavigate }: FooterProps) {
               </li>
             </ul>
           </div>
+        </div>
+
+        {/* Bottom Bar with Legal Links and Copyright */}
+        <div className="mt-12 pt-6 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#A1A1AA]">
+          <div className="flex items-center gap-2">
+            <span>© {new Date().getFullYear()} AS Studio. All Rights Reserved.</span>
+            <span>·</span>
+            <span>100% Source Code Ownership Guaranteed.</span>
+          </div>
+
+          {onOpenLegal && (
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => onOpenLegal('privacy')}
+                className="hover:text-white transition-colors underline"
+              >
+                Privacy Policy
+              </button>
+              <button
+                onClick={() => onOpenLegal('terms')}
+                className="hover:text-white transition-colors underline"
+              >
+                Terms of Service
+              </button>
+              <button
+                onClick={() => onOpenLegal('disclaimer')}
+                className="hover:text-white transition-colors underline"
+              >
+                Disclaimer
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </footer>

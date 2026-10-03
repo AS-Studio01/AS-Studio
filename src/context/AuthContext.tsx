@@ -20,6 +20,7 @@ import { auth, googleProvider } from '../lib/firebase';
 const ADMIN_EMAILS = [
   'asstudioofficial001@gmail.com',
   'asbusinessofficial01@gmail.com',
+  'sahina724462s@gmail.com',
 ];
 
 export const SECRET_ADMIN_CODE = '2926 means Ayan';

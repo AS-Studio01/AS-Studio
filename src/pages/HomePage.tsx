@@ -1,4 +1,4 @@
-import { ArrowRight, Mail, Send, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Mail, Send, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { Hero } from '../components/Hero';
 import { SelectedWork } from '../components/SelectedWork';
 import { Testimonials } from '../components/Testimonials';
@@ -6,7 +6,8 @@ import { Services } from '../components/Services';
 import { Process } from '../components/Process';
 import { FAQ } from '../components/FAQ';
 import { Project, PageType } from '../types';
-import { buildMailtoLink, buildTelegramLink } from '../constants/communication';
+import { buildMailtoLink, buildTelegramLink, STUDIO_CONTACT } from '../constants/communication';
+import { useSiteContent } from '../context/SiteContentContext';
 
 interface HomePageProps {
   projects: Project[];
@@ -15,29 +16,32 @@ interface HomePageProps {
 }
 
 export function HomePage({ projects, onSelectProject, onNavigate }: HomePageProps) {
+  const { content } = useSiteContent();
+  const ctaSection = content.sections.contact;
+
   return (
     <div className="fade-in">
-      {/* Hero Section */}
+      {/* 1. Hero Section with Interactive Staging Preview */}
       <Hero onNavigate={onNavigate} />
 
-      {/* Selected Work Section (Home Decor, Nova Dental, Mitti Café) */}
+      {/* 2. Selected Work Section (Home Decor, Nova Dental, Mitti Café) */}
       <SelectedWork
         projects={projects}
         onSelectProject={onSelectProject}
       />
 
-      {/* View full work archive callout banner */}
-      <div className="border-b border-[#E7E2DA] dark:border-[#27272A] bg-[#F5F2EB] dark:bg-[#141416] py-10 transition-colors duration-300">
-        <div className="max-w-6xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <div className="space-y-1.5">
-            <span className="text-xs uppercase font-mono tracking-wider text-[#0047AB] dark:text-[#3B82F6] font-bold">
-              Case Study & Demo Deep Dive
+      {/* Interactive Case Study & Demo Bridge */}
+      <div className="border-b border-white/[0.08] bg-white/[0.02] py-10 transition-colors">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+          <div className="space-y-1.5 max-w-2xl">
+            <span className="section-kicker text-[var(--work-accent)]">
+              Interactive Showroom & Triage Archive
             </span>
-            <h3 className="text-lg sm:text-xl font-bold text-[#121212] dark:text-white">
-              Explore complete interactive prototypes, material catalogues, and conversion triage.
+            <h3 className="text-lg sm:text-xl font-bold text-white">
+              Explore complete interactive prototypes, material catalogues, and healthcare triage.
             </h3>
-            <p className="text-xs text-[#6B6661] dark:text-[#A1A1AA]">
-              See how we structure home decor lookbooks, healthcare appointment triage, and zero-PDF restaurant menus.
+            <p className="text-xs text-[#A1A1AA]">
+              See how we structure home decor lookbooks, healthcare appointment priority, and zero-PDF restaurant menus.
             </p>
           </div>
           <button
@@ -45,71 +49,95 @@ export function HomePage({ projects, onSelectProject, onNavigate }: HomePageProp
               onNavigate('work');
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className="glass-btn inline-flex items-center gap-2 px-6 py-3 text-xs font-bold uppercase tracking-wider text-[#121212] dark:text-white shrink-0"
+            className="glass-btn px-6 py-3 text-xs uppercase tracking-wider text-white shrink-0"
           >
-            <span>Explore All Demos & Work</span>
-            <ArrowRight className="w-3.5 h-3.5 text-[#0047AB] dark:text-[#3B82F6]" />
+            <span>Explore All Work & Demos</span>
+            <ArrowRight className="w-3.5 h-3.5 text-[var(--accent)]" />
           </button>
         </div>
       </div>
 
-      {/* Rotating Verified Client Reviews & Outcomes */}
-      <Testimonials />
-
-      {/* Services Section */}
+      {/* 3. Capabilities & Scope */}
       <Services onStartProject={() => onNavigate('contact')} />
 
-      {/* Process Section */}
-      <Process />
+      {/* 4. Methodology Roadmap */}
+      <Process onStartProject={() => onNavigate('contact')} />
 
-      {/* FAQ Section (Collapsible Accordion with negotiable pricing) */}
+      {/* 5. Verified Client Outcomes */}
+      <Testimonials />
+
+      {/* 6. FAQ Section */}
       <FAQ onNavigateToContact={() => onNavigate('contact')} />
 
-      {/* Client Security & Protection Guarantee Banner */}
-      <section className="py-20 border-b border-[#E7E2DA] dark:border-[#27272A] bg-[#FAF8F5] dark:bg-[#0E0E10] transition-colors duration-300">
-        <div className="max-w-6xl mx-auto px-5 sm:px-8">
-          <div className="bg-white/80 dark:bg-[#18181B]/80 border border-[#DDD7CD] dark:border-[#27272A] p-8 sm:p-12 backdrop-blur-md flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 shadow-sm">
-            <div className="max-w-xl space-y-3.5">
-              <div className="flex items-center gap-2 text-[#0047AB] dark:text-[#3B82F6]">
-                <ShieldCheck className="w-5 h-5" />
-                <span className="text-xs font-mono uppercase tracking-wider font-bold">
-                  Client Security Guarantee
+      {/* 7. Final Climax CTA / Contact Zone */}
+      <section className="py-20 sm:py-28 zone-contact border-b border-white/[0.08] relative">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div
+            className="glass-card p-8 sm:p-14"
+            style={{
+              '--accent': 'var(--contact-accent)',
+            } as React.CSSProperties}
+          >
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              <div className="lg:col-span-7 space-y-4">
+                <span className="section-kicker text-[var(--contact-accent)]">
+                  {ctaSection?.eyebrow || 'Direct Founder Inquiries'}
                 </span>
-              </div>
-              <h2 className="text-2xl sm:text-4xl font-black tracking-tight text-[#121212] dark:text-white">
-                Have a business that needs a clearer website?
-              </h2>
-              <p className="text-base text-[#4A4641] dark:text-[#D4D4D8] leading-relaxed font-medium">
-                Share your current website or business details. We will tell you the first improvement we would make with flexible, negotiable pricing.
-              </p>
-              <div className="pt-1 text-xs text-[#736E66] dark:text-[#A1A1AA] flex items-center gap-2">
-                <span className="inline-block w-2 h-2 rounded-full bg-emerald-500" />
-                <span>Negotiable budgets · Fast replies via Telegram & Gmail · WhatsApp currently disabled</span>
-              </div>
-            </div>
+                <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+                  {ctaSection?.title || 'Have a business ready to be easier to choose?'}
+                </h2>
+                <p className="text-sm sm:text-base text-[#D4D4D8] leading-relaxed max-w-xl">
+                  {ctaSection?.description || 'Share your current website or new business goals. We reply within 24 hours with actionable improvements and flexible, negotiable pricing.'}
+                </p>
 
-            <div className="flex flex-col sm:flex-row items-stretch gap-3.5 w-full lg:w-auto">
-              <a
-                href={buildTelegramLink()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="glass-btn inline-flex items-center justify-center gap-2.5 px-6 py-4 text-xs font-bold uppercase tracking-wider text-[#121212] dark:text-white"
-              >
-                <Send className="w-3.5 h-3.5 text-[#0047AB] dark:text-[#3B82F6]" />
-                <span>Chat on Telegram</span>
-              </a>
+                <div className="space-y-1.5 pt-2 text-xs text-[#A1A1AA]">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <span>{ctaSection?.reassurance || 'Pricing is 100% negotiable to match your scope and timeline.'}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <ShieldCheck className="w-4 h-4 text-[var(--accent)] shrink-0" />
+                    <span>Telegram ({STUDIO_CONTACT.telegramHandle}) & Gmail active · WhatsApp disabled</span>
+                  </div>
+                </div>
+              </div>
 
-              <a
-                href={buildMailtoLink()}
-                className="glass-btn-primary inline-flex items-center justify-center gap-2.5 px-6 py-4 text-xs font-bold uppercase tracking-wider text-white"
-              >
-                <Mail className="w-3.5 h-3.5" />
-                <span>Write to Gmail</span>
-              </a>
+              {/* Action Buttons & Quick Inquiries */}
+              <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3">
+                <button
+                  onClick={() => {
+                    onNavigate('contact');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="glass-btn-primary px-7 py-3.5 text-xs uppercase tracking-wider text-white shadow-xl justify-center"
+                >
+                  <span>Submit Project Brief</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+
+                <a
+                  href={buildTelegramLink()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="glass-btn px-6 py-3.5 text-xs uppercase tracking-wider text-white justify-center"
+                >
+                  <Send className="w-4 h-4 text-[#60A5FA]" />
+                  <span>Chat on Telegram</span>
+                </a>
+
+                <a
+                  href={buildMailtoLink()}
+                  className="glass-btn px-6 py-3.5 text-xs uppercase tracking-wider text-white justify-center"
+                >
+                  <Mail className="w-4 h-4 text-[var(--contact-accent)]" />
+                  <span>Direct Founder Email</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </section>
+
     </div>
   );
 }

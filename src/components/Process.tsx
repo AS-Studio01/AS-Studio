@@ -1,75 +1,121 @@
-export function Process() {
-  const steps = [
-    {
-      step: '01',
-      title: 'Brief',
-      description: 'Tell us about your business, audience and main goal.',
-      details: 'A focused discussion on what your business provides, who your customer is, and what action you want them to take.',
-    },
-    {
-      step: '02',
-      title: 'Direction',
-      description: 'We create a clear page structure and visual direction.',
-      details: 'We map out content sections, typographic hierarchy, and clean mobile-first layouts before writing production code.',
-    },
-    {
-      step: '03',
-      title: 'Build',
-      description: 'You receive a working preview before launch.',
-      details: 'Fast, responsive development. You can click through every interaction on your actual phone and browser.',
-    },
-    {
-      step: '04',
-      title: 'Launch',
-      description: 'Final checks, handover and source-code delivery.',
-      details: 'Cross-browser validation, domain setup, full ownership of code and assets with no proprietary platform lock-in.',
-    },
-  ];
+import { Clock, CheckCircle2, ArrowRight } from 'lucide-react';
+import { useSiteContent } from '../context/SiteContentContext';
+
+interface ProcessProps {
+  onStartProject?: () => void;
+}
+
+export function Process({ onStartProject }: ProcessProps) {
+  const { content } = useSiteContent();
+  const section = content.sections.process;
+  const steps = (content.processSteps || []).filter((s) => s.enabled !== false);
 
   return (
-    <section id="process" className="py-24 sm:py-32 border-b border-[#E7E2DA] dark:border-[#27272A] transition-colors duration-300">
-      <div className="max-w-6xl mx-auto px-5 sm:px-8">
-        {/* Section Heading */}
-        <div className="max-w-xl mb-16">
-          <span className="text-xs uppercase tracking-wider text-[#6B6661] dark:text-[#A1A1AA] font-bold block mb-2 font-mono">
-            Methodology
+    <section id="process" className="py-20 sm:py-28 zone-process border-b border-white/[0.08] relative">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Section Header */}
+        <div className="max-w-2xl mb-14 sm:mb-16">
+          <span className="section-kicker text-[var(--process-accent)]">
+            {section.eyebrow || 'The Studio Methodology'}
           </span>
-          <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-[#121212] dark:text-white">
-            A clear process
+          <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white mb-4">
+            {section.title || 'A transparent path from brief to launch.'}
           </h2>
+          <p className="text-sm sm:text-base text-[#D4D4D8] leading-relaxed">
+            {section.description || 'Six connected phases with live phone staging, visible progress, and zero mystery pricing.'}
+          </p>
         </div>
 
-        {/* Four numbered steps in a clean layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {steps.map((item) => (
-            <div
-              key={item.step}
-              className="bg-white/80 dark:bg-[#18181B]/80 border border-[#DDD7CD] dark:border-[#27272A] p-7 sm:p-8 flex flex-col justify-between hover:border-[#121212] dark:hover:border-white transition-colors shadow-sm"
-            >
-              <div>
-                {/* Step number */}
-                <div className="text-xs font-mono font-black text-[#0047AB] dark:text-[#3B82F6] tracking-widest mb-6">
-                  {item.step}
+        {/* Connected Process Roadmap */}
+        <div className="relative">
+          {/* Subtle connecting vertical line on desktop */}
+          <div className="hidden lg:block absolute top-8 bottom-8 left-1/2 -translate-x-1/2 w-px bg-gradient-to-b from-[var(--process-accent)]/40 via-white/10 to-transparent pointer-events-none" />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {steps.map((item, index) => (
+              <div
+                key={item.id || item.step || index}
+                className="glass-card p-6 sm:p-7 flex flex-col justify-between group"
+                style={{
+                  '--accent': 'var(--process-accent)',
+                } as React.CSSProperties}
+              >
+                <div className="space-y-4">
+                  {/* Step Badge & Duration */}
+                  <div className="flex items-center justify-between">
+                    <span className="w-8 h-8 rounded-full bg-[var(--process-accent)]/15 border border-[var(--process-accent)]/30 text-[var(--process-accent)] font-mono font-black text-xs flex items-center justify-center">
+                      {item.step || `0${index + 1}`}
+                    </span>
+                    {item.duration && (
+                      <span className="inline-flex items-center gap-1 text-[11px] font-mono text-[#A1A1AA] bg-white/[0.04] px-2.5 py-1 rounded-full border border-white/[0.08]">
+                        <Clock className="w-3 h-3 text-[var(--process-accent)]" />
+                        <span>{item.duration}</span>
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Title & Description */}
+                  <div>
+                    <h3 className="text-xl font-black tracking-tight text-white mb-2">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-[#D4D4D8] leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
+
+                  {/* Detailed methodology explanation */}
+                  {item.details && (
+                    <p className="text-xs text-[#A1A1AA] leading-relaxed border-t border-white/[0.08] pt-3">
+                      {item.details}
+                    </p>
+                  )}
+
+                  {/* Deliverables Checklist */}
+                  {item.deliverables && item.deliverables.length > 0 && (
+                    <div className="space-y-1.5 pt-2">
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-[#71717A] block">Deliverables</span>
+                      <div className="space-y-1">
+                        {item.deliverables.map((del, dIdx) => (
+                          <div key={dIdx} className="flex items-center gap-1.5 text-[11px] text-[#E4E4E7]">
+                            <CheckCircle2 className="w-3 h-3 text-emerald-400 shrink-0" />
+                            <span className="truncate">{del}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                {/* Step title */}
-                <h3 className="text-xl font-black tracking-tight text-[#121212] dark:text-white mb-3">
-                  {item.title}
-                </h3>
-
-                {/* Step exact description */}
-                <p className="text-sm font-bold text-[#2E2B27] dark:text-[#E4E4E7] leading-relaxed mb-4">
-                  {item.description}
-                </p>
+                <div className="pt-4 mt-4 border-t border-white/[0.06] flex items-center justify-between text-[11px] text-[#A1A1AA]">
+                  <span className="font-mono uppercase tracking-wider">Phase {index + 1} of {steps.length}</span>
+                  <span className="text-emerald-400 font-bold">● Guaranteed QA</span>
+                </div>
               </div>
-
-              {/* Subdued process context */}
-              <p className="text-xs font-medium text-[#6B6661] dark:text-[#A1A1AA] leading-relaxed pt-4 border-t border-[#F0EBE1] dark:border-[#27272A]">
-                {item.details}
-              </p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
+
+        {/* Bottom Guarantee Banner */}
+        <div className="mt-12 p-6 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-md flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="space-y-1 text-center sm:text-left">
+            <h4 className="text-sm font-bold text-white">Live Phone Staging Before Final Payment</h4>
+            <p className="text-xs text-[#A1A1AA]">
+              You test the actual production website directly on your personal phone before public domain launch.
+            </p>
+          </div>
+          {onStartProject && (
+            <button
+              onClick={onStartProject}
+              className="glass-btn-primary px-6 py-2.5 text-xs uppercase tracking-wider text-white shrink-0"
+            >
+              <span>Book Your Sprint</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          )}
+        </div>
+
       </div>
     </section>
   );

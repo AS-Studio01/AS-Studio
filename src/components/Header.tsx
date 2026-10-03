@@ -126,7 +126,7 @@ export function Header({
             {onOpenPortal && (
               <button
                 onClick={onOpenPortal}
-                className="glass-btn px-2.5 py-1.5 lg:px-3 lg:py-1.5 text-xs font-bold text-[#E4E4E7] hover:text-white inline-flex items-center gap-1.5 border border-white/10 hover:border-white/30 rounded-lg transition-colors"
+                className="glass-btn px-3 py-1.5 lg:px-3.5 lg:py-1.5 text-xs font-bold text-[#E4E4E7] hover:text-white inline-flex items-center gap-1.5 border border-white/10 hover:border-white/30 rounded-full transition-colors"
                 title={user ? 'My Account & Inquiries' : 'Sign In / Register'}
               >
                 {user?.photoURL ? (
@@ -134,7 +134,7 @@ export function Header({
                 ) : (
                   <User className="w-3.5 h-3.5 text-[#60A5FA]" />
                 )}
-                <span>{user ? (user.displayName?.split(' ')[0] || 'Account') : 'Sign In / Login'}</span>
+                <span>{user ? (user.displayName?.split(' ')[0] || 'Account') : 'Sign In'}</span>
                 {user && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />}
               </button>
             )}
@@ -143,7 +143,7 @@ export function Header({
             {onOpenAIChat && (
               <button
                 onClick={onOpenAIChat}
-                className="glass-btn px-2.5 py-1.5 lg:px-3 lg:py-1.5 text-xs font-bold text-white inline-flex items-center gap-1.5 border border-[#3B82F6]/30 hover:border-[#3B82F6] transition-colors rounded-lg"
+                className="glass-btn px-3 py-1.5 lg:px-3.5 lg:py-1.5 text-xs font-bold text-white inline-flex items-center gap-1.5 border border-[#3B82F6]/30 hover:border-[#3B82F6] transition-colors rounded-full"
                 title="Open AS Studio Helper AI"
               >
                 <Bot className="w-3.5 h-3.5 text-[#3B82F6]" />
@@ -154,7 +154,7 @@ export function Header({
             {/* CTA button: Start a project */}
             <button
               onClick={() => handleLinkClick('contact')}
-              className="glass-btn-primary px-3.5 py-1.5 lg:px-5 lg:py-2 text-xs font-bold uppercase tracking-wider text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3B82F6] rounded-lg"
+              className="glass-btn-primary px-4 py-1.5 lg:px-5 lg:py-2 text-xs font-bold uppercase tracking-wider text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3B82F6] rounded-full"
             >
               Start project
             </button>

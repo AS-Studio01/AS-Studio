@@ -12,7 +12,7 @@ import { ProjectModal } from './components/ProjectModal';
 import { LegalModal } from './components/LegalModal';
 import { SecretAdminPanel } from './components/SecretAdminPanel';
 import { ClientPortalModal } from './components/ClientPortalModal';
-import { SiteContentProvider, useSiteContent } from './context/SiteContentContext';
+import { useSiteContent } from './context/SiteContentContext';
 import { SiteEnhancements } from './components/SiteEnhancements';
 import { FloatingCommunicationHub } from './components/FloatingCommunicationHub';
 import { StudioAIChatbot } from './components/StudioAIChatbot';
@@ -46,7 +46,6 @@ export default function App() {
   };
 
   return (
-    <SiteContentProvider>
     <div className="min-h-screen bg-[#0E0E10] text-[#F4F4F6] flex flex-col font-sans selection:bg-[#3B82F6] selection:text-white pb-14 sm:pb-12">
       {/* Header with clean navigation, AI Concierge, and secret founder trigger */}
       <Header
@@ -166,6 +165,5 @@ export default function App() {
       />
       <SiteEnhancements />
     </div>
-    </SiteContentProvider>
   );
 }
