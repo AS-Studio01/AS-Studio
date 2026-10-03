@@ -37,7 +37,16 @@ export function SiteEnhancements({ page }: { page?: SeoPageKey }) {
   }, []);
 
   useEffect(() => {
-    const targets = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal], main section'));
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('.glass-card'));
+    const move = (event: PointerEvent) => {
+      const card = (event.target as HTMLElement)?.closest?.('.glass-card') as HTMLElement | null;
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', `${event.clientX - r.left}px`);
+      card.style.setProperty('--my', `${event.clientY - r.top}px`);
+    };
+    window.addEventListener('pointermove', move, { passive: true });
+    const targets = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
     if (!('IntersectionObserver' in window)) {
       targets.forEach(el => el.classList.add('reveal-visible'));
       return;
@@ -52,7 +61,7 @@ export function SiteEnhancements({ page }: { page?: SeoPageKey }) {
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
     targets.forEach(el => observer.observe(el));
-    return () => observer.disconnect();
+    return () => { observer.disconnect(); window.removeEventListener('pointermove', move); };
   }, [page]);
 
   useEffect(() => {

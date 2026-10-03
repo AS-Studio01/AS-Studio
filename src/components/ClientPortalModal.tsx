@@ -374,7 +374,7 @@ export function ClientPortalModal({
                   {inquiries.map((inq) => (
                     <div
                       key={inq.id}
-                      className="p-4 sm:p-5 bg-[#16161D] border border-white/[0.08] hover:border-white/20 rounded-xl space-y-3 transition-colors shadow-sm"
+                      className="p-4 sm:p-5 bg-[#16161D] border border-white/[0.08] glass-card hover:border-white/20 rounded-xl space-y-3 transition-colors shadow-sm"
                     >
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div className="flex items-center gap-2.5">
