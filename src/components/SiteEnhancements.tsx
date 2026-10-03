@@ -1,112 +1,44 @@
 import { useEffect, useState } from 'react';
 import { ArrowUp } from 'lucide-react';
-import { getSeoSettings, getSiteContent, SeoPageKey } from '../services/siteContent';
+import { useSiteContent } from '../context/SiteContentContext';
 
-const pageForPath = (): SeoPageKey => {
-  const path = window.location.pathname.replace(/\/+$/, '');
-  if (path.includes('/work')) return 'work';
-  if (path.includes('/services')) return 'services';
-  if (path.includes('/process')) return 'process';
-  if (path.includes('/contact')) return 'contact';
-  return 'home';
-};
-
-export function SiteEnhancements({ page }: { page?: SeoPageKey }) {
+export function SiteEnhancements() {
+  const { content } = useSiteContent();
   const [progress, setProgress] = useState(0);
   const [showTop, setShowTop] = useState(false);
-
   useEffect(() => {
-    getSiteContent().then(content => {
-      const root = document.documentElement;
-      root.style.setProperty('--accent', content.theme.accent);
-      root.style.setProperty('--section-work', content.theme.work);
-      root.style.setProperty('--section-services', content.theme.services);
-      root.style.setProperty('--section-process', content.theme.process);
-      root.style.setProperty('--section-contact', content.theme.contact);
-    });
+    const onScroll = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(max > 0 ? Math.min(100, Math.max(0, (window.scrollY / max) * 100)) : 0);
+      setShowTop(window.scrollY > 560);
+    };
+    onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
-
   useEffect(() => {
-    let frame = 0;
-    const update = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const max = document.documentElement.scrollHeight - window.innerHeight;
-        const value = max > 0 ? Math.min(100, Math.max(0, (window.scrollY / max) * 100)) : 0;
-        setProgress(value);
-        setShowTop(window.scrollY > 560);
-      });
+    const key = location.pathname.replace('/', '') || 'home';
+    const seo = content.seo[key as keyof typeof content.seo] || content.seo.home;
+    document.title = seo.title;
+    const root = document.documentElement;
+    root.style.setProperty('--accent', content.theme.accent);
+    root.style.setProperty('--hero-accent', content.theme.hero);
+    root.style.setProperty('--work-accent', content.theme.work);
+    root.style.setProperty('--services-accent', content.theme.services);
+    root.style.setProperty('--process-accent', content.theme.process);
+    root.style.setProperty('--contact-accent', content.theme.contact);
+    const setMeta = (name: string, value: string, property = false) => {
+      const attr = property ? 'property' : 'name';
+      let el = document.head.querySelector(`meta[${attr}="${name}"]`) as HTMLMetaElement | null;
+      if (!el) { el = document.createElement('meta'); el.setAttribute(attr, name); document.head.appendChild(el); }
+      el.content = value;
     };
-    update();
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener('scroll', update);
-      window.removeEventListener('resize', update);
-    };
-  }, []);
-
-  useEffect(() => {
-    const cards = Array.from(document.querySelectorAll<HTMLElement>('.glass-card'));
-    const move = (event: PointerEvent) => {
-      const card = (event.target as HTMLElement)?.closest?.('.glass-card') as HTMLElement | null;
-      if (!card) return;
-      const r = card.getBoundingClientRect();
-      card.style.setProperty('--mx', `${event.clientX - r.left}px`);
-      card.style.setProperty('--my', `${event.clientY - r.top}px`);
-    };
-    window.addEventListener('pointermove', move, { passive: true });
-    const targets = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
-    if (!('IntersectionObserver' in window)) {
-      targets.forEach(el => el.classList.add('reveal-visible'));
-      return;
-    }
-    targets.forEach(el => el.classList.add('reveal-target'));
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('reveal-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-    targets.forEach(el => observer.observe(el));
-    return () => { observer.disconnect(); window.removeEventListener('pointermove', move); };
-  }, [page]);
-
-  useEffect(() => {
-    let active = true;
-    getSeoSettings(page || pageForPath()).then(seo => {
-      if (!active) return;
-      document.title = seo.title;
-      const setMeta = (name: string, content: string) => {
-        let el = document.head.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null;
-        if (!el) { el = document.createElement('meta'); el.name = name; document.head.appendChild(el); }
-        el.content = content;
-      };
-      const setProperty = (property: string, content: string) => {
-        let el = document.head.querySelector(`meta[property="${property}"]`) as HTMLMetaElement | null;
-        if (!el) { el = document.createElement('meta'); el.setAttribute('property', property); document.head.appendChild(el); }
-        el.content = content;
-      };
-      setMeta('description', seo.description);
-      setMeta('twitter:title', seo.ogTitle);
-      setMeta('twitter:description', seo.ogDescription);
-      if (seo.ogImage) setMeta('twitter:image', seo.ogImage);
-      setProperty('og:title', seo.ogTitle);
-      setProperty('og:description', seo.ogDescription);
-      setProperty('og:image', seo.ogImage);
-      let canonical = document.head.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-      if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.appendChild(canonical); }
-      canonical.href = new URL(seo.canonical || window.location.pathname, window.location.origin).href;
-      setMeta('robots', seo.noIndex ? 'noindex,nofollow' : 'index,follow');
-    });
-    return () => { active = false; };
-  }, [page]);
-
+    setMeta('description', seo.description);
+    setMeta('og:title', seo.ogTitle, true); setMeta('og:description', seo.ogDescription, true);
+    if (seo.ogImage) setMeta('og:image', seo.ogImage, true);
+    setMeta('robots', seo.noIndex ? 'noindex,nofollow' : 'index,follow');
+  }, [content]);
   return <>
-    <div className="site-reading-progress" aria-hidden="true"><span style={{ width: `${progress}%` }} /></div>
+    <div className="site-progress" style={{ width: `${progress}%`, background: `linear-gradient(90deg, ${content.theme.accent}, ${content.theme.hero})` }} />
     {showTop && <button className="back-to-top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Back to top"><ArrowUp className="w-4 h-4" /></button>}
   </>;
 }

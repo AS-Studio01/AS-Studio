@@ -1,14 +1,5 @@
 /**
- * S
-                    <button
-                      onClick={() => setActiveTab('content')}
-                      className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 ${
-                        activeTab === 'content' ? 'bg-[#2563EB] text-white' : 'text-[#A1A1AA] hover:text-white'
-                      }`}
-                    >
-                      <Sparkles className="w-3.5 h-3.5" />
-                      <span>SEO & Content</span>
-                    </button>ECRET ADMIN PANEL
+ * SECRET ADMIN PANEL
  * ==============================================================================
  * Restricted founder console. Accessible ONLY by clicking the studio logo 3-5 times.
  * Completely hidden and secured with zero exposure to client-side visitors or crawlers.
@@ -24,7 +15,7 @@ import {
   RefreshCw, CheckCircle2, Clock, Search, Filter, 
   ExternalLink, Send, LogOut, Check, Sparkles, AlertTriangle, 
   Server, User, FileText, KeyRound, Lock, MessageSquare, ArrowUpRight,
-  Inbox, CheckCheck
+  Inbox, CheckCheck, Settings2
 } from 'lucide-react';
 import { 
   collection, getDocs, doc, deleteDoc, updateDoc 
@@ -32,7 +23,7 @@ import {
 import { db } from '../lib/firebase';
 import { useAuth } from '../context/AuthContext';
 import { STUDIO_CONTACT } from '../constants/communication';
-import { AdminContentTools } from './AdminContentTools';
+import { SiteEditor } from './SiteEditor';
 import { 
   sendEmailViaGmail, getSentEmailLogs, EmailSendResult, 
   buildGmailWebComposeUrl, listGmailInboxMessages, 
@@ -73,7 +64,7 @@ export function SecretAdminPanel({ isOpen, onClose }: SecretAdminPanelProps) {
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [activeTab, setActiveTab] = useState<'inquiries' | 'email' | 'database' | 'content'>('inquiries');
+  const [activeTab, setActiveTab] = useState<'inquiries' | 'email' | 'database' | 'editor'>('inquiries');
   const [latency, setLatency] = useState<number | null>(null);
   const [notificationMsg, setNotificationMsg] = useState<string | null>(null);
 
@@ -465,6 +456,16 @@ asbusinessofficial01@gmail.com`
                   </button>
 
                   <button
+                    onClick={() => setActiveTab('editor')}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5 ${
+                      activeTab === 'editor' ? 'bg-[#2563EB] text-white' : 'text-[#A1A1AA] hover:text-white'
+                    }`}
+                  >
+                    <Settings2 className="w-3.5 h-3.5" />
+                    <span>Site CMS</span>
+                  </button>
+
+                  <button
                     onClick={() => setActiveTab('database')}
                     className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5 ${
                       activeTab === 'database' ? 'bg-[#2563EB] text-white' : 'text-[#A1A1AA] hover:text-white'
@@ -785,13 +786,14 @@ asbusinessofficial01@gmail.com`
                 </div>
               )}
 
-              {/* Tab 3: Database & Firestore Health */}
-              {activeTab === 'content' && (
-                <div className="pt-2">
-                  <AdminContentTools notify={showNotification} />
+              {/* Site CMS: public content, legal documents and SEO */}
+              {activeTab === 'editor' && (
+                <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+                  <SiteEditor />
                 </div>
               )}
 
+              {/* Tab 4: Database & Firestore Health */}
               {activeTab === 'database' && (
                 <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
