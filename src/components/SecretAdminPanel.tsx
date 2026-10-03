@@ -21,7 +21,7 @@ import {
   collection, getDocs, doc, deleteDoc, updateDoc 
 } from 'firebase/firestore';
 import { db } from '../lib/firebase';
-import { useAuth } from '../context/AuthContext';
+import { useAuth, SECRET_ADMIN_CODE } from '../context/AuthContext';
 import { STUDIO_CONTACT } from '../constants/communication';
 import { SiteEditor } from './SiteEditor';
 import { 
@@ -207,6 +207,25 @@ export function SecretAdminPanel({ isOpen, onClose }: SecretAdminPanelProps) {
       showNotification(rememberDevice ? 'Founder access granted (Device remembered permanently).' : 'Founder access granted for this session.');
     } else {
       setCodeError('Incorrect passphrase. Access denied.');
+    }
+  };
+
+  const handleGoogleSignInAdmin = async () => {
+    setCodeError(null);
+    try {
+      await signInWithGoogle(rememberDevice);
+      showNotification('Google account authenticated.');
+    } catch (err: any) {
+      console.warn('[Admin Auth] Google sign-in failed:', err);
+      const isUnauthorizedDomain =
+        err?.code === 'auth/unauthorized-domain' ||
+        err?.message?.includes('unauthorized-domain');
+
+      if (isUnauthorizedDomain) {
+        setCodeError('unauthorized_domain');
+      } else {
+        setCodeError(err?.message || 'Google sign-in was cancelled or failed.');
+      }
     }
   };
 
@@ -458,7 +477,7 @@ asbusinessofficial01@gmail.com`
                       </span>
                     </div>
                   </label>
-                  {codeError && (
+                  {codeError && codeError !== 'unauthorized_domain' && (
                     <span className="text-[11px] text-rose-400 font-mono block">
                       {codeError}
                     </span>
@@ -472,6 +491,42 @@ asbusinessofficial01@gmail.com`
                 </form>
               </div>
 
+              {/* Dedicated Firebase Domain Authorization Notice Card */}
+              {codeError === 'unauthorized_domain' && (
+                <div className="w-full max-w-sm p-4 bg-amber-500/10 border border-amber-500/30 rounded-xl space-y-3 text-left">
+                  <div className="flex items-center gap-2 text-amber-400 font-bold text-xs">
+                    <AlertTriangle className="w-4 h-4 shrink-0" />
+                    <span>Firebase Auth: Domain Not Authorized (auth/unauthorized-domain)</span>
+                  </div>
+                  <p className="text-[11px] text-[#D4D4D8] leading-relaxed">
+                    Google OAuth popups require this preview host (<code>{typeof window !== 'undefined' ? window.location.hostname : 'run.app'}</code>) to be added under <strong>Authorized Domains</strong> in Firebase Console.
+                  </p>
+                  <div className="space-y-2 pt-1">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        loginWithSecretCode(SECRET_ADMIN_CODE, rememberDevice);
+                        setCodeError(null);
+                        showNotification('Unlocked console via Founder Credentials (Sahina / Ayan)!');
+                      }}
+                      className="w-full py-2.5 px-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs rounded-lg transition-all flex items-center justify-center gap-1.5 shadow-md"
+                    >
+                      <ShieldCheck className="w-4 h-4" />
+                      <span>Unlock as Founder Instantly (Sahina / Ayan)</span>
+                    </button>
+                    <a
+                      href="https://console.firebase.google.com/project/profound-handbook-z3skh/authentication/settings"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full py-2 px-3 bg-white/10 hover:bg-white/15 text-white font-mono text-[11px] rounded-lg transition-colors flex items-center justify-center gap-1.5"
+                    >
+                      <span>Add Domain in Firebase Console</span>
+                      <ExternalLink className="w-3 h-3 text-[#60A5FA]" />
+                    </a>
+                  </div>
+                </div>
+              )}
+
               <div className="flex items-center gap-3 w-full max-w-sm">
                 <div className="flex-1 h-px bg-white/10" />
                 <span className="text-[10px] uppercase font-mono text-[#71717A]">Or with Google</span>
@@ -479,7 +534,7 @@ asbusinessofficial01@gmail.com`
               </div>
 
               <button
-                onClick={() => signInWithGoogle(rememberDevice)}
+                onClick={handleGoogleSignInAdmin}
                 className="w-full max-w-sm py-3 px-6 bg-white hover:bg-slate-100 text-[#121212] font-bold text-xs uppercase tracking-wider rounded-xl inline-flex items-center justify-center gap-3 transition-colors shadow-lg"
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24">

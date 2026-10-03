@@ -11,7 +11,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   X, User, Mail, Database, ShieldCheck, CheckCircle2, 
   Clock, LogOut, Key, ArrowRight, ExternalLink, RefreshCw,
-  Send, Sparkles, Filter, Trash2, Lock, FolderKanban, Check, Smartphone
+  Send, Sparkles, Filter, Trash2, Lock, FolderKanban, Check, Smartphone,
+  AlertTriangle
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { 
@@ -88,7 +89,15 @@ export function ClientPortalModal({
       await signInWithGoogle();
       await refreshData();
     } catch (err: any) {
-      setError(err?.message || 'Google sign-in was cancelled or failed.');
+      const isUnauthorizedDomain =
+        err?.code === 'auth/unauthorized-domain' ||
+        err?.message?.includes('unauthorized-domain');
+
+      if (isUnauthorizedDomain) {
+        setError('unauthorized_domain');
+      } else {
+        setError(err?.message || 'Google sign-in was cancelled or failed.');
+      }
     }
   };
 
@@ -223,6 +232,19 @@ export function ClientPortalModal({
                     Sign out
                   </button>
                 </div>
+              ) : isAdmin ? (
+                <div className="flex items-center gap-2 bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/30">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                  <span className="text-emerald-300 font-medium text-xs">
+                    Founder Active
+                  </span>
+                  <button
+                    onClick={signOut}
+                    className="text-[#A1A1AA] hover:text-rose-400 ml-1 font-mono text-[10px] uppercase"
+                  >
+                    Lock
+                  </button>
+                </div>
               ) : (
                 <button
                   onClick={handleGoogleSignIn}
@@ -239,11 +261,45 @@ export function ClientPortalModal({
           {/* Modal Body Scrollable Content */}
           <div className="flex-1 overflow-y-auto p-5 sm:p-7 space-y-6">
             
-            {error && (
+            {error === 'unauthorized_domain' ? (
+              <div className="p-4 bg-amber-500/10 border border-amber-500/30 rounded-xl space-y-3 text-left">
+                <div className="flex items-center gap-2 text-amber-400 font-bold text-xs">
+                  <AlertTriangle className="w-4 h-4 shrink-0" />
+                  <span>Domain Authorization Notice (auth/unauthorized-domain)</span>
+                </div>
+                <p className="text-xs text-[#D4D4D8] leading-relaxed">
+                  Firebase Authentication restricts Google popup sign-in to domains listed in your Firebase project. Current domain: <code className="bg-black/40 px-1.5 py-0.5 rounded text-amber-300 font-mono text-[11px]">{typeof window !== 'undefined' ? window.location.hostname : 'run.app'}</code>.
+                </p>
+                <div className="flex flex-wrap items-center gap-2 pt-1">
+                  <a
+                    href="https://console.firebase.google.com/project/profound-handbook-z3skh/authentication/settings"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="glass-btn px-3 py-1.5 text-xs text-[#60A5FA] flex items-center gap-1.5"
+                  >
+                    <span>Add to Firebase Authorized Domains</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                  {onOpenAdminPanel && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onClose();
+                        onOpenAdminPanel();
+                      }}
+                      className="glass-btn-primary px-3 py-1.5 text-xs text-white flex items-center gap-1.5"
+                    >
+                      <ShieldCheck className="w-3 h-3 text-emerald-400" />
+                      <span>Open Founder Admin Panel</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+            ) : error ? (
               <div className="admin-error">
                 <span>{error}</span>
               </div>
-            )}
+            ) : null}
 
             {/* TAB 1: MY PROJECTS (Delivery Milestones Tracking) */}
             {activeTab === 'projects' && (

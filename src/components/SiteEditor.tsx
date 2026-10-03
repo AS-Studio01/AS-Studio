@@ -402,10 +402,29 @@ export function SiteEditor({ initialTab = 'dashboard' }: SiteEditorProps) {
         <div className="admin-warning">
           <ShieldCheck className="w-4 h-4 shrink-0 mt-0.5 text-emerald-400" />
           <div className="flex-1 text-[#D4D4D8]">
-            <strong className="text-white">Founder Console Active:</strong> Your edits publish live directly to Cloud Firestore & the website. You can optionally sign in with Google for Gmail integrations.
+            <strong className="text-white">Founder Console Active:</strong> Your edits publish live directly to Cloud Firestore &amp; the website. You can optionally sign in with Google for Gmail integrations.
           </div>
           <button
-            onClick={() => signInWithGoogle(true)}
+            onClick={async () => {
+              try {
+                await signInWithGoogle(true);
+                setStatusMessage('Google Workspace account connected.');
+                setSaveStatus('success');
+                setTimeout(() => setSaveStatus('idle'), 4000);
+              } catch (err: any) {
+                if (err?.code === 'auth/unauthorized-domain' || err?.message?.includes('unauthorized-domain')) {
+                  setStatusMessage(
+                    `Domain Authorization Notice: ${window.location.hostname} is not yet added in Firebase Console > Authentication > Settings > Authorized domains. (Note: Founder edits save live to Firestore without Google).`
+                  );
+                  setSaveStatus('error');
+                  setTimeout(() => setSaveStatus('idle'), 9000);
+                } else {
+                  setStatusMessage(err?.message || 'Google sign-in was cancelled.');
+                  setSaveStatus('error');
+                  setTimeout(() => setSaveStatus('idle'), 4000);
+                }
+              }
+            }}
             className="glass-btn-primary px-4 py-1.5 text-xs text-white shrink-0 ml-2"
           >
             <Key className="w-3.5 h-3.5 mr-1" />

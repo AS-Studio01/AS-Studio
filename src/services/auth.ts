@@ -33,6 +33,7 @@ export interface AuthSession {
 const ADMIN_EMAILS = [
   'asstudioofficial001@gmail.com',
   'asbusinessofficial01@gmail.com',
+  'sahina724462s@gmail.com',
 ];
 
 function mapFirebaseUser(user: FirebaseUser): AuthUser {
