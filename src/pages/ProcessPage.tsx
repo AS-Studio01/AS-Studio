@@ -1,61 +1,28 @@
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 import { PageType } from '../types';
+import { useSiteContent } from '../context/SiteContentContext';
+import { DEFAULT_PROCESS_STEPS } from '../services/siteContent';
 
 interface ProcessPageProps {
   onNavigate: (page: PageType) => void;
 }
 
 export function ProcessPage({ onNavigate }: ProcessPageProps) {
-  const steps = [
-    {
-      step: '01',
-      title: 'Brief',
-      exactHeadline: 'Tell us about your business, audience and main goal.',
-      duration: 'Day 1–2',
-      whatHappens: [
-        'You submit your business details, target audience, and current website challenges.',
-        'We review your existing materials and identify the primary customer action needed.',
-        'We define a fixed scope, clear milestone schedule, and flat quote with zero hidden fees.',
-      ],
-      output: 'Project Scope Document & Content Inventory',
-    },
-    {
-      step: '02',
-      title: 'Direction',
-      exactHeadline: 'We create a clear page structure and visual direction.',
-      duration: 'Day 3–5',
-      whatHappens: [
-        'We establish the content hierarchy and structural wireframes for both mobile and desktop.',
-        'We select modern typographic pairings and a focused color palette tailored to your field.',
-        'We refine copy headlines and calls-to-action so your value proposition is clear within 5 seconds.',
-      ],
-      output: 'Wireframe Architecture & Visual Direction Approval',
-    },
-    {
-      step: '03',
-      title: 'Build',
-      exactHeadline: 'You receive a working preview before launch.',
-      duration: 'Day 6–10',
-      whatHappens: [
-        'We build your website using clean, production-grade frontend code (TypeScript, modern CSS).',
-        'We optimize all layouts for mobile touch screens, ensuring buttons and links are effortlessly tap-friendly.',
-        'You receive a private staging URL to test all interactions live on your own smartphone and desktop.',
-      ],
-      output: 'Interactive Live Staging Preview',
-    },
-    {
-      step: '04',
-      title: 'Launch',
-      exactHeadline: 'Final checks, handover and source-code delivery.',
-      duration: 'Day 11–14',
-      whatHappens: [
-        'We run final cross-browser checks, SEO metadata audits, and speed benchmarks.',
-        'We connect your custom domain name and verify secure HTTPS SSL certificates.',
-        'Full source code and visual assets are transferred directly to you with zero platform lock-in.',
-      ],
-      output: 'Live Website & Complete Source Code Repository',
-    },
-  ];
+  const { content } = useSiteContent();
+  const rawSteps = content.processSteps && content.processSteps.length > 0 ? content.processSteps : DEFAULT_PROCESS_STEPS;
+
+  const steps = rawSteps.map((p, idx) => ({
+    step: p.step || `0${idx + 1}`,
+    title: p.title,
+    exactHeadline: p.description,
+    duration: p.duration || `Day ${idx * 3 + 1}–${idx * 3 + 3}`,
+    whatHappens: ((p as any).whatHappens || (p.deliverables && p.deliverables.length > 0 ? p.deliverables : [
+      p.details || 'Collaborative phase execution and quality review.',
+      'Refinements based on client feedback and responsive testing.',
+      'Milestone delivery and sign-off.',
+    ])) as string[],
+    output: (p as any).output || (p.deliverables && p.deliverables.length > 0 ? p.deliverables.join(' · ') : 'Milestone Delivery Handover'),
+  }));
 
   return (
     <div className="py-16 sm:py-24 fade-in">

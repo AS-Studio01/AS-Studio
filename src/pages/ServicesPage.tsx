@@ -1,68 +1,38 @@
 import { useState } from 'react';
 import { Check, X, ArrowRight, ShieldCheck } from 'lucide-react';
 import { PageType } from '../types';
+import { useSiteContent } from '../context/SiteContentContext';
+import { DEFAULT_SERVICES } from '../services/siteContent';
 
 interface ServicesPageProps {
   onNavigate: (page: PageType) => void;
 }
 
 export function ServicesPage({ onNavigate }: ServicesPageProps) {
-  const [activeTab, setActiveTab] = useState<number>(0);
+  const { content } = useSiteContent();
+  const rawServices = content.services && content.services.length > 0 ? content.services : DEFAULT_SERVICES;
 
-  const services = [
-    {
-      id: 'business-websites',
-      number: '01',
-      title: 'Business Websites',
-      headline: 'Clear, responsive websites that explain your business and turn visitors into enquiries.',
-      turnaround: '10–14 business days',
-      idealFor: 'Local clinics, medical practices, law firms, architecture studios, artisanal brands and consulting teams.',
-      tags: ['Multi-Section Architecture', 'Local SEO Metadata', 'Mobile-First Grid', 'Full Code Handover'],
-      deliverables: [
-        'Strategic information architecture and content hierarchy',
-        'Custom responsive design tailored for mobile phones and desktops',
-        'High-legibility typography system and curated brand palette',
-        'Direct email and Telegram enquiry triggers with zero dead-ends',
-        'Google Business Profile and local map integration',
-        'Complete production source code and deployment assistance',
-      ],
-      clientRequirement: 'High-level business overview, team credentials, and photos (or we provide neutral architectural visuals).',
-    },
-    {
-      id: 'landing-pages',
-      number: '02',
-      title: 'Landing Pages',
-      headline: 'Focused pages for a launch, offer, booking campaign or WhatsApp enquiries.',
-      turnaround: '5–7 business days',
-      idealFor: 'Early-stage founders validating new concepts, single-product drops, event venues, and seasonal booking drives.',
-      tags: ['Single Goal Focus', 'Sub-second Load', 'Conversion Tested', 'Campaign Ready'],
-      deliverables: [
-        'Singular, distraction-free conversion architecture',
-        'High-impact headline and value proposition positioning',
-        'Friction-free inquiry flow with instant copy & message actions',
-        'Clean mobile wireframe preview before build starts',
-        'Zero heavy script dependencies for maximum load velocity',
-      ],
-      clientRequirement: 'Your core offer, target customer profile, and primary call-to-action.',
-    },
-    {
-      id: 'website-redesigns',
-      number: '03',
-      title: 'Website Redesigns',
-      headline: 'Cleaner structure, stronger messaging and a better mobile experience.',
-      turnaround: '7–12 business days',
-      idealFor: 'Businesses with outdated WordPress sites, cluttered templates, slow load times, or low conversion rates.',
-      tags: ['Audit & Restructure', 'Performance Boost', 'Mobile Overhaul', 'Zero Lock-in'],
-      deliverables: [
-        'Comprehensive audit identifying friction points and visual clutter',
-        'Re-architecting content flow to prioritize what customers care about most',
-        'Rewriting or sharpening headlines to eliminate jargon',
-        'Complete code rewrite in clean modern TypeScript/Tailwind',
-        'Seamless migration without domain downtime or lost rankings',
-      ],
-      clientRequirement: 'Link to your current website and what you feel isn’t working.',
-    },
-  ];
+  const services = rawServices.map((s, idx) => ({
+    id: s.id || `srv-${idx + 1}`,
+    number: s.number || `0${idx + 1}`,
+    title: s.title,
+    headline: s.description,
+    turnaround: (s as any).turnaround || (s.id.includes('landing') ? '5–7 business days' : s.id.includes('redesign') ? '7–12 business days' : '10–14 business days'),
+    idealFor: s.idealFor || 'Clinics, local practices, ateliers & boutique firms.',
+    tags: ((s as any).tags || (s.features && s.features.length > 0 ? s.features.slice(0, 4) : ['Bespoke Architecture', 'Mobile-First Grid', 'Full Code Handover', 'Warranty'])) as string[],
+    deliverables: s.features && s.features.length > 0 ? s.features : [
+      'Strategic information architecture and content hierarchy',
+      'Custom responsive design tailored for mobile phones and desktops',
+      'High-legibility typography system and curated brand palette',
+      'Direct email and Telegram enquiry triggers with zero dead-ends',
+      'Google Business Profile and local map integration',
+      'Complete production source code and deployment assistance',
+    ],
+    clientRequirement: (s as any).clientRequirement || 'High-level business overview, team credentials, and goals.',
+  }));
+
+  const [activeTab, setActiveTab] = useState<number>(0);
+  const currentTab = Math.min(activeTab, services.length - 1);
 
   const standardsComparison = [
     {
@@ -148,7 +118,7 @@ export function ServicesPage({ onNavigate }: ServicesPageProps) {
               key={item.id}
               onClick={() => setActiveTab(idx)}
               className={`py-3 px-5 text-xs font-bold uppercase tracking-wider transition-colors shrink-0 ${
-                activeTab === idx
+                currentTab === idx
                   ? 'border-b-2 border-[#0047AB] dark:border-[#3B82F6] text-[#0047AB] dark:text-[#3B82F6] bg-white dark:bg-[#18181B]'
                   : 'text-[#6B6661] dark:text-[#A1A1AA] hover:text-[#121212] dark:hover:text-white bg-[#F5F2EB] dark:bg-[#141416]'
               }`}
@@ -165,20 +135,20 @@ export function ServicesPage({ onNavigate }: ServicesPageProps) {
             <div className="lg:col-span-6 space-y-5">
               <div className="flex items-center gap-3">
                 <span className="text-xs font-mono font-black text-[#0047AB] dark:text-[#3B82F6]">
-                  SCOPE {services[activeTab].number}
+                  SCOPE {services[currentTab].number}
                 </span>
                 <span className="text-[#DDD7CD] dark:text-[#3F3F46]">·</span>
                 <span className="text-xs font-mono font-bold text-[#736E66] dark:text-[#A1A1AA]">
-                  Timeline: {services[activeTab].turnaround}
+                  Timeline: {services[currentTab].turnaround}
                 </span>
               </div>
 
               <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-[#121212] dark:text-white">
-                {services[activeTab].title}
+                {services[currentTab].title}
               </h2>
 
               <p className="text-base sm:text-lg text-[#2A2825] dark:text-[#E4E4E7] font-semibold leading-relaxed">
-                "{services[activeTab].headline}"
+                "{services[currentTab].headline}"
               </p>
 
               <div className="pt-2">
@@ -186,7 +156,7 @@ export function ServicesPage({ onNavigate }: ServicesPageProps) {
                   Tailored for:
                 </span>
                 <p className="text-xs text-[#4A4641] dark:text-[#D4D4D8] leading-relaxed font-medium">
-                  {services[activeTab].idealFor}
+                  {services[currentTab].idealFor}
                 </p>
               </div>
 
@@ -194,12 +164,12 @@ export function ServicesPage({ onNavigate }: ServicesPageProps) {
                 <strong className="block text-[#121212] dark:text-white font-bold mb-1">
                   What we need from you:
                 </strong>
-                {services[activeTab].clientRequirement}
+                {services[currentTab].clientRequirement}
               </div>
 
               {/* Tags */}
               <div className="pt-1 flex flex-wrap gap-1.5">
-                {services[activeTab].tags.map((tag) => (
+                {services[currentTab].tags.map((tag) => (
                   <span
                     key={tag}
                     className="px-2.5 py-1 bg-[#FAF8F5] dark:bg-[#27272A] border border-[#DDD7CD] dark:border-[#3F3F46] text-[11px] font-mono font-semibold text-[#57534E] dark:text-[#A1A1AA]"
@@ -217,7 +187,7 @@ export function ServicesPage({ onNavigate }: ServicesPageProps) {
                   Scope Specifications & Deliverables
                 </h3>
                 <ul className="space-y-3 text-xs sm:text-sm text-[#4A4641] dark:text-[#D4D4D8]">
-                  {services[activeTab].deliverables.map((item, idx) => (
+                  {services[currentTab].deliverables.map((item, idx) => (
                     <li key={idx} className="flex items-start gap-2.5">
                       <Check className="w-4 h-4 text-[#0047AB] dark:text-[#3B82F6] shrink-0 mt-0.5" />
                       <span className="leading-relaxed font-medium">{item}</span>

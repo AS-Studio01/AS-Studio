@@ -18,8 +18,8 @@ export const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfi
 export const auth = getAuth(app);
 
 // Initialize Cloud Firestore using provisioned database ID
-const dbId = (firebaseConfig as any).firestoreDatabaseId || 'ai-studio-asstudio-41a6a92f-f1d4-4ac0-9bd3-9e54c726d708';
-export const db = getFirestore(app, dbId);
+const dbId = (firebaseConfig as any).firestoreDatabaseId;
+export const db = dbId ? getFirestore(app, dbId) : getFirestore(app);
 
 // Google Auth Provider for popup login with Gmail Workspace scopes
 export const googleProvider = new GoogleAuthProvider();

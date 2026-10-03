@@ -30,6 +30,7 @@ export interface LegalEntry {
 
 export interface SiteContent {
   brand: {
+    name?: string;
     studioLabel: string;
     eyebrow: string;
     location: string;
@@ -65,9 +66,9 @@ export interface SiteContent {
   legal: Record<LegalDocumentKey, LegalEntry>;
 }
 
-const legalBase = (title: string, html: string): LegalEntry => ({
+const legalBase = (title: string, html: string, updatedAt: string = '2026-10-02T00:00:00.000Z'): LegalEntry => ({
   title,
-  updatedAt: new Date().toISOString(),
+  updatedAt,
   html,
 });
 
@@ -336,42 +337,191 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
   legal: {
     privacy: legalBase(
       'Privacy Policy',
-      `<h3>1. Information We Collect</h3>
-<p>AS Studio collects information you explicitly choose to submit through our project inquiry forms, client portal workflows, and direct communications. This may include your full name, business or practice name, contact channel (email address or Telegram handle), and project requirements summary.</p>
+      `<p class="text-xs text-[#A1A1AA] mb-4 font-mono"><strong>Last updated:</strong> 02 October 2026</p>
+<p>AS Studio (&quot;AS Studio&quot;, &quot;we&quot;, &quot;us&quot; or &quot;our&quot;) respects your privacy. This Privacy Policy explains how we collect, use and protect information when you visit asstudio.in, submit an enquiry, place a project request or contact us through email or another listed contact method.</p>
 
-<h3>2. How We Use Submitted Information</h3>
-<p>Your information is used strictly to evaluate your project brief, provide custom scope estimates, deliver contracted web design services, and provide 30-day post-launch technical warranty support. We never sell, lease, or monetize your contact details.</p>
+<h3>1. Information We Collect</h3>
+<p>We collect only information that you choose to provide, including:</p>
+<ul class="list-disc pl-5 space-y-1.5 my-2">
+  <li>Your name</li>
+  <li>Business or organisation name</li>
+  <li>Email address</li>
+  <li>Phone number or WhatsApp number</li>
+  <li>Website or social-media link</li>
+  <li>Project requirements, budget range, timeline and design preferences</li>
+  <li>Files, images or other materials you voluntarily send for a project enquiry</li>
+</ul>
+<p class="mt-2">Please do not send passwords, payment-card details, government-ID numbers, banking information, private account credentials or other highly sensitive personal information through our website form or email.</p>
 
-<h3>3. Client Code & Data Ownership</h3>
-<p>Upon final delivery and balance clearance, all client deliverables—including production HTML, CSS, React components, and assets created specifically for your sprint—are transferred to you with 100% full intellectual property rights. AS Studio retains no proprietary software lock-in.</p>
+<h3>2. How We Use Information</h3>
+<p>We use your information only to:</p>
+<ul class="list-disc pl-5 space-y-1.5 my-2">
+  <li>Respond to your enquiry</li>
+  <li>Understand your project requirements</li>
+  <li>Prepare a proposal, estimate or invoice when requested</li>
+  <li>Communicate about a possible or active project</li>
+  <li>Deliver agreed services</li>
+  <li>Improve AS Studio's website, workflow and services</li>
+  <li>Prevent spam, fraud, security incidents or misuse</li>
+</ul>
+<p class="mt-2">Submitting an enquiry does not create a client relationship or guarantee that AS Studio will accept a project.</p>
 
-<h3>4. Direct Contact & Privacy Rights</h3>
-<p>For any questions regarding your data or to request permanent erasure of your inquiry records from our Cloud Firestore database, contact us directly at <strong>asbusinessofficial01@gmail.com</strong>.</p>`
+<h3>3. No Sale of Personal Information</h3>
+<p>AS Studio does not sell, rent or trade your personal information.</p>
+<p>We do not use enquiry information for unrelated advertising. We do not share your information except where reasonably necessary to operate our website, respond to you, provide agreed services, comply with law, protect our rights and security, or use trusted service providers described below.</p>
+
+<h3>4. Service Providers and Third-Party Platforms</h3>
+<p>We may use trusted third-party platforms for website hosting, forms, email, cloud storage, analytics, invoicing or project delivery. These providers may process limited information on our behalf according to their own terms and privacy policies. We use them only where reasonably necessary for AS Studio's operations.</p>
+
+<h3>5. AI-Assisted Tools</h3>
+<p>AS Studio may use AI-assisted tools for internal tasks such as research, brainstorming, drafting, coding, design exploration, quality checks or preparing project materials.</p>
+<p>AI-assisted tools support our workflow but do not replace human review. We aim to minimise personal information used in AI-assisted workflows and do not intentionally submit sensitive information, passwords, payment details or private credentials to such tools. Final project decisions and deliverables are reviewed by a person.</p>
+
+<h3>6. Data Retention</h3>
+<p>If a project does not begin, we generally keep enquiry information for up to 12 months for follow-up, record-keeping and service improvement, unless you ask us to delete it earlier or law requires us to keep it longer.</p>
+<p>For active clients, we retain relevant information for as long as reasonably required to deliver the project, provide agreed support, maintain records, resolve disputes or comply with legal and tax obligations.</p>
+
+<h3>7. Security</h3>
+<p>We take reasonable steps to protect information from unauthorised access, loss, misuse or disclosure. However, no online system, email service or form can be completely secure.</p>
+
+<h3>8. Your Choices</h3>
+<p>You may request access to, correction of or deletion of the personal information you have provided to AS Studio. To make a request, contact us at <a href="mailto:asbusinessofficial01@gmail.com" class="text-[#3B82F6] underline">asbusinessofficial01@gmail.com</a>.</p>
+
+<h3>9. Governing Law</h3>
+<p>This Privacy Policy is governed by the laws of India. Any disputes arising in connection with this Privacy Policy shall be subject to the exclusive jurisdiction of the courts in India.</p>
+
+<h3>10. Legal Claim Window</h3>
+<p>Any claim or dispute arising from your use of this website or interaction with AS Studio must be raised within 30 days of the event giving rise to the claim. Claims raised after this period will not be entertained.</p>
+
+<h3>11. Changes to This Policy</h3>
+<p>We may update this Privacy Policy from time to time. The current version will be posted on this page with a revised &quot;Last updated&quot; date.</p>
+
+<h3>12. Contact</h3>
+<p><strong>AS Studio</strong><br />Email: <a href="mailto:asbusinessofficial01@gmail.com" class="text-[#3B82F6] underline">asbusinessofficial01@gmail.com</a><br />Location: India</p>`
     ),
     terms: legalBase(
       'Terms of Service',
-      `<h3>1. Engagement Scope</h3>
-<p>AS Studio provides bespoke web design, frontend development, and digital consulting services based upon agreed project scopes. All turnaround times (typically 5–7 business days for landing pages, 10–14 days for business websites) commence once initial content briefs and access assets are received.</p>
+      `<p class="text-xs text-[#A1A1AA] mb-4 font-mono"><strong>Last updated:</strong> 02 October 2026</p>
+<p>Welcome to AS Studio. These Terms of Service govern your access to and use of asstudio.in, including any enquiry forms, project-request forms, portfolio pages and related content.</p>
+<p>By using this website, you agree to these Terms of Service. If you do not agree, please do not use the website.</p>
 
-<h3>2. Live Phone Staging Guarantee</h3>
-<p>Before public domain launch or final payment transfer, AS Studio deploys your website to a private staging environment. You are invited to test responsiveness, speed, and interactions directly on your personal smartphone to verify that deliverables match agreed standards.</p>
+<h3>1. About AS Studio</h3>
+<p>AS Studio is an independent creative design studio providing website design, landing-page design, website redesign and related digital services. AS Studio is not a registered company, law firm, financial institution or any regulated entity. All services are provided on a freelance and independent studio basis.</p>
+<p>This website is intended to provide general information about AS Studio and allow visitors to make enquiries about services.</p>
 
-<h3>3. Flexible & Negotiable Pricing</h3>
-<p>AS Studio works with independent practices, local clinics, cafes, and early-stage ventures. Project pricing is structured transparently and is negotiable according to scope boundaries without hidden recurring platform fees.</p>
+<h3>2. Website Information and Enquiries</h3>
+<p>Information on this website is provided for general information only. An enquiry, contact-form submission, email, estimate request or discussion does not create a client relationship, confirm availability, guarantee delivery or create a legally binding agreement.</p>
+<p>A paid project begins only when AS Studio and the client agree in writing on the project scope, deliverables, timeline, price, payment terms, revision limits and other applicable conditions.</p>
 
-<h3>4. 30-Day Post-Launch Warranty</h3>
-<p>Every completed sprint includes thirty (30) consecutive calendar days of complimentary technical warranty covering bug fixes, responsive adjustments, and minor text updates.</p>`
+<h3>3. Pricing, Quotes and Project Scope</h3>
+<p>Any prices, timelines, packages or examples displayed on the website are guidance only unless clearly stated otherwise.</p>
+<p>Final pricing, scope, payment milestones, revisions, delivery timelines, ownership rights and support terms will be stated in a separate written proposal, invoice, agreement or approved project brief.</p>
+<p>Work requested outside the agreed scope may require a separate quotation, approval and timeline.</p>
+
+<h3>4. Concept Work and Portfolio Disclaimer</h3>
+<p>Some portfolio items on this website are labelled &quot;Independent Concept&quot;, &quot;Demo Project&quot; or &quot;Concept Project&quot;.</p>
+<p>These projects — including but not limited to Nova Dental Care and Mitti Café — are original design exercises created independently by AS Studio for portfolio and demonstration purposes only. They were not commissioned by, affiliated with or endorsed by the named businesses or brands. Any brand names referenced belong to their respective owners and are used solely for non-commercial and demonstrative purposes. These concepts do not represent the actual online presence, services or identity of any real business.</p>
+<p>A concept project does not mean that any named business hired, approved, endorsed or partnered with AS Studio in any way.</p>
+
+<h3>5. AI-Assisted Work Disclosure</h3>
+<p>AS Studio may use AI-assisted tools as part of its design and development workflow. This may include AI-assisted code generation, visual asset generation and copy drafting.</p>
+<p>All final deliverables produced for clients are reviewed, edited and refined by a human before delivery. AS Studio does not deliver raw, unreviewed AI output as finished work. Every project receives human creative direction, judgment and craft before delivery.</p>
+<p>The use of AI tools in creative work is standard industry practice and does not diminish the quality, originality or ownership of work delivered.</p>
+
+<h3>6. Intellectual Property</h3>
+<p>All design work, visual concepts, written copy and code produced by AS Studio remain the intellectual property of AS Studio until full payment is received. Upon full payment, ownership transfers to the client as agreed in the project terms.</p>
+<p>Concept projects shown on this website that were not commissioned remain the sole intellectual property of AS Studio.</p>
+<p>All content on this website — including text, layout, design and written copy — may not be reproduced, copied or used for commercial purposes without written permission from AS Studio.</p>
+
+<h3>7. Spam and Fraudulent Use</h3>
+<p>You agree not to use this website or our contact form to:</p>
+<ul class="list-disc pl-5 space-y-1.5 my-2">
+  <li>Submit false, misleading or fraudulent information</li>
+  <li>Impersonate another person or business</li>
+  <li>Send unsolicited commercial messages or spam</li>
+  <li>Attempt to access, disrupt or damage any part of this website</li>
+</ul>
+<p class="mt-2">AS Studio reserves the right to ignore, block and report any enquiries that appear fraudulent, abusive or made in bad faith.</p>
+
+<h3>8. Limitation of Liability</h3>
+<p>To the fullest extent permitted by applicable law:</p>
+<ul class="list-disc pl-5 space-y-1.5 my-2">
+  <li>AS Studio shall not be liable for any direct, indirect, incidental, consequential or special damages arising from your use of this website or our services</li>
+  <li>AS Studio shall not be liable for any loss of business, revenue, data or profits</li>
+  <li>AS Studio's total liability to any party shall not exceed the amount paid by that party to AS Studio for the specific service in question</li>
+</ul>
+
+<h3>9. No Guarantee of Results</h3>
+<p>AS Studio does not guarantee specific business results, leads, conversions, revenue, traffic or search-engine rankings from any service provided. Results depend on many factors outside AS Studio's control.</p>
+
+<h3>10. External Links</h3>
+<p>This website may contain links to third-party websites or platforms. AS Studio is not responsible for the content, policies or practices of any third-party platform. Accessing external links is at your own risk.</p>
+
+<h3>11. Governing Law</h3>
+<p>These Terms of Service are governed by the laws of India. Any disputes arising from these Terms or your use of this website shall be subject to the exclusive jurisdiction of the courts in India. AS Studio is not obligated to travel to, appear in or engage with legal proceedings initiated outside of India.</p>
+
+<h3>12. Legal Claim Window</h3>
+<p>Any claim or dispute arising from your use of this website or engagement with AS Studio must be raised within 30 days of the event giving rise to the claim. Claims raised after this period will not be entertained.</p>
+
+<h3>13. Changes to These Terms</h3>
+<p>AS Studio reserves the right to update these Terms of Service at any time. The &quot;Last updated&quot; date reflects the most recent revision. Continued use of the website after changes are posted constitutes your acceptance of the revised Terms.</p>
+
+<h3>14. Contact</h3>
+<p><strong>AS Studio</strong><br />Email: <a href="mailto:asbusinessofficial01@gmail.com" class="text-[#3B82F6] underline">asbusinessofficial01@gmail.com</a><br />Location: India</p>`
     ),
     disclaimer: legalBase(
       'Disclaimer & Demonstrations',
-      `<h3>1. Informational & Independent Notice</h3>
-<p>The materials, articles, and estimates on this website are provided for general informational purposes. They do not constitute formal legal, taxation, or medical compliance advice.</p>
+      `<p class="text-xs text-[#A1A1AA] mb-4 font-mono"><strong>Last updated:</strong> 02 October 2026</p>
+<p>The information provided on asstudio.in by AS Studio (&quot;AS Studio&quot;, &quot;we&quot;, &quot;us&quot; or &quot;our&quot;) is for general information about our services, approach and portfolio.</p>
 
-<h3>2. Concept Demonstrations</h3>
-<p>Certain items within our portfolio archive are independent design explorations and functional prototypes developed by AS Studio to demonstrate UI patterns for home decor ateliers, healthcare triage, and restaurant reservations. Demos clearly indicate their exploratory nature.</p>
+<h3>1. General Information Only</h3>
+<p>Content on this website is provided for general informational purposes only. It is not legal, financial, tax, business, marketing, investment or professional advice.</p>
+<p>Before making a business, legal, financial or tax decision, you should seek advice from a qualified professional relevant to your situation.</p>
 
-<h3>3. Third-Party Integrations</h3>
-<p>Third-party platforms (including Google Cloud, Firebase, Gmail REST API, Telegram, and Vercel) operate under their respective terms and service level agreements.</p>`
+<h3>2. Portfolio, Demo and Concept Work</h3>
+<p>Some work shown on this website is labelled as &quot;Independent Project&quot;, &quot;Independent Concept&quot; or &quot;Concept Work&quot;.</p>
+<p>These projects — including but not limited to Nova Dental Care and Mitti Café — are original design exercises created independently by AS Studio for portfolio and demonstration purposes only. They were not commissioned by, affiliated with or endorsed by the named businesses or brands. Any brand names referenced belong to their respective owners and are used solely for non-commercial, demonstrative and portfolio purposes. These concepts do not claim to represent the actual online presence, services or identity of any real business.</p>
+<p>If any business or brand believes their name or identity has been used inappropriately, they may contact AS Studio at <a href="mailto:asbusinessofficial01@gmail.com" class="text-[#3B82F6] underline">asbusinessofficial01@gmail.com</a> and we will review the matter promptly and in good faith.</p>
+
+<h3>3. AI-Assisted Workflow</h3>
+<p>AS Studio may use AI-assisted tools for research, planning, content drafting, coding, design exploration, quality checks and internal workflow support.</p>
+<p>Some elements of this website and portfolio work — including but not limited to certain visual assets, code components, copy drafts and placeholder imagery — may have been generated or assisted by artificial intelligence tools.</p>
+<p>All such content has been reviewed, edited and refined by a human before being used or published. AS Studio does not publish raw, unreviewed AI output. Human creative judgment, direction and craft are applied to every element before it reaches its final form.</p>
+<p>The presence of AI-assisted elements does not:</p>
+<ul class="list-disc pl-5 space-y-1.5 my-2">
+  <li>Invalidate the originality or quality of the work</li>
+  <li>Constitute misrepresentation or fraud</li>
+  <li>Transfer any liability to the tools or platforms used</li>
+</ul>
+<p class="mt-2">Use of AI tools in creative and development work is widely accepted industry practice. AS Studio discloses this openly in the interest of full transparency.</p>
+<p>Clients remain responsible for reviewing and approving all final content, information, claims, brand materials, legal wording, pricing, product details, images and other materials before publication.</p>
+
+<h3>4. No Guarantee of Results</h3>
+<p>AS Studio aims to create clear, functional and high-quality websites and digital experiences. However, we do not guarantee specific results, including:</p>
+<ul class="list-disc pl-5 space-y-1.5 my-2">
+  <li>Leads, enquiries, bookings or sales</li>
+  <li>Search-engine rankings or traffic</li>
+  <li>Conversion rates</li>
+  <li>Revenue or business growth</li>
+  <li>Approval by a third party, platform or authority</li>
+  <li>Compatibility with every device, browser or future software update</li>
+</ul>
+<p class="mt-2">Business results depend on many factors outside AS Studio's control, including the client's services, pricing, reputation, audience, marketing, competition and market conditions.</p>
+
+<h3>5. External Links and Third-Party Services</h3>
+<p>This website may contain links to third-party websites or platforms. These links are provided for convenience only. AS Studio does not control, guarantee, endorse or take responsibility for the content, availability, security, terms or privacy practices of any third-party website or service.</p>
+
+<h3>6. Website Availability</h3>
+<p>We make reasonable efforts to keep the AS Studio website accurate, secure and available. However, we do not guarantee that the website will always be uninterrupted, error-free or free from technical issues. AS Studio may update, change or remove website content or features without notice.</p>
+
+<h3>7. Governing Law</h3>
+<p>This Disclaimer is governed by the laws of India. Any disputes arising in connection with this Disclaimer shall be subject to the exclusive jurisdiction of the courts in India.</p>
+
+<h3>8. Legal Claim Window</h3>
+<p>Any claim or dispute arising from your use of this website must be raised within 30 days of the event giving rise to the claim. Claims raised after this period will not be entertained.</p>
+
+<h3>9. Contact</h3>
+<p><strong>AS Studio</strong><br />Email: <a href="mailto:asbusinessofficial01@gmail.com" class="text-[#3B82F6] underline">asbusinessofficial01@gmail.com</a><br />Location: India</p>`
     ),
   },
 };
@@ -405,7 +555,11 @@ export async function getSiteContent(): Promise<SiteContent> {
 
 export async function saveSiteContent(content: SiteContent): Promise<void> {
   if (typeof window !== 'undefined') {
-    localStorage.setItem(LOCAL_STORAGE_CONTENT_KEY, JSON.stringify(content));
+    try {
+      localStorage.setItem(LOCAL_STORAGE_CONTENT_KEY, JSON.stringify(content));
+    } catch (e) {
+      console.warn('[SiteContent] LocalStorage cache write error:', e);
+    }
   }
   await setDoc(CONTENT_DOC, content, { merge: true });
 }

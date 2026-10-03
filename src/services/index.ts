@@ -9,6 +9,7 @@ export * from './firebase';
 export * from './auth';
 export * from './database';
 export * from './gmail';
+export * from './activityLog';
 
 export function getIntegrationsStatus() {
   return {

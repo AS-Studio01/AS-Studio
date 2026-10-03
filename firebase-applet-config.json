@@ -1,11 +1,12 @@
 {
-  "projectId": "gen-lang-client-0946764308",
-  "appId": "1:687516732522:web:8ddd7fb6d420ab4a3a0e13",
-  "apiKey": "AIzaSyCPXFd1mFPynMU45UJlaBUBWsASTr7I4Kk",
-  "authDomain": "gen-lang-client-0946764308.firebaseapp.com",
-  "storageBucket": "gen-lang-client-0946764308.firebasestorage.app",
-  "messagingSenderId": "687516732522",
+  "projectId": "profound-handbook-z3skh",
+  "appId": "1:34016814266:web:30865e0746c21237d04e83",
+  "apiKey": "AIzaSyA1km1IvXjyPTkO0grVOunMorlOoARLd2w",
+  "authDomain": "profound-handbook-z3skh.firebaseapp.com",
+  "firestoreDatabaseId": "ai-studio-asstudio-a4c0c11f-272a-4140-b122-5ed482a959e7",
+  "storageBucket": "profound-handbook-z3skh.firebasestorage.app",
+  "messagingSenderId": "34016814266",
   "measurementId": "",
-  "oAuthClientId": "687516732522-j90f3cufprphia2uopmmfe9a08v8prn6.apps.googleusercontent.com",
+  "oAuthClientId": "34016814266-1oti5s843biahr5bkn8dau39vtorbrmi.apps.googleusercontent.com",
   "recaptchaSiteKey": ""
 }

@@ -15,7 +15,7 @@ import {
   RefreshCw, CheckCircle2, Clock, Search, Filter, 
   ExternalLink, Send, LogOut, Check, Sparkles, AlertTriangle, 
   Server, User, FileText, KeyRound, Lock, MessageSquare, ArrowUpRight,
-  Inbox, CheckCheck, Settings2
+  Inbox, CheckCheck, Settings2, History, Activity, PlusCircle
 } from 'lucide-react';
 import { 
   collection, getDocs, doc, deleteDoc, updateDoc 
@@ -27,7 +27,9 @@ import { SiteEditor } from './SiteEditor';
 import { 
   sendEmailViaGmail, getSentEmailLogs, EmailSendResult, 
   buildGmailWebComposeUrl, listGmailInboxMessages, 
-  GmailInboxItem, getGmailProfile 
+  GmailInboxItem, getGmailProfile,
+  getActivityLogs, logSiteActivity, clearActivityLogs, 
+  ActivityLogItem, ACTIVITY_LOG_EVENT
 } from '../services';
 
 interface SecretAdminPanelProps {
@@ -64,9 +66,18 @@ export function SecretAdminPanel({ isOpen, onClose }: SecretAdminPanelProps) {
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [activeTab, setActiveTab] = useState<'inquiries' | 'email' | 'database' | 'editor'>('inquiries');
+  const [activeTab, setActiveTab] = useState<'inquiries' | 'email' | 'database' | 'editor' | 'activity'>('inquiries');
   const [latency, setLatency] = useState<number | null>(null);
   const [notificationMsg, setNotificationMsg] = useState<string | null>(null);
+
+  // Activity Log state
+  const [activityLogs, setActivityLogs] = useState<ActivityLogItem[]>(() => getActivityLogs());
+  const [logFilter, setLogFilter] = useState<string>('all');
+  const [logSearch, setLogSearch] = useState<string>('');
+  const [showAddLogModal, setShowAddLogModal] = useState(false);
+  const [manualAction, setManualAction] = useState('');
+  const [manualDetails, setManualDetails] = useState('');
+  const [manualSection, setManualSection] = useState<'general' | 'brand' | 'services' | 'legal' | 'seo' | 'process'>('general');
 
   // Secret code login state (strictly confidential, remember device permanently)
   const [secretCodeInput, setSecretCodeInput] = useState('');
@@ -144,11 +155,44 @@ export function SecretAdminPanel({ isOpen, onClose }: SecretAdminPanelProps) {
   useEffect(() => {
     if (isOpen && isAdmin) {
       fetchInquiries();
+      setActivityLogs(getActivityLogs());
       if (gmailAccessToken) {
         fetchGmailData();
       }
     }
   }, [isOpen, isAdmin, gmailAccessToken]);
+
+  useEffect(() => {
+    const handleActivityUpdate = () => {
+      setActivityLogs(getActivityLogs());
+    };
+    window.addEventListener(ACTIVITY_LOG_EVENT, handleActivityUpdate);
+    return () => window.removeEventListener(ACTIVITY_LOG_EVENT, handleActivityUpdate);
+  }, []);
+
+  const handleClearLogs = () => {
+    if (window.confirm('Are you sure you want to clear all activity audit logs?')) {
+      clearActivityLogs();
+      setActivityLogs([]);
+      showNotification('Activity audit log cleared.');
+    }
+  };
+
+  const handleAddManualLog = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!manualAction.trim()) return;
+    logSiteActivity({
+      action: manualAction.trim(),
+      details: manualDetails.trim() || 'Manual audit entry recorded by studio administrator.',
+      section: manualSection,
+      author: user?.email || (isSecretCodeAdmin ? 'Founder (Ayan)' : 'Admin User'),
+      status: 'info',
+    });
+    setManualAction('');
+    setManualDetails('');
+    setShowAddLogModal(false);
+    showNotification('Audit log entry recorded.');
+  };
 
   const handleSecretCodeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -396,14 +440,23 @@ asbusinessofficial01@gmail.com`
                     autoFocus
                     className="w-full px-3.5 py-2.5 bg-[#0C0C0F] border border-white/15 rounded-lg text-xs font-mono text-white placeholder:text-[#52525B] focus:outline-none focus:border-rose-500"
                   />
-                  <label className="flex items-center gap-2 cursor-pointer text-[11px] text-[#A1A1AA] select-none">
+                  <label className="flex items-start gap-2.5 cursor-pointer text-left p-2.5 rounded-lg bg-black/40 border border-white/10 hover:border-white/20 transition-colors select-none">
                     <input
                       type="checkbox"
+                      id="admin-remember-me-checkbox"
                       checked={rememberDevice}
                       onChange={(e) => setRememberDevice(e.target.checked)}
-                      className="rounded bg-[#0C0C0F] border-white/20 text-rose-500 focus:ring-0"
+                      className="mt-0.5 w-4 h-4 rounded bg-[#0C0C0F] border-white/20 text-rose-500 focus:ring-0 cursor-pointer accent-rose-500"
                     />
-                    <span>Remember this device permanently (no code needed next time)</span>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-semibold text-white">Remember Me</span>
+                        <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">Persistent</span>
+                      </div>
+                      <span className="text-[11px] text-[#A1A1AA] block mt-0.5">
+                        Store authentication state &amp; ID in localStorage so you don't need to re-authenticate on page refresh
+                      </span>
+                    </div>
                   </label>
                   {codeError && (
                     <span className="text-[11px] text-rose-400 font-mono block">
@@ -426,7 +479,7 @@ asbusinessofficial01@gmail.com`
               </div>
 
               <button
-                onClick={signInWithGoogle}
+                onClick={() => signInWithGoogle(rememberDevice)}
                 className="w-full max-w-sm py-3 px-6 bg-white hover:bg-slate-100 text-[#121212] font-bold text-xs uppercase tracking-wider rounded-xl inline-flex items-center justify-center gap-3 transition-colors shadow-lg"
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24">
@@ -472,7 +525,23 @@ asbusinessofficial01@gmail.com`
                     }`}
                   >
                     <Settings2 className="w-3.5 h-3.5" />
-                    <span>Studio CMS (Content, Services, SEO, Legal)</span>
+                    <span>Studio CMS</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setActivityLogs(getActivityLogs());
+                      setActiveTab('activity');
+                    }}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5 ${
+                      activeTab === 'activity' ? 'bg-[#2563EB] text-white' : 'text-[#A1A1AA] hover:text-white'
+                    }`}
+                  >
+                    <History className="w-3.5 h-3.5" />
+                    <span>Activity Log</span>
+                    <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-white/15 text-white font-mono">
+                      {activityLogs.length}
+                    </span>
                   </button>
 
                   <button
@@ -490,6 +559,11 @@ asbusinessofficial01@gmail.com`
                   <span className="inline-flex items-center gap-1.5 text-emerald-400">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                     <span>Founder Session Active</span>
+                    {typeof window !== 'undefined' && Boolean(localStorage.getItem('as_studio_admin_auth_state') || localStorage.getItem('as_studio_admin_unlocked')) && (
+                      <span className="hidden md:inline-block ml-1 text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" title="Remember Me active: Stored in localStorage">
+                        Remembered on device
+                      </span>
+                    )}
                   </span>
                   <button
                     onClick={signOut}
@@ -844,6 +918,270 @@ asbusinessofficial01@gmail.com`
                   </div>
                 </div>
               )}
+
+              {/* Tab 5: Site Content Activity Log & Audit Trail */}
+              {activeTab === 'activity' && (
+                <div className="flex-1 flex flex-col overflow-hidden p-4 sm:p-6 space-y-4">
+                  {/* Activity Top Bar & Stats */}
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-white/10">
+                    <div>
+                      <h4 className="text-base font-black text-white flex items-center gap-2">
+                        <History className="w-5 h-5 text-indigo-400" />
+                        <span>Site Content Activity &amp; Audit Trail</span>
+                      </h4>
+                      <p className="text-xs text-[#A1A1AA] mt-0.5">
+                        Audit log tracking changes made to site content, legal policies, services, brand, and CMS publishing.
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => setShowAddLogModal(true)}
+                        className="px-3.5 py-1.5 bg-[#2563EB] hover:bg-[#1D4ED8] text-white rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5 shadow"
+                      >
+                        <PlusCircle className="w-3.5 h-3.5" />
+                        <span>Add Audit Note</span>
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          setActivityLogs(getActivityLogs());
+                          showNotification('Activity log refreshed.');
+                        }}
+                        className="p-2 text-[#A1A1AA] hover:text-white hover:bg-white/5 rounded-lg border border-white/10 transition-colors"
+                        title="Refresh activity logs"
+                      >
+                        <RefreshCw className="w-4 h-4" />
+                      </button>
+
+                      <button
+                        onClick={handleClearLogs}
+                        className="p-2 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-lg border border-rose-500/20 transition-colors"
+                        title="Clear audit log history"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Summary Metric Cards */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div className="p-3.5 bg-[#141418] border border-white/10 rounded-xl">
+                      <span className="text-[10px] font-mono uppercase text-[#A1A1AA] block">Total Logged Changes</span>
+                      <div className="text-xl font-black text-white mt-0.5">{activityLogs.length}</div>
+                      <span className="text-[10px] text-indigo-400 font-mono">Real-time browser &amp; storage tracking</span>
+                    </div>
+
+                    <div className="p-3.5 bg-[#141418] border border-white/10 rounded-xl">
+                      <span className="text-[10px] font-mono uppercase text-[#A1A1AA] block">Storage Persistence</span>
+                      <div className="text-xl font-black text-emerald-400 mt-0.5">Active</div>
+                      <span className="text-[10px] text-[#A1A1AA] font-mono">Preserved in localStorage</span>
+                    </div>
+
+                    <div className="p-3.5 bg-[#141418] border border-white/10 rounded-xl">
+                      <span className="text-[10px] font-mono uppercase text-[#A1A1AA] block">Last Activity</span>
+                      <div className="text-sm font-bold text-white mt-1 truncate">
+                        {activityLogs.length > 0 ? activityLogs[0].action : 'No events yet'}
+                      </div>
+                      <span className="text-[10px] text-[#71717A] font-mono">
+                        {activityLogs.length > 0 ? new Date(activityLogs[0].timestamp).toLocaleDateString() : '—'}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Search and Section Filters */}
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+                    <div className="relative flex-1 max-w-md">
+                      <Search className="w-4 h-4 text-[#71717A] absolute left-3 top-1/2 -translate-y-1/2" />
+                      <input
+                        type="text"
+                        value={logSearch}
+                        onChange={(e) => setLogSearch(e.target.value)}
+                        placeholder="Search changes by keyword, author, or section..."
+                        className="w-full pl-9 pr-4 py-2 bg-[#16161D] border border-white/10 rounded-lg text-xs text-white placeholder:text-[#52525B] focus:border-[#3B82F6] focus:outline-none"
+                      />
+                    </div>
+
+                    <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+                      {(['all', 'legal', 'services', 'brand', 'seo', 'general'] as const).map((cat) => (
+                        <button
+                          key={cat}
+                          onClick={() => setLogFilter(cat)}
+                          className={`px-2.5 py-1 rounded-md text-[11px] font-mono uppercase transition-colors whitespace-nowrap ${
+                            logFilter === cat
+                              ? 'bg-white/15 text-white font-bold'
+                              : 'text-[#71717A] hover:text-[#A1A1AA] hover:bg-white/5'
+                          }`}
+                        >
+                          {cat}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Activity Log List */}
+                  <div className="flex-1 overflow-y-auto space-y-2.5 pr-1">
+                    {activityLogs
+                      .filter((log) => {
+                        const matchesSearch =
+                          log.action.toLowerCase().includes(logSearch.toLowerCase()) ||
+                          log.details.toLowerCase().includes(logSearch.toLowerCase()) ||
+                          log.author.toLowerCase().includes(logSearch.toLowerCase()) ||
+                          log.section.toLowerCase().includes(logSearch.toLowerCase());
+                        const matchesFilter = logFilter === 'all' || log.section === logFilter;
+                        return matchesSearch && matchesFilter;
+                      })
+                      .map((log) => {
+                        const sectionColors: Record<string, string> = {
+                          legal: 'bg-purple-500/15 text-purple-400 border-purple-500/30',
+                          services: 'bg-sky-500/15 text-sky-400 border-sky-500/30',
+                          brand: 'bg-amber-500/15 text-amber-400 border-amber-500/30',
+                          seo: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
+                          general: 'bg-blue-500/15 text-blue-400 border-blue-500/30',
+                          auth: 'bg-rose-500/15 text-rose-400 border-rose-500/30',
+                        };
+
+                        return (
+                          <div
+                            key={log.id}
+                            className="p-3.5 bg-[#14141A] border border-white/10 hover:border-white/20 rounded-xl transition-all space-y-2"
+                          >
+                            <div className="flex flex-wrap items-center justify-between gap-2">
+                              <div className="flex items-center gap-2">
+                                <span className={`text-[10px] uppercase font-mono px-2 py-0.5 rounded-full border ${sectionColors[log.section] || sectionColors.general}`}>
+                                  {log.section}
+                                </span>
+                                <h5 className="text-xs font-bold text-white tracking-wide">
+                                  {log.action}
+                                </h5>
+                              </div>
+                              <div className="flex items-center gap-2 text-[11px] text-[#71717A] font-mono">
+                                <Clock className="w-3 h-3" />
+                                <span>{new Date(log.timestamp).toLocaleString()}</span>
+                              </div>
+                            </div>
+
+                            <p className="text-xs text-[#A1A1AA] leading-relaxed font-sans">
+                              {log.details}
+                            </p>
+
+                            <div className="flex items-center justify-between pt-1 border-t border-white/5 text-[11px] font-mono text-[#71717A]">
+                              <span className="flex items-center gap-1.5">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                                <span>Author: {log.author}</span>
+                              </span>
+                              <span className="text-[10px] text-[#52525B]">ID: {log.id}</span>
+                            </div>
+                          </div>
+                        );
+                      })}
+
+                    {activityLogs.length === 0 && (
+                      <div className="p-8 text-center bg-[#14141A] border border-white/10 rounded-xl space-y-3">
+                        <History className="w-8 h-8 text-[#52525B] mx-auto" />
+                        <h5 className="text-sm font-bold text-white">No Activity Logs Found</h5>
+                        <p className="text-xs text-[#A1A1AA] max-w-sm mx-auto">
+                          Changes published via the Studio CMS or manual audit notes will appear here automatically.
+                        </p>
+                        <button
+                          onClick={() => {
+                            logSiteActivity({
+                              action: 'Audit Log Initialized',
+                              details: 'Fresh audit trail established for AS Studio website content.',
+                              section: 'general',
+                              author: 'Founder (Ayan)',
+                              status: 'info',
+                            });
+                          }}
+                          className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-lg transition-colors"
+                        >
+                          Generate Initial Audit Checkpoint
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Add Manual Audit Log Modal */}
+          {showAddLogModal && (
+            <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md fade-in">
+              <div className="w-full max-w-md bg-[#14141A] border border-white/15 rounded-2xl p-5 space-y-4 shadow-2xl">
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white">
+                      <PlusCircle className="w-4 h-4" />
+                    </div>
+                    <h4 className="text-sm font-bold text-white">Record Audit Log Note</h4>
+                  </div>
+                  <button
+                    onClick={() => setShowAddLogModal(false)}
+                    className="p-1.5 text-[#A1A1AA] hover:text-white rounded-lg"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <form onSubmit={handleAddManualLog} className="space-y-3.5 text-xs font-mono">
+                  <div>
+                    <label className="text-[10px] uppercase text-[#71717A] block mb-1">Action / Title</label>
+                    <input
+                      type="text"
+                      required
+                      value={manualAction}
+                      onChange={(e) => setManualAction(e.target.value)}
+                      placeholder="e.g., Updated Pricing Milestone, Tweaked Legal Policy"
+                      className="w-full px-3 py-2 bg-[#0C0C0F] border border-white/10 rounded-lg text-white text-xs focus:outline-none focus:border-indigo-500 font-sans"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[10px] uppercase text-[#71717A] block mb-1">Section</label>
+                    <select
+                      value={manualSection}
+                      onChange={(e: any) => setManualSection(e.target.value)}
+                      className="w-full px-3 py-2 bg-[#0C0C0F] border border-white/10 rounded-lg text-white text-xs focus:outline-none focus:border-indigo-500"
+                    >
+                      <option value="general">General / CMS</option>
+                      <option value="legal">Legal &amp; Policy</option>
+                      <option value="services">Services &amp; Pricing</option>
+                      <option value="brand">Brand &amp; Identity</option>
+                      <option value="seo">SEO &amp; Metadata</option>
+                      <option value="process">Workflow Process</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="text-[10px] uppercase text-[#71717A] block mb-1">Details &amp; Audit Notes</label>
+                    <textarea
+                      rows={4}
+                      required
+                      value={manualDetails}
+                      onChange={(e) => setManualDetails(e.target.value)}
+                      placeholder="Describe what changed, reason, or audit summary..."
+                      className="w-full px-3 py-2 bg-[#0C0C0F] border border-white/10 rounded-lg text-white text-xs focus:outline-none focus:border-indigo-500 leading-relaxed font-sans"
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-end gap-2 pt-2 border-t border-white/10">
+                    <button
+                      type="button"
+                      onClick={() => setShowAddLogModal(false)}
+                      className="px-3.5 py-2 text-xs text-[#A1A1AA] hover:text-white"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-colors shadow"
+                    >
+                      Save Audit Entry
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
           )}
 

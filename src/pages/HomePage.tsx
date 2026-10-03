@@ -15,32 +15,15 @@ export function HomePage({ projects, onSelectProject, onNavigate }: HomePageProp
   const { content } = useSiteContent();
   const ctaSection = content.sections.contact;
 
-  const coreServices = [
-    {
-      number: '01',
-      title: 'Business Websites',
-      desc: 'Clear, high-speed websites that explain your business, establish credibility, and convert mobile visitors into direct enquiries.',
-      turnaround: '10–14 days',
-      accent: '#06B6D4',
-      ideal: 'Clinics, local practices, ateliers & boutique firms',
-    },
-    {
-      number: '02',
-      title: 'High-Converting Landing Pages',
-      desc: 'Single-action conversion funnels engineered to convert paid ads and social campaigns with sub-second mobile speeds.',
-      turnaround: '5–7 days',
-      accent: '#3B82F6',
-      ideal: 'Campaign launches, product drops & treatments',
-    },
-    {
-      number: '03',
-      title: 'Website Modernization',
-      desc: 'Structural overhaul of slow, cluttered WordPress or legacy sites into modern, mobile-first web experiences with 30-day warranty.',
-      turnaround: '7–12 days',
-      accent: '#10B981',
-      ideal: 'Outdated websites with high mobile bounce rates',
-    },
-  ];
+  const rawServices = content.services && content.services.length > 0 ? content.services : [];
+  const coreServices = rawServices.slice(0, 3).map((s, idx) => ({
+    number: s.number || `0${idx + 1}`,
+    title: s.title,
+    desc: s.description,
+    turnaround: (s as any).turnaround || (s.id.includes('landing') ? '5–7 days' : s.id.includes('redesign') ? '7–12 days' : '10–14 days'),
+    accent: s.accentColor || (idx === 0 ? '#06B6D4' : idx === 1 ? '#3B82F6' : '#10B981'),
+    ideal: s.idealFor || 'Clinics, local practices, ateliers & boutique firms',
+  }));
 
   return (
     <div className="fade-in">

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Bot, User, LogIn, ChevronDown } from 'lucide-react';
+import { Menu, X, Bot, User, LogIn, ChevronDown, ShieldCheck } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { PageType } from '../types';
 import { useAuth } from '../context/AuthContext';
+import { useSiteContent } from '../context/SiteContentContext';
 import { STUDIO_CONTACT, buildMailtoLink } from '../constants/communication';
 
 interface HeaderProps {
@@ -21,6 +22,8 @@ export function Header({
   onOpenSecretAdmin 
 }: HeaderProps) {
   const { user, isAdmin } = useAuth();
+  const { content } = useSiteContent();
+  const brand = content.brand;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [logoClickCount, setLogoClickCount] = useState(0);
 
@@ -88,13 +91,13 @@ export function Header({
           <button
             onClick={handleLogoClick}
             className="text-lg sm:text-xl md:text-2xl font-black tracking-tight text-white hover:opacity-85 transition-opacity flex items-center gap-2.5 sm:gap-3 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#3B82F6] select-none"
-            aria-label="AS Studio home page"
-            title="AS Studio"
+            aria-label={`${brand.name || 'AS Studio'} home page`}
+            title={brand.name || 'AS Studio'}
           >
-            <span className="font-extrabold tracking-tighter">AS STUDIO</span>
+            <span className="font-extrabold tracking-tighter">{brand.name || 'AS STUDIO'}</span>
             {/* Show 'Digital Studio' only on large screens (xl: 1280px+) */}
             <span className="hidden xl:inline-block text-[10px] font-bold uppercase tracking-widest text-[#9E9A93] border-l border-[#333338] pl-3">
-              Digital Studio
+              {brand.studioLabel || 'Digital Studio'}
             </span>
           </button>
 
@@ -121,6 +124,18 @@ export function Header({
                 );
               })}
             </nav>
+
+            {/* Admin CMS Direct Shortcut when authorized */}
+            {isAdmin && onOpenSecretAdmin && (
+              <button
+                onClick={onOpenSecretAdmin}
+                className="px-3 py-1.5 text-xs font-bold text-rose-300 bg-rose-500/15 border border-rose-500/30 hover:bg-rose-500/25 rounded-full inline-flex items-center gap-1.5 transition-colors"
+                title="Founder Admin Panel & CMS Editor"
+              >
+                <ShieldCheck className="w-3.5 h-3.5 text-rose-400" />
+                <span>Admin CMS</span>
+              </button>
+            )}
 
             {/* Clean Sign In / Login button */}
             {onOpenPortal && (
@@ -258,6 +273,22 @@ export function Header({
                     ) : (
                       <span className="text-xs text-[#60A5FA] font-mono font-bold">Sign In →</span>
                     )}
+                  </button>
+                )}
+
+                {isAdmin && onOpenSecretAdmin && (
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onOpenSecretAdmin();
+                    }}
+                    className="text-left py-2.5 px-3 rounded-lg text-rose-300 bg-rose-500/10 border border-rose-500/30 transition-colors flex items-center justify-between mt-1"
+                  >
+                    <span className="flex items-center gap-2 text-sm font-bold">
+                      <ShieldCheck className="w-4 h-4 text-rose-400" />
+                      <span>Studio Admin CMS</span>
+                    </span>
+                    <span className="text-xs text-rose-400 font-mono font-bold">Open Console →</span>
                   </button>
                 )}
 

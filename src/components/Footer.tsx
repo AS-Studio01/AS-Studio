@@ -1,6 +1,7 @@
 import { Mail, Send, ArrowUpRight } from 'lucide-react';
 import { PageType } from '../types';
 import { STUDIO_CONTACT, buildMailtoLink } from '../constants/communication';
+import { useSiteContent } from '../context/SiteContentContext';
 
 interface FooterProps {
   onOpenLegal?: (type: 'privacy' | 'terms' | 'disclaimer') => void;
@@ -8,6 +9,9 @@ interface FooterProps {
 }
 
 export function Footer({ onNavigate, onOpenLegal }: FooterProps) {
+  const { content } = useSiteContent();
+  const brand = content.brand;
+
   const pages: { label: string; page: PageType }[] = [
     { label: 'Home', page: 'home' },
     { label: 'Selected Work', page: 'work' },
@@ -24,13 +28,13 @@ export function Footer({ onNavigate, onOpenLegal }: FooterProps) {
           {/* Brand info */}
           <div className="md:col-span-5 space-y-4 max-w-sm">
             <span className="text-2xl font-black tracking-tight text-[#121212] dark:text-white block">
-              AS STUDIO
+              {brand.name || 'AS STUDIO'}
             </span>
             <p className="text-sm font-medium text-[#4A4641] dark:text-[#D4D4D8] leading-relaxed">
-              Clean digital experiences for businesses ready to be easier to choose.
+              {brand.headline || 'Clean digital experiences for businesses ready to be easier to choose.'}
             </p>
             <div className="pt-1 text-xs text-[#736E66] dark:text-[#A1A1AA] font-medium leading-relaxed">
-              Independent studio practice based in India. Designing fast, mobile-first websites for clinics, cafes, ateliers & modern founders worldwide.
+              {brand.description || 'Independent studio practice based in India. Designing fast, mobile-first websites for clinics, cafes, ateliers & modern founders worldwide.'}
             </div>
           </div>
 
