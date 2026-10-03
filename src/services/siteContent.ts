@@ -70,22 +70,16 @@ export interface LegalDocument {
 
 export const DEFAULT_LEGAL: Record<LegalDocument['id'], LegalDocument> = {
   privacy: {
-    id: 'privacy',
-    title: 'Privacy Policy',
-    updatedAt: '2026',
-    contentHtml: `<p><strong>Last updated:</strong> 2026. AS Studio respects your privacy and is committed to protecting your personal information.</p><h3>1. Information We Collect</h3><p>We collect information you voluntarily provide through project briefs, direct communication, and email correspondence.</p><h3>2. How Information is Used</h3><p>Your details are used to evaluate requirements, prepare proposals, and coordinate project delivery.</p><h3>3. Contact</h3><p>For privacy questions, contact asbusinessofficial01@gmail.com.</p>`,
+    id: 'privacy', title: 'Privacy Policy', updatedAt: '2026',
+    contentHtml: `<p><strong>Last updated:</strong> 2026. AS Studio respects your privacy and is committed to protecting your personal information.</p><h3>1. Information We Collect</h3><p>We only collect information voluntarily provided by you through our project brief forms, direct Telegram communication, or email correspondence (such as your name, business name, and email or Telegram handle).</p><h3>2. How Information is Used</h3><p>Your details are strictly used to evaluate project requirements, prepare custom scope proposals, and coordinate design and engineering deliverables. We never sell, rent, or trade your data to third-party advertisers.</p><h3>3. Zero Invasive Tracking</h3><p>AS Studio uses zero advertising networks, tracking pixels, or invasive behavioral profiling. We prioritize clean, minimal web telemetry solely for essential app functionality.</p><h3>4. Contact & Inquiries</h3><p>For any questions regarding data handling, contact us at <strong>asbusinessofficial01@gmail.com</strong>.</p>`,
   },
   terms: {
-    id: 'terms',
-    title: 'Terms & Conditions',
-    updatedAt: '2026',
-    contentHtml: `<p><strong>Last updated:</strong> 2026.</p><h3>1. Scope of Engagement</h3><p>AS Studio delivers bespoke digital design, responsive architecture, and production frontend code.</p><h3>2. Ownership</h3><p>Upon project completion and final payment, agreed source code and design assets are transferred to the client.</p><h3>3. Client Verification</h3><p>Clients receive opportunities to review staging work before launch.</p>`,
+    id: 'terms', title: 'Terms & Conditions', updatedAt: '2026',
+    contentHtml: `<p><strong>Last updated:</strong> 2026. Terms governing design, development, and consultation by AS Studio.</p><h3>1. Scope of Engagement</h3><p>AS Studio delivers bespoke digital design, mobile-first responsive architecture, and production frontend code. Every sprint begins with an agreed-upon milestone schedule and pricing breakdown.</p><h3>2. 100% Code Ownership</h3><p>Upon project completion and final payment, 100% of clean source code, design assets, and repository rights are transferred to the client with zero mandatory monthly builder lock-ins or licensing fees.</p><h3>3. Staging & Client Verification</h3><p>Clients receive live smartphone staging previews to test performance and usability on their real hardware prior to production release and final payment.</p><h3>4. 30-Day Post-Launch Warranty</h3><p>We provide a 30-day post-launch warranty covering complimentary bug fixes, cross-browser adjustments, and minor copy updates.</p>`,
   },
   disclaimer: {
-    id: 'disclaimer',
-    title: 'Disclaimer & Practice Disclosure',
-    updatedAt: '2026',
-    contentHtml: `<p><strong>Last updated:</strong> 2026.</p><h3>General Information</h3><p>Project timelines, outcomes and estimates depend on scope, feedback cycles, third-party services and client-provided materials.</p><h3>No Guarantee of Business Results</h3><p>AS Studio builds digital experiences but cannot guarantee specific traffic, rankings, revenue or conversion outcomes.</p>`,
+    id: 'disclaimer', title: 'Disclaimer & Practice Disclosure', updatedAt: '2026',
+    contentHtml: `<p><strong>Last updated:</strong> 2026. Official Practice Disclosure and Legal Disclaimer for AS Studio.</p><h3>1. Exploratory Case Studies & Concepts</h3><p>Select featured prototypes labeled &quot;Independent Concept&quot; in our portfolio (including <em>Atelier Forma</em>, <em>Nova Dental Studio</em>, and <em>Mitti Café & Roastery</em>) are self-initiated architectural and UX case studies. They are designed to demonstrate design excellence, material lookbooks, and conversion triage, and do not imply official brand affiliation or endorsement.</p><h3>2. Scope & Pricing Estimates</h3><p>All pricing figures and sprint timelines published on this site or discussed with our AI assistant represent typical ranges and starting points. Every project is individually scoped with flexible, negotiable pricing tailored to the client&apos;s specific budget.</p><h3>3. Direct Channels Only (WhatsApp Disabled)</h3><p>AS Studio operates exclusively through official direct channels: Telegram (<strong>@AS_Studio_official01</strong>) and Gmail (<strong>asbusinessofficial01@gmail.com</strong>). WhatsApp is currently disabled. We never conduct cold calls or send unsolicited marketing messages.</p><h3>4. Intellectual Property</h3><p>All custom design systems, interactive prototypes, and code created by AS Studio are protected. Upon contractual delivery and completion, complete ownership of client deliverables transfers in full to the client.</p>`,
   },
 };
 
