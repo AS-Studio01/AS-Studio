@@ -97,7 +97,7 @@ service cloud.firestore {
     // Studio Site Settings
     match /site_settings/{settingId} {
       allow read: if true;
-      allow write: if isAdmin() || isSignedIn();
+      allow write: if isAdmin();
     }
   }
 }
