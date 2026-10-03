@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ArrowUp } from 'lucide-react';
-import { getSeoSettings, SeoPageKey } from '../services/siteContent';
+import { getSeoSettings, getSiteContent, SeoPageKey } from '../services/siteContent';
 
 const pageForPath = (): SeoPageKey => {
   const path = window.location.pathname.replace(/\/+$/, '');
@@ -14,6 +14,17 @@ const pageForPath = (): SeoPageKey => {
 export function SiteEnhancements({ page }: { page?: SeoPageKey }) {
   const [progress, setProgress] = useState(0);
   const [showTop, setShowTop] = useState(false);
+
+  useEffect(() => {
+    getSiteContent().then(content => {
+      const root = document.documentElement;
+      root.style.setProperty('--accent', content.theme.accent);
+      root.style.setProperty('--section-work', content.theme.work);
+      root.style.setProperty('--section-services', content.theme.services);
+      root.style.setProperty('--section-process', content.theme.process);
+      root.style.setProperty('--section-contact', content.theme.contact);
+    });
+  }, []);
 
   useEffect(() => {
     let frame = 0;
