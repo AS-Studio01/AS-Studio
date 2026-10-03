@@ -37,6 +37,12 @@ export function SiteEnhancements({ page }: { page?: SeoPageKey }) {
   }, []);
 
   useEffect(() => {
+    const targets = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal], main section'));
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach(el => el.classList.add('reveal-visible'));
+      return;
+    }
+    targets.forEach(el => el.classList.add('reveal-target'));
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -45,7 +51,7 @@ export function SiteEnhancements({ page }: { page?: SeoPageKey }) {
         }
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-    document.querySelectorAll('[data-reveal], main section').forEach(el => observer.observe(el));
+    targets.forEach(el => observer.observe(el));
     return () => observer.disconnect();
   }, [page]);
 
