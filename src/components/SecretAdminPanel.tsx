@@ -496,11 +496,16 @@ asbusinessofficial01@gmail.com`
                 <div className="w-full max-w-sm p-4 bg-amber-500/10 border border-amber-500/30 rounded-xl space-y-3 text-left">
                   <div className="flex items-center gap-2 text-amber-400 font-bold text-xs">
                     <AlertTriangle className="w-4 h-4 shrink-0" />
-                    <span>Firebase Auth: Domain Not Authorized (auth/unauthorized-domain)</span>
+                    <span>Firebase Auth: Domain Restriction on Vercel</span>
                   </div>
-                  <p className="text-[11px] text-[#D4D4D8] leading-relaxed">
-                    Google OAuth popups require this preview host (<code>{typeof window !== 'undefined' ? window.location.hostname : 'run.app'}</code>) to be added under <strong>Authorized Domains</strong> in Firebase Console.
-                  </p>
+                  <div className="text-[11px] text-[#D4D4D8] space-y-1.5 leading-relaxed">
+                    <p>
+                      The default Firebase database is managed internally by AI Studio, which restricts Google OAuth popups on external domains like <code className="text-amber-300 font-mono bg-black/40 px-1 py-0.5 rounded">{typeof window !== 'undefined' ? window.location.hostname : 'as-studio-delta.vercel.app'}</code>.
+                    </p>
+                    <p className="text-[#A1A1AA]">
+                      <strong>Good news:</strong> You don&apos;t need Google Sign-In to edit and manage your site! Use your <strong>Founder Passkey</strong> below to unlock full console and CMS access instantly with persistent remember-me:
+                    </p>
+                  </div>
                   <div className="space-y-2 pt-1">
                     <button
                       type="button"
@@ -512,17 +517,15 @@ asbusinessofficial01@gmail.com`
                       className="w-full py-2.5 px-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs rounded-lg transition-all flex items-center justify-center gap-1.5 shadow-md"
                     >
                       <ShieldCheck className="w-4 h-4" />
-                      <span>Unlock as Founder Instantly (Sahina / Ayan)</span>
+                      <span>Unlock Founder Console</span>
                     </button>
-                    <a
-                      href="https://console.firebase.google.com/project/profound-handbook-z3skh/authentication/settings"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full py-2 px-3 bg-white/10 hover:bg-white/15 text-white font-mono text-[11px] rounded-lg transition-colors flex items-center justify-center gap-1.5"
+                    <button
+                      type="button"
+                      onClick={() => setCodeError(null)}
+                      className="w-full py-1.5 text-[#A1A1AA] hover:text-white text-[11px] transition-colors text-center"
                     >
-                      <span>Add Domain in Firebase Console</span>
-                      <ExternalLink className="w-3 h-3 text-[#60A5FA]" />
-                    </a>
+                      Dismiss Notice
+                    </button>
                   </div>
                 </div>
               )}

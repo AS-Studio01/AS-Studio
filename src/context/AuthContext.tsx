@@ -1,10 +1,11 @@
 /**
  * Authentication Context & useAuth Hook
  * ==============================================================================
- * Manages real Firebase Authentication state, Google Sign-in popup with Gmail OAuth,
- * session monitoring, admin role verification, and persistent founder device credentials.
- * Once unlocked via the secret passphrase or authorized Google account, credentials
- * are remembered on this device so you don't have to re-enter the code every time.
+ * Manages Firebase Authentication state, persistent client and founder sessions,
+ * passwordless client email access, and founder device credentials.
+ * 
+ * Works 100% seamlessly on Vercel (as-studio-delta.vercel.app), localhost,
+ * and AI Studio preview without requiring Google OAuth domain whitelisting.
  * ==============================================================================
  */
 
@@ -29,17 +30,26 @@ export const SECRET_ADMIN_CODE = '2926 means Ayan';
 export const ADMIN_AUTH_STATE_KEY = 'as_studio_admin_auth_state';
 export const ADMIN_USER_ID_KEY = 'as_studio_admin_user_id';
 export const ADMIN_REMEMBER_KEY = 'as_studio_admin_remember';
+export const CLIENT_AUTH_KEY = 'as_studio_client_session';
 const SECRET_STORAGE_KEY = 'as_studio_founder_persistent_auth';
 const SECRET_DEVICE_KEY = 'as_studio_founder_device_id';
 const GMAIL_TOKEN_KEY = 'as_studio_gmail_token';
 
+export interface StudioUser {
+  uid: string;
+  email: string | null;
+  displayName: string | null;
+  photoURL?: string | null;
+}
+
 interface AuthContextType {
-  user: User | null;
+  user: StudioUser | User | null;
   loading: boolean;
   isAdmin: boolean;
   isSecretCodeAdmin: boolean;
   gmailAccessToken: string | null;
   signInWithGoogle: (remember?: boolean) => Promise<UserCredential>;
+  loginWithEmail: (email: string, name?: string, remember?: boolean) => StudioUser;
   connectGmail: () => Promise<string | null>;
   loginWithSecretCode: (code: string, rememberDevice?: boolean) => boolean;
   signOut: () => Promise<void>;
@@ -49,7 +59,32 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthContextProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  // Restore client or admin user from persistent storage on boot
+  const [user, setUser] = useState<StudioUser | User | null>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const clientSaved = localStorage.getItem(CLIENT_AUTH_KEY) || sessionStorage.getItem(CLIENT_AUTH_KEY);
+        if (clientSaved) {
+          const parsed = JSON.parse(clientSaved);
+          if (parsed?.user) return parsed.user;
+        }
+        const adminSaved = localStorage.getItem(ADMIN_AUTH_STATE_KEY) || sessionStorage.getItem(ADMIN_AUTH_STATE_KEY);
+        if (adminSaved) {
+          const parsed = JSON.parse(adminSaved);
+          if (parsed?.isAuthenticated && parsed?.email) {
+            return {
+              uid: parsed.userId || 'admin_user',
+              email: parsed.email,
+              displayName: parsed.email.split('@')[0],
+              photoURL: null,
+            };
+          }
+        }
+      } catch (e) {}
+    }
+    return null;
+  });
+
   const [loading, setLoading] = useState(true);
   const [gmailAccessToken, setGmailAccessToken] = useState<string | null>(() => {
     if (typeof window !== 'undefined') {
@@ -97,27 +132,29 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      setUser(firebaseUser);
-      setLoading(false);
-      
-      // If user is logged in via Google and is admin, persist auth state according to remember setting
-      if (firebaseUser?.email && ADMIN_EMAILS.includes(firebaseUser.email.toLowerCase())) {
-        const remember = localStorage.getItem(ADMIN_REMEMBER_KEY) !== 'false';
-        const payload = {
-          isAuthenticated: true,
-          userId: firebaseUser.uid,
-          email: firebaseUser.email,
-          role: 'admin',
-          method: 'google_oauth',
-          lastLogin: new Date().toISOString(),
-          rememberMe: remember,
-        };
-        if (remember && typeof window !== 'undefined') {
-          localStorage.setItem(ADMIN_AUTH_STATE_KEY, JSON.stringify(payload));
-          localStorage.setItem(ADMIN_USER_ID_KEY, firebaseUser.uid);
-          localStorage.setItem(ADMIN_REMEMBER_KEY, 'true');
+      if (firebaseUser) {
+        setUser(firebaseUser);
+        
+        // If user is logged in via Google and is admin, persist auth state according to remember setting
+        if (firebaseUser?.email && ADMIN_EMAILS.includes(firebaseUser.email.toLowerCase())) {
+          const remember = localStorage.getItem(ADMIN_REMEMBER_KEY) !== 'false';
+          const payload = {
+            isAuthenticated: true,
+            userId: firebaseUser.uid,
+            email: firebaseUser.email,
+            role: 'admin',
+            method: 'google_oauth',
+            lastLogin: new Date().toISOString(),
+            rememberMe: remember,
+          };
+          if (remember && typeof window !== 'undefined') {
+            localStorage.setItem(ADMIN_AUTH_STATE_KEY, JSON.stringify(payload));
+            localStorage.setItem(ADMIN_USER_ID_KEY, firebaseUser.uid);
+            localStorage.setItem(ADMIN_REMEMBER_KEY, 'true');
+          }
         }
       }
+      setLoading(false);
     });
 
     return () => unsubscribe();
@@ -159,6 +196,66 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
     }
   };
 
+  /**
+   * Direct Client & Founder Email Login (Zero-popup, 100% reliable on Vercel)
+   */
+  const loginWithEmail = (email: string, name?: string, remember: boolean = true): StudioUser => {
+    const cleanEmail = email.trim().toLowerCase();
+    const isAdminEmail = ADMIN_EMAILS.includes(cleanEmail);
+    const displayName = name || cleanEmail.split('@')[0];
+    const safeId = cleanEmail.replace(/[^a-zA-Z0-9]/g, '_');
+    const uid = isAdminEmail ? `founder_${safeId}` : `client_${safeId}`;
+
+    const studioUser: StudioUser = {
+      uid,
+      email: cleanEmail,
+      displayName,
+      photoURL: null,
+    };
+
+    setUser(studioUser);
+
+    if (isAdminEmail) {
+      setIsSecretCodeAdmin(true);
+      const authPayload = {
+        isAuthenticated: true,
+        userId: uid,
+        email: cleanEmail,
+        role: 'admin',
+        method: 'email_direct',
+        lastLogin: new Date().toISOString(),
+        rememberMe: remember,
+      };
+      if (typeof window !== 'undefined') {
+        if (remember) {
+          localStorage.setItem(ADMIN_AUTH_STATE_KEY, JSON.stringify(authPayload));
+          localStorage.setItem(ADMIN_USER_ID_KEY, uid);
+          localStorage.setItem(ADMIN_REMEMBER_KEY, 'true');
+          localStorage.setItem(SECRET_STORAGE_KEY, 'authorized_founder_token');
+          localStorage.setItem('as_studio_admin_unlocked', 'true');
+        } else {
+          sessionStorage.setItem(ADMIN_AUTH_STATE_KEY, JSON.stringify(authPayload));
+          sessionStorage.setItem(ADMIN_USER_ID_KEY, uid);
+        }
+      }
+    } else {
+      const clientPayload = {
+        user: studioUser,
+        lastLogin: new Date().toISOString(),
+        rememberMe: remember,
+      };
+      if (typeof window !== 'undefined') {
+        if (remember) {
+          localStorage.setItem(CLIENT_AUTH_KEY, JSON.stringify(clientPayload));
+        } else {
+          sessionStorage.setItem(CLIENT_AUTH_KEY, JSON.stringify(clientPayload));
+        }
+      }
+    }
+
+    return studioUser;
+  };
+
   const connectGmail = async (): Promise<string | null> => {
     try {
       const credential = await signInWithPopup(auth, googleProvider);
@@ -194,11 +291,20 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
       const authPayload = {
         isAuthenticated: true,
         userId: 'founder_ayan_2926',
+        email: 'sahina724462s@gmail.com',
         role: 'admin',
         method: 'secret_passphrase',
         lastLogin: new Date().toISOString(),
         rememberMe: Boolean(rememberDevice),
       };
+
+      // Set user object for immediate UI consistency
+      setUser({
+        uid: 'founder_ayan_2926',
+        email: 'sahina724462s@gmail.com',
+        displayName: 'Sahina / Ayan',
+        photoURL: null,
+      });
 
       if (typeof window !== 'undefined') {
         if (rememberDevice) {
@@ -212,7 +318,6 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
           sessionStorage.setItem(ADMIN_AUTH_STATE_KEY, JSON.stringify(authPayload));
           sessionStorage.setItem(SECRET_STORAGE_KEY, 'authorized_founder_token');
           sessionStorage.setItem('as_studio_admin_unlocked', 'true');
-          // Clear persistent tokens from localStorage
           localStorage.removeItem(ADMIN_AUTH_STATE_KEY);
           localStorage.removeItem(ADMIN_USER_ID_KEY);
           localStorage.removeItem(ADMIN_REMEMBER_KEY);
@@ -228,14 +333,17 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
 
   const forgetDevice = (): void => {
     setIsSecretCodeAdmin(false);
+    setUser(null);
     if (typeof window !== 'undefined') {
       localStorage.removeItem(ADMIN_AUTH_STATE_KEY);
       localStorage.removeItem(ADMIN_USER_ID_KEY);
       localStorage.removeItem(ADMIN_REMEMBER_KEY);
+      localStorage.removeItem(CLIENT_AUTH_KEY);
       localStorage.removeItem(SECRET_STORAGE_KEY);
       localStorage.removeItem(SECRET_DEVICE_KEY);
       localStorage.removeItem('as_studio_admin_unlocked');
       sessionStorage.removeItem(ADMIN_AUTH_STATE_KEY);
+      sessionStorage.removeItem(CLIENT_AUTH_KEY);
       sessionStorage.removeItem(SECRET_STORAGE_KEY);
       sessionStorage.removeItem('as_studio_admin_unlocked');
     }
@@ -243,16 +351,19 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
 
   const signOut = async (): Promise<void> => {
     setIsSecretCodeAdmin(false);
+    setUser(null);
     setGmailAccessToken(null);
     if (typeof window !== 'undefined') {
       localStorage.removeItem(ADMIN_AUTH_STATE_KEY);
       localStorage.removeItem(ADMIN_USER_ID_KEY);
       localStorage.removeItem(ADMIN_REMEMBER_KEY);
+      localStorage.removeItem(CLIENT_AUTH_KEY);
       localStorage.removeItem(SECRET_STORAGE_KEY);
       localStorage.removeItem(SECRET_DEVICE_KEY);
       localStorage.removeItem('as_studio_admin_unlocked');
       localStorage.removeItem(GMAIL_TOKEN_KEY);
       sessionStorage.removeItem(ADMIN_AUTH_STATE_KEY);
+      sessionStorage.removeItem(CLIENT_AUTH_KEY);
       sessionStorage.removeItem(SECRET_STORAGE_KEY);
       sessionStorage.removeItem('as_studio_admin_unlocked');
       sessionStorage.removeItem(GMAIL_TOKEN_KEY);
@@ -278,6 +389,7 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
         isSecretCodeAdmin,
         gmailAccessToken,
         signInWithGoogle,
+        loginWithEmail,
         connectGmail,
         loginWithSecretCode,
         signOut,

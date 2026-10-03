@@ -149,7 +149,7 @@ export function Header({
                 ) : (
                   <User className="w-3.5 h-3.5 text-[#60A5FA]" />
                 )}
-                <span>{user ? (user.displayName?.split(' ')[0] || 'Account') : 'Sign In'}</span>
+                <span>{user ? (user.displayName?.split(' ')[0] || 'Account') : isAdmin ? 'Founder' : 'Client Hub'}</span>
                 {user && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />}
               </button>
             )}
@@ -185,7 +185,7 @@ export function Header({
                 title={user ? 'My Account' : 'Sign In / Login'}
               >
                 <User className="w-3.5 h-3.5 text-[#60A5FA]" />
-                <span>{user ? 'Account' : 'Login'}</span>
+                <span>{user ? 'Account' : isAdmin ? 'Founder' : 'Client Hub'}</span>
               </button>
             )}
 
