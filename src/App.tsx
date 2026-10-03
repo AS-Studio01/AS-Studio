@@ -12,6 +12,8 @@ import { ProjectModal } from './components/ProjectModal';
 import { LegalModal } from './components/LegalModal';
 import { SecretAdminPanel } from './components/SecretAdminPanel';
 import { ClientPortalModal } from './components/ClientPortalModal';
+import { SiteContentProvider, useSiteContent } from './context/SiteContentContext';
+import { SiteEnhancements } from './components/SiteEnhancements';
 import { FloatingCommunicationHub } from './components/FloatingCommunicationHub';
 import { StudioAIChatbot } from './components/StudioAIChatbot';
 import { HomePage } from './pages/HomePage';
@@ -19,8 +21,6 @@ import { WorkPage } from './pages/WorkPage';
 import { ServicesPage } from './pages/ServicesPage';
 import { ProcessPage } from './pages/ProcessPage';
 import { ContactPage } from './pages/ContactPage';
-import { SiteEnhancements } from './components/SiteEnhancements';
-import { PROJECTS } from './data/projects';
 import { Project, PageType } from './types';
 
 export default function App() {
@@ -30,6 +30,7 @@ export default function App() {
   const [isAIChatOpen, setIsAIChatOpen] = useState(false);
   const [isPortalOpen, setIsPortalOpen] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
+  const { content } = useSiteContent();
 
   // Guarantee clean landing on 'home'
   useEffect(() => {
@@ -45,9 +46,8 @@ export default function App() {
   };
 
   return (
-    <div className="site-shell min-h-screen bg-[#0E0E10] text-[#F4F4F6] flex flex-col font-sans selection:bg-[#3B82F6] selection:text-white pb-14 sm:pb-12">
-      <SiteEnhancements page={currentPage === 'home' ? 'home' : currentPage} />
-
+    <SiteContentProvider>
+    <div className="min-h-screen bg-[#0E0E10] text-[#F4F4F6] flex flex-col font-sans selection:bg-[#3B82F6] selection:text-white pb-14 sm:pb-12">
       {/* Header with clean navigation, AI Concierge, and secret founder trigger */}
       <Header
         currentPage={currentPage}
@@ -72,7 +72,7 @@ export default function App() {
           >
             {currentPage === 'home' && (
               <HomePage
-                projects={PROJECTS}
+                projects={content.projects}
                 onSelectProject={(project) => setSelectedProject(project)}
                 onNavigate={navigateTo}
               />
@@ -80,7 +80,7 @@ export default function App() {
 
             {currentPage === 'work' && (
               <WorkPage
-                projects={PROJECTS}
+                projects={content.projects}
                 onSelectProject={(project) => setSelectedProject(project)}
                 onNavigate={navigateTo}
               />
@@ -164,6 +164,8 @@ export default function App() {
         type={legalModalType}
         onClose={() => setLegalModalType(null)}
       />
+      <SiteEnhancements />
     </div>
+    </SiteContentProvider>
   );
 }
