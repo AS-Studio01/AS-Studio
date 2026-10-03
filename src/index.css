@@ -128,17 +128,17 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .site-reading-progress { position:fixed; top:0; left:0; right:0; height:2px; z-index:100; pointer-events:none; background:transparent; }
 .site-reading-progress span { display:block; height:100%; background:linear-gradient(90deg,#3b82f6,#8b5cf6); box-shadow:0 0 12px rgba(59,130,246,.55); }
 .back-to-top { position:fixed; right:1rem; bottom:5.5rem; z-index:45; width:42px; height:42px; border-radius:9999px; display:grid; place-items:center; color:white; background:rgba(18,18,24,.72); border:1px solid rgba(255,255,255,.14); backdrop-filter:blur(12px); box-shadow:0 10px 30px rgba(0,0,0,.25); }
-[data-reveal], section {
+[data-reveal], .reveal-target {
   opacity:0;
   transform:translateY(18px);
   transition:opacity .55s ease, transform .55s cubic-bezier(.22,1,.36,1);
   content-visibility:auto;
   contain-intrinsic-size: 500px;
 }
-.reveal-visible, section.reveal-visible { opacity:1; transform:none; }
+.reveal-visible { opacity:1; transform:none; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior:auto; }
-  [data-reveal], section { opacity:1; transform:none; transition:none; }
+  [data-reveal], .reveal-target { opacity:1; transform:none; transition:none; }
   .back-to-top,.pill-btn { transition:none; }
 }
 @media print {
