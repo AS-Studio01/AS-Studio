@@ -645,20 +645,19 @@ html.dark .glass-panel {
   }
 }
 
-/* Subtle Cinematic Scroll Reveal Animation */
+/* Cinematic Scroll Reveal — motion only, never blur content. */
 .cinematic-reveal {
   opacity: 1;
-  transform: translate3d(0, 22px, 0) scale(0.992);
-  filter: blur(5px);
-  transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1),
-              filter 900ms cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, filter;
+  transform: translate3d(0, 18px, 0) scale(0.996);
+  transition: transform 850ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .cinematic-reveal.is-revealed {
   opacity: 1;
   transform: translate3d(0, 0, 0) scale(1);
-  filter: blur(0);
 }
 
 .cinematic-reveal.is-revealed.clean-gpu {
