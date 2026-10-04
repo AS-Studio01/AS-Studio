@@ -1,23 +1,9 @@
 import { useEffect, useRef, useState, RefObject } from 'react';
 
 export interface UseCinematicRevealOptions {
-  /**
-   * Intersection threshold (ratio of element visible before triggering).
-   * Defaults to 0.15 (15% threshold) as requested.
-   */
   threshold?: number;
-  /**
-   * Root margin to offset the viewport bounds.
-   * Defaults to '0px 0px -40px 0px' for natural fluid anticipation.
-   */
   rootMargin?: string;
-  /**
-   * Optional delay in milliseconds before activating the reveal state.
-   */
   delayMs?: number;
-  /**
-   * Whether to unobserve once revealed. Defaults to true.
-   */
   triggerOnce?: boolean;
 }
 
@@ -29,24 +15,16 @@ export interface UseCinematicRevealResult<T extends HTMLElement> {
 }
 
 /**
- * useCinematicReveal
- * ==============================================================================
- * Custom hook using IntersectionObserver with a 15% viewport threshold.
- * Automatically toggles the 'is-revealed' class on the target DOM element
- * once it enters the viewport, and returns { ref, isRevealed }.
- *
- * Supports both object destructuring:
- *   const { ref, isRevealed } = useCinematicReveal();
- * and array destructuring:
- *   const [ref, isRevealed] = useCinematicReveal();
- * ==============================================================================
+ * Safe cinematic reveal: content is ALWAYS visible. IntersectionObserver only
+ * controls the finishing transform/filter, so a browser/observer failure can
+ * never make a section disappear.
  */
 export function useCinematicReveal<T extends HTMLElement = HTMLDivElement>(
   options: UseCinematicRevealOptions = {}
 ): UseCinematicRevealResult<T> {
   const {
-    threshold = 0.12,
-    rootMargin = '0px 0px -12% 0px',
+    threshold = 0.08,
+    rootMargin = '0px 0px -10% 0px',
     delayMs = 0,
     triggerOnce = true,
   } = options;
@@ -56,62 +34,38 @@ export function useCinematicReveal<T extends HTMLElement = HTMLDivElement>(
 
   useEffect(() => {
     const element = ref.current;
-    if (!element || typeof window === 'undefined') return;
+    if (!element) return;
 
-    let revealTimer: ReturnType<typeof setTimeout> | null = null;
-    let failsafeTimer: ReturnType<typeof setTimeout> | null = null;
-    let observer: IntersectionObserver | null = null;
+    const reveal = () => setIsRevealed(true);
 
-    const reveal = () => {
-      if (revealTimer) clearTimeout(revealTimer);
-      const apply = () => {
-        element.classList.add('is-revealed');
-        setIsRevealed(true);
-      };
-      if (delayMs > 0) revealTimer = setTimeout(apply, delayMs);
-      else apply();
-    };
-
-    // Never let an animation layer make content permanently invisible.
-    // Reduced-motion, unsupported observers, browser edge cases, or an observer
-    // that fails to fire all fall back to a visible state.
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reducedMotion || !('IntersectionObserver' in window)) {
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
       reveal();
-      return () => { if (revealTimer) clearTimeout(revealTimer); };
+      return;
     }
 
-    const rect = element.getBoundingClientRect();
-    const inViewportNow = rect.top < window.innerHeight && rect.bottom > 0;
-    if (inViewportNow) reveal();
+    if (!('IntersectionObserver' in window)) {
+      reveal();
+      return;
+    }
 
-    observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            reveal();
-            if (triggerOnce) observer?.unobserve(entry.target);
-          } else if (!triggerOnce) {
-            element.classList.remove('is-revealed');
-            setIsRevealed(false);
-          }
-        }
-      },
-      { threshold, rootMargin }
-    );
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        if (delayMs > 0) window.setTimeout(reveal, delayMs);
+        else reveal();
+        if (triggerOnce) observer.unobserve(entry.target);
+      }
+    }, { threshold, rootMargin });
 
     observer.observe(element);
 
-    // Safety valve: a section should never disappear because an observer was
-    // interrupted by navigation, browser restoration, or a rendering edge case.
-    failsafeTimer = setTimeout(() => {
-      if (!element.classList.contains('is-revealed')) reveal();
-    }, 1800);
+    // If a browser fails to report the initial intersection, never leave the
+    // content in an incomplete visual state.
+    const safety = window.setTimeout(reveal, 1800 + delayMs);
 
     return () => {
-      observer?.disconnect();
-      if (revealTimer) clearTimeout(revealTimer);
-      if (failsafeTimer) clearTimeout(failsafeTimer);
+      observer.disconnect();
+      window.clearTimeout(safety);
     };
   }, [threshold, rootMargin, delayMs, triggerOnce]);
 
@@ -120,4 +74,5 @@ export function useCinematicReveal<T extends HTMLElement = HTMLDivElement>(
   tuple.isRevealed = isRevealed;
   return tuple;
 }
+
 export default useCinematicReveal;
