@@ -45,8 +45,8 @@ export function useCinematicReveal<T extends HTMLElement = HTMLDivElement>(
   options: UseCinematicRevealOptions = {}
 ): UseCinematicRevealResult<T> {
   const {
-    threshold = 0.15,
-    rootMargin = '0px 0px -40px 0px',
+    threshold = 0.12,
+    rootMargin = '0px 0px -12% 0px',
     delayMs = 0,
     triggerOnce = true,
   } = options;
@@ -55,71 +55,69 @@ export function useCinematicReveal<T extends HTMLElement = HTMLDivElement>(
   const [isRevealed, setIsRevealed] = useState(false);
 
   useEffect(() => {
-    // Respect accessibility reduced-motion preference
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      if (ref.current) {
-        ref.current.classList.add('is-revealed');
-      }
-      setIsRevealed(true);
-      return;
-    }
-
     const element = ref.current;
-    if (!element) return;
+    if (!element || typeof window === 'undefined') return;
 
-    // Fallback if IntersectionObserver is not supported
-    if (!('IntersectionObserver' in window)) {
-      element.classList.add('is-revealed');
-      setIsRevealed(true);
-      return;
+    let revealTimer: ReturnType<typeof setTimeout> | null = null;
+    let failsafeTimer: ReturnType<typeof setTimeout> | null = null;
+    let observer: IntersectionObserver | null = null;
+
+    const reveal = () => {
+      if (revealTimer) clearTimeout(revealTimer);
+      const apply = () => {
+        element.classList.add('is-revealed');
+        setIsRevealed(true);
+      };
+      if (delayMs > 0) revealTimer = setTimeout(apply, delayMs);
+      else apply();
+    };
+
+    // Never let an animation layer make content permanently invisible.
+    // Reduced-motion, unsupported observers, browser edge cases, or an observer
+    // that fails to fire all fall back to a visible state.
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion || !('IntersectionObserver' in window)) {
+      reveal();
+      return () => { if (revealTimer) clearTimeout(revealTimer); };
     }
 
-    const observer = new IntersectionObserver(
+    const rect = element.getBoundingClientRect();
+    const inViewportNow = rect.top < window.innerHeight && rect.bottom > 0;
+    if (inViewportNow) reveal();
+
+    observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
+        for (const entry of entries) {
           if (entry.isIntersecting) {
-            const applyReveal = () => {
-              if (ref.current) {
-                ref.current.classList.add('is-revealed');
-              }
-              setIsRevealed(true);
-            };
-
-            if (delayMs > 0) {
-              setTimeout(applyReveal, delayMs);
-            } else {
-              applyReveal();
-            }
-
-            if (triggerOnce) {
-              observer.unobserve(entry.target);
-            }
+            reveal();
+            if (triggerOnce) observer?.unobserve(entry.target);
           } else if (!triggerOnce) {
-            if (ref.current) {
-              ref.current.classList.remove('is-revealed');
-            }
+            element.classList.remove('is-revealed');
             setIsRevealed(false);
           }
-        });
+        }
       },
-      {
-        threshold,
-        rootMargin,
-      }
+      { threshold, rootMargin }
     );
 
     observer.observe(element);
 
+    // Safety valve: a section should never disappear because an observer was
+    // interrupted by navigation, browser restoration, or a rendering edge case.
+    failsafeTimer = setTimeout(() => {
+      if (!element.classList.contains('is-revealed')) reveal();
+    }, 1800);
+
     return () => {
-      observer.disconnect();
+      observer?.disconnect();
+      if (revealTimer) clearTimeout(revealTimer);
+      if (failsafeTimer) clearTimeout(failsafeTimer);
     };
   }, [threshold, rootMargin, delayMs, triggerOnce]);
 
   const tuple = [ref, isRevealed] as unknown as UseCinematicRevealResult<T>;
   tuple.ref = ref;
   tuple.isRevealed = isRevealed;
-
   return tuple;
 }
-
 export default useCinematicReveal;
