@@ -154,18 +154,6 @@ export function Header({
               </button>
             )}
 
-            {/* AI Helper Assistant Button */}
-            {onOpenAIChat && (
-              <button
-                onClick={onOpenAIChat}
-                className="glass-btn px-3 py-1.5 lg:px-3.5 lg:py-1.5 text-xs font-bold text-white inline-flex items-center gap-1.5 border border-[#3B82F6]/30 hover:border-[#3B82F6] transition-colors rounded-full"
-                title="Open AS Studio Helper AI"
-              >
-                <Bot className="w-3.5 h-3.5 text-[#3B82F6]" />
-                <span>Helper AI</span>
-              </button>
-            )}
-
             {/* CTA button: Start a project */}
             <button
               onClick={() => handleLinkClick('contact')}
@@ -186,17 +174,6 @@ export function Header({
               >
                 <User className="w-3.5 h-3.5 text-[#60A5FA]" />
                 <span>{user ? 'Account' : isAdmin ? 'Founder' : 'Client Hub'}</span>
-              </button>
-            )}
-
-            {onOpenAIChat && (
-              <button
-                onClick={onOpenAIChat}
-                className="glass-btn p-2 text-white border border-[#3B82F6]/30 rounded-lg flex items-center gap-1 text-xs font-bold"
-                aria-label="Open AS Studio Helper AI"
-                title="Open AI Assistant"
-              >
-                <Bot className="w-4 h-4 text-[#3B82F6]" />
               </button>
             )}
 
