@@ -82,7 +82,7 @@ export function Process({ onStartProject }: ProcessProps) {
 
               <div className="pt-3 border-t border-white/[0.06] flex items-center justify-between text-[11px] font-mono text-[#71717A]">
                 <span>Phase {index + 1} of {steps.length}</span>
-                <span className="text-emerald-400 font-medium">Verified Handover</span>
+                <span className="text-emerald-400 font-medium">Project Handover</span>
               </div>
             </div>
           ))}

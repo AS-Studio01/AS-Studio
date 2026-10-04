@@ -19,7 +19,7 @@ export function AboutSection({ onStartProject }: AboutSectionProps) {
     {
       icon: Zap,
       title: 'Fast performance',
-      description: 'Every site is engineered for sub-second loading speeds (< 1.0s) and optimized Core Web Vitals, ensuring zero visitor drop-off from sluggish pages.',
+      description: 'We keep layouts, assets and interactions purposeful, then check performance against the actual content and hosting used for the project.',
     },
     {
       icon: Smartphone,
@@ -29,7 +29,7 @@ export function AboutSection({ onStartProject }: AboutSectionProps) {
     {
       icon: Code2,
       title: 'Maintainable builds',
-      description: 'Clean, modern React and TypeScript codebases delivered with 100% full rights. Zero proprietary builder lock-in and zero mandatory platform subscription fees.',
+      description: 'Maintainable React and TypeScript builds with an agreed production handover. Hosting and third-party services are chosen according to the project.',
     },
     {
       icon: Target,
@@ -71,7 +71,7 @@ export function AboutSection({ onStartProject }: AboutSectionProps) {
               Our Operating Principles
             </span>
             <span className="text-xs font-mono text-[#0047AB] dark:text-[#60A5FA] font-bold">
-              Zero AI Slop · 100% Code Handover
+              Human-led design · Clear project handover
             </span>
           </div>
 

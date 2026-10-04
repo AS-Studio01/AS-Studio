@@ -17,8 +17,8 @@ export function Testimonials({ onOpenRateModal }: TestimonialsProps) {
     },
     {
       icon: Lock,
-      title: '100% Complete Code Ownership',
-      description: 'Clean GitHub repository rights or production files transferred to you upon completion. No builder lock-in, no monthly hostage fees.',
+      title: 'Clear Handover',
+      description: 'The agreed production files, access and handover materials are provided according to the project scope.',
     },
     {
       icon: MessageSquare,
@@ -27,8 +27,8 @@ export function Testimonials({ onOpenRateModal }: TestimonialsProps) {
     },
     {
       icon: Zap,
-      title: 'Sub-Second Performance',
-      description: 'Engineered for rapid loading speeds (< 1.0s) and high Core Web Vitals scores to ensure zero lost leads from slow pages.',
+      title: 'Performance-minded builds',
+      description: 'Layouts and assets are kept purposeful, with performance checked during the real build rather than promised with unverified numbers.',
     },
     {
       icon: ShieldCheck,

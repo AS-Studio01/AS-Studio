@@ -316,7 +316,7 @@ export function SiteEditor({ initialTab = 'dashboard' }: SiteEditorProps) {
       clientName: 'Client Name',
       businessName: 'Business or Practice Name',
       role: 'Founder or Director',
-      quote: 'AS Studio delivered our website sprint with outstanding speed, clean typography, and 100% source code ownership.',
+      quote: 'AS Studio delivered a focused website with clear communication, thoughtful design, and a clean handover.',
       rating: 5,
       outcome: 'Notable business outcome or traffic metric',
       serviceType: 'Business Website Sprint',
@@ -488,7 +488,7 @@ export function SiteEditor({ initialTab = 'dashboard' }: SiteEditorProps) {
             <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-1">
               <span className="text-[11px] font-mono uppercase text-[#A1A1AA]">Capabilities Published</span>
               <div className="text-2xl font-black text-white">{draft.services.filter(s => s.enabled !== false).length} Services</div>
-              <span className="text-[11px] text-cyan-400 font-mono">100% Code Ownership</span>
+              <span className="text-[11px] text-cyan-400 font-mono">Project Handover</span>
             </div>
 
             <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-1">

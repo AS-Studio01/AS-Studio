@@ -39,7 +39,7 @@ export function ProjectVisual({ projectId, name }: ProjectVisualProps) {
             </span>
           </div>
           <span className="text-[10px] font-mono text-emerald-400 font-bold">
-            ● Live Staging Demo
+            ● Studio Concept Preview
           </span>
         </div>
       </div>
@@ -89,7 +89,7 @@ export function ProjectVisual({ projectId, name }: ProjectVisualProps) {
             ))}
           </div>
           <span className="text-[10px] font-mono text-emerald-400 font-bold hidden sm:inline">
-            ● Live Staging Demo
+            ● Studio Concept Preview
           </span>
         </div>
       </div>
@@ -131,7 +131,7 @@ export function ProjectVisual({ projectId, name }: ProjectVisualProps) {
           </span>
         </div>
         <span className="text-[10px] font-mono text-emerald-400 font-bold">
-          ● Live Staging Demo
+          ● Studio Concept Preview
         </span>
       </div>
     </div>

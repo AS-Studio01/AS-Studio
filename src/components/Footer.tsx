@@ -116,7 +116,7 @@ export function Footer({ onNavigate, onOpenLegal }: FooterProps) {
           <div className="flex items-center gap-2">
             <span>© {new Date().getFullYear()} AS Studio. All Rights Reserved.</span>
             <span>·</span>
-            <span>100% Source Code Ownership Guaranteed.</span>
+            <span>Clear project handover on agreed deliverables.</span>
           </div>
 
           {onOpenLegal && (
