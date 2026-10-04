@@ -112,7 +112,6 @@ html.dark {
   color: #18181B;
   background: rgba(255, 255, 255, 0.92);
   border: 1px solid #E5E2D9;
-  backdrop-filter: blur(18px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
 }
@@ -206,7 +205,6 @@ html.dark .zone-contact {
 html.dark .glass-btn {
   background: rgba(255, 255, 255, 0.055) !important;
   border: 1px solid rgba(255, 255, 255, 0.14) !important;
-  backdrop-filter: blur(14px);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 8px 24px rgba(0, 0, 0, 0.22);
   color: #F4F4F6 !important;
 }
@@ -278,7 +276,6 @@ html.dark .glass-btn-outline:hover {
 html.dark .glass-card {
   border: 1px solid rgba(255, 255, 255, 0.10);
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02));
-  backdrop-filter: blur(16px);
   border-radius: 28px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 16px 45px rgba(0, 0, 0, 0.25);
 }
@@ -302,7 +299,6 @@ html.dark .glass-panel {
   background: rgba(14, 14, 19, 0.88);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 28px;
-  backdrop-filter: blur(24px);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
