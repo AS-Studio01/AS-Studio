@@ -63,7 +63,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF9F5] text-[#18181B] dark:bg-[#0E0E10] dark:text-[#F4F4F6] flex flex-col font-sans selection:bg-[#2563EB] selection:text-white pb-14 sm:pb-12 transition-colors duration-150">
+    <div className="cinematic-page min-h-screen bg-[#FAF9F5] text-[#18181B] dark:bg-[#0E0E10] dark:text-[#F4F4F6] flex flex-col font-sans selection:bg-[#2563EB] selection:text-white pb-14 sm:pb-12 transition-colors duration-150">
       {/* Header with clean navigation, theme toggle, and direct tracking */}
       <Header
         currentPage={currentPage}
@@ -78,11 +78,11 @@ export default function App() {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentPage}
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, y: 18, filter: 'blur(4px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: -14, filter: 'blur(3px)' }}
             transition={{ 
-              duration: 0.22, 
+              duration: 0.5, 
               ease: [0.22, 1, 0.36, 1] 
             }}
             className="w-full"

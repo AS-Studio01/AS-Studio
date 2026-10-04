@@ -648,15 +648,27 @@ html.dark .glass-panel {
 /* Subtle Cinematic Scroll Reveal Animation */
 .cinematic-reveal {
   opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.72s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.72s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translate3d(0, 26px, 0) scale(0.992);
+  transition: opacity 0.78s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.78s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
+  backface-visibility: hidden;
+}
+
+/* If the reveal system is ever interrupted, content is force-revealed rather than hidden. */
+.cinematic-reveal:not(.is-revealed) {
+  animation: cinematicFailsafe 1.8s ease forwards;
+  animation-delay: 1.8s;
+}
+
+@keyframes cinematicFailsafe {
+  to { opacity: 1; transform: none; }
 }
 
 .cinematic-reveal.is-revealed {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0) scale(1);
+  animation: none;
 }
 
 .cinematic-reveal.is-revealed.clean-gpu {
@@ -675,5 +687,98 @@ html.dark .glass-panel {
     scroll-behavior: auto !important;
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
+  }
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* Cinematic Studio Atmosphere                                                */
+/* -------------------------------------------------------------------------- */
+.cinematic-page {
+  position: relative;
+  isolation: isolate;
+}
+
+.cinematic-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  background:
+    radial-gradient(900px 500px at 8% 8%, rgba(37,99,235,.08), transparent 65%),
+    radial-gradient(800px 500px at 92% 32%, rgba(124,58,237,.07), transparent 64%),
+    radial-gradient(700px 450px at 50% 100%, rgba(16,185,129,.045), transparent 68%);
+}
+
+.cinematic-page::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  opacity: .28;
+  background-image: linear-gradient(rgba(24,24,27,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(24,24,27,.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: linear-gradient(to bottom, black, transparent 78%);
+}
+
+html.dark .cinematic-page::after {
+  background-image: linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+}
+
+.cinematic-hero-glow {
+  position: absolute;
+  width: min(62vw, 760px);
+  height: min(62vw, 760px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(59,130,246,.13), rgba(124,58,237,.07) 35%, transparent 70%);
+  filter: blur(28px);
+  pointer-events: none;
+  animation: cinematicFloat 12s ease-in-out infinite alternate;
+}
+
+.cinematic-orbit {
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  border: 1px solid rgba(59,130,246,.12);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: cinematicOrbit 22s linear infinite;
+}
+
+@keyframes cinematicFloat {
+  from { transform: translate3d(-3%, -2%, 0) scale(.96); }
+  to { transform: translate3d(4%, 3%, 0) scale(1.05); }
+}
+
+@keyframes cinematicOrbit {
+  to { transform: rotate(360deg); }
+}
+
+.glass-card,
+.glass-panel,
+.demo-browser {
+  transform: translateZ(0);
+}
+
+.glass-card:hover {
+  transform: translateY(-6px) translateZ(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-page::before,
+  .cinematic-page::after,
+  .cinematic-hero-glow,
+  .cinematic-orbit {
+    animation: none !important;
+  }
+  .cinematic-reveal,
+  .cinematic-reveal:not(.is-revealed) {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
   }
 }
