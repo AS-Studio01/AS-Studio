@@ -115,8 +115,8 @@ export function WorkPage({ projects, onSelectProject, onNavigate }: WorkPageProp
           </div>
           <div>
             <span className="text-[11px] uppercase tracking-wider text-[#736E66] dark:text-[#A1A1AA] block font-bold font-mono">Loading Speed</span>
-            <span className="text-2xl font-black tracking-tight block mt-1">&lt; 1.0s FCP</span>
-            <span className="text-xs font-medium text-[#6B6661] dark:text-[#A1A1AA]">No bloated site builders</span>
+            <span className="text-2xl font-black tracking-tight block mt-1">Lean by design</span>
+            <span className="text-xs font-medium text-[#6B6661] dark:text-[#A1A1AA]">Performance reviewed before launch</span>
           </div>
           <div>
             <span className="text-[11px] uppercase tracking-wider text-[#736E66] dark:text-[#A1A1AA] block font-bold font-mono">Source Code</span>
