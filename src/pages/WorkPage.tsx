@@ -120,12 +120,12 @@ export function WorkPage({ projects, onSelectProject, onNavigate }: WorkPageProp
           </div>
           <div>
             <span className="text-[11px] uppercase tracking-wider text-[#736E66] dark:text-[#A1A1AA] block font-bold font-mono">Source Code</span>
-            <span className="text-2xl font-black tracking-tight block mt-1">Your project, clearly handed over</span>
+            <span className="text-2xl font-black tracking-tight block mt-1">Client Handover</span>
             <span className="text-xs font-medium text-[#6B6661] dark:text-[#A1A1AA]">Full ownership, zero lock-in</span>
           </div>
           <div>
-            <span className="text-[11px] uppercase tracking-wider text-[#736E66] dark:text-[#A1A1AA] block font-bold font-mono">Concept Ethics</span>
-            <span className="text-2xl font-black tracking-tight block mt-1 text-[#0047AB] dark:text-[#3B82F6]">Honest Badges</span>
+            <span className="text-[11px] uppercase tracking-wider text-[#736E66] dark:text-[#A1A1AA] block font-bold font-mono">Concept Status</span>
+            <span className="text-2xl font-black tracking-tight block mt-1 text-[#0047AB] dark:text-[#3B82F6]">Clearly Labelled</span>
             <span className="text-xs font-medium text-[#6B6661] dark:text-[#A1A1AA]">Transparent distinction</span>
           </div>
         </div>
@@ -157,7 +157,7 @@ export function WorkPage({ projects, onSelectProject, onNavigate }: WorkPageProp
               >
                 {/* Visual Preview */}
                 <div className="lg:col-span-7 bg-[#F4F1EA] dark:bg-[#141416] border-b lg:border-b-0 lg:border-r border-[#DDD7CD] dark:border-[#27272A] flex items-center">
-                  <ProjectVisual projectId={project.id} name={project.name} />
+                  <ProjectVisual projectId={project.id} name={project.name} imageUrl={project.imageUrl} category={project.category} />
                 </div>
 
                 {/* Text & Specs */}
@@ -242,19 +242,19 @@ export function WorkPage({ projects, onSelectProject, onNavigate }: WorkPageProp
           onSelectProject={onSelectProject}
         />
 
-        {/* Project Handover & Support */}
+        {/* Client Security & Protection Guarantee Box */}
         <div className="mt-16 p-8 bg-white/80 dark:bg-[#18181B]/80 border border-[#DDD7CD] dark:border-[#27272A] space-y-4 shadow-sm backdrop-blur-sm">
           <div className="flex items-center gap-2.5 text-[#0047AB] dark:text-[#3B82F6]">
             <ShieldCheck className="w-5 h-5" />
             <span className="text-xs uppercase font-bold tracking-wider font-mono">
-              Project handover
+              Client Security & Ownership Guarantee
             </span>
           </div>
           <h3 className="text-xl sm:text-2xl font-black tracking-tight text-[#121212] dark:text-white">
-            A clear handover, without unnecessary platform lock-in.
+            Your project is delivered with clear ownership and handover terms.
           </h3>
           <p className="text-sm text-[#4A4641] dark:text-[#D4D4D8] leading-relaxed max-w-3xl font-medium">
-            The final handover follows the agreed scope and includes the production files, assets and access needed to operate the website. Hosting and third-party services remain subject to the selected setup.
+            Unlike agencies that build on closed platforms with monthly software fees, AS Studio hands over complete production code, assets, and documentation. You can host anywhere, modify anything, or keep us on retainer only when you need new pages.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-3 text-xs text-[#55514B] dark:text-[#A1A1AA]">
             <div className="p-3.5 bg-[#FAF8F5] dark:bg-[#141416] border border-[#E7E2DA] dark:border-[#27272A]">
@@ -262,12 +262,12 @@ export function WorkPage({ projects, onSelectProject, onNavigate }: WorkPageProp
               Clean Git repository / zip file delivered at launch.
             </div>
             <div className="p-3.5 bg-[#FAF8F5] dark:bg-[#141416] border border-[#E7E2DA] dark:border-[#27272A]">
-              <strong className="block text-[#121212] dark:text-white font-bold mb-1">Flexible hosting</strong>
-              Use the hosting setup that fits the project and your business.
+              <strong className="block text-[#121212] dark:text-white font-bold mb-1">Zero Platform Ransom</strong>
+              No recurring studio lock-ins or mandatory maintenance.
             </div>
             <div className="p-3.5 bg-[#FAF8F5] dark:bg-[#141416] border border-[#E7E2DA] dark:border-[#27272A]">
-              <strong className="block text-[#121212] dark:text-white font-bold mb-1">Post-launch support</strong>
-              Agreed post-launch support can cover implementation issues within scope.
+              <strong className="block text-[#121212] dark:text-white font-bold mb-1">30-Day Launch Warranty</strong>
+              Free bug fixes and tweaks after going live.
             </div>
           </div>
         </div>

@@ -209,7 +209,7 @@ export function TrackOrderPage({ onNavigate }: TrackOrderPageProps) {
                     <div className="p-3.5 rounded-xl bg-slate-100 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 flex items-center justify-between text-xs text-slate-400 dark:text-[#71717A]">
                       <div className="flex items-center gap-2.5">
                         <span className="w-4 h-4 rounded-full border border-slate-300 dark:border-white/20 flex items-center justify-center text-[10px]">5</span>
-                        <span>Phase 5: Launch & Project Handover</span>
+                        <span>Phase 5: Launch & 100% Source Code Repository Handover</span>
                       </div>
                       <span className="text-[11px] font-mono">Handover</span>
                     </div>
@@ -278,7 +278,7 @@ export function TrackOrderPage({ onNavigate }: TrackOrderPageProps) {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-slate-600 dark:text-[#A1A1AA]">
             <div>
-              <strong className="block text-slate-900 dark:text-white mb-0.5">Project Handover</strong>
+              <strong className="block text-slate-900 dark:text-white mb-0.5">100% Code Ownership</strong>
               Full GitHub repo or production zip delivered upon launch.
             </div>
             <div>
