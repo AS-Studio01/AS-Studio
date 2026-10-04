@@ -115,8 +115,8 @@ export function WorkPage({ projects, onSelectProject, onNavigate }: WorkPageProp
           </div>
           <div>
             <span className="text-[11px] uppercase tracking-wider text-[#736E66] dark:text-[#A1A1AA] block font-bold font-mono">Loading Speed</span>
-            <span className="text-2xl font-black tracking-tight block mt-1">Lean by design</span>
-            <span className="text-xs font-medium text-[#6B6661] dark:text-[#A1A1AA]">Performance reviewed before launch</span>
+            <span className="text-2xl font-black tracking-tight block mt-1">&lt; 1.0s FCP</span>
+            <span className="text-xs font-medium text-[#6B6661] dark:text-[#A1A1AA]">No bloated site builders</span>
           </div>
           <div>
             <span className="text-[11px] uppercase tracking-wider text-[#736E66] dark:text-[#A1A1AA] block font-bold font-mono">Source Code</span>
@@ -157,7 +157,14 @@ export function WorkPage({ projects, onSelectProject, onNavigate }: WorkPageProp
               >
                 {/* Visual Preview */}
                 <div className="lg:col-span-7 bg-[#F4F1EA] dark:bg-[#141416] border-b lg:border-b-0 lg:border-r border-[#DDD7CD] dark:border-[#27272A] flex items-center">
-                  <ProjectVisual projectId={project.id} name={project.name} />
+                  <ProjectVisual
+                    projectId={project.id}
+                    name={project.name}
+                    imageUrl={project.imageUrl}
+                    category={project.category}
+                    accentColor={project.accentColor}
+                    badge={project.badge}
+                  />
                 </div>
 
                 {/* Text & Specs */}
