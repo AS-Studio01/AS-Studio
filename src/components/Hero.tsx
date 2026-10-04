@@ -1,5 +1,4 @@
-import { ArrowRight, CheckCircle2, ShieldCheck, Smartphone, Lock, Clock, Zap } from 'lucide-react';
-import { motion } from 'motion/react';
+import { ArrowRight, CheckCircle2, ShieldCheck, Smartphone, Lock, Clock, Code2, Zap } from 'lucide-react';
 import { useSiteContent } from '../context/SiteContentContext';
 import { RevealOnScroll } from './RevealOnScroll';
 import { PageType } from '../types';
@@ -49,19 +48,9 @@ export function Hero({ onNavigate }: HeroProps) {
 
   return (
     <section className="relative pt-12 pb-16 sm:pt-20 sm:pb-24 border-b border-[#E5E2D9] dark:border-white/[0.08] bg-[#FAF9F5] dark:bg-[#09090C] overflow-hidden transition-colors duration-150">
-      {/* Layered ambient atmosphere: intentionally lightweight, no layout dependency. */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div className="cinematic-hero-glow -top-48 -right-24" />
-        <motion.div
-          className="cinematic-orbit -top-24 right-[-180px]"
-          animate={{ rotate: [0, 360] }}
-          transition={{ duration: 34, repeat: Infinity, ease: 'linear' }}
-        />
-        <motion.div
-          className="absolute left-[8%] top-[34%] h-24 w-24 rounded-full bg-cyan-400/10 blur-3xl"
-          animate={{ x: [0, 24, 0], y: [0, -18, 0], opacity: [0.35, 0.7, 0.35] }}
-          transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-        />
+      {/* Subtle ambient lighting */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[720px] h-[340px] bg-gradient-to-b from-blue-600/5 dark:from-blue-600/10 via-indigo-600/5 to-transparent blur-[100px] rounded-full" />
       </div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -175,10 +164,10 @@ export function Hero({ onNavigate }: HeroProps) {
                 <div className="p-3.5 rounded-xl bg-[#F4F2EC] dark:bg-[#0B0B0F] border border-[#E5E2D9] dark:border-white/[0.08] flex items-center justify-between text-xs font-mono">
                   <div className="flex items-center gap-2 text-[#374151] dark:text-[#D4D4D8]">
                     <Zap className="w-4 h-4 text-amber-500 dark:text-amber-400 shrink-0" />
-                    <span>Build Standard:</span>
+                    <span>Performance Target:</span>
                   </div>
                   <span className="text-emerald-700 dark:text-emerald-400 font-bold">
-                    Lean, measured delivery
+                    FCP &lt; 0.9s · 95+ Score
                   </span>
                 </div>
 

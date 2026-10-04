@@ -129,7 +129,14 @@ export function SelectedWork({ projects, onSelectProject }: SelectedWorkProps) {
               >
                 <div>
                   {/* Visual preview */}
-                  <ProjectVisual projectId={project.id} name={project.name} />
+                  <ProjectVisual
+                    projectId={project.id}
+                    name={project.name}
+                    imageUrl={project.imageUrl}
+                    category={project.category}
+                    accentColor={project.accentColor}
+                    badge={project.badge}
+                  />
 
                   {/* Card Content */}
                   <div className="p-6 sm:p-7 space-y-4">

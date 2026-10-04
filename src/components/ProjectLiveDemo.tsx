@@ -157,7 +157,15 @@ export function ProjectLiveDemo({ projectId }: ProjectLiveDemoProps) {
   const [viewportMode, setViewportMode] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
   const [activeInspectorTab, setActiveInspectorTab] = useState<'preview' | 'specs' | 'tokens'>('preview');
 
-  const data = SHOWCASE_DATA[projectId] || SHOWCASE_DATA['apex-residences'];
+  const data = SHOWCASE_DATA[projectId];
+
+  if (!data) {
+    return (
+      <div className="rounded-2xl border border-rose-400/20 bg-rose-500/5 p-6 text-sm text-rose-200">
+        Preview unavailable for this project. No other project is used as a fallback.
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
