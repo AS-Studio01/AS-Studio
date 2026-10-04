@@ -75,8 +75,8 @@ export function FAQ({ onNavigateToContact }: FAQProps) {
 
           {/* Dynamic JSON-LD Schema Trust Indicator */}
           <div className="pt-2 flex items-center justify-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#3B82F6]/10 border border-[#3B82F6]/25 text-[11px] font-mono text-[#60A5FA]">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/25 text-[11px] font-mono text-[#0047AB] dark:text-[#60A5FA]">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               <span>
                 Synced with <strong>{schemaType}</strong> for search engines & client transparency
               </span>
@@ -94,7 +94,7 @@ export function FAQ({ onNavigateToContact }: FAQProps) {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search common questions (pricing, ownership, staging, timeline)..."
-              className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-[#141416] border border-[#DDD7CD] dark:border-[#27272A] rounded-lg text-xs sm:text-sm text-[#121212] dark:text-white placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#3B82F6] transition-colors"
+              className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-[#141416] border border-[#DDD7CD] dark:border-[#27272A] rounded-lg text-xs sm:text-sm text-[#121212] dark:text-white placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#0047AB] dark:focus:border-[#3B82F6] transition-colors"
             />
           </div>
 
@@ -106,8 +106,8 @@ export function FAQ({ onNavigateToContact }: FAQProps) {
                 onClick={() => setActiveCategory(cat.id)}
                 className={`px-3 py-1 rounded-full text-xs font-mono font-semibold transition-all ${
                   activeCategory === cat.id
-                    ? 'bg-[#3B82F6] text-white shadow-xs'
-                    : 'bg-white dark:bg-[#18181B] text-[#71717A] dark:text-[#A1A1AA] border border-[#DDD7CD] dark:border-[#27272A] hover:text-white'
+                    ? 'bg-[#0047AB] dark:bg-[#3B82F6] text-white shadow-xs'
+                    : 'bg-white dark:bg-[#18181B] text-[#52525B] dark:text-[#A1A1AA] border border-[#DDD7CD] dark:border-[#27272A] hover:text-[#0047AB] dark:hover:text-white'
                 }`}
               >
                 {cat.label}

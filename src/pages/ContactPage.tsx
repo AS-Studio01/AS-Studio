@@ -348,9 +348,16 @@ export function ContactPage({ onOpenLegal, onNavigate, onOpenPortal }: ContactPa
 
                   {/* System Receipt Card */}
                   <div className="p-4 bg-[#FAF8F5] dark:bg-[#141416] border border-[#DDD7CD] dark:border-[#27272A] space-y-2.5 text-xs text-[#57534E] dark:text-[#A1A1AA] rounded-lg">
-                    <div className="flex items-center gap-2 text-emerald-400 font-mono font-bold text-[11px] pb-1 border-b border-white/[0.06]">
-                      <Database className="w-3.5 h-3.5" />
-                      <span>Ingested into Database · Dispatched to Founders Inbox</span>
+                    <div className="flex items-center justify-between gap-2 text-emerald-700 dark:text-emerald-400 font-mono font-bold text-[11px] pb-1 border-b border-[#E5E2D9] dark:border-white/[0.06]">
+                      <div className="flex items-center gap-1.5">
+                        <Database className="w-3.5 h-3.5" />
+                        <span>Inquiry Saved & Dispatched</span>
+                      </div>
+                      {submittedInquiryId && (
+                        <span className="text-[10px] px-2 py-0.5 rounded bg-blue-500/10 text-[#0047AB] dark:text-[#60A5FA] border border-blue-500/20">
+                          Ref: {submittedInquiryId}
+                        </span>
+                      )}
                     </div>
                     <div><span className="font-bold text-[#121212] dark:text-white">Client:</span> {formData.name} ({formData.businessName})</div>
                     <div><span className="font-bold text-[#121212] dark:text-white">Contact Channel:</span> {formData.contactInfo}</div>
@@ -358,14 +365,14 @@ export function ContactPage({ onOpenLegal, onNavigate, onOpenPortal }: ContactPa
                   </div>
 
                   <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
-                    {onOpenPortal && (
+                    {onNavigate && (
                       <button
                         type="button"
-                        onClick={onOpenPortal}
+                        onClick={() => onNavigate('track')}
                         className="glass-btn-primary inline-flex items-center justify-center gap-2 px-5 py-3 text-xs font-bold uppercase tracking-wider text-white rounded-lg"
                       >
-                        <Database className="w-3.5 h-3.5" />
-                        <span>View In Client Portal</span>
+                        <Clock className="w-3.5 h-3.5" />
+                        <span>Track Project Status</span>
                       </button>
                     )}
 
@@ -373,7 +380,7 @@ export function ContactPage({ onOpenLegal, onNavigate, onOpenPortal }: ContactPa
                       href={formattedMailto}
                       className="glass-btn inline-flex items-center justify-center gap-2 px-5 py-3 text-xs font-bold uppercase tracking-wider text-[#121212] dark:text-white rounded-lg"
                     >
-                      <Mail className="w-3.5 h-3.5 text-[#3B82F6]" />
+                      <Mail className="w-3.5 h-3.5 text-[#0047AB] dark:text-[#3B82F6]" />
                       <span>Open in Gmail Client</span>
                     </a>
 

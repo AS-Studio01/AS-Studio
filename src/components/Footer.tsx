@@ -17,6 +17,7 @@ export function Footer({ onNavigate, onOpenLegal }: FooterProps) {
     { label: 'Selected Work', page: 'work' },
     { label: 'Services', page: 'services' },
     { label: 'Process', page: 'process' },
+    { label: 'Track Project', page: 'track' },
     { label: 'Contact', page: 'contact' },
   ];
 
@@ -111,7 +112,7 @@ export function Footer({ onNavigate, onOpenLegal }: FooterProps) {
         </div>
 
         {/* Bottom Bar with Legal Links and Copyright */}
-        <div className="mt-12 pt-6 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#A1A1AA]">
+        <div className="mt-12 pt-6 border-t border-[#E7E2DA] dark:border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#6B6661] dark:text-[#A1A1AA]">
           <div className="flex items-center gap-2">
             <span>© {new Date().getFullYear()} AS Studio. All Rights Reserved.</span>
             <span>·</span>
@@ -122,19 +123,19 @@ export function Footer({ onNavigate, onOpenLegal }: FooterProps) {
             <div className="flex items-center gap-4">
               <button
                 onClick={() => onOpenLegal('privacy')}
-                className="hover:text-white transition-colors underline"
+                className="hover:text-[#0047AB] dark:hover:text-white transition-colors underline"
               >
                 Privacy Policy
               </button>
               <button
                 onClick={() => onOpenLegal('terms')}
-                className="hover:text-white transition-colors underline"
+                className="hover:text-[#0047AB] dark:hover:text-white transition-colors underline"
               >
                 Terms of Service
               </button>
               <button
                 onClick={() => onOpenLegal('disclaimer')}
-                className="hover:text-white transition-colors underline"
+                className="hover:text-[#0047AB] dark:hover:text-white transition-colors underline"
               >
                 Disclaimer
               </button>

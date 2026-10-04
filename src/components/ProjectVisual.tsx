@@ -4,15 +4,15 @@ interface ProjectVisualProps {
 }
 
 export function ProjectVisual({ projectId, name }: ProjectVisualProps) {
-  if (projectId === 'aura-home-decor') {
+  if (projectId === 'apex-residences') {
     return (
       <div 
         className="w-full aspect-[16/10] bg-[#121216] border-b border-white/[0.08] relative overflow-hidden group select-none"
         aria-label={`Visual preview for ${name}`}
       >
         <img
-          src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=85"
-          alt="Aura Living sculptural travertine furniture and ambient lighting showroom"
+          src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1000&q=85"
+          alt="Apex Residences penthouse architectural terrace overlooking skyline"
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           loading="lazy"
         />
@@ -21,10 +21,52 @@ export function ProjectVisual({ projectId, name }: ProjectVisualProps) {
         {/* Top Tag & Status */}
         <div className="absolute top-4 left-4 right-4 flex items-center justify-between text-[11px] font-mono">
           <span className="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white font-bold tracking-wider uppercase">
-            AURA LIVING · 2026 LOOKBOOK
+            APEX RESIDENCES · PENTHOUSES
           </span>
-          <span className="px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 font-bold border border-indigo-500/30">
-            Tactile Showroom
+          <span className="px-2 py-0.5 rounded-full bg-[#C5A880]/20 text-[#C5A880] font-bold border border-[#C5A880]/30">
+            Real Estate
+          </span>
+        </div>
+
+        {/* Bottom Specs Overlay */}
+        <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between">
+          <div className="flex items-center gap-1.5 text-[10px] font-mono">
+            <span className="px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-md border border-white/10 text-white">
+              360° Sky Views
+            </span>
+            <span className="px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-md border border-white/10 text-[#C5A880]">
+              Floorplan Inspector
+            </span>
+          </div>
+          <span className="text-[10px] font-mono text-emerald-400 font-bold">
+            ● Live Staging Demo
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  if (projectId === 'atelier-north') {
+    return (
+      <div 
+        className="w-full aspect-[16/10] bg-[#121216] border-b border-white/[0.08] relative overflow-hidden group select-none"
+        aria-label={`Visual preview for ${name}`}
+      >
+        <img
+          src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1000&q=85"
+          alt="Atelier North minimal spatial pavilion with natural cedar and travertine"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-black/40 to-black/20" />
+
+        {/* Top Tag & Status */}
+        <div className="absolute top-4 left-4 right-4 flex items-center justify-between text-[11px] font-mono">
+          <span className="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white font-bold tracking-wider uppercase">
+            ATELIER NORTH · MONOGRAPH
+          </span>
+          <span className="px-2 py-0.5 rounded-full bg-[#8F9F8F]/20 text-[#8F9F8F] font-bold border border-[#8F9F8F]/30">
+            Spatial Architecture
           </span>
         </div>
 
@@ -32,10 +74,10 @@ export function ProjectVisual({ projectId, name }: ProjectVisualProps) {
         <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between">
           <div className="flex items-center gap-1.5">
             {[
-              { label: 'Travertine', color: '#DCD5C6' },
-              { label: 'Oak', color: '#8F6C47' },
-              { label: 'Linen', color: '#E5E0D5' },
-              { label: 'Brass', color: '#BFA05A' },
+              { label: 'Travertine', color: '#C7B79D' },
+              { label: 'Smoked Oak', color: '#5A4B3C' },
+              { label: 'Bronze', color: '#3D3A38' },
+              { label: 'Plaster', color: '#9E9B93' },
             ].map((m) => (
               <span
                 key={m.label}
@@ -46,65 +88,23 @@ export function ProjectVisual({ projectId, name }: ProjectVisualProps) {
               </span>
             ))}
           </div>
-          <span className="text-[10px] font-mono text-white/80 hidden sm:inline">
-            Zero-Bloat Staging
+          <span className="text-[10px] font-mono text-emerald-400 font-bold hidden sm:inline">
+            ● Live Staging Demo
           </span>
         </div>
       </div>
     );
   }
 
-  if (projectId === 'nova-dental-care') {
-    return (
-      <div 
-        className="w-full aspect-[16/10] bg-[#121216] border-b border-white/[0.08] relative overflow-hidden group select-none"
-        aria-label={`Visual preview for ${name}`}
-      >
-        <img
-          src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1000&q=85"
-          alt="Modern aesthetic dental clinic treatment suite and appointment triage interface"
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          loading="lazy"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-black/40 to-black/20" />
-
-        {/* Top Tag & Status */}
-        <div className="absolute top-4 left-4 right-4 flex items-center justify-between text-[11px] font-mono">
-          <span className="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white font-bold tracking-wider uppercase">
-            NOVA DENTAL · CLINIC SUITE
-          </span>
-          <span className="px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/30">
-            Healthcare Triage
-          </span>
-        </div>
-
-        {/* Bottom Feature Badges */}
-        <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between">
-          <div className="flex items-center gap-1.5 text-[10px] font-mono">
-            <span className="px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-md border border-white/10 text-white">
-              Instant Mobile Booking
-            </span>
-            <span className="px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-md border border-white/10 text-cyan-300">
-              Dr. Credibility Triage
-            </span>
-          </div>
-          <span className="text-[10px] font-mono text-emerald-400 font-bold">
-            ● Fast Staging
-          </span>
-        </div>
-      </div>
-    );
-  }
-
-  // Mitti Café
+  // Nova Dental Care
   return (
     <div 
       className="w-full aspect-[16/10] bg-[#121216] border-b border-white/[0.08] relative overflow-hidden group select-none"
       aria-label={`Visual preview for ${name}`}
     >
       <img
-        src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1000&q=85"
-        alt="Artisan cafe specialty coffee pour-over and zero-PDF mobile menu"
+        src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1000&q=85"
+        alt="Modern aesthetic dental clinic treatment suite and appointment triage interface"
         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         loading="lazy"
       />
@@ -113,10 +113,10 @@ export function ProjectVisual({ projectId, name }: ProjectVisualProps) {
       {/* Top Tag & Status */}
       <div className="absolute top-4 left-4 right-4 flex items-center justify-between text-[11px] font-mono">
         <span className="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white font-bold tracking-wider uppercase">
-          MITTI CAFÉ & ROASTERY
+          NOVA DENTAL · CLINIC SUITE
         </span>
-        <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30">
-          Zero-PDF Menu
+        <span className="px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/30">
+          Healthcare Triage
         </span>
       </div>
 
@@ -124,14 +124,14 @@ export function ProjectVisual({ projectId, name }: ProjectVisualProps) {
       <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between">
         <div className="flex items-center gap-1.5 text-[10px] font-mono">
           <span className="px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-md border border-white/10 text-white">
-            Single Origin Pourover
+            Instant Mobile Booking
           </span>
-          <span className="px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-md border border-white/10 text-amber-300">
-            One-Tap Reservations
+          <span className="px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-md border border-white/10 text-cyan-300">
+            Dr. Credibility Triage
           </span>
         </div>
-        <span className="text-[10px] font-mono text-white/80 hidden sm:inline">
-          Sub-second Speed
+        <span className="text-[10px] font-mono text-emerald-400 font-bold">
+          ● Live Staging Demo
         </span>
       </div>
     </div>

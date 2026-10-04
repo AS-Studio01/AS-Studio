@@ -21,12 +21,13 @@ import { WorkPage } from './pages/WorkPage';
 import { ServicesPage } from './pages/ServicesPage';
 import { ProcessPage } from './pages/ProcessPage';
 import { ContactPage } from './pages/ContactPage';
+import { TrackOrderPage } from './pages/TrackOrderPage';
 import { Project, PageType } from './types';
 
 function getInitialPage(): PageType {
   if (typeof window === 'undefined') return 'home';
   const path = window.location.pathname.replace(/^\//, '').split('/')[0];
-  if (path === 'work' || path === 'services' || path === 'process' || path === 'contact') {
+  if (path === 'work' || path === 'services' || path === 'process' || path === 'contact' || path === 'track') {
     return path;
   }
   return 'home';
@@ -62,8 +63,8 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0E0E10] text-[#F4F4F6] flex flex-col font-sans selection:bg-[#3B82F6] selection:text-white pb-14 sm:pb-12">
-      {/* Header with clean navigation, AI Concierge, and secret founder trigger */}
+    <div className="min-h-screen bg-[#FAF9F5] text-[#18181B] dark:bg-[#0E0E10] dark:text-[#F4F4F6] flex flex-col font-sans selection:bg-[#2563EB] selection:text-white pb-14 sm:pb-12 transition-colors duration-150">
+      {/* Header with clean navigation, theme toggle, and direct tracking */}
       <Header
         currentPage={currentPage}
         onNavigate={navigateTo}
@@ -108,6 +109,10 @@ export default function App() {
 
             {currentPage === 'process' && (
               <ProcessPage onNavigate={navigateTo} />
+            )}
+
+            {currentPage === 'track' && (
+              <TrackOrderPage onNavigate={navigateTo} />
             )}
 
             {currentPage === 'contact' && (

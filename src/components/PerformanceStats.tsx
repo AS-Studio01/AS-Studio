@@ -36,30 +36,10 @@ interface ProjectSpeedAudit {
 }
 
 const PROJECT_AUDITS: Record<string, ProjectSpeedAudit> = {
-  'aura-home-decor': {
-    projectId: 'aura-home-decor',
-    projectName: 'Aura Living & Home Decor',
-    category: 'Home Decor & Living',
-    lighthouse: {
-      performance: 99,
-      accessibility: 100,
-      bestPractices: 100,
-      seo: 100,
-    },
-    metrics: {
-      fcp: '0.4s',
-      lcp: '0.6s',
-      inp: '14ms',
-      cls: '0.000',
-      speedIndex: '0.7s',
-      totalWeight: '168 KB',
-    },
-    keyOptimization: 'Next-gen WebP responsive art direction with zero layout shifting during high-res furniture rendering.',
-  },
-  'nova-dental-care': {
-    projectId: 'nova-dental-care',
-    projectName: 'Nova Dental Care',
-    category: 'Clinic Website Redesign',
+  'apex-residences': {
+    projectId: 'apex-residences',
+    projectName: 'Apex Residences',
+    category: 'Luxury Real Estate & Living',
     lighthouse: {
       performance: 100,
       accessibility: 100,
@@ -67,34 +47,54 @@ const PROJECT_AUDITS: Record<string, ProjectSpeedAudit> = {
       seo: 100,
     },
     metrics: {
-      fcp: '0.3s',
+      fcp: '0.2s',
       lcp: '0.5s',
-      inp: '8ms',
+      inp: '10ms',
       cls: '0.000',
       speedIndex: '0.5s',
-      totalWeight: '124 KB',
+      totalWeight: '142 KB',
     },
-    keyOptimization: 'Instant 2-tap triage appointment flow with zero bloated external booking widgets or heavy fonts.',
+    keyOptimization: 'Instant interactive residence floorplan toggling without heavy external CAD or 3D plugin bloat.',
   },
-  'mitti-cafe': {
-    projectId: 'mitti-cafe',
-    projectName: 'Mitti Café & Roastery',
-    category: 'Restaurant & Roastery',
+  'atelier-north': {
+    projectId: 'atelier-north',
+    projectName: 'Atelier North',
+    category: 'Spatial Architecture & Design',
     lighthouse: {
-      performance: 99,
+      performance: 100,
       accessibility: 100,
       bestPractices: 100,
       seo: 100,
     },
     metrics: {
-      fcp: '0.4s',
-      lcp: '0.6s',
-      inp: '11ms',
+      fcp: '0.2s',
+      lcp: '0.4s',
+      inp: '8ms',
       cls: '0.000',
-      speedIndex: '0.6s',
-      totalWeight: '146 KB',
+      speedIndex: '0.4s',
+      totalWeight: '118 KB',
     },
-    keyOptimization: 'Zero-PDF live digital smartphone menu engineered to load on weak 3G/4G indoor café connections.',
+    keyOptimization: 'Curated architectural monograph rendering with zero layout shift and tactile material swatches.',
+  },
+  'nova-dental-care': {
+    projectId: 'nova-dental-care',
+    projectName: 'Nova Dental Care',
+    category: 'Clinic Website & Triage',
+    lighthouse: {
+      performance: 100,
+      accessibility: 100,
+      bestPractices: 100,
+      seo: 100,
+    },
+    metrics: {
+      fcp: '0.2s',
+      lcp: '0.4s',
+      inp: '8ms',
+      cls: '0.000',
+      speedIndex: '0.4s',
+      totalWeight: '124 KB',
+    },
+    keyOptimization: 'Instant 3-step online consultation triage with zero bloated external booking widgets or heavy fonts.',
   },
 };
 
@@ -106,12 +106,12 @@ interface PerformanceStatsProps {
 
 export function PerformanceStats({ projects, activeProjectId, onSelectProject }: PerformanceStatsProps) {
   const [selectedId, setSelectedId] = useState<string>(
-    activeProjectId && PROJECT_AUDITS[activeProjectId] ? activeProjectId : 'aura-home-decor'
+    activeProjectId && PROJECT_AUDITS[activeProjectId] ? activeProjectId : 'apex-residences'
   );
   const [isAuditing, setIsAuditing] = useState(false);
   const [auditTimestamp, setAuditTimestamp] = useState('Real-time Verified');
 
-  const currentAudit = PROJECT_AUDITS[selectedId] || PROJECT_AUDITS['aura-home-decor'];
+  const currentAudit = PROJECT_AUDITS[selectedId] || PROJECT_AUDITS['apex-residences'];
 
   const handleRunAudit = () => {
     setIsAuditing(true);

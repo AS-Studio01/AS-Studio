@@ -13,7 +13,7 @@ interface WorkPageProps {
 }
 
 export function WorkPage({ projects, onSelectProject, onNavigate }: WorkPageProps) {
-  const [filter, setFilter] = useState<'all' | 'decor' | 'clinic' | 'restaurant'>('all');
+  const [filter, setFilter] = useState<'all' | 'residences' | 'atelier' | 'clinic'>('all');
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -26,9 +26,9 @@ export function WorkPage({ projects, onSelectProject, onNavigate }: WorkPageProp
 
   const filteredProjects = projects.filter((project) => {
     if (filter === 'all') return true;
-    if (filter === 'decor') return project.id === 'aura-home-decor';
+    if (filter === 'residences') return project.id === 'apex-residences';
+    if (filter === 'atelier') return project.id === 'atelier-north';
     if (filter === 'clinic') return project.id === 'nova-dental-care';
-    if (filter === 'restaurant') return project.id === 'mitti-cafe';
     return true;
   });
 
@@ -63,46 +63,46 @@ export function WorkPage({ projects, onSelectProject, onNavigate }: WorkPageProp
         </div>
 
         {/* Interactive Filter Controls (Pill Rounded) */}
-        <div className="mb-10 flex flex-wrap items-center gap-2.5 border-b border-white/10 pb-5">
+        <div className="mb-10 flex flex-wrap items-center gap-2.5 border-b border-[#E5E2D9] dark:border-white/10 pb-5">
           <button
             onClick={() => setFilter('all')}
             className={`px-5 py-2 text-xs font-bold uppercase tracking-wider transition-all rounded-full ${
               filter === 'all'
-                ? 'bg-[var(--accent)] text-white shadow-md'
-                : 'glass-btn text-[#A1A1AA] hover:text-white'
+                ? 'bg-[#0047AB] dark:bg-[var(--accent)] text-white shadow-md'
+                : 'glass-btn text-[#52525B] dark:text-[#A1A1AA] hover:text-[#18181B] dark:hover:text-white'
             }`}
           >
             All Work ({projects.length})
           </button>
           <button
-            onClick={() => setFilter('decor')}
+            onClick={() => setFilter('residences')}
             className={`px-5 py-2 text-xs font-bold uppercase tracking-wider transition-all rounded-full ${
-              filter === 'decor'
-                ? 'bg-[var(--accent)] text-white shadow-md'
-                : 'glass-btn text-[#A1A1AA] hover:text-white'
+              filter === 'residences'
+                ? 'bg-[#0047AB] dark:bg-[var(--accent)] text-white shadow-md'
+                : 'glass-btn text-[#52525B] dark:text-[#A1A1AA] hover:text-[#18181B] dark:hover:text-white'
             }`}
           >
-            Home Decor & Living
+            Apex Residences
+          </button>
+          <button
+            onClick={() => setFilter('atelier')}
+            className={`px-5 py-2 text-xs font-bold uppercase tracking-wider transition-all rounded-full ${
+              filter === 'atelier'
+                ? 'bg-[#0047AB] dark:bg-[var(--accent)] text-white shadow-md'
+                : 'glass-btn text-[#52525B] dark:text-[#A1A1AA] hover:text-[#18181B] dark:hover:text-white'
+            }`}
+          >
+            Atelier North
           </button>
           <button
             onClick={() => setFilter('clinic')}
             className={`px-5 py-2 text-xs font-bold uppercase tracking-wider transition-all rounded-full ${
               filter === 'clinic'
-                ? 'bg-[var(--accent)] text-white shadow-md'
-                : 'glass-btn text-[#A1A1AA] hover:text-white'
+                ? 'bg-[#0047AB] dark:bg-[var(--accent)] text-white shadow-md'
+                : 'glass-btn text-[#52525B] dark:text-[#A1A1AA] hover:text-[#18181B] dark:hover:text-white'
             }`}
           >
-            Clinic Redesign
-          </button>
-          <button
-            onClick={() => setFilter('restaurant')}
-            className={`px-5 py-2 text-xs font-bold uppercase tracking-wider transition-all rounded-full ${
-              filter === 'restaurant'
-                ? 'bg-[var(--accent)] text-white shadow-md'
-                : 'glass-btn text-[#A1A1AA] hover:text-white'
-            }`}
-          >
-            Restaurant Landing
+            Nova Dental Care
           </button>
         </div>
 
@@ -135,9 +135,9 @@ export function WorkPage({ projects, onSelectProject, onNavigate }: WorkPageProp
           <ShieldAlert className="w-5 h-5 text-[#0047AB] dark:text-[#3B82F6] shrink-0 mt-0.5" />
           <div className="text-xs text-[#4A4641] dark:text-[#D4D4D8] leading-relaxed">
             <span className="font-bold text-[#121212] dark:text-white block mb-0.5">
-              Transparency Notice: Independent Concepts
+              Transparency & Project Classification Notice
             </span>
-            Projects marked with the <strong>Independent Concept</strong> badge (Nova Dental Care and Mitti Café) are self-initiated architectural case studies created by AS Studio to illustrate high-conversion design patterns. They are not direct client endorsements.
+            All featured projects currently shown are <strong>Studio Concepts</strong> — self-initiated digital design prototypes and architectural case studies developed by AS Studio to showcase real-world performance, responsive workflows, and clean conversion paths. We distinguish studio design concepts from active client commissions with absolute transparency.
           </div>
         </div>
 

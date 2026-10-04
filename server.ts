@@ -383,6 +383,9 @@ Looking forward to your reply!`;
   }
 });
 
+// Explicit static route for standalone HTML project demos
+app.use('/demos', express.static(path.join(__dirname, 'public', 'demos')));
+
 // Setup Vite middleware or static serving
 async function startServer() {
   const isProd = process.env.NODE_ENV === 'production';

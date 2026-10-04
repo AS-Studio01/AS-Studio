@@ -1,10 +1,30 @@
 <!doctype html>
-<html lang="en" class="dark scroll-smooth bg-[#0E0E10] text-[#F4F4F6]">
+<html lang="en" class="scroll-smooth bg-[#FAF9F5] dark:bg-[#0E0E10] text-[#18181B] dark:text-[#F4F4F6]">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0E0E10" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#FAF9F5" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('as_studio_theme_preference');
+          if (saved === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.documentElement.style.colorScheme = 'dark';
+          } else if (saved === 'light') {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.style.colorScheme = 'light';
+          } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.style.colorScheme = 'dark';
+          } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.style.colorScheme = 'light';
+          }
+        } catch (e) {}
+      })();
+    </script>
 
     <!-- Primary SEO Meta Tags -->
     <title>AS Studio — Clean Business Websites & Redesigns</title>
@@ -139,58 +159,50 @@
             "mainEntity": [
               {
                 "@type": "Question",
-                "name": "Do I get full source code ownership of my website?",
+                "name": "What does a website project include?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Yes, 100%. You receive a clean GitHub repository or production zip with complete rights. No proprietary builder lock-in, no hostage code, and no monthly mandatory platform fees."
+                  "text": "Every project includes custom UI/UX design, clean responsive development, mobile optimization, core on-page SEO setup, speed optimization, contact forms, live staging for testing on your phone, domain connection, and 100% full source code ownership."
                 }
               },
               {
                 "@type": "Question",
-                "name": "How does live phone staging work before launch?",
+                "name": "Can you redesign an existing website?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Before final payment or domain launch, we deploy your site to a private staging URL. You can open and test it directly on your own smartphone to verify typography, speed, and responsiveness."
+                  "text": "Yes. We specialize in transforming slow, outdated, or confusing websites into clean, modern, and mobile-friendly digital experiences that represent your business properly and load instantly."
                 }
               },
               {
                 "@type": "Question",
-                "name": "Is pricing negotiable for independent budgets?",
+                "name": "Are the websites SEO-ready?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Yes. We understand local practices and independent businesses have varied constraints. We tailor the scope to meet your budget without imposing rigid corporate agency minimums."
+                  "text": "Yes. All websites are built with semantic HTML5, clean URL structures, fast loading speeds, meta tags, OpenGraph sharing cards, XML sitemaps, and Schema.org structured data markup ready for Google indexing."
                 }
               },
               {
                 "@type": "Question",
-                "name": "What is the typical turnaround sprint duration?",
+                "name": "How does the payment process work?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Focused landing pages launch in 5–7 business days. Full multi-page business websites launch in 10–14 business days."
+                  "text": "We work with clear, milestone-based payments tied to deliverables. Projects typically start with a 50% deposit to commence sprint discovery and design, with the remaining 50% due only after you review and approve the live staging site on your smartphone."
                 }
               },
               {
                 "@type": "Question",
-                "name": "What communication channels does AS Studio use?",
+                "name": "What happens after launch?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "We communicate directly via Telegram (@AS_Studio_official01) and Gmail (asbusinessofficial01@gmail.com) with concise sprint updates and live staging links. WhatsApp is disabled."
+                  "text": "We connect your custom domain, ensure SSL security certificates are active, submit your sitemap to search consoles, hand over complete source code repository files, and provide 30 days of post-launch warranty support covering any fixes on the delivered scope."
                 }
               },
               {
                 "@type": "Question",
-                "name": "What does the 30-day post-launch warranty include?",
+                "name": "Do you provide maintenance and updates?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Every delivered website includes 30 days of complimentary technical warranty covering bug fixes, responsive screen adjustments, and minor copy updates with zero additional fees."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "What preparation do I need before our sprint begins?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Only your core business summary, services, and any existing logos or photos. If you do not have photos or text ready, we curate high-fidelity visuals and write conversion headlines for you."
+                  "text": "Yes. Beyond the included 30-day warranty, we offer lightweight ongoing maintenance plans or ad-hoc support hours for updates, new pages, speed checks, and technical adjustments whenever your business needs them."
                 }
               }
             ]

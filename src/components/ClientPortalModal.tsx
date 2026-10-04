@@ -37,6 +37,7 @@ interface ClientPortalModalProps {
   onClose: () => void;
   onNavigateToContact?: () => void;
   onOpenAdminPanel?: () => void;
+  onNavigateToTrack?: () => void;
 }
 
 const STATUS_DETAILS: Record<ClientProjectStatus, { label: string; color: string; step: number }> = {
@@ -60,7 +61,8 @@ export function ClientPortalModal({
   isOpen, 
   onClose, 
   onNavigateToContact, 
-  onOpenAdminPanel 
+  onOpenAdminPanel,
+  onNavigateToTrack
 }: ClientPortalModalProps) {
   const { 
     user, 

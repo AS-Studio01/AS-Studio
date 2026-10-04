@@ -74,130 +74,213 @@ const legalBase = (title: string, html: string, updatedAt: string = '2026-10-02T
 
 export const DEFAULT_SERVICES: ServiceItem[] = [
   {
-    id: 'srv-business-sites',
+    id: 'srv-website-design',
     number: '01',
-    title: 'Business Websites',
-    description: 'Clear, high-speed websites that explain your business, build immediate trust, and turn mobile visitors into paying enquiries.',
-    idealFor: 'Local clinics, medical practices, artisan ateliers, and boutique service firms.',
-    icon: 'layout',
-    accentColor: '#06B6D4',
-    features: [
-      '100% bespoke responsive layout (zero templates)',
-      'Sub-second first contentful paint (< 0.8s)',
-      'Direct Telegram & email inquiry dispatch',
-      'Phone staging preview prior to handover',
-      'Full GitHub repository & source code ownership',
+    title: 'Website Design',
+    description: 'Custom visual design tailored to your brand identity, business positioning, and target client expectations.',
+    idealFor: 'Businesses launching a new online presence or seeking an authoritative, non-template visual identity.',
+    problemSolved: 'Eliminates generic template aesthetics and establishes an immediate impression of commercial credibility.',
+    whatItIncludes: [
+      'Visual direction & art direction discovery',
+      'High-contrast typographic hierarchy and palette selection',
+      'Desktop, tablet, and mobile wireframes and high-fidelity layouts',
+      'Conversion-focused section sequencing and content hierarchy',
+      'Interactive design assets and component specifications',
     ],
-    ctaText: 'Commission a Website',
+    features: [
+      'Visual direction & art direction discovery',
+      'High-contrast typographic hierarchy and palette selection',
+      'Responsive layouts across mobile, tablet, and desktop',
+      'Conversion-focused section sequencing',
+      'Bespoke component specifications',
+    ],
+    icon: 'layout',
+    accentColor: '#3B82F6',
+    ctaText: 'Start a Project',
     enabled: true,
     order: 1,
   },
   {
-    id: 'srv-landing-pages',
+    id: 'srv-website-development',
     number: '02',
-    title: 'High-Converting Landing Pages',
-    description: 'Focused single-page campaigns built around the moment your customer decides—engineered specifically to convert paid ads and social traffic.',
-    idealFor: 'Product launches, marketing campaigns, seasonal offers, and clinic treatments.',
-    icon: 'zap',
-    accentColor: '#3B82F6',
-    features: [
-      'Single-action conversion funnel architecture',
-      'Hero product/service spotlight with interactive previews',
-      'Zero-PDF mobile menus & tactile catalogues',
-      '5–7 business days turnaround sprint',
-      'Lightweight Google Analytics & meta tracking ready',
+    title: 'Website Development',
+    description: 'Clean, responsive, and maintainable engineering built with modern web standards and zero builder lock-in.',
+    idealFor: 'Companies requiring fast, stable, and easily maintained web applications with full source code ownership.',
+    problemSolved: 'Replaces slow, fragile WordPress plugins and proprietary builders with fast, dependable code.',
+    whatItIncludes: [
+      'Modern React & TypeScript engineering',
+      'Responsive, mobile-first layouts tested on real devices',
+      'Sub-second asset loading and Core Web Vitals optimization',
+      'Contact forms with automated email dispatch and database storage',
+      'Complete GitHub repository handover with full rights',
     ],
-    ctaText: 'Launch a Landing Page',
+    features: [
+      'Semantic React & TypeScript development',
+      'Mobile-first responsive architecture',
+      'Sub-second First Contentful Paint (<1.0s)',
+      'Direct form inquiry routing & verification',
+      '100% full source code ownership handover',
+    ],
+    icon: 'code',
+    accentColor: '#06B6D4',
+    ctaText: 'Start a Project',
     enabled: true,
     order: 2,
   },
   {
-    id: 'srv-redesigns',
+    id: 'srv-ui-ux-design',
     number: '03',
-    title: 'Website Modernization & Redesigns',
-    description: 'Structural overhaul of slow, cluttered WordPress, Wix, or legacy websites into modern, mobile-first web experiences.',
-    idealFor: 'Established businesses suffering high bounce rates or broken mobile navigation.',
-    icon: 'sparkles',
-    accentColor: '#10B981',
-    features: [
-      'Complete typography, spacing & visual hierarchy revamp',
-      'Elimination of slow bloated plugins & builder dependencies',
-      'SEO redirection preservation (zero link-rot)',
-      '30-day post-launch warranty with zero maintenance fees',
-      'Flexible, negotiable pricing adaptively scaled to your scope',
+    title: 'UI/UX Design',
+    description: 'Interface and user experience design focused on ease of navigation, clarity of offer, and low inquiry friction.',
+    idealFor: 'Firms with complex services, multiple customer personas, or low conversion rates from current traffic.',
+    problemSolved: 'Removes decision friction, clarifies service offerings, and makes inquiry actions intuitive.',
+    whatItIncludes: [
+      'Information architecture and user journey mapping',
+      'Friction-free intake form and contact flow design',
+      'Mobile thumb-zone touch navigation optimization',
+      'Micro-interactions and feedback states',
+      'Accessibility compliance (WCAG AA standards)',
     ],
-    ctaText: 'Modernize Your Website',
+    features: [
+      'User journey mapping & information hierarchy',
+      'Frictionless contact flow optimization',
+      'Touch-friendly mobile interface design',
+      'Subtle, purposeful interaction feedback',
+      'WCAG AA accessible contrast & typography',
+    ],
+    icon: 'sparkles',
+    accentColor: '#6366F1',
+    ctaText: 'Start a Project',
     enabled: true,
     order: 3,
+  },
+  {
+    id: 'srv-business-redesign',
+    number: '04',
+    title: 'Business Website Redesign',
+    description: 'Complete overhaul of outdated, slow, or cluttered websites into modern, conversion-focused digital assets.',
+    idealFor: 'Established businesses whose website has fallen behind their offline reputation and service quality.',
+    problemSolved: 'Replaces high bounce rates and outdated aesthetics with a modern, authoritative web presence.',
+    whatItIncludes: [
+      'Content audit and structural re-architecture',
+      'Visual refresh with clean typography and spacing',
+      'Preservation of existing search rankings and URL structures',
+      'Elimination of bloated, vulnerable third-party dependencies',
+      'Live smartphone staging comparison before launch',
+    ],
+    features: [
+      'Full visual refresh and typography overhaul',
+      'SEO equity & URL redirection preservation',
+      'Elimination of legacy plugins & builder dependencies',
+      'Live smartphone staging comparison',
+      '30-day post-launch technical warranty',
+    ],
+    icon: 'zap',
+    accentColor: '#10B981',
+    ctaText: 'Request an Estimate',
+    enabled: true,
+    order: 4,
+  },
+  {
+    id: 'srv-seo-architecture',
+    number: '05',
+    title: 'SEO-Ready Website Architecture',
+    description: 'Technical foundations structured for clean search engine crawling, rapid indexation, and local search visibility.',
+    idealFor: 'Local businesses, clinics, and professional practices seeking qualified organic search traffic.',
+    problemSolved: 'Fixes poor Google search visibility, broken social share previews, and slow search indexation.',
+    whatItIncludes: [
+      'Semantic HTML5 document outlines with strict heading hierarchy',
+      'Schema.org structured data (LocalBusiness, MedicalBusiness, FAQPage)',
+      'Dynamic XML sitemaps, robots.txt, and canonical URL tags',
+      'High-impact OpenGraph and Twitter/X social preview cards',
+      'Mobile Core Web Vitals optimization for ranking factors',
+    ],
+    features: [
+      'Schema.org structured data (JSON-LD)',
+      'Semantic HTML5 heading hierarchy',
+      'Dynamic XML sitemaps & robots.txt',
+      'OpenGraph & Twitter social preview cards',
+      'Core Web Vitals mobile compliance',
+    ],
+    icon: 'globe',
+    accentColor: '#8B5CF6',
+    ctaText: 'Start a Project',
+    enabled: true,
+    order: 5,
+  },
+  {
+    id: 'srv-maintenance-support',
+    number: '06',
+    title: 'Website Maintenance & Support',
+    description: 'Reliable post-launch technical support, maintenance, and bug fixes to ensure smooth, uninterrupted operation.',
+    idealFor: 'Clients seeking ongoing technical peace of mind and direct assistance without hiring full-time staff.',
+    problemSolved: 'Prevents post-launch neglect, silent contact form failures, and unresolved technical issues.',
+    whatItIncludes: [
+      'Post-launch warranty covering bug fixes in delivered scope',
+      'Regular performance checks and browser compatibility audits',
+      'Minor copy, service, and contact detail updates',
+      'Domain, DNS, and SSL security monitoring',
+      'Direct priority communication via Telegram and Gmail',
+    ],
+    features: [
+      'Complimentary 30-day post-launch technical warranty',
+      'Cross-browser & mobile compatibility checks',
+      'Form & inquiry delivery health monitoring',
+      'Minor copy adjustments & content updates',
+      'Direct founder support channel',
+    ],
+    icon: 'shield',
+    accentColor: '#F59E0B',
+    ctaText: 'Start a Project',
+    enabled: true,
+    order: 6,
   },
 ];
 
 export const DEFAULT_PROCESS_STEPS: ProcessStep[] = [
   {
-    id: 'proc-discovery',
+    id: 'proc-discover',
     step: '01',
-    title: 'Discovery & Brief',
-    description: 'We unpack your business goals, target audience, and the exact friction preventing customers from booking.',
-    details: 'A focused, 30-minute consultation where we analyze your competitors, define priority user actions, and establish deliverables.',
-    duration: 'Day 1–2',
-    deliverables: ['Project Scope Document', 'Site Architecture Outline', 'Technical Stack Plan'],
+    title: 'Discover',
+    description: 'Understand the business, audience and goals.',
+    details: 'We begin with a focused discovery conversation to identify your primary business objectives, target clients, and the specific reasons visitors are not taking action today.',
+    duration: 'Phase 1',
+    deliverables: ['Project Scope Document', 'Site Architecture Outline', 'Technical Stack Specification'],
     enabled: true,
     order: 1,
   },
   {
-    id: 'proc-strategy',
+    id: 'proc-design',
     step: '02',
-    title: 'Strategic Direction',
-    description: 'We structure the narrative, typographic hierarchy, and conversion pathways before writing production code.',
-    details: 'Drafting high-clarity copy and layout wireframes so your key value propositions are impossible to miss.',
-    duration: 'Day 3–4',
-    deliverables: ['Information Architecture', 'Content Copywriting', 'Visual Direction Canvas'],
+    title: 'Design',
+    description: 'Create the visual direction, information hierarchy and user experience.',
+    details: 'We craft clear wireframes and high-fidelity responsive layouts, establishing typography, color systems, and section pacing tailored to your industry.',
+    duration: 'Phase 2',
+    deliverables: ['Information Architecture', 'Responsive Layout System', 'Typographic & Palette Hierarchy'],
     enabled: true,
     order: 2,
   },
   {
-    id: 'proc-design',
+    id: 'proc-build',
     step: '03',
-    title: 'Bespoke UI Design',
-    description: 'Crafting responsive, tactile layouts with modern typography, subtle glassmorphism, and accessible contrast.',
-    details: 'Tailoring section-specific colour palettes and interactive component states with meticulous attention to mobile viewports.',
-    duration: 'Day 5–7',
-    deliverables: ['Interactive Component System', 'Mobile Viewport Mappings', 'Brand Palette Guide'],
+    title: 'Build',
+    description: 'Develop the responsive website with performance and maintainability in mind.',
+    details: 'We build the website using clean React & TypeScript with sub-second asset bundling, semantic structure, database storage, and email notification dispatches.',
+    duration: 'Phase 3',
+    deliverables: ['Production-Grade React Codebase', 'Sub-Second Loading Performance', 'Inquiry Routing & Storage'],
     enabled: true,
     order: 3,
   },
   {
-    id: 'proc-dev',
+    id: 'proc-launch',
     step: '04',
-    title: 'Clean Engineering',
-    description: 'Building blazing-fast, semantic React & TypeScript code with zero proprietary builder lock-in.',
-    details: 'Performance optimization, sub-second asset bundling, Firestore integration, and cross-browser accessibility checks.',
-    duration: 'Day 8–10',
-    deliverables: ['Production React Codebase', 'Lighthouse 95+ Scores', 'Automated Email Dispatch'],
+    title: 'Launch',
+    description: 'Test, refine, deploy and hand over the completed website.',
+    details: 'You review the live build on your smartphone via a private staging URL. Once approved, we connect your domain, transfer 100% source code rights, and begin your 30-day warranty.',
+    duration: 'Phase 4',
+    deliverables: ['Live Phone Staging Verification', 'Domain Connection & SSL Setup', '100% Source Code Handover', '30-Day Technical Warranty'],
     enabled: true,
     order: 4,
-  },
-  {
-    id: 'proc-staging',
-    step: '05',
-    title: 'Live Phone Staging',
-    description: 'You test the actual production website directly on your personal smartphone before making final payment.',
-    details: 'Private staging URL deployment where you and your team test typography, buttons, and responsiveness in real-world lighting.',
-    duration: 'Day 11–12',
-    deliverables: ['Private Staging URL', 'Cross-Device QA Report', 'Feedback Iteration Pass'],
-    enabled: true,
-    order: 5,
-  },
-  {
-    id: 'proc-launch',
-    step: '06',
-    title: 'Launch & 30-Day Warranty',
-    description: 'Domain connection, 100% source-code handover, and 30 days of complimentary technical warranty.',
-    details: 'Full GitHub repository rights or production zip, search engine sitemap submission, and 30 days of free adjustments.',
-    duration: 'Day 13–14',
-    deliverables: ['Full Source Code Ownership', 'Domain SSL Deployment', '30-Day Technical Warranty'],
-    enabled: true,
-    order: 6,
   },
 ];
 
@@ -206,13 +289,13 @@ export const DEFAULT_TESTIMONIALS: TestimonialItem[] = [];
 export const DEFAULT_SITE_CONTENT: SiteContent = {
   brand: {
     studioLabel: 'AS Studio',
-    eyebrow: 'Independent Creative Web Practice · India & Remote Worldwide',
+    eyebrow: 'Independent Digital Studio · India & Remote Worldwide',
     location: 'India & Remote Worldwide',
-    headline: 'Websites that make your business easier to choose.',
-    description: 'AS Studio designs clean, fast, and mobile-first websites for local businesses, clinics, cafes, home decor ateliers, and early-stage founders.',
-    reassurance: 'You test on your phone before launch. 100% source code delivered. Flexible negotiable pricing.',
-    primaryCta: 'Start a project',
-    secondaryCta: 'View selected work',
+    headline: 'Websites for businesses ready to look established online.',
+    description: 'AS Studio designs and develops modern, fast and conversion-focused websites for businesses that need a stronger online presence.',
+    reassurance: 'Project scope determines the final investment. Typical projects launch within 1–3 weeks.',
+    primaryCta: 'Start a Project',
+    secondaryCta: 'View Our Work',
   },
   services: DEFAULT_SERVICES,
   projects: PROJECTS,
@@ -220,30 +303,30 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
   testimonials: DEFAULT_TESTIMONIALS,
   sections: {
     work: {
-      eyebrow: 'Selected Work & Prototypes',
-      title: 'Work engineered around trust and clarity.',
-      description: 'Interactive showroom prototypes, clinic appointment triage, and zero-PDF hospitality experiences designed for conversion.',
+      eyebrow: 'Selected Work',
+      title: 'Intentional web experiences built for real businesses.',
+      description: 'Explore our studio concepts across healthcare, interior ateliers, and hospitality. Clearly structured for review and demonstration.',
     },
     services: {
-      eyebrow: 'Capabilities & Scope',
-      title: 'Built around the moment your customer decides.',
-      description: 'Every service is engineered to make your offer clearer, your credibility undeniable, and the next step effortless.',
+      eyebrow: 'Capabilities & Offerings',
+      title: 'Strategy, design and development in one focused process.',
+      description: 'Clear business offerings built to establish credibility, improve visibility, and convert visitors into clients.',
     },
     process: {
-      eyebrow: 'The Studio Methodology',
-      title: 'A transparent path from brief to launch.',
-      description: 'Six connected phases with live phone staging and zero mystery pricing.',
+      eyebrow: 'Our Process',
+      title: 'A disciplined, transparent path from brief to launch.',
+      description: 'Four connected phases with live phone staging, complete code handover, and post-launch support.',
     },
     testimonials: {
-      eyebrow: 'Verified Client Outcomes',
-      title: 'Real results from independent practices.',
-      description: 'Read how local clinics, cafes, and creative founders elevated their digital footprint with AS Studio.',
+      eyebrow: 'Our Commitments',
+      title: 'What clients can expect from every engagement.',
+      description: 'Honest communication, working previews on your phone, and zero proprietary lock-in.',
     },
     contact: {
-      eyebrow: 'Direct Inquiries',
-      title: 'Let’s discuss your website sprint.',
-      description: 'Tell us about your business, desired timeline, or target budget. We reply within 24 hours with a clear roadmap.',
-      reassurance: 'Pricing is 100% flexible and negotiable for independent budgets. WhatsApp disabled; Telegram & Gmail active.',
+      eyebrow: 'Initiate a Project',
+      title: 'Have a project in mind?',
+      description: 'Tell us what you are building, what is not working today, and what you want the website to achieve.',
+      reassurance: 'Project scope determines the final investment. Every proposal is scoped transparently.',
     },
   },
   theme: {
@@ -332,6 +415,21 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       primaryKeyword: 'hire independent web design studio',
       secondaryKeywords: ['start website project', 'negotiable web design pricing', 'clinic website inquiry', 'telegram web design consultation'],
       searchIntent: 'direct_conversion',
+    },
+    track: {
+      title: 'Track Project & Order Status — AS Studio',
+      description: 'Check real-time milestone progress, smartphone staging links, and delivery status for your AS Studio inquiry or project.',
+      ogTitle: 'Track Project & Order Status — AS Studio',
+      ogDescription: 'Live milestone verification and delivery pipeline tracking for AS Studio clients.',
+      ogImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
+      twitterTitle: 'Track Order Status — AS Studio',
+      twitterDescription: 'Live verification and milestone tracking for AS Studio projects.',
+      twitterImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
+      canonical: 'https://as-studio-delta.vercel.app/track',
+      noIndex: false,
+      primaryKeyword: 'track website order status',
+      secondaryKeywords: ['website project tracker', 'client project milestone', 'staging preview tracking'],
+      searchIntent: 'client_tracking',
     },
   },
   legal: {
@@ -599,70 +697,39 @@ function mergeContent(base: SiteContent, incoming: Partial<SiteContent>): SiteCo
 const CLIENT_PROJECTS_COLLECTION = 'client_projects';
 const LOCAL_CLIENT_PROJECTS_KEY = 'as_studio_client_projects_cache';
 
-export const SAMPLE_CLIENT_PROJECTS: ClientProject[] = [
-  {
-    id: 'proj_apex_dental',
-    clientUid: 'sample_apex_user',
-    clientEmail: 'sahina724462s@gmail.com',
-    clientName: 'Dr. Rahul Jaiswal',
-    businessName: 'Apex Dental Care',
-    title: 'Modern Clinic Website & Triage',
-    projectType: 'Business Website Sprint',
-    status: 'review',
-    progress: 85,
-    currentSprint: 'Sprint 3: Mobile Staging & Booking Triage',
-    nextMilestone: 'Client Phone Staging Approval',
-    deadline: '2026-10-14',
-    recentUpdate: 'Completed doctor credential profiles and verified Google Maps integration. Private staging URL generated.',
-    timeline: '12 Days (Sprint duration)',
-    deliverables: [
-      'Interactive patient triage & consultation flow',
-      'Clinician credential showcase with dental photography',
-      'Integrated emergency hotline & Google Maps directions',
-      'Mobile-first responsive layout (tested across 6 viewports)',
-    ],
-    notes: 'Client requested accent color match their physical clinic interior (medical cyan / indigo). Staging passed QA.',
-    liveStagingUrl: 'https://ais-dev-opmbjuat3g3hvwd6drebsn-803900555444.asia-east1.run.app/#work',
-    createdAt: '2026-09-20T10:00:00.000Z',
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    id: 'proj_aura_atelier',
-    clientUid: 'sample_aura_user',
-    clientEmail: 'asbusinessofficial01@gmail.com',
-    clientName: 'Vikram Mehta',
-    businessName: 'Aura Living Atelier',
-    title: 'Tactile Furniture Showroom & Catalogue',
-    projectType: 'Digital Showroom Sprint',
-    status: 'completed',
-    progress: 100,
-    currentSprint: 'Post-Launch Warranty Phase',
-    nextMilestone: 'Complimentary 30-Day Check-in',
-    deadline: '2026-09-28',
-    recentUpdate: 'Successfully handed over full GitHub repository. 100% code ownership acknowledged by client.',
-    timeline: '10 Days (Delivered early)',
-    deliverables: [
-      'Room-by-room interactive lookbook with smooth filter transitions',
-      'Tactile material & fabric swatch inspector',
-      'Direct Telegram bespoke size estimation dispatch',
-      'Full GitHub repository handover & production zip',
-    ],
-    notes: 'Warranty active until October 28, 2026. Zero maintenance fees.',
-    liveStagingUrl: 'https://ais-dev-opmbjuat3g3hvwd6drebsn-803900555444.asia-east1.run.app/#work',
-    createdAt: '2026-09-10T12:00:00.000Z',
-    updatedAt: new Date().toISOString(),
-  },
-];
+// Strictly zero fake client projects
+export const SAMPLE_CLIENT_PROJECTS: ClientProject[] = [];
+
+// Helper to filter out any legacy demo or fake client projects
+function sanitizeClientProjects(projects: ClientProject[]): ClientProject[] {
+  return (projects || []).filter((p) => {
+    if (!p || !p.id) return false;
+    const id = p.id.toLowerCase();
+    const title = (p.title || '').toLowerCase();
+    const business = (p.businessName || '').toLowerCase();
+    return (
+      !id.includes('demo') &&
+      !id.includes('glasshouse') &&
+      !id.includes('verdant') &&
+      !title.includes('glasshouse') &&
+      !title.includes('verdant') &&
+      !business.includes('glasshouse') &&
+      !business.includes('verdant')
+    );
+  });
+}
 
 export async function getClientProjects(userEmail?: string, userUid?: string): Promise<ClientProject[]> {
   try {
     const colRef = collection(db, CLIENT_PROJECTS_COLLECTION);
     const snap = await getDocs(colRef);
-    const list: ClientProject[] = [];
+    const rawList: ClientProject[] = [];
     snap.forEach((d) => {
       const data = d.data() as ClientProject;
-      list.push({ ...data, id: d.id });
+      rawList.push({ ...data, id: d.id });
     });
+
+    const list = sanitizeClientProjects(rawList);
 
     if (list.length > 0) {
       if (typeof window !== 'undefined') {
@@ -681,12 +748,17 @@ export async function getClientProjects(userEmail?: string, userUid?: string): P
     console.warn('[ClientProjects] Remote fetch failed, falling back to cache:', err);
   }
 
-  // Fallback to cache or sample records
+  // Fallback to cache
   if (typeof window !== 'undefined') {
     try {
       const cached = localStorage.getItem(LOCAL_CLIENT_PROJECTS_KEY);
       if (cached) {
-        const list: ClientProject[] = JSON.parse(cached);
+        const rawList: ClientProject[] = JSON.parse(cached);
+        const list = sanitizeClientProjects(rawList);
+        // Resave sanitized list to wipe legacy cached fake items
+        if (list.length !== rawList.length) {
+          localStorage.setItem(LOCAL_CLIENT_PROJECTS_KEY, JSON.stringify(list));
+        }
         if (userEmail || userUid) {
           return list.filter(
             (p) =>
@@ -699,14 +771,7 @@ export async function getClientProjects(userEmail?: string, userUid?: string): P
     } catch {}
   }
 
-  if (userEmail || userUid) {
-    return SAMPLE_CLIENT_PROJECTS.filter(
-      (p) =>
-        (userEmail && p.clientEmail?.toLowerCase() === userEmail.toLowerCase()) ||
-        (userUid && p.clientUid === userUid)
-    );
-  }
-  return SAMPLE_CLIENT_PROJECTS;
+  return [];
 }
 
 export async function saveClientProject(project: ClientProject): Promise<void> {

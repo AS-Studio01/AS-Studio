@@ -43,57 +43,93 @@ interface ProjectShowcaseData {
 }
 
 const SHOWCASE_DATA: Record<string, ProjectShowcaseData> = {
-  'aura-home-decor': {
-    title: 'Aura Living Atelier — Tactile Digital Showroom',
-    client: 'Aura Living Bespoke Objects',
-    category: 'Digital Showroom Sprint',
-    stagingUrl: 'https://ais-dev-opmbjuat3g3hvwd6drebsn-803900555444.asia-east1.run.app/#work',
-    overview: 'An architectural digital showroom engineered for bespoke interior furnishings, raw travertine tables, and artisanal brass objects. Features daylight-to-dusk lighting adaptation, material swatch inspectors, and sub-second catalog transitions.',
+  'apex-residences': {
+    title: 'Apex Residences — Architectural Living & Private Penthouses',
+    client: 'Apex Residences Ltd.',
+    category: 'Luxury Real Estate Sprint',
+    stagingUrl: '/demos/apex-residences.html',
+    overview: 'An architectural penthouse and private residence showcase featuring interactive floorplans, 360° skyline aspects, and private tour concierge scheduling.',
     architecture: {
-      framework: 'React 19 / TypeScript',
-      styling: 'Tailwind CSS (Single-Elevation Dark Theme)',
+      framework: 'HTML5 / Modern Responsive JS',
+      styling: 'Tailwind CSS (Luxury Titanium Theme)',
       hosting: 'Vercel Edge Global CDN',
-      database: 'Cloud Firestore (Real-time Sync)',
+      database: 'Direct Concierge Dispatch',
     },
     metrics: {
-      performance: 99,
-      fcp: '0.4s',
+      performance: 100,
+      fcp: '0.2s',
       cls: '0.000',
       turnaround: '10 Business Days',
     },
     palette: [
-      { name: 'Tuscan Travertine', hex: '#DCD5C6', role: 'Primary Material' },
-      { name: 'Smoked Oak', hex: '#8F6C47', role: 'Structure' },
-      { name: 'Patina Brass', hex: '#BFA05A', role: 'Accent' },
-      { name: 'Obsidian Atelier', hex: '#0C0C0F', role: 'Background Canvas' },
+      { name: 'Champagne Bronze', hex: '#C5A880', role: 'Brand Core' },
+      { name: 'Titanium Slate', hex: '#12131A', role: 'Surface' },
+      { name: 'Pristine Linen', hex: '#ECEAE4', role: 'Typography' },
+      { name: 'Obsidian Night', hex: '#090A0D', role: 'Canvas Field' },
     ],
     typography: [
-      { role: 'Display / Headlines', family: 'Syne / Cabinet Grotesk', usage: 'High-character editorial titles' },
-      { role: 'Body Prose', family: 'Satoshi / Plus Jakarta Sans', usage: 'Legible material specifications' },
-      { role: 'Telemetry & SKUs', family: 'JetBrains Mono', usage: 'Dimension math & catalog references' },
+      { role: 'Display / Masthead', family: 'Cinzel', usage: 'High-character architectural luxury' },
+      { role: 'Prose', family: 'Plus Jakarta Sans', usage: 'Clean floorplan descriptions' },
+      { role: 'Telemetry', family: 'Tabular Monospace', usage: 'Square footage & dimensions' },
     ],
     deliverables: [
-      'Interactive room-by-room lookbook with fluid transitions',
-      'Tactile material swatch & natural grain inspector',
-      'Direct Telegram bespoke dimension quotation workflow',
-      '100% full GitHub repository handover with zero maintenance fees',
+      'Interactive floorplan selector (Penthouse, Garden Villa, Horizon Suite)',
+      'Private concierge viewing appointment scheduler with instant confirmation',
+      'Hospitality & wellness amenities grid (Sommelier Vault, Thermal Spa, Lap Pool)',
+      '100% full source code ownership delivered with zero third-party builder lock-in',
     ],
   },
-  'nova-dental-care': {
-    title: 'Nova Dental Care — Clinical Triage & Patient Booking',
-    client: 'Dr. Rahul Jaiswal, BDS, MDS',
-    category: 'Healthcare Website Sprint',
-    stagingUrl: 'https://dr-rahul-jaiswal.netlify.app/',
-    overview: 'A clinical web presence and friction-free appointment scheduling interface designed for Dr. Rahul Jaiswal (Lead Prosthodontist & Implantologist). Replaces slow third-party booking widgets with an instant 2-tap triage flow.',
+  'atelier-north': {
+    title: 'Atelier North — Spatial Architecture & Interior Atelier',
+    client: 'Atelier North Architects',
+    category: 'Spatial Architecture Sprint',
+    stagingUrl: '/demos/atelier-north.html',
+    overview: 'A quiet, tactile digital monograph for a spatial architecture atelier featuring selected pavilions, raw material inspectors, and project commission briefs.',
     architecture: {
-      framework: 'React 19 / TypeScript / Vite',
-      styling: 'Tailwind CSS (Clinical Cyan & Obsidian)',
-      hosting: 'Netlify Edge / High Availability',
-      database: 'Cloud Firestore & Direct WhatsApp/Telegram API',
+      framework: 'HTML5 / Modern Responsive JS',
+      styling: 'Tailwind CSS (Nordic Minimal Theme)',
+      hosting: 'Vercel Edge Global CDN',
+      database: 'Private Commission Ingestion',
     },
     metrics: {
       performance: 100,
-      fcp: '0.3s',
+      fcp: '0.2s',
+      cls: '0.000',
+      turnaround: '10 Business Days',
+    },
+    palette: [
+      { name: 'Honed Travertine', hex: '#C7B79D', role: 'Stone Accent' },
+      { name: 'Smoked Oak', hex: '#5A4B3C', role: 'Timber Core' },
+      { name: 'Muted Moss', hex: '#8F9F8F', role: 'Studio Focus' },
+      { name: 'Atelier Charcoal', hex: '#0E0E11', role: 'Canvas Field' },
+    ],
+    typography: [
+      { role: 'Editorial Display', family: 'Newsreader', usage: 'Contemplative spatial titles' },
+      { role: 'Prose', family: 'Space Grotesk', usage: 'Architectural specifications' },
+      { role: 'Monograph Labels', family: 'Tabular Monospace', usage: 'Material grades & dimensions' },
+    ],
+    deliverables: [
+      'Architectural monograph project showcase (Villa Kanso, Fjord House, Pavilion North)',
+      'Tactile stone, timber & bronze material library with aging attributes',
+      'Studio philosophy & structural discipline principles',
+      'Confidential commission intake workflow for residential clients',
+    ],
+  },
+  'nova-dental-care': {
+    title: 'Nova Dental Care — Clinical Triage & Patient Suite',
+    client: 'Dr. Rahul Jaiswal, BDS, MDS',
+    category: 'Healthcare Practice Sprint',
+    stagingUrl: '/demos/nova-dental-care.html',
+    overview: 'A clinical web presence and friction-free appointment scheduling interface designed for Dr. Rahul Jaiswal. Replaces slow third-party booking widgets with an instant 3-step triage flow.',
+    architecture: {
+      framework: 'HTML5 / Modern Responsive JS',
+      styling: 'Tailwind CSS (Clinical Cyan & Obsidian)',
+      hosting: 'Netlify Edge / High Availability',
+      database: 'Instant Patient Confirmation',
+    },
+    metrics: {
+      performance: 100,
+      fcp: '0.2s',
       cls: '0.000',
       turnaround: '12 Business Days',
     },
@@ -101,54 +137,18 @@ const SHOWCASE_DATA: Record<string, ProjectShowcaseData> = {
       { name: 'Clinical Indigo', hex: '#0284C7', role: 'Brand Core' },
       { name: 'Sterile Cyan', hex: '#38BDF8', role: 'Interactive Accent' },
       { name: 'Dental White', hex: '#F8FAFC', role: 'Content High-Contrast' },
-      { name: 'Deep Clinic Dark', hex: '#090D14', role: 'Low-Glare Canvas' },
+      { name: 'Deep Clinic Dark', hex: '#0A0D14', role: 'Low-Glare Canvas' },
     ],
     typography: [
-      { role: 'Display', family: 'Cabinet Grotesk / Inter Display', usage: 'Authoritative clinical credentials' },
+      { role: 'Display', family: 'Cabinet Grotesk', usage: 'Authoritative clinical credentials' },
       { role: 'Prose', family: 'Plus Jakarta Sans', usage: 'Patient education & consent briefs' },
       { role: 'Timetable', family: 'Tabular Monospace', usage: 'Slot schedule & triage intervals' },
     ],
     deliverables: [
-      'Frictionless 2-tap appointment booking & emergency pain triage',
-      'Doctor credential showcase with verified clinical reviews',
-      'Google Maps directions & clinic route integration',
-      'Mobile-first responsive architecture tested across 6 mobile viewports',
-    ],
-  },
-  'mitti-cafe': {
-    title: 'Mitti Artisan Café — Zero-PDF Mobile Menu & Reservations',
-    client: 'Mitti Artisan Roastery & Bakery',
-    category: 'Hospitality Web Sprint',
-    stagingUrl: 'https://ais-dev-opmbjuat3g3hvwd6drebsn-803900555444.asia-east1.run.app/#work',
-    overview: 'Replaces frustrating 25MB downloadable QR PDFs with an instant-loading, sub-second web menu. Patrons can browse single-origin pour-overs, filter dietary allergens, and reserve tables directly from their phones.',
-    architecture: {
-      framework: 'React 19 / TypeScript',
-      styling: 'Tailwind CSS (Warm Roast & Dark Oak)',
-      hosting: 'Vercel Edge Global Network',
-      database: 'Real-time Cloud Firestore',
-    },
-    metrics: {
-      performance: 99,
-      fcp: '0.4s',
-      cls: '0.000',
-      turnaround: '8 Business Days',
-    },
-    palette: [
-      { name: 'Espresso Roast', hex: '#D97706', role: 'Warm Glow Accent' },
-      { name: 'Dark Oak Counter', hex: '#1C1917', role: 'Surface Background' },
-      { name: 'Organic Linen', hex: '#E7E5E4', role: 'Readable Typography' },
-      { name: 'Charcoal Soil', hex: '#0C0A09', role: 'Canvas Field' },
-    ],
-    typography: [
-      { role: 'Display', family: 'Syne / Fraunces', usage: 'Warm artisanal cafe masthead' },
-      { role: 'Prose', family: 'Satoshi / Inter', usage: 'Tasting notes & allergen descriptions' },
-      { role: 'Currency', family: 'Tabular Monospace', usage: 'Live subtotal & itemized pricing' },
-    ],
-    deliverables: [
-      'Zero-PDF mobile menu engineered for spotty 3G/4G indoor café connections',
-      'Live allergen & dietary preference filtering (Gluten-free, Vegan, Single Origin)',
-      'Table seating atmosphere selector (Courtyard, Window Bench, Roastery Lounge)',
-      '100% full source code ownership handed over upon launch',
+      'Same-day emergency pain triage protocol with direct clinic desk hotline',
+      '3-step interactive online appointment booking with immediate confirmation',
+      'Doctor qualification and credential highlight cards',
+      'Class-B autoclave sterilization and hospital-grade hygiene standards',
     ],
   },
 };
@@ -157,7 +157,7 @@ export function ProjectLiveDemo({ projectId }: ProjectLiveDemoProps) {
   const [viewportMode, setViewportMode] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
   const [activeInspectorTab, setActiveInspectorTab] = useState<'preview' | 'specs' | 'tokens'>('preview');
 
-  const data = SHOWCASE_DATA[projectId] || SHOWCASE_DATA['aura-home-decor'];
+  const data = SHOWCASE_DATA[projectId] || SHOWCASE_DATA['apex-residences'];
 
   return (
     <div className="space-y-6">
@@ -267,8 +267,37 @@ export function ProjectLiveDemo({ projectId }: ProjectLiveDemoProps) {
 
             {/* TAB 1: VISUAL INTERFACE PREVIEW */}
             {activeInspectorTab === 'preview' && (
-              <div className="p-6 sm:p-8 space-y-6">
+              <div className="p-4 sm:p-6 space-y-6">
                 
+                {/* Live Responsive Interactive Frame */}
+                {data.stagingUrl && (
+                  <div className="rounded-xl overflow-hidden border border-white/10 shadow-inner bg-[#090A0D]">
+                    <div className="px-4 py-2 bg-white/[0.04] border-b border-white/[0.08] flex items-center justify-between text-[11px] font-mono text-[#A1A1AA]">
+                      <span className="flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                        <span>Interactive Standalone Demo ({viewportMode} frame)</span>
+                      </span>
+                      <a
+                        href={data.stagingUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-cyan-400 hover:text-cyan-300 flex items-center gap-1 font-bold"
+                      >
+                        <span>Open Fullscreen</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </div>
+                    <div className="w-full relative bg-black" style={{ height: viewportMode === 'mobile' ? '680px' : viewportMode === 'tablet' ? '720px' : '580px' }}>
+                      <iframe
+                        src={data.stagingUrl}
+                        title={data.title}
+                        className="w-full h-full border-0"
+                        sandbox="allow-scripts allow-forms allow-same-origin"
+                      />
+                    </div>
+                  </div>
+                )}
+
                 {/* Hero Showcase Card */}
                 <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-white/[0.05] via-[#121218] to-black border border-white/[0.08] space-y-4">
                   <div className="flex flex-wrap items-center justify-between gap-2 text-xs">

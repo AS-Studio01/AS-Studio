@@ -1,4 +1,4 @@
-export type PageType = 'home' | 'work' | 'services' | 'process' | 'contact';
+export type PageType = 'home' | 'work' | 'services' | 'process' | 'track' | 'contact';
 
 export interface Project {
   id: string;
@@ -6,6 +6,7 @@ export interface Project {
   category: string;
   badge: string;
   isConcept: boolean;
+  projectType?: 'Studio Concept' | 'Client Project';
   description: string;
   buttonText: string;
   tags?: string[];
@@ -16,6 +17,12 @@ export interface Project {
   featured?: boolean;
   enabled?: boolean;
   order?: number;
+  problem?: string;
+  approach?: string;
+  solution?: string;
+  deliverables?: string[];
+  servicesInvolved?: string[];
+  ctaText?: string;
   conceptDetails: {
     overview: string;
     keyDeliverables: string[];
@@ -30,13 +37,17 @@ export interface ServiceItem {
   title: string;
   description: string;
   idealFor: string;
-  icon?: string; // 'armchair' | 'stethoscope' | 'coffee' | 'sparkles' | 'globe' | 'layout' | 'code' | 'zap'
+  turnaround?: string;
+  problemSolved?: string;
+  whatItIncludes?: string[];
+  icon?: string; // 'armchair' | 'stethoscope' | 'coffee' | 'sparkles' | 'globe' | 'layout' | 'code' | 'zap' | 'search' | 'shield'
   accentColor?: string;
   features?: string[];
   ctaText?: string;
   enabled?: boolean;
   order?: number;
 }
+
 
 export interface ProcessStep {
   id: string;

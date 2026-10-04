@@ -29,12 +29,12 @@ export function SiteEnhancements({ currentPage }: SiteEnhancementsProps) {
     let key: PageType = currentPage || 'home';
     if (!currentPage && typeof window !== 'undefined') {
       const pathKey = window.location.pathname.replace(/^\//, '').split('/')[0] as PageType;
-      if (pathKey && ['home', 'work', 'services', 'process', 'contact'].includes(pathKey)) {
+      if (pathKey && ['home', 'work', 'services', 'process', 'track', 'contact'].includes(pathKey)) {
         key = pathKey;
       }
     }
 
-    const seo = content.seo[key] || content.seo.home;
+    const seo = (content.seo as any)[key] || content.seo.home;
     const prodDomain = 'https://as-studio-delta.vercel.app';
     const pageUrl = key === 'home' ? `${prodDomain}/` : `${prodDomain}/${key}`;
 
@@ -82,7 +82,8 @@ export function SiteEnhancements({ currentPage }: SiteEnhancementsProps) {
         home: 'Home',
         work: 'Selected Work & Prototypes',
         services: 'Capabilities & Scope',
-        process: 'Methodology & Sprint',
+        process: 'Methodology & Process',
+        track: 'Track Project & Order Status',
         contact: 'Start a Project & Inquiries',
       };
 
