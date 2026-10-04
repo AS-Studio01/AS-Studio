@@ -223,7 +223,7 @@ export function HomePage({ projects, onSelectProject, onNavigate }: HomePageProp
               <span className="text-[11px] font-mono text-amber-700 dark:text-amber-400 font-bold">Stage 05</span>
               <h4 className="text-sm font-bold text-[#18181B] dark:text-white">Launch & Handover</h4>
               <p className="text-[11px] text-[#4B5563] dark:text-[#A1A1AA] leading-relaxed">
-                Domain connection, 100% source code repository handover, and 30 days of warranty.
+                Domain connection, agreed production handover, and post-launch support where included.
               </p>
             </div>
           </div>
@@ -259,7 +259,7 @@ export function HomePage({ projects, onSelectProject, onNavigate }: HomePageProp
 
                 <div className="pt-2 text-xs text-[#52525B] dark:text-[#A1A1AA] flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                  <span>Clear deliverables, milestone payments, and 100% code ownership.</span>
+                  <span>Clear deliverables, milestone payments, and a documented handover.</span>
                 </div>
               </div>
 

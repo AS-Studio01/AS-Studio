@@ -37,7 +37,7 @@ export function ServicesPage({ onNavigate }: ServicesPageProps) {
   const standardsComparison = [
     {
       feature: 'Source Code Ownership',
-      studio: '100% delivered to you on day one',
+      studio: 'Production handover included in agreed scope',
       others: 'Locked behind proprietary builders & monthly fees',
     },
     {
@@ -231,10 +231,10 @@ export function ServicesPage({ onNavigate }: ServicesPageProps) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
             <div className="p-5 bg-[#FAF8F5] dark:bg-[#141416] border border-[#E7E2DA] dark:border-[#27272A] space-y-2">
               <span className="text-xs font-bold uppercase tracking-wider text-[#121212] dark:text-white block">
-                1. Negotiable & Budget-Adaptive Pricing
+                1. Clear Scope & Project Pricing
               </span>
               <p className="text-xs text-[#55514B] dark:text-[#A1A1AA] leading-relaxed font-medium">
-                Before any work starts, we agree on a negotiable price tailored to your actual budget and business scale. No rigid corporate minimums or surprise invoice doubles.
+                Before work starts, we agree the scope, deliverables, timeline and project investment in writing. Any changes to scope can be discussed before additional work begins.
               </p>
             </div>
 
