@@ -343,7 +343,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
   seo: {
     home: {
       title: 'AS Studio — Clean Business Websites & Redesigns',
-      description: 'AS Studio designs clean, fast, and mobile-first websites and landing pages for local clinics, cafes, home decor ateliers, and early-stage founders with 100% source code ownership.',
+      description: 'AS Studio designs clean, fast, and mobile-first websites and landing pages for healthcare practices, real estate firms, architecture studios, and growing businesses with 100% source code ownership.',
       ogTitle: 'AS Studio — Clean Business Websites & Digital Experiences',
       ogDescription: 'Websites that make your business easier to choose. Mobile-first engineering, live phone staging, and flexible negotiable pricing.',
       ogImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
@@ -518,7 +518,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
 
 <h3>4. Concept Work and Portfolio Disclaimer</h3>
 <p>Some portfolio items on this website are labelled &quot;Independent Concept&quot;, &quot;Demo Project&quot; or &quot;Concept Project&quot;.</p>
-<p>These projects — including but not limited to Nova Dental Care and Mitti Café — are original design exercises created independently by AS Studio for portfolio and demonstration purposes only. They were not commissioned by, affiliated with or endorsed by the named businesses or brands. Any brand names referenced belong to their respective owners and are used solely for non-commercial and demonstrative purposes. These concepts do not represent the actual online presence, services or identity of any real business.</p>
+<p>These projects — including but not limited to Nova Dental Care, Apex Residences and Atelier North — are original design exercises created independently by AS Studio for portfolio and demonstration purposes only. They were not commissioned by, affiliated with or endorsed by the named businesses or brands. Any brand names referenced belong to their respective owners and are used solely for non-commercial and demonstrative purposes. These concepts do not represent the actual online presence, services or identity of any real business.</p>
 <p>A concept project does not mean that any named business hired, approved, endorsed or partnered with AS Studio in any way.</p>
 
 <h3>5. AI-Assisted Work Disclosure</h3>
@@ -578,7 +578,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
 
 <h3>2. Portfolio, Demo and Concept Work</h3>
 <p>Some work shown on this website is labelled as &quot;Independent Project&quot;, &quot;Independent Concept&quot; or &quot;Concept Work&quot;.</p>
-<p>These projects — including but not limited to Nova Dental Care and Mitti Café — are original design exercises created independently by AS Studio for portfolio and demonstration purposes only. They were not commissioned by, affiliated with or endorsed by the named businesses or brands. Any brand names referenced belong to their respective owners and are used solely for non-commercial, demonstrative and portfolio purposes. These concepts do not claim to represent the actual online presence, services or identity of any real business.</p>
+<p>These projects — including but not limited to Nova Dental Care, Apex Residences and Atelier North — are original design exercises created independently by AS Studio for portfolio and demonstration purposes only. They were not commissioned by, affiliated with or endorsed by the named businesses or brands. Any brand names referenced belong to their respective owners and are used solely for non-commercial, demonstrative and portfolio purposes. These concepts do not claim to represent the actual online presence, services or identity of any real business.</p>
 <p>If any business or brand believes their name or identity has been used inappropriately, they may contact AS Studio at <a href="mailto:asbusinessofficial01@gmail.com" class="text-[#3B82F6] underline">asbusinessofficial01@gmail.com</a> and we will review the matter promptly and in good faith.</p>
 
 <h3>3. AI-Assisted Workflow</h3>
@@ -676,9 +676,11 @@ function sanitizeProjects(baseProjects: Project[], incomingProjects: Project[] |
     .filter((project) => project && !legacyIds.has(project.id))
     .map((project) => {
       const base = canonical.get(project.id);
-      if (!base) return project;
+      // Only the current canonical portfolio projects are allowed into the public portfolio.
+      // This prevents legacy/unknown Firestore or local-cache records from bringing back old names.
+      if (!base) return null;
 
-      // Admin may edit copy/tags/etc., but identity, image and demo routing stay canonical.
+      // Admin may edit copy/tags/etc., but identity, name, image and demo routing stay canonical.
       return {
         ...base,
         ...project,
@@ -691,7 +693,8 @@ function sanitizeProjects(baseProjects: Project[], incomingProjects: Project[] |
         badge: base.badge,
         isConcept: base.isConcept,
       };
-    });
+    })
+    .filter((project): project is Project => Boolean(project));
 
   const canonicalIds = new Set(cleaned.map((project) => project.id));
   const missingCanonical = baseProjects.filter((project) => !canonicalIds.has(project.id));
