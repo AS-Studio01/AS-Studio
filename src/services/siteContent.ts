@@ -666,13 +666,45 @@ export async function saveLegalDocument(key: LegalDocumentKey, document: LegalEn
   await setDoc(CONTENT_DOC, { legal: { [key]: document } }, { merge: true });
 }
 
+function sanitizeProjects(baseProjects: Project[], incomingProjects: Project[] | undefined): Project[] {
+  if (!incomingProjects || incomingProjects.length === 0) return baseProjects;
+
+  const legacyIds = new Set(['aura-living', 'mitti-cafe', 'aura-living-home-decor', 'mitti-cafe-restaurant']);
+  const canonical = new Map(baseProjects.map((project) => [project.id, project]));
+
+  const cleaned = incomingProjects
+    .filter((project) => project && !legacyIds.has(project.id))
+    .map((project) => {
+      const base = canonical.get(project.id);
+      if (!base) return project;
+
+      // Admin may edit copy/tags/etc., but identity, image and demo routing stay canonical.
+      return {
+        ...base,
+        ...project,
+        id: base.id,
+        name: base.name,
+        liveDemoUrl: base.liveDemoUrl,
+        imageUrl: base.imageUrl,
+        accentColor: base.accentColor,
+        projectType: base.projectType,
+        badge: base.badge,
+        isConcept: base.isConcept,
+      };
+    });
+
+  const canonicalIds = new Set(cleaned.map((project) => project.id));
+  const missingCanonical = baseProjects.filter((project) => !canonicalIds.has(project.id));
+  return [...cleaned, ...missingCanonical].sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
+}
+
 function mergeContent(base: SiteContent, incoming: Partial<SiteContent>): SiteContent {
   return {
     ...base,
     ...incoming,
     brand: { ...base.brand, ...(incoming.brand || {}) },
     services: incoming.services && incoming.services.length > 0 ? incoming.services : base.services,
-    projects: incoming.projects && incoming.projects.length > 0 ? incoming.projects : base.projects,
+    projects: sanitizeProjects(base.projects, incoming.projects),
     processSteps: incoming.processSteps && incoming.processSteps.length > 0 ? incoming.processSteps : base.processSteps,
     testimonials: Array.isArray(incoming.testimonials) ? incoming.testimonials : base.testimonials,
     sections: {
