@@ -645,8 +645,32 @@ html.dark .glass-panel {
   }
 }
 
+/* Subtle Cinematic Scroll Reveal Animation */
+.cinematic-reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.72s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.72s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.cinematic-reveal.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cinematic-reveal.is-revealed.clean-gpu {
+  will-change: auto;
+}
+
 /* Reduced Motion Safety */
 @media (prefers-reduced-motion: reduce) {
+  .cinematic-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
   *, *::before, *::after {
     scroll-behavior: auto !important;
     animation-duration: 0.001ms !important;

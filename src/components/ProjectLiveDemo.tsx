@@ -45,8 +45,8 @@ interface ProjectShowcaseData {
 const SHOWCASE_DATA: Record<string, ProjectShowcaseData> = {
   'apex-residences': {
     title: 'Apex Residences — Architectural Living & Private Penthouses',
-    client: 'Apex Residences Ltd.',
-    category: 'Luxury Real Estate Sprint',
+    client: 'AS Studio Architectural Exploration (Concept)',
+    category: 'Luxury Real Estate — Studio Concept',
     stagingUrl: '/demos/apex-residences.html',
     overview: 'An architectural penthouse and private residence showcase featuring interactive floorplans, 360° skyline aspects, and private tour concierge scheduling.',
     architecture: {
@@ -81,8 +81,8 @@ const SHOWCASE_DATA: Record<string, ProjectShowcaseData> = {
   },
   'atelier-north': {
     title: 'Atelier North — Spatial Architecture & Interior Atelier',
-    client: 'Atelier North Architects',
-    category: 'Spatial Architecture Sprint',
+    client: 'AS Studio Spatial Exploration (Concept)',
+    category: 'Spatial Architecture — Studio Concept',
     stagingUrl: '/demos/atelier-north.html',
     overview: 'A quiet, tactile digital monograph for a spatial architecture atelier featuring selected pavilions, raw material inspectors, and project commission briefs.',
     architecture: {
@@ -117,8 +117,8 @@ const SHOWCASE_DATA: Record<string, ProjectShowcaseData> = {
   },
   'nova-dental-care': {
     title: 'Nova Dental Care — Clinical Triage & Patient Suite',
-    client: 'Dr. Rahul Jaiswal, BDS, MDS',
-    category: 'Healthcare Practice Sprint',
+    client: 'AS Studio Healthcare Clinic Exploration (Concept)',
+    category: 'Healthcare & Clinical — Studio Concept',
     stagingUrl: '/demos/nova-dental-care.html',
     overview: 'A clinical web presence and friction-free appointment scheduling interface designed for Dr. Rahul Jaiswal. Replaces slow third-party booking widgets with an instant 3-step triage flow.',
     architecture: {

@@ -34,7 +34,7 @@ export function AboutSection({ onStartProject }: AboutSectionProps) {
     {
       icon: Target,
       title: 'Business-focused UX',
-      description: 'We design around the exact moment your customer chooses whether to contact you, making your services, credibility, and inquiry pathways undeniable.',
+      description: 'Every page is structured so potential clients can quickly understand what you offer, verify your credibility, and get in touch without friction.',
     },
   ];
 

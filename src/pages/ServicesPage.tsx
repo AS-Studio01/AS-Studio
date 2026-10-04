@@ -91,8 +91,8 @@ export function ServicesPage({ onNavigate }: ServicesPageProps) {
         <div className="mb-14 p-6 sm:p-8 bg-white/80 dark:bg-[#18181B]/80 border border-[#DDD7CD] dark:border-[#27272A] grid grid-cols-2 md:grid-cols-4 gap-6 text-[#121212] dark:text-white backdrop-blur-sm">
           <div>
             <span className="text-[11px] uppercase tracking-wider text-[#736E66] dark:text-[#A1A1AA] block font-bold font-mono">Turnaround</span>
-            <span className="text-2xl font-black tracking-tight block mt-1">5–14 Days</span>
-            <span className="text-xs font-medium text-[#6B6661] dark:text-[#A1A1AA]">Fast, disciplined sprints</span>
+            <span className="text-2xl font-black tracking-tight block mt-1">1–3 Weeks</span>
+            <span className="text-xs font-medium text-[#6B6661] dark:text-[#A1A1AA]">Typical launch depending on scope</span>
           </div>
           <div>
             <span className="text-[11px] uppercase tracking-wider text-[#736E66] dark:text-[#A1A1AA] block font-bold font-mono">Deliverable</span>
@@ -231,10 +231,10 @@ export function ServicesPage({ onNavigate }: ServicesPageProps) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
             <div className="p-5 bg-[#FAF8F5] dark:bg-[#141416] border border-[#E7E2DA] dark:border-[#27272A] space-y-2">
               <span className="text-xs font-bold uppercase tracking-wider text-[#121212] dark:text-white block">
-                1. Negotiable & Budget-Adaptive Pricing
+                1. Scoped Project Investment
               </span>
               <p className="text-xs text-[#55514B] dark:text-[#A1A1AA] leading-relaxed font-medium">
-                Before any work starts, we agree on a negotiable price tailored to your actual budget and business scale. No rigid corporate minimums or surprise invoice doubles.
+                Project scope determines the final investment. Every project is scoped according to its unique business requirements with clear milestone deliverables.
               </p>
             </div>
 

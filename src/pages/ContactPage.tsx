@@ -158,11 +158,11 @@ export function ContactPage({ onOpenLegal, onNavigate, onOpenPortal }: ContactPa
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-[#121212] dark:text-white leading-[1.08]">
-            Have a business that needs a clearer website?
+            Have a project in mind?
           </h1>
 
           <p className="text-base sm:text-lg md:text-xl text-[#3E3B37] dark:text-[#D4D4D8] leading-relaxed font-medium">
-            Share your current website or business details. We will tell you the first improvement we would make.
+            Tell us what you are building, what is not working today, and what you want the website to achieve.
           </p>
         </div>
 
@@ -498,8 +498,8 @@ export function ContactPage({ onOpenLegal, onNavigate, onOpenPortal }: ContactPa
                       disabled={isSubmitting}
                       className="glass-btn-primary w-full py-4 px-6 text-xs font-bold uppercase tracking-wider text-white inline-flex items-center justify-center gap-2 rounded-lg disabled:opacity-50"
                     >
-                      <Database className="w-4 h-4" />
-                      <span>{isSubmitting ? 'Logging to Database...' : 'Submit Project Brief to AS Studio'}</span>
+                      <ArrowRight className="w-4 h-4" />
+                      <span>{isSubmitting ? 'Submitting Project Brief...' : 'Start a Project'}</span>
                     </button>
                     <span className="text-[11px] text-[#736E66] dark:text-[#A1A1AA] text-center block mt-2 font-mono">
                       Stores to AS Studio database & dispatches notification to founders inbox

@@ -30,15 +30,15 @@ export function StudioAIChatbot({ isOpen, onClose, onOpenContact }: StudioAIChat
     {
       id: 'welcome',
       role: 'assistant',
-      content: `Hello! I am **AS Studio Helper AI**, your direct assistant for AS Studio.
+      content: `Hello! I am **AS Studio Helper AI**, the studio assistant for AS Studio.
 
-I can help answer any questions about:
-• **Negotiable Pricing**: We adapt to your budget, whether you are an independent clinic, cafe, or studio.
-• **Turnaround Timelines**: Fast 5–14 business days sprints.
-• **100% Code Ownership**: Clean source files with zero monthly builder lock-in.
-• **Live Phone Staging**: Test your real site on your smartphone before launch.
+I can help answer questions regarding:
+• **Project Scoping**: Project scope determines the final investment based on your business requirements.
+• **Turnaround Timelines**: Typical projects launch within 1–3 weeks depending on scope.
+• **100% Code Ownership**: Clean source files delivered with zero proprietary builder lock-in.
+• **Live Phone Staging**: Test your real site on your personal phone before launch.
 
-You can ask me anything below, tap **Direct Contact**, or tap **✨ Draft Pre-built Inquiry** at any time to generate a ready-to-send brief from our conversation!`,
+Feel free to ask a question below or connect directly with the founders via Telegram or Gmail.`,
       timestamp: 'Just now',
     },
   ]);

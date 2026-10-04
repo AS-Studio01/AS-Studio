@@ -30,10 +30,10 @@ export function ProjectModal({ project, onClose, onStartProject }: ProjectModalP
 
   if (!project) return null;
 
-  const mailSubject = `Inquiry regarding ${project.name} (Negotiable Pricing)`;
-  const mailBody = `Hi AS Studio team,\n\nI reviewed your ${project.name} (${project.category}) demo and would like to discuss building something similar for my business with flexible, negotiable pricing.\n\nMy business name:\nMy estimated budget:\nKey goals:`;
+  const mailSubject = `Project Inquiry regarding ${project.name} Scope`;
+  const mailBody = `Hi AS Studio team,\n\nI reviewed your ${project.name} (${project.category}) case study and would like to discuss a similar project scope for my business.\n\nBusiness name:\nKey requirements:\nTarget launch timeline:`;
   const emailLink = buildMailtoLink(mailSubject, mailBody);
-  const telegramLink = buildTelegramLink(`Hi AS Studio, I saw the ${project.name} demo and want to discuss flexible pricing for my project.`);
+  const telegramLink = buildTelegramLink(`Hi AS Studio, I saw the ${project.name} case study and want to discuss scoping a project for my business.`);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/75 backdrop-blur-md">

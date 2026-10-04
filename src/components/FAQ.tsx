@@ -70,7 +70,7 @@ export function FAQ({ onNavigateToContact }: FAQProps) {
           </h2>
 
           <p className="text-sm sm:text-base text-[#4A4641] dark:text-[#D4D4D8] font-medium leading-relaxed">
-            Everything you need to know about working with AS Studio, from negotiable pricing to full source code ownership.
+            Everything you need to know about working with AS Studio, from transparent scoping to full source code ownership.
           </p>
 
           {/* Dynamic JSON-LD Schema Trust Indicator */}
@@ -188,7 +188,7 @@ export function FAQ({ onNavigateToContact }: FAQProps) {
                 Have a question not listed here?
               </span>
               <span className="text-sm font-bold text-[#121212] dark:text-white">
-                Chat with our AI assistant in the bottom-right or send a quick message directly on Telegram.
+                Send a quick question directly via Telegram or Gmail, or discuss your requirements via our contact form.
               </span>
             </div>
             <button

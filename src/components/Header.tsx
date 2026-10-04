@@ -34,7 +34,6 @@ export function Header({
     { label: 'Services', page: 'services' },
     { label: 'Process', page: 'process' },
     { label: 'About', targetId: 'about' },
-    { label: 'Track Order', page: 'track' },
     { label: 'Contact', page: 'contact' },
   ];
 
@@ -143,6 +142,17 @@ export function Header({
                 );
               })}
             </nav>
+
+            {/* Quiet Client Portal Access */}
+            {onOpenPortal && (
+              <button
+                onClick={onOpenPortal}
+                className="text-xs text-[#71717A] hover:text-[#18181B] dark:text-[#A1A1AA] dark:hover:text-white transition-colors px-2 py-1 font-medium"
+                title="Client Portal & Milestone Tracking"
+              >
+                Client Portal
+              </button>
+            )}
 
             {/* Theme Toggle Button */}
             <button

@@ -1,5 +1,6 @@
 import { ArrowRight, CheckCircle2, ShieldCheck, Smartphone, Lock, Clock, Code2, Zap } from 'lucide-react';
 import { useSiteContent } from '../context/SiteContentContext';
+import { RevealOnScroll } from './RevealOnScroll';
 import { PageType } from '../types';
 
 interface HeroProps {
@@ -117,73 +118,75 @@ export function Hero({ onNavigate }: HeroProps) {
 
           {/* Right Column: High-Craft Studio Engineering Overview Card */}
           <div className="lg:col-span-5 relative">
-            <div className="rounded-2xl bg-[#FFFFFF] dark:bg-[#121218] border border-[#E5E2D9] dark:border-white/[0.12] p-6 sm:p-7 shadow-xl dark:shadow-2xl space-y-5 transition-colors">
-              
-              {/* Card Header: Studio Standards */}
-              <div className="flex items-center justify-between border-b border-[#E5E2D9] dark:border-white/[0.08] pb-3.5">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#0047AB] dark:bg-blue-500" />
-                  <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#18181B] dark:text-white">
-                    Studio Delivery Standards
+            <RevealOnScroll delayMs={120} threshold={0.05} rootMargin="0px">
+              <div className="rounded-2xl bg-[#FFFFFF] dark:bg-[#121218] border border-[#E5E2D9] dark:border-white/[0.12] p-6 sm:p-7 shadow-xl dark:shadow-2xl space-y-5 transition-colors">
+                
+                {/* Card Header: Studio Standards */}
+                <div className="flex items-center justify-between border-b border-[#E5E2D9] dark:border-white/[0.08] pb-3.5">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#0047AB] dark:bg-blue-500" />
+                    <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#18181B] dark:text-white">
+                      Studio Delivery Standards
+                    </span>
+                  </div>
+                  <span className="text-[10px] font-mono text-emerald-700 dark:text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                    Production-Ready
                   </span>
                 </div>
-                <span className="text-[10px] font-mono text-emerald-700 dark:text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-                  Production-Ready
-                </span>
-              </div>
 
-              {/* Engineering Blueprint Matrix */}
-              <div className="space-y-3">
-                {studioGuarantees.map((item, idx) => {
-                  const Icon = item.icon;
-                  return (
-                    <div
-                      key={idx}
-                      className="p-3.5 rounded-xl bg-[#FAF9F5] dark:bg-white/[0.02] border border-[#E5E2D9] dark:border-white/[0.06] hover:border-[#2563EB] dark:hover:border-white/15 transition-colors space-y-1"
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono uppercase tracking-wider text-[#6B7280] dark:text-[#71717A] flex items-center gap-1.5">
-                          <Icon className="w-3.5 h-3.5 text-[#0047AB] dark:text-blue-400" />
-                          <span>{item.label}</span>
-                        </span>
-                        <span className="text-xs font-bold text-[#18181B] dark:text-white font-mono">
-                          {item.value}
-                        </span>
+                {/* Engineering Blueprint Matrix */}
+                <div className="space-y-3">
+                  {studioGuarantees.map((item, idx) => {
+                    const Icon = item.icon;
+                    return (
+                      <div
+                        key={idx}
+                        className="p-3.5 rounded-xl bg-[#FAF9F5] dark:bg-white/[0.02] border border-[#E5E2D9] dark:border-white/[0.06] hover:border-[#2563EB] dark:hover:border-white/15 transition-colors space-y-1"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] font-mono uppercase tracking-wider text-[#6B7280] dark:text-[#71717A] flex items-center gap-1.5">
+                            <Icon className="w-3.5 h-3.5 text-[#0047AB] dark:text-blue-400" />
+                            <span>{item.label}</span>
+                          </span>
+                          <span className="text-xs font-bold text-[#18181B] dark:text-white font-mono">
+                            {item.value}
+                          </span>
+                        </div>
+                        <p className="text-xs text-[#4B5563] dark:text-[#A1A1AA] leading-relaxed">
+                          {item.desc}
+                        </p>
                       </div>
-                      <p className="text-xs text-[#4B5563] dark:text-[#A1A1AA] leading-relaxed">
-                        {item.desc}
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Sub-Second Performance Strip */}
-              <div className="p-3.5 rounded-xl bg-[#F4F2EC] dark:bg-[#0B0B0F] border border-[#E5E2D9] dark:border-white/[0.08] flex items-center justify-between text-xs font-mono">
-                <div className="flex items-center gap-2 text-[#374151] dark:text-[#D4D4D8]">
-                  <Zap className="w-4 h-4 text-amber-500 dark:text-amber-400 shrink-0" />
-                  <span>Performance Target:</span>
+                    );
+                  })}
                 </div>
-                <span className="text-emerald-700 dark:text-emerald-400 font-bold">
-                  FCP &lt; 0.9s · 95+ Score
-                </span>
-              </div>
 
-              {/* Action Link to Work Page */}
-              <div className="pt-1 flex items-center justify-between text-xs">
-                <span className="text-[#6B7280] dark:text-[#71717A] font-mono">
-                  3 Flagship Concepts Ready
-                </span>
-                <button
-                  onClick={() => onNavigate('work')}
-                  className="text-[#0047AB] dark:text-blue-400 font-bold hover:underline transition-colors inline-flex items-center gap-1"
-                >
-                  <span>Explore Concepts</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
+                {/* Sub-Second Performance Strip */}
+                <div className="p-3.5 rounded-xl bg-[#F4F2EC] dark:bg-[#0B0B0F] border border-[#E5E2D9] dark:border-white/[0.08] flex items-center justify-between text-xs font-mono">
+                  <div className="flex items-center gap-2 text-[#374151] dark:text-[#D4D4D8]">
+                    <Zap className="w-4 h-4 text-amber-500 dark:text-amber-400 shrink-0" />
+                    <span>Performance Target:</span>
+                  </div>
+                  <span className="text-emerald-700 dark:text-emerald-400 font-bold">
+                    FCP &lt; 0.9s · 95+ Score
+                  </span>
+                </div>
 
-            </div>
+                {/* Action Link to Work Page */}
+                <div className="pt-1 flex items-center justify-between text-xs">
+                  <span className="text-[#6B7280] dark:text-[#71717A] font-mono">
+                    3 Flagship Concepts Ready
+                  </span>
+                  <button
+                    onClick={() => onNavigate('work')}
+                    className="text-[#0047AB] dark:text-blue-400 font-bold hover:underline transition-colors inline-flex items-center gap-1"
+                  >
+                    <span>Explore Concepts</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+
+              </div>
+            </RevealOnScroll>
           </div>
 
         </div>
