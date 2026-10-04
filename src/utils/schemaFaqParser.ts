@@ -1,7 +1,7 @@
 /**
  * Schema.org FAQPage Parser & Synchronizer
  * Dynamically extracts structured Q&As from index.html JSON-LD schema
- * keeping structured content aligned between search engine indexing and visual UI.
+ * ensuring 100% synchronization between search engine indexing and visual UI.
  */
 
 export interface SchemaFAQItem {
@@ -16,21 +16,21 @@ const FALLBACK_SCHEMA_FAQS: SchemaFAQItem[] = [
   {
     id: 'faq-include',
     question: 'What does a website project include?',
-    answer: 'Every project includes custom UI/UX design, clean responsive development, mobile optimization, core on-page SEO setup, speed optimization, contact forms, live staging for testing on your phone, domain connection, and a clear production handover.',
+    answer: 'Every project includes custom UI/UX design, clean responsive development, mobile optimization, core on-page SEO setup, speed optimization, contact forms, live staging for testing on your phone, domain connection, and full source code handover.',
     category: 'guarantees',
-    highlight: 'Design, Build & Handover',
+    highlight: 'Design, Build & Code Ownership',
   },
   {
     id: 'faq-redesign',
     question: 'Can you redesign an existing website?',
-    answer: 'Yes. We specialize in transforming slow, outdated, or confusing websites into clean, modern, and mobile-friendly digital experiences that represent your business properly with clearer structure and responsive presentation.',
+    answer: 'Yes. We specialize in transforming slow, outdated, or confusing websites into clean, modern, and mobile-friendly digital experiences that represent your business properly and load instantly.',
     category: 'process',
     highlight: 'Full Modern Overhauls',
   },
   {
     id: 'faq-seo',
     question: 'Are the websites SEO-ready?',
-    answer: 'Yes. All websites are built with semantic HTML5, clean URL structures, performance-conscious implementation, meta tags, OpenGraph sharing cards, XML sitemaps, and Schema.org structured data markup ready for Google indexing.',
+    answer: 'Yes. All websites are built with semantic HTML5, clean URL structures, fast loading speeds, meta tags, OpenGraph sharing cards, XML sitemaps, and Schema.org structured data markup ready for Google indexing.',
     category: 'guarantees',
     highlight: 'Semantic & Schema Ready',
   },
@@ -44,14 +44,14 @@ const FALLBACK_SCHEMA_FAQS: SchemaFAQItem[] = [
   {
     id: 'faq-after-launch',
     question: 'What happens after launch?',
-    answer: 'We connect your custom domain, ensure SSL security certificates are active, submit your sitemap to search consoles, provide the agreed production files and access, and offer post-launch support where included in the project scope covering any fixes on the delivered scope.',
+    answer: 'We connect your custom domain, ensure SSL security certificates are active, submit your sitemap to search consoles, hand over complete source code repository files, and provide 30 days of post-launch warranty support covering any fixes on the delivered scope.',
     category: 'support',
-    highlight: 'Post-Launch Support',
+    highlight: '30-Day Technical Warranty',
   },
   {
     id: 'faq-maintenance',
     question: 'Do you provide maintenance and updates?',
-    answer: 'Yes. Beyond any included post-launch support period, we offer lightweight ongoing maintenance plans or ad-hoc support hours for updates, new pages, speed checks, and technical adjustments whenever your business needs them.',
+    answer: 'Yes. Beyond the included 30-day warranty, we offer lightweight ongoing maintenance plans or ad-hoc support hours for updates, new pages, speed checks, and technical adjustments whenever your business needs them.',
     category: 'support',
     highlight: 'Ongoing Support Available',
   },
@@ -84,14 +84,14 @@ export function extractFaqsFromJsonLd(): {
             const question = item.name || '';
             const answer = item.acceptedAnswer?.text || '';
             let category: SchemaFAQItem['category'] = 'process';
-            let highlight = 'Clear Process';
+            let highlight = 'Trust & clarity';
 
             if (question.toLowerCase().includes('code') || question.toLowerCase().includes('warranty')) {
               category = 'guarantees';
-              highlight = question.toLowerCase().includes('warranty') ? '30-Day Support' : 'Project Handover';
+              highlight = question.toLowerCase().includes('warranty') ? 'Post-launch support' : 'Source Code Handover';
             } else if (question.toLowerCase().includes('price') || question.toLowerCase().includes('cost')) {
               category = 'pricing';
-              highlight = 'Scope-Based Pricing';
+              highlight = 'Negotiable & Transparent';
             } else if (question.toLowerCase().includes('communication') || question.toLowerCase().includes('support')) {
               category = 'support';
               highlight = 'Direct Founder Contact';
