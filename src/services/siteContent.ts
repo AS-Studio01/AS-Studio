@@ -4,7 +4,7 @@ import { PROJECTS } from '../data/projects';
 import type { Project, ServiceItem, ProcessStep, TestimonialItem, ClientProject } from '../types';
 
 export type LegalDocumentKey = 'privacy' | 'terms' | 'disclaimer';
-export type PageSeoKey = 'home' | 'work' | 'services' | 'process' | 'contact';
+export type PageSeoKey = 'home' | 'work' | 'services' | 'process' | 'track' | 'contact';
 
 export interface SeoEntry {
   title: string;
@@ -110,16 +110,16 @@ export const DEFAULT_SERVICES: ServiceItem[] = [
     whatItIncludes: [
       'Modern React & TypeScript engineering',
       'Responsive, mobile-first layouts tested on real devices',
-      'Performance-minded asset loading and responsive implementation',
+      'Asset optimization and Core Web Vitals review',
       'Contact forms with automated email dispatch and database storage',
       'Complete GitHub repository handover with full rights',
     ],
     features: [
       'Semantic React & TypeScript development',
       'Mobile-first responsive architecture',
-      'Performance-conscious implementation',
+      'Performance-focused asset loading',
       'Direct form inquiry routing & verification',
-      'Production files and agreed access handover',
+      '100% full source code ownership handover',
     ],
     icon: 'code',
     accentColor: '#06B6D4',
@@ -265,9 +265,9 @@ export const DEFAULT_PROCESS_STEPS: ProcessStep[] = [
     step: '03',
     title: 'Build',
     description: 'Develop the responsive website with performance and maintainability in mind.',
-    details: 'We build the website using clean React & TypeScript with sub-second asset bundling, semantic structure, database storage, and email notification dispatches.',
+    details: 'We build the website using clean React & TypeScript with efficient asset delivery, semantic structure, database storage, and email notification dispatches.',
     duration: 'Phase 3',
-    deliverables: ['Production-Grade React Codebase', 'Sub-Second Loading Performance', 'Inquiry Routing & Storage'],
+    deliverables: ['Production-Grade React Codebase', 'Optimized mobile delivery', 'Inquiry Routing & Storage'],
     enabled: true,
     order: 3,
   },
@@ -276,9 +276,9 @@ export const DEFAULT_PROCESS_STEPS: ProcessStep[] = [
     step: '04',
     title: 'Launch',
     description: 'Test, refine, deploy and hand over the completed website.',
-    details: 'You review the live build on your smartphone via a private staging URL. Once approved, we connect your domain, transfer production files and agreed access, and begin your 30-day warranty.',
+    details: 'You review the live build on your smartphone via a private staging URL. Once approved, we connect your domain, transfer 100% source code rights, and begin your 30-day warranty.',
     duration: 'Phase 4',
-    deliverables: ['Responsive Preview & Review', 'Domain Connection & SSL Setup', 'Production Files & Access Handover', '30-Day Technical Warranty'],
+    deliverables: ['Live Phone Staging Verification', 'Domain Connection & SSL Setup', 'Source Code Handover', '30-Day Technical Warranty'],
     enabled: true,
     order: 4,
   },
@@ -293,7 +293,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     location: 'India & Remote Worldwide',
     headline: 'Websites for businesses ready to look established online.',
     description: 'AS Studio designs and develops modern, fast and conversion-focused websites for businesses that need a stronger online presence.',
-    reassurance: 'Project scope determines the final investment. Timelines are agreed according to project scope.',
+    reassurance: 'Project scope determines the final investment. Typical projects launch within 1–3 weeks.',
     primaryCta: 'Start a Project',
     secondaryCta: 'View Our Work',
   },
@@ -315,7 +315,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     process: {
       eyebrow: 'Our Process',
       title: 'A disciplined, transparent path from brief to launch.',
-      description: 'Four connected phases with live phone staging, clear production handover, and post-launch support.',
+      description: 'Four connected phases with live phone staging, complete code handover, and post-launch support.',
     },
     testimonials: {
       eyebrow: 'Our Commitments',
@@ -343,12 +343,12 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
   seo: {
     home: {
       title: 'AS Studio — Clean Business Websites & Redesigns',
-      description: 'AS Studio designs clean, fast, and mobile-first websites and landing pages for local clinics, cafes, home decor ateliers, and early-stage founders with clear production handover.',
+      description: 'AS Studio designs clean, fast, and mobile-first websites and landing pages for local clinics, cafes, home decor ateliers, and early-stage founders with 100% source code ownership.',
       ogTitle: 'AS Studio — Clean Business Websites & Digital Experiences',
-      ogDescription: 'Websites that make your business easier to choose. Mobile-first engineering, live phone staging, and scope-based project pricing.',
+      ogDescription: 'Websites that make your business easier to choose. Mobile-first engineering, live phone staging, and flexible negotiable pricing.',
       ogImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
       twitterTitle: 'AS Studio — Clean Business Websites & Redesigns',
-      twitterDescription: 'Bespoke websites that make your business easier to choose. Mobile-first engineering, clear production handover, and live phone staging.',
+      twitterDescription: 'Bespoke websites that make your business easier to choose. Mobile-first engineering, 100% source code ownership, and live phone staging.',
       twitterImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
       canonical: 'https://as-studio-delta.vercel.app/',
       noIndex: false,
@@ -375,15 +375,15 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       title: 'Web Design & Development Capabilities — AS Studio',
       description: 'Bespoke business websites, high-converting landing pages, and modernization redesigns with 30-day post-launch warranty.',
       ogTitle: 'Web Services & Sprints — AS Studio',
-      ogDescription: 'Timelines are agreed according to project scope and deliverables.',
+      ogDescription: 'Turnaround in 7–14 business days with 100% full source code ownership.',
       ogImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
       twitterTitle: 'Web Design Services & Sprints — AS Studio',
-      twitterDescription: 'Turnaround in 5–14 days. clear production handover and live smartphone staging.',
+      twitterDescription: 'Turnaround in 5–14 days. 100% source code ownership and live smartphone staging.',
       twitterImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
       canonical: 'https://as-studio-delta.vercel.app/services',
       noIndex: false,
       primaryKeyword: 'web design services for local businesses',
-      secondaryKeywords: ['business website development', 'high-converting landing pages', 'website redesign sprint', 'production handover'],
+      secondaryKeywords: ['business website development', 'high-converting landing pages', 'website redesign sprint', '100% code ownership'],
       searchIntent: 'service_investigation',
     },
     process: {
@@ -393,7 +393,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       ogDescription: 'How AS Studio builds fast, bespoke business websites in 7–14 days.',
       ogImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
       twitterTitle: 'The Studio Methodology & Sprint — AS Studio',
-      twitterDescription: 'A clear path from brief to launch with responsive review and agreed post-launch support.',
+      twitterDescription: '6 transparent phases from brief to launch with live smartphone staging and 30-day warranty.',
       twitterImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
       canonical: 'https://as-studio-delta.vercel.app/process',
       noIndex: false,
@@ -403,17 +403,17 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     },
     contact: {
       title: 'Start a Project & Inquiries — AS Studio',
-      description: 'Connect directly with AS Studio founders via Telegram or Gmail. Discuss your target budget and timeline.',
+      description: 'Connect directly with AS Studio founders via Telegram or Gmail. Discuss your goals and timeline.',
       ogTitle: 'Start a Project — AS Studio',
-      ogDescription: 'Direct project enquiries with scope-based pricing for businesses.',
+      ogDescription: 'Direct founder inquiries with clear project scoping and transparent pricing for local businesses.',
       ogImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
       twitterTitle: 'Start a Project with AS Studio',
-      twitterDescription: 'Direct enquiries via Telegram & Gmail with project scope and pricing agreed for each engagement.',
+      twitterDescription: 'Direct founder inquiries via Telegram & Gmail with clear project scoping for independent practices.',
       twitterImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
       canonical: 'https://as-studio-delta.vercel.app/contact',
       noIndex: false,
       primaryKeyword: 'hire independent web design studio',
-      secondaryKeywords: ['start website project', 'business website pricing', 'clinic website inquiry', 'telegram web design consultation'],
+      secondaryKeywords: ['start website project', 'web design project pricing', 'clinic website inquiry', 'telegram web design consultation'],
       searchIntent: 'direct_conversion',
     },
     track: {
@@ -518,7 +518,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
 
 <h3>4. Concept Work and Portfolio Disclaimer</h3>
 <p>Some portfolio items on this website are labelled &quot;Independent Concept&quot;, &quot;Demo Project&quot; or &quot;Concept Project&quot;.</p>
-<p>These projects — including but not limited to Nova Dental Care and Mitti Café — are original design exercises created independently by AS Studio for portfolio and demonstration purposes only. They were not commissioned by, affiliated with or endorsed by the named businesses or brands. Any brand names referenced belong to their respective owners and are used solely for non-commercial and demonstrative purposes. These concepts do not represent the actual online presence, services or identity of any real business.</p>
+<p>These projects — including but not limited to the featured studio concepts — are original design exercises created independently by AS Studio for portfolio and demonstration purposes only. They were not commissioned by, affiliated with or endorsed by the named businesses or brands. Any brand names referenced belong to their respective owners and are used solely for non-commercial and demonstrative purposes. These concepts do not represent the actual online presence, services or identity of any real business.</p>
 <p>A concept project does not mean that any named business hired, approved, endorsed or partnered with AS Studio in any way.</p>
 
 <h3>5. AI-Assisted Work Disclosure</h3>
@@ -578,7 +578,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
 
 <h3>2. Portfolio, Demo and Concept Work</h3>
 <p>Some work shown on this website is labelled as &quot;Independent Project&quot;, &quot;Independent Concept&quot; or &quot;Concept Work&quot;.</p>
-<p>These projects — including but not limited to Nova Dental Care and Mitti Café — are original design exercises created independently by AS Studio for portfolio and demonstration purposes only. They were not commissioned by, affiliated with or endorsed by the named businesses or brands. Any brand names referenced belong to their respective owners and are used solely for non-commercial, demonstrative and portfolio purposes. These concepts do not claim to represent the actual online presence, services or identity of any real business.</p>
+<p>These projects — including but not limited to the featured studio concepts — are original design exercises created independently by AS Studio for portfolio and demonstration purposes only. They were not commissioned by, affiliated with or endorsed by the named businesses or brands. Any brand names referenced belong to their respective owners and are used solely for non-commercial, demonstrative and portfolio purposes. These concepts do not claim to represent the actual online presence, services or identity of any real business.</p>
 <p>If any business or brand believes their name or identity has been used inappropriately, they may contact AS Studio at <a href="mailto:asbusinessofficial01@gmail.com" class="text-[#3B82F6] underline">asbusinessofficial01@gmail.com</a> and we will review the matter promptly and in good faith.</p>
 
 <h3>3. AI-Assisted Workflow</h3>
@@ -666,13 +666,31 @@ export async function saveLegalDocument(key: LegalDocumentKey, document: LegalEn
   await setDoc(CONTENT_DOC, { legal: { [key]: document } }, { merge: true });
 }
 
+function normalizePortfolioProjects(incomingProjects: Project[] | undefined, baseProjects: Project[]): Project[] {
+  if (!Array.isArray(incomingProjects) || incomingProjects.length === 0) return baseProjects;
+
+  const names = incomingProjects.map((project) => (project?.name || '').toLowerCase());
+  const ids = incomingProjects.map((project) => (project?.id || '').toLowerCase());
+  const hasLegacyPortfolio =
+    names.some((name) => name.includes('aura living') || name.includes('mitti café') || name.includes('mitti cafe')) ||
+    ids.some((id) => id.includes('aura') || id.includes('mitti'));
+
+  const requiredCurrentIds = ['apex-residences', 'atelier-north', 'nova-dental-care'];
+  const hasCurrentPortfolio = requiredCurrentIds.every((id) => ids.includes(id));
+
+  // Older Firestore/localStorage snapshots can contain the previous three concepts.
+  // Never let those stale records silently replace the current portfolio.
+  if (hasLegacyPortfolio || !hasCurrentPortfolio) return baseProjects;
+  return incomingProjects;
+}
+
 function mergeContent(base: SiteContent, incoming: Partial<SiteContent>): SiteContent {
   return {
     ...base,
     ...incoming,
     brand: { ...base.brand, ...(incoming.brand || {}) },
     services: incoming.services && incoming.services.length > 0 ? incoming.services : base.services,
-    projects: incoming.projects && incoming.projects.length > 0 ? incoming.projects : base.projects,
+    projects: normalizePortfolioProjects(incoming.projects, base.projects),
     processSteps: incoming.processSteps && incoming.processSteps.length > 0 ? incoming.processSteps : base.processSteps,
     testimonials: Array.isArray(incoming.testimonials) ? incoming.testimonials : base.testimonials,
     sections: {
