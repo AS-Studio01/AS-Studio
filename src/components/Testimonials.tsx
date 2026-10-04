@@ -17,7 +17,7 @@ export function Testimonials({ onOpenRateModal }: TestimonialsProps) {
     },
     {
       icon: Lock,
-      title: 'Complete Source Handover',
+      title: '100% Complete Code Ownership',
       description: 'Clean GitHub repository rights or production files transferred to you upon completion. No builder lock-in, no monthly hostage fees.',
     },
     {

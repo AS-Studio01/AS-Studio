@@ -110,14 +110,14 @@ export const DEFAULT_SERVICES: ServiceItem[] = [
     whatItIncludes: [
       'Modern React & TypeScript engineering',
       'Responsive, mobile-first layouts tested on real devices',
-      'Asset optimization and Core Web Vitals review',
+      'Sub-second asset loading and Core Web Vitals optimization',
       'Contact forms with automated email dispatch and database storage',
       'Complete GitHub repository handover with full rights',
     ],
     features: [
       'Semantic React & TypeScript development',
       'Mobile-first responsive architecture',
-      'Performance-focused asset loading',
+      'Sub-second First Contentful Paint (<1.0s)',
       'Direct form inquiry routing & verification',
       '100% full source code ownership handover',
     ],
@@ -265,9 +265,9 @@ export const DEFAULT_PROCESS_STEPS: ProcessStep[] = [
     step: '03',
     title: 'Build',
     description: 'Develop the responsive website with performance and maintainability in mind.',
-    details: 'We build the website using clean React & TypeScript with efficient asset delivery, semantic structure, database storage, and email notification dispatches.',
+    details: 'We build the website using clean React & TypeScript with sub-second asset bundling, semantic structure, database storage, and email notification dispatches.',
     duration: 'Phase 3',
-    deliverables: ['Production-Grade React Codebase', 'Optimized mobile delivery', 'Inquiry Routing & Storage'],
+    deliverables: ['Production-Grade React Codebase', 'Sub-Second Loading Performance', 'Inquiry Routing & Storage'],
     enabled: true,
     order: 3,
   },
@@ -278,7 +278,7 @@ export const DEFAULT_PROCESS_STEPS: ProcessStep[] = [
     description: 'Test, refine, deploy and hand over the completed website.',
     details: 'You review the live build on your smartphone via a private staging URL. Once approved, we connect your domain, transfer 100% source code rights, and begin your 30-day warranty.',
     duration: 'Phase 4',
-    deliverables: ['Live Phone Staging Verification', 'Domain Connection & SSL Setup', 'Source Code Handover', '30-Day Technical Warranty'],
+    deliverables: ['Live Phone Staging Verification', 'Domain Connection & SSL Setup', '100% Source Code Handover', '30-Day Technical Warranty'],
     enabled: true,
     order: 4,
   },
@@ -403,17 +403,17 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     },
     contact: {
       title: 'Start a Project & Inquiries — AS Studio',
-      description: 'Connect directly with AS Studio founders via Telegram or Gmail. Discuss your goals and timeline.',
+      description: 'Connect directly with AS Studio founders via Telegram or Gmail. Discuss your target budget and timeline.',
       ogTitle: 'Start a Project — AS Studio',
-      ogDescription: 'Direct founder inquiries with clear project scoping and transparent pricing for local businesses.',
+      ogDescription: 'Direct founder inquiries with negotiable, flexible pricing for local businesses.',
       ogImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
       twitterTitle: 'Start a Project with AS Studio',
-      twitterDescription: 'Direct founder inquiries via Telegram & Gmail with clear project scoping for independent practices.',
+      twitterDescription: 'Direct founder inquiries via Telegram & Gmail with flexible, negotiable pricing for independent practices.',
       twitterImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=630&q=85',
       canonical: 'https://as-studio-delta.vercel.app/contact',
       noIndex: false,
       primaryKeyword: 'hire independent web design studio',
-      secondaryKeywords: ['start website project', 'web design project pricing', 'clinic website inquiry', 'telegram web design consultation'],
+      secondaryKeywords: ['start website project', 'negotiable web design pricing', 'clinic website inquiry', 'telegram web design consultation'],
       searchIntent: 'direct_conversion',
     },
     track: {
@@ -518,7 +518,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
 
 <h3>4. Concept Work and Portfolio Disclaimer</h3>
 <p>Some portfolio items on this website are labelled &quot;Independent Concept&quot;, &quot;Demo Project&quot; or &quot;Concept Project&quot;.</p>
-<p>These projects — including but not limited to the featured studio concepts — are original design exercises created independently by AS Studio for portfolio and demonstration purposes only. They were not commissioned by, affiliated with or endorsed by the named businesses or brands. Any brand names referenced belong to their respective owners and are used solely for non-commercial and demonstrative purposes. These concepts do not represent the actual online presence, services or identity of any real business.</p>
+<p>These projects — including but not limited to Nova Dental Care and Mitti Café — are original design exercises created independently by AS Studio for portfolio and demonstration purposes only. They were not commissioned by, affiliated with or endorsed by the named businesses or brands. Any brand names referenced belong to their respective owners and are used solely for non-commercial and demonstrative purposes. These concepts do not represent the actual online presence, services or identity of any real business.</p>
 <p>A concept project does not mean that any named business hired, approved, endorsed or partnered with AS Studio in any way.</p>
 
 <h3>5. AI-Assisted Work Disclosure</h3>
@@ -578,7 +578,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
 
 <h3>2. Portfolio, Demo and Concept Work</h3>
 <p>Some work shown on this website is labelled as &quot;Independent Project&quot;, &quot;Independent Concept&quot; or &quot;Concept Work&quot;.</p>
-<p>These projects — including but not limited to the featured studio concepts — are original design exercises created independently by AS Studio for portfolio and demonstration purposes only. They were not commissioned by, affiliated with or endorsed by the named businesses or brands. Any brand names referenced belong to their respective owners and are used solely for non-commercial, demonstrative and portfolio purposes. These concepts do not claim to represent the actual online presence, services or identity of any real business.</p>
+<p>These projects — including but not limited to Nova Dental Care and Mitti Café — are original design exercises created independently by AS Studio for portfolio and demonstration purposes only. They were not commissioned by, affiliated with or endorsed by the named businesses or brands. Any brand names referenced belong to their respective owners and are used solely for non-commercial, demonstrative and portfolio purposes. These concepts do not claim to represent the actual online presence, services or identity of any real business.</p>
 <p>If any business or brand believes their name or identity has been used inappropriately, they may contact AS Studio at <a href="mailto:asbusinessofficial01@gmail.com" class="text-[#3B82F6] underline">asbusinessofficial01@gmail.com</a> and we will review the matter promptly and in good faith.</p>
 
 <h3>3. AI-Assisted Workflow</h3>
@@ -666,31 +666,13 @@ export async function saveLegalDocument(key: LegalDocumentKey, document: LegalEn
   await setDoc(CONTENT_DOC, { legal: { [key]: document } }, { merge: true });
 }
 
-function normalizePortfolioProjects(incomingProjects: Project[] | undefined, baseProjects: Project[]): Project[] {
-  if (!Array.isArray(incomingProjects) || incomingProjects.length === 0) return baseProjects;
-
-  const names = incomingProjects.map((project) => (project?.name || '').toLowerCase());
-  const ids = incomingProjects.map((project) => (project?.id || '').toLowerCase());
-  const hasLegacyPortfolio =
-    names.some((name) => name.includes('aura living') || name.includes('mitti café') || name.includes('mitti cafe')) ||
-    ids.some((id) => id.includes('aura') || id.includes('mitti'));
-
-  const requiredCurrentIds = ['apex-residences', 'atelier-north', 'nova-dental-care'];
-  const hasCurrentPortfolio = requiredCurrentIds.every((id) => ids.includes(id));
-
-  // Older Firestore/localStorage snapshots can contain the previous three concepts.
-  // Never let those stale records silently replace the current portfolio.
-  if (hasLegacyPortfolio || !hasCurrentPortfolio) return baseProjects;
-  return incomingProjects;
-}
-
 function mergeContent(base: SiteContent, incoming: Partial<SiteContent>): SiteContent {
   return {
     ...base,
     ...incoming,
     brand: { ...base.brand, ...(incoming.brand || {}) },
     services: incoming.services && incoming.services.length > 0 ? incoming.services : base.services,
-    projects: normalizePortfolioProjects(incoming.projects, base.projects),
+    projects: incoming.projects && incoming.projects.length > 0 ? incoming.projects : base.projects,
     processSteps: incoming.processSteps && incoming.processSteps.length > 0 ? incoming.processSteps : base.processSteps,
     testimonials: Array.isArray(incoming.testimonials) ? incoming.testimonials : base.testimonials,
     sections: {

@@ -120,12 +120,12 @@ export function WorkPage({ projects, onSelectProject, onNavigate }: WorkPageProp
           </div>
           <div>
             <span className="text-[11px] uppercase tracking-wider text-[#736E66] dark:text-[#A1A1AA] block font-bold font-mono">Source Code</span>
-            <span className="text-2xl font-black tracking-tight block mt-1">Client Handover</span>
+            <span className="text-2xl font-black tracking-tight block mt-1">100% Yours</span>
             <span className="text-xs font-medium text-[#6B6661] dark:text-[#A1A1AA]">Full ownership, zero lock-in</span>
           </div>
           <div>
-            <span className="text-[11px] uppercase tracking-wider text-[#736E66] dark:text-[#A1A1AA] block font-bold font-mono">Concept Status</span>
-            <span className="text-2xl font-black tracking-tight block mt-1 text-[#0047AB] dark:text-[#3B82F6]">Clearly Labelled</span>
+            <span className="text-[11px] uppercase tracking-wider text-[#736E66] dark:text-[#A1A1AA] block font-bold font-mono">Concept Ethics</span>
+            <span className="text-2xl font-black tracking-tight block mt-1 text-[#0047AB] dark:text-[#3B82F6]">Honest Badges</span>
             <span className="text-xs font-medium text-[#6B6661] dark:text-[#A1A1AA]">Transparent distinction</span>
           </div>
         </div>
@@ -157,7 +157,7 @@ export function WorkPage({ projects, onSelectProject, onNavigate }: WorkPageProp
               >
                 {/* Visual Preview */}
                 <div className="lg:col-span-7 bg-[#F4F1EA] dark:bg-[#141416] border-b lg:border-b-0 lg:border-r border-[#DDD7CD] dark:border-[#27272A] flex items-center">
-                  <ProjectVisual projectId={project.id} name={project.name} imageUrl={project.imageUrl} category={project.category} />
+                  <ProjectVisual projectId={project.id} name={project.name} />
                 </div>
 
                 {/* Text & Specs */}
@@ -251,7 +251,7 @@ export function WorkPage({ projects, onSelectProject, onNavigate }: WorkPageProp
             </span>
           </div>
           <h3 className="text-xl sm:text-2xl font-black tracking-tight text-[#121212] dark:text-white">
-            Your project is delivered with clear ownership and handover terms.
+            You own 100% of your website. No ongoing fees, no vendor lock-in.
           </h3>
           <p className="text-sm text-[#4A4641] dark:text-[#D4D4D8] leading-relaxed max-w-3xl font-medium">
             Unlike agencies that build on closed platforms with monthly software fees, AS Studio hands over complete production code, assets, and documentation. You can host anywhere, modify anything, or keep us on retainer only when you need new pages.

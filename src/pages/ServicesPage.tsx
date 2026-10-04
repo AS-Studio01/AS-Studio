@@ -37,7 +37,7 @@ export function ServicesPage({ onNavigate }: ServicesPageProps) {
   const standardsComparison = [
     {
       feature: 'Source Code Ownership',
-      studio: 'Delivered with your project',
+      studio: '100% delivered to you on day one',
       others: 'Locked behind proprietary builders & monthly fees',
     },
     {

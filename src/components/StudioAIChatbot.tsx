@@ -30,11 +30,15 @@ export function StudioAIChatbot({ isOpen, onClose, onOpenContact }: StudioAIChat
     {
       id: 'welcome',
       role: 'assistant',
-      content: `Hello! I’m the AS Studio assistant.
+      content: `Hello! I am **AS Studio Helper AI**, your direct assistant for AS Studio.
 
-I can help you understand our website services, suggest the right type of website for your business, explain the project process, or help you prepare a project brief.
+I can help answer any questions about:
+• **Negotiable Pricing**: We adapt to your budget, whether you are an independent clinic, cafe, or studio.
+• **Turnaround Timelines**: Fast 5–14 business days sprints.
+• **100% Code Ownership**: Clean source files with zero monthly builder lock-in.
+• **Live Phone Staging**: Test your real site on your smartphone before launch.
 
-Tell me what your business does and what you want the website to achieve.`,
+You can ask me anything below, tap **Direct Contact**, or tap **✨ Draft Pre-built Inquiry** at any time to generate a ready-to-send brief from our conversation!`,
       timestamp: 'Just now',
     },
   ]);
@@ -54,7 +58,7 @@ Tell me what your business does and what you want the website to achieve.`,
         businessName: 'Synthesized Brief',
         contactChannel: STUDIO_CONTACT.email,
         scopeSummary: inquiryText,
-        targetBudget: 'To be discussed',
+        targetBudget: 'Flexible (Negotiable)',
         source: 'ai_chat_assistant',
       });
       await sendEmailViaGmail({

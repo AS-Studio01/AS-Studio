@@ -146,7 +146,7 @@ export default function App() {
       />
 
       {/* Floating Direct Communication Hub */}
-      <FloatingCommunicationHub onNavigateToContact={() => navigateTo('contact')} onOpenAIChat={() => setIsAIChatOpen(true)} />
+      <FloatingCommunicationHub onNavigateToContact={() => navigateTo('contact')} />
 
       {/* Founder Secret Admin Panel */}
       <SecretAdminPanel

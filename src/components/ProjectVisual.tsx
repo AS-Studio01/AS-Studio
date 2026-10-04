@@ -1,49 +1,137 @@
-import { ArrowUpRight } from 'lucide-react';
-
 interface ProjectVisualProps {
   projectId: string;
   name: string;
-  imageUrl?: string;
-  category?: string;
 }
 
-export function ProjectVisual({ projectId, name, imageUrl, category }: ProjectVisualProps) {
-  const safeImage = imageUrl || '';
+export function ProjectVisual({ projectId, name }: ProjectVisualProps) {
+  if (projectId === 'apex-residences') {
+    return (
+      <div 
+        className="w-full aspect-[16/10] bg-[#121216] border-b border-white/[0.08] relative overflow-hidden group select-none"
+        aria-label={`Visual preview for ${name}`}
+      >
+        <img
+          src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1000&q=85"
+          alt="Apex Residences penthouse architectural terrace overlooking skyline"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-black/40 to-black/20" />
 
+        {/* Top Tag & Status */}
+        <div className="absolute top-4 left-4 right-4 flex items-center justify-between text-[11px] font-mono">
+          <span className="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white font-bold tracking-wider uppercase">
+            APEX RESIDENCES · PENTHOUSES
+          </span>
+          <span className="px-2 py-0.5 rounded-full bg-[#C5A880]/20 text-[#C5A880] font-bold border border-[#C5A880]/30">
+            Real Estate
+          </span>
+        </div>
+
+        {/* Bottom Specs Overlay */}
+        <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between">
+          <div className="flex items-center gap-1.5 text-[10px] font-mono">
+            <span className="px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-md border border-white/10 text-white">
+              360° Sky Views
+            </span>
+            <span className="px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-md border border-white/10 text-[#C5A880]">
+              Floorplan Inspector
+            </span>
+          </div>
+          <span className="text-[10px] font-mono text-emerald-400 font-bold">
+            ● Live Staging Demo
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  if (projectId === 'atelier-north') {
+    return (
+      <div 
+        className="w-full aspect-[16/10] bg-[#121216] border-b border-white/[0.08] relative overflow-hidden group select-none"
+        aria-label={`Visual preview for ${name}`}
+      >
+        <img
+          src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1000&q=85"
+          alt="Atelier North minimal spatial pavilion with natural cedar and travertine"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-black/40 to-black/20" />
+
+        {/* Top Tag & Status */}
+        <div className="absolute top-4 left-4 right-4 flex items-center justify-between text-[11px] font-mono">
+          <span className="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white font-bold tracking-wider uppercase">
+            ATELIER NORTH · MONOGRAPH
+          </span>
+          <span className="px-2 py-0.5 rounded-full bg-[#8F9F8F]/20 text-[#8F9F8F] font-bold border border-[#8F9F8F]/30">
+            Spatial Architecture
+          </span>
+        </div>
+
+        {/* Bottom Material Swatches Overlay */}
+        <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            {[
+              { label: 'Travertine', color: '#C7B79D' },
+              { label: 'Smoked Oak', color: '#5A4B3C' },
+              { label: 'Bronze', color: '#3D3A38' },
+              { label: 'Plaster', color: '#9E9B93' },
+            ].map((m) => (
+              <span
+                key={m.label}
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-md border border-white/10 text-[10px] text-white font-mono"
+              >
+                <span className="w-2 h-2 rounded-full border border-white/20" style={{ backgroundColor: m.color }} />
+                <span>{m.label}</span>
+              </span>
+            ))}
+          </div>
+          <span className="text-[10px] font-mono text-emerald-400 font-bold hidden sm:inline">
+            ● Live Staging Demo
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  // Nova Dental Care
   return (
-    <div
+    <div 
       className="w-full aspect-[16/10] bg-[#121216] border-b border-white/[0.08] relative overflow-hidden group select-none"
       aria-label={`Visual preview for ${name}`}
     >
-      {safeImage ? (
-        <img
-          src={safeImage}
-          alt={`${name} project preview`}
-          className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.045]"
-          loading="lazy"
-          decoding="async"
-        />
-      ) : (
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,.28),transparent_35%),radial-gradient(circle_at_80%_70%,rgba(124,58,237,.22),transparent_35%)]" />
-      )}
+      <img
+        src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1000&q=85"
+        alt="Modern aesthetic dental clinic treatment suite and appointment triage interface"
+        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        loading="lazy"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-black/40 to-black/20" />
 
-      <div className="absolute inset-0 bg-gradient-to-t from-[#09090D]/95 via-[#09090D]/15 to-transparent" />
-      <div className="absolute inset-x-4 top-4 flex items-center justify-between gap-2">
-        <span className="max-w-[70%] truncate rounded-full bg-black/55 px-3 py-1.5 text-[10px] font-semibold tracking-[0.14em] text-white/90 backdrop-blur-md border border-white/10">
-          {name}
+      {/* Top Tag & Status */}
+      <div className="absolute top-4 left-4 right-4 flex items-center justify-between text-[11px] font-mono">
+        <span className="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white font-bold tracking-wider uppercase">
+          NOVA DENTAL · CLINIC SUITE
         </span>
-        <span className="rounded-full bg-white/10 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-wider text-white/80 backdrop-blur-md border border-white/10">
-          Studio Concept
+        <span className="px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/30">
+          Healthcare Triage
         </span>
       </div>
 
-      <div className="absolute inset-x-4 bottom-4 flex items-end justify-between gap-3">
-        <div>
-          <p className="text-[10px] uppercase tracking-[0.16em] text-white/55">{category || 'Selected Work'}</p>
-          <p className="mt-1 text-sm font-semibold text-white">A visual direction for a real business brief</p>
+      {/* Bottom Feature Badges */}
+      <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between">
+        <div className="flex items-center gap-1.5 text-[10px] font-mono">
+          <span className="px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-md border border-white/10 text-white">
+            Instant Mobile Booking
+          </span>
+          <span className="px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-md border border-white/10 text-cyan-300">
+            Dr. Credibility Triage
+          </span>
         </div>
-        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/15 bg-black/35 text-white/90 backdrop-blur-md transition-transform duration-300 group-hover:-translate-y-1">
-          <ArrowUpRight className="h-4 w-4" />
+        <span className="text-[10px] font-mono text-emerald-400 font-bold">
+          ● Live Staging Demo
         </span>
       </div>
     </div>

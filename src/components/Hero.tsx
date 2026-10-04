@@ -21,7 +21,7 @@ export function Hero({ onNavigate }: HeroProps) {
   const studioGuarantees = [
     {
       label: 'Source Code Handover',
-      value: 'Source Code Handover',
+      value: '100% Code Ownership',
       desc: 'Clean GitHub repo or production files. No proprietary platform lock-in.',
       icon: Lock,
     },

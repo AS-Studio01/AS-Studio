@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MessageSquare, Bot, Send, Mail, X, ArrowUpRight } from 'lucide-react';
+import { MessageSquare, Send, Mail, X, ArrowUpRight } from 'lucide-react';
 import { STUDIO_CONTACT, buildMailtoLink, buildTelegramLink } from '../constants/communication';
 
 interface FloatingCommunicationHubProps {
@@ -7,7 +7,7 @@ interface FloatingCommunicationHubProps {
   onOpenAIChat?: () => void;
 }
 
-export function FloatingCommunicationHub({ onNavigateToContact, onOpenAIChat }: FloatingCommunicationHubProps) {
+export function FloatingCommunicationHub({ onNavigateToContact }: FloatingCommunicationHubProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const telegramLink = buildTelegramLink('Hi AS Studio, I would like to discuss a new website sprint.');
@@ -73,31 +73,22 @@ export function FloatingCommunicationHub({ onNavigateToContact, onOpenAIChat }: 
         </div>
       )}
 
-      {/* Floating actions: AI assistant + direct contact */}
-      <div className="flex items-center gap-2">
-        {onOpenAIChat && (
-          <button
-            onClick={onOpenAIChat}
-            className="relative grid h-12 w-12 place-items-center rounded-full border border-cyan-300/25 bg-gradient-to-br from-violet-500 to-cyan-400 text-white shadow-[0_12px_36px_rgba(56,189,248,.25)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-300 group"
-            aria-label="Open AS Studio AI assistant"
-            title="Ask AS Studio"
-          >
-            <span className="absolute inset-0 rounded-full animate-ping bg-cyan-400/10 pointer-events-none" />
-            <Bot className="relative w-5 h-5 transition-transform duration-300 group-hover:rotate-6" />
-          </button>
+      {/* Floating Trigger Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="glass-btn-primary w-12 h-12 sm:w-13 sm:h-13 rounded-full text-white shadow-2xl flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#3B82F6] relative group"
+        aria-label="Direct studio communication"
+        title="Direct Studio Contact"
+      >
+        <span className="absolute top-0 right-0 flex h-3 w-3">
+          <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-400 border-2 border-[#0E0E10]" />
+        </span>
+        {isOpen ? (
+          <X className="w-5 h-5 text-white" />
+        ) : (
+          <MessageSquare className="w-5 h-5 text-white transition-transform group-hover:scale-110" />
         )}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="glass-btn-primary w-12 h-12 sm:w-13 sm:h-13 rounded-full text-white shadow-2xl flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:scale-105 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#3B82F6] relative group"
-          aria-label="Direct studio communication"
-          title="Direct Studio Contact"
-        >
-          <span className="absolute top-0 right-0 flex h-3 w-3">
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-400 border-2 border-[#0E0E10]" />
-          </span>
-          {isOpen ? <X className="w-5 h-5 text-white" /> : <MessageSquare className="w-5 h-5 text-white transition-transform group-hover:scale-110" />}
-        </button>
-      </div>
+      </button>
     </div>
   );
 }

@@ -112,15 +112,10 @@ export function IndustriesSection({ onStartProject }: IndustriesSectionProps) {
                   <span className="text-[11px] font-mono text-[#52525B] dark:text-[#A1A1AA]">
                     Bespoke Architecture
                   </span>
-                  <button
-                    type="button"
-                    onClick={onStartProject}
-                    aria-label={`Inquire about a ${ind.title} website`}
-                    className="text-xs text-[#0047AB] dark:text-blue-400 font-bold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/60 rounded-md px-1 py-1 -mr-1"
-                  >
+                  <span className="text-xs text-[#0047AB] dark:text-blue-400 font-bold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
                     <span>Inquire</span>
                     <ArrowRight className="w-3 h-3" />
-                  </button>
+                  </span>
                 </div>
               </div>
             );

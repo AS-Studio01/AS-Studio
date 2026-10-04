@@ -29,7 +29,7 @@ export function AboutSection({ onStartProject }: AboutSectionProps) {
     {
       icon: Code2,
       title: 'Maintainable builds',
-      description: 'Clean, modern React and TypeScript codebases delivered with full project rights. Zero proprietary builder lock-in and zero mandatory platform subscription fees.',
+      description: 'Clean, modern React and TypeScript codebases delivered with 100% full rights. Zero proprietary builder lock-in and zero mandatory platform subscription fees.',
     },
     {
       icon: Target,
@@ -71,7 +71,7 @@ export function AboutSection({ onStartProject }: AboutSectionProps) {
               Our Operating Principles
             </span>
             <span className="text-xs font-mono text-[#0047AB] dark:text-[#60A5FA] font-bold">
-              Thoughtful design · Clean handover
+              Zero AI Slop · 100% Code Handover
             </span>
           </div>
 

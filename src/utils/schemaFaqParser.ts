@@ -16,7 +16,7 @@ const FALLBACK_SCHEMA_FAQS: SchemaFAQItem[] = [
   {
     id: 'faq-include',
     question: 'What does a website project include?',
-    answer: 'Every project includes custom UI/UX design, clean responsive development, mobile optimization, core on-page SEO setup, speed optimization, contact forms, live staging for testing on your phone, domain connection, and full source code handover.',
+    answer: 'Every project includes custom UI/UX design, clean responsive development, mobile optimization, core on-page SEO setup, speed optimization, contact forms, live staging for testing on your phone, domain connection, and 100% full source code ownership.',
     category: 'guarantees',
     highlight: 'Design, Build & Code Ownership',
   },
@@ -84,11 +84,11 @@ export function extractFaqsFromJsonLd(): {
             const question = item.name || '';
             const answer = item.acceptedAnswer?.text || '';
             let category: SchemaFAQItem['category'] = 'process';
-            let highlight = 'Trust & clarity';
+            let highlight = 'Verified Trust';
 
             if (question.toLowerCase().includes('code') || question.toLowerCase().includes('warranty')) {
               category = 'guarantees';
-              highlight = question.toLowerCase().includes('warranty') ? 'Post-launch support' : 'Source Code Handover';
+              highlight = question.toLowerCase().includes('warranty') ? '30-Day Free Warranty' : '100% Code Handover';
             } else if (question.toLowerCase().includes('price') || question.toLowerCase().includes('cost')) {
               category = 'pricing';
               highlight = 'Negotiable & Transparent';
