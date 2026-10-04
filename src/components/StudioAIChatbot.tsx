@@ -30,15 +30,11 @@ export function StudioAIChatbot({ isOpen, onClose, onOpenContact }: StudioAIChat
     {
       id: 'welcome',
       role: 'assistant',
-      content: `Hello! I am **AS Studio Helper AI**, your direct assistant for AS Studio.
+      content: `Hello! I’m the AS Studio assistant.
 
-I can help answer any questions about:
-• **Project Pricing**: Scope, deliverables and investment are agreed before work begins.
-• **Turnaround Timelines**: Fast 5–14 business days sprints.
-• **Project Handover**: Agreed production files and access are provided at handover.
-• **Live Phone Staging**: Test your real site on your smartphone before launch.
+I can help you understand our website services, suggest the right type of website for your business, explain the project process, or help you prepare a project brief.
 
-You can ask me anything below, tap **Direct Contact**, or tap **✨ Draft Pre-built Inquiry** at any time to generate a ready-to-send brief from our conversation!`,
+Tell me what your business does and what you want the website to achieve.`,
       timestamp: 'Just now',
     },
   ]);
@@ -184,7 +180,7 @@ You can ask me anything below, tap **Direct Contact**, or tap **✨ Draft Pre-bu
       }
 
       if (!inquiryText) {
-        inquiryText = `Hi AS Studio team,\n\nI was chatting with AS Studio Helper AI regarding a website project for my business.\n\n• Service: Website Design & Development\n• Pricing: To be discussed based on project scope\n• Desired timeline: 7–14 business days\n\nPlease let me know the best next steps!`;
+        inquiryText = `Hi AS Studio team,\n\nI was chatting with AS Studio Helper AI regarding a website project for my business.\n\n• Service: Website Design & Development\n• Pricing: Negotiable to my budget\n• Desired timeline: 7–14 business days\n\nPlease let me know the best next steps!`;
       }
 
       const inquiryReply: ChatMessage = {
@@ -199,7 +195,7 @@ You can ask me anything below, tap **Direct Contact**, or tap **✨ Draft Pre-bu
       setMessages((prev) => [...prev, inquiryReply]);
     } catch (err) {
       console.error('Error generating inquiry:', err);
-      const fallbackInquiry = `Hi AS Studio team,\n\nI was chatting with AS Studio Helper AI and would like to discuss building a website for my business with project scope and pricing agreed for the engagement.\n\nPlease let me know how we can get started!`;
+      const fallbackInquiry = `Hi AS Studio team,\n\nI was chatting with AS Studio Helper AI and would like to discuss building a website for my business with negotiable pricing.\n\nPlease let me know how we can get started!`;
       const fallbackReply: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
@@ -363,9 +359,9 @@ You can ask me anything below, tap **Direct Contact**, or tap **✨ Draft Pre-bu
   const quickPrompts = [
     '✨ Draft Pre-built Inquiry',
     'Direct Contact',
-    'How is project pricing decided?',
+    'Is pricing negotiable for my budget?',
     'What is your turnaround time?',
-    'What is included in the project handover?',
+    'Will I own 100% of the code?',
   ];
 
   if (!isOpen) return null;
@@ -454,7 +450,7 @@ You can ask me anything below, tap **Direct Contact**, or tap **✨ Draft Pre-bu
                     role: 'assistant',
                     content: `Hello! I am **AS Studio Helper AI**, your direct assistant for AS Studio.
 
-I can help answer any questions about our design services, project pricing, timelines, or how we collaborate.
+I can help answer any questions about our design services, negotiable pricing, turnaround times, or how we collaborate.
 
 Ask me anything or tap **Direct Contact** or **Draft Pre-built Inquiry** at any time!`,
                     timestamp: 'Just now',

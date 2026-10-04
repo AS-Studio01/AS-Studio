@@ -292,7 +292,7 @@ export function ClientPortalModal({
               ) : isAdmin ? (
                 <div className="flex items-center gap-2 bg-emerald-500/10 px-3 py-1.5 rounded-lg border border-emerald-500/20 text-xs">
                   <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                  <span className="text-emerald-300 font-semibold">Client Workspace</span>
+                  <span className="text-emerald-300 font-semibold">Founder Verified</span>
                   <button
                     onClick={signOut}
                     className="text-[#71717A] hover:text-rose-400 ml-1 font-mono text-[11px]"
@@ -602,7 +602,7 @@ export function ClientPortalModal({
                           {/* Footer Actions: Live Mobile Staging Demo */}
                           <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-white/[0.06]">
                             <span className="text-[11px] text-[#71717A] font-mono">
-                              Project files and access provided at handover
+                              Code Ownership: 100% Client Transferred Upon Handover
                             </span>
 
                             {project.liveStagingUrl && (

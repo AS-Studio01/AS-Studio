@@ -1,4 +1,5 @@
 import { ArrowRight, Layout, Code, Sparkles, Zap, Globe, Shield, Check } from 'lucide-react';
+import { motion } from 'motion/react';
 import { useSiteContent } from '../context/SiteContentContext';
 import { ServiceItem } from '../types';
 
@@ -45,8 +46,13 @@ export function Services({ onStartProject }: ServicesProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {services.map((service, index) => {
             return (
-              <div
+              <motion.div
                 key={service.id || index}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.16 }}
+                transition={{ duration: 0.55, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -5 }}
                 className="p-7 sm:p-8 rounded-2xl bg-[#121218] border border-white/[0.08] hover:border-white/20 transition-all flex flex-col justify-between group"
               >
                 <div className="space-y-5">
@@ -136,7 +142,7 @@ export function Services({ onStartProject }: ServicesProps) {
                     <ArrowRight className="w-3.5 h-3.5 text-blue-400 group-hover:translate-x-1 transition-transform" />
                   </button>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>

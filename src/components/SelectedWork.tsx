@@ -65,7 +65,7 @@ export function SelectedWork({ projects, onSelectProject }: SelectedWorkProps) {
           
           <div className="flex flex-col sm:items-end gap-2">
             <p className="text-sm font-medium text-[#6B6661] dark:text-[#A1A1AA] max-w-sm sm:text-right">
-              Thoughtful interfaces designed to make services, work and enquiries easier to understand.
+              Intentional interfaces engineered for credibility, friction-free discovery, and verified customer enquiries.
             </p>
 
             {/* Touch Swipe Navigator (Visible on Mobile & Tablet < lg) */}
@@ -129,7 +129,7 @@ export function SelectedWork({ projects, onSelectProject }: SelectedWorkProps) {
               >
                 <div>
                   {/* Visual preview */}
-                  <ProjectVisual projectId={project.id} name={project.name} />
+                  <ProjectVisual projectId={project.id} name={project.name} imageUrl={project.imageUrl} category={project.category} />
 
                   {/* Card Content */}
                   <div className="p-6 sm:p-7 space-y-4">
