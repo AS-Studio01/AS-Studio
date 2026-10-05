@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#171714">
+<meta name="description" content="Apex Residences. A concept website for considered modern residences.">
+<title>Apex Residences | Made for the way you live</title>
+<style>
+:root{
+  --stone:#d9d0c2;--sand:#eee7dc;--charcoal:#171714;--charcoal2:#24231f;
+  --bronze:#a8865a;--muted:#817b72;--line:rgba(23,23,20,.13);
+  --paper:#f5f0e8;--white:#fcfaf5;--max:1180px;--r:30px
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--charcoal);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55}
+a{text-decoration:none;color:inherit}
+.container{width:min(calc(100% - 40px),var(--max));margin:auto}
+.progress{position:fixed;z-index:50;top:0;left:0;height:2px;width:0;background:var(--bronze)}
+.nav{
+ position:fixed;z-index:20;top:18px;left:50%;transform:translateX(-50%);
+ width:min(calc(100% - 28px),1120px);padding:10px 12px 10px 18px;
+ display:flex;align-items:center;justify-content:space-between;color:#fff;
+ background:rgba(20,20,17,.62);border:1px solid rgba(255,255,255,.16);
+ backdrop-filter:blur(15px);border-radius:999px
+}
+.brand{font-family:Georgia,serif;letter-spacing:.07em;font-size:1rem}
+.links{display:flex;gap:25px;font-size:.75rem;color:rgba(255,255,255,.7)}
+.links a:hover{color:#fff}
+.navcta,.btn{border:0;border-radius:999px;padding:12px 18px;font-weight:700}
+.navcta{background:#f5f0e8;color:#171714;font-size:.76rem}
+.hero{min-height:100svh;position:relative;overflow:hidden;background:var(--charcoal);color:#fff}
+.placeholder{
+ position:absolute;inset:0;
+ background:
+ radial-gradient(circle at 72% 35%,rgba(179,151,111,.34),transparent 22%),
+ linear-gradient(120deg,#302f29 0%,#777060 38%,#262621 69%,#11110f 100%);
+}
+.placeholder:before{
+ content:"";position:absolute;inset:0;
+ background:
+ linear-gradient(90deg,rgba(16,16,14,.86) 0%,rgba(16,16,14,.56) 40%,rgba(16,16,14,.12) 72%,rgba(16,16,14,.42)),
+ linear-gradient(0deg,rgba(16,16,14,.65),transparent 42%);
+}
+.architecture{
+ position:absolute;right:6%;top:12%;width:55%;height:76%;
+ border-left:1px solid rgba(255,255,255,.18);
+ transform:skewY(-3deg);
+}
+.architecture:before,.architecture:after{content:"";position:absolute;background:rgba(230,220,204,.15)}
+.architecture:before{left:12%;top:7%;width:2px;height:82%;box-shadow:110px 0 rgba(230,220,204,.12),220px 0 rgba(230,220,204,.10)}
+.architecture:after{left:4%;top:64%;width:92%;height:1px;box-shadow:0 -140px rgba(230,220,204,.10)}
+.hero-content{position:relative;z-index:2;min-height:100svh;display:flex;align-items:flex-end;padding:150px 0 72px}
+.feature-image-wrap{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.10);background:#171715}
+.feature-image{display:block;width:100%;aspect-ratio:16/8.8;object-fit:cover;transform:scale(1.01);transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.feature-image-wrap:hover .feature-image{transform:scale(1.025)}
+.image-caption{position:absolute;left:20px;bottom:18px;padding:9px 12px;background:rgba(18,18,17,.62);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.78)}
+@media (prefers-reduced-motion: reduce){.feature-image{transition:none}.feature-image-wrap:hover .feature-image{transform:none}}
+
+.hero-copy{max-width:720px}
+.eyebrow,.kicker{font-size:.7rem;text-transform:uppercase;letter-spacing:.2em;color:var(--bronze);font-weight:700}
+.eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:22px}
+.eyebrow:before{content:"";width:32px;height:1px;background:var(--bronze)}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:400;line-height:1.02;letter-spacing:-.04em}
+h1{font-size:clamp(4rem,9vw,8rem);margin:0}
+.lede{max-width:560px;color:rgba(255,255,255,.72);font-size:1.08rem;margin:25px 0 30px}
+.actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn{background:var(--white);color:var(--charcoal)}
+.btn.alt{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);color:#fff}
+.note{font-size:.68rem;color:rgba(255,255,255,.45);margin-top:20px}
+.scroll{position:absolute;right:30px;bottom:30px;writing-mode:vertical-rl;font-size:.63rem;letter-spacing:.2em;color:rgba(255,255,255,.5)}
+section{padding:120px 0}
+.intro{background:var(--sand)}
+.grid2{display:grid;grid-template-columns:1fr 1.2fr;gap:75px}
+h2{font-size:clamp(3rem,6vw,5.5rem);margin:0;color:var(--charcoal)}
+.copy{font-size:1.12rem;color:var(--muted);max-width:620px}
+.rule{height:1px;background:var(--line);margin:42px 0}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:55px}
+.card{min-height:290px;padding:30px;border:1px solid var(--line);border-radius:var(--r);background:rgba(255,255,255,.42);transition:.35s}
+.card:hover{transform:translateY(-5px);border-color:rgba(168,134,90,.5);box-shadow:0 22px 55px rgba(23,23,20,.08)}
+.card h3{font-size:2.05rem;margin:65px 0 12px}
+.card p{color:var(--muted);margin:0}
+.dark{background:var(--charcoal);color:#fff}
+.dark h2{color:#fff}
+.dark .copy{color:rgba(255,255,255,.62)}
+.feature-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:15px;margin-top:55px}
+.feature{min-height:420px;border:1px solid rgba(255,255,255,.12);border-radius:var(--r);padding:38px;background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.025))}
+.feature.small{background:rgba(255,255,255,.035)}
+.feature h3{font-size:3rem;margin:170px 0 10px}
+.feature.small h3{margin-top:120px}
+.feature p{color:rgba(255,255,255,.58);max-width:500px}
+.bronze{color:#d3bb92}
+.journey{background:#ded6ca}
+.steps{margin-top:55px;border-top:1px solid var(--line)}
+.step{display:grid;grid-template-columns:80px 1fr 1fr;gap:20px;padding:28px 0;border-bottom:1px solid var(--line)}
+.step-no{color:var(--bronze);font-size:.75rem;letter-spacing:.15em}
+.step h3{font-size:1.9rem;margin:0}
+.step p{margin:0;color:var(--muted)}
+.cta{background:var(--paper)}
+.panel{background:var(--charcoal);color:#fff;border-radius:36px;padding:clamp(35px,7vw,80px);position:relative;overflow:hidden}
+.panel:after{content:"";position:absolute;width:450px;height:450px;border:1px solid rgba(168,134,90,.2);border-radius:50%;right:-200px;top:-210px}
+.panel h2{color:#fff;max-width:760px;position:relative;z-index:1}
+.panel p{color:rgba(255,255,255,.62);max-width:570px;position:relative;z-index:1}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:700px;position:relative;z-index:2;margin-top:28px}
+.field{width:100%;padding:14px 16px;border-radius:14px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;outline:0}
+.field::placeholder{color:rgba(255,255,255,.4)}
+.full{grid-column:1/-1}
+.form .btn{justify-self:start;cursor:pointer}
+.message{display:none;grid-column:1/-1;color:#d3bb92;font-size:.85rem}
+footer{padding:35px 0;background:var(--paper);border-top:1px solid var(--line)}
+.footer{display:flex;justify-content:space-between;gap:25px}
+.small{font-size:.72rem;color:var(--muted)}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .75s ease,transform .75s ease}
+.reveal.in{opacity:1;transform:none}
+@media(max-width:800px){
+ .container{width:min(calc(100% - 28px),var(--max))}
+ .links{display:none}.navcta{padding:10px 14px}
+ .hero-content{padding:135px 0 52px}
+ h1{font-size:clamp(3.4rem,16vw,5.5rem)}
+ section{padding:85px 0}
+ .grid2,.feature-grid{grid-template-columns:1fr;gap:40px}
+ .cards{grid-template-columns:1fr}
+ .feature h3,.feature.small h3{margin-top:120px}
+ .step{grid-template-columns:45px 1fr;gap:14px}.step p{grid-column:2}
+ .form{grid-template-columns:1fr}.full,.message{grid-column:1}
+ .footer{flex-direction:column}
+ .scroll{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.card{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<header class="nav">
+  <a class="brand" href="#top">Apex Residences</a>
+  <nav class="links"><a href="#vision">Vision</a><a href="#residences">Residences</a><a href="#experience">Experience</a><a href="#journey">Journey</a></nav>
+  <a class="navcta" href="#inquire">Request details</a>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="placeholder" role="img" aria-label="Contemporary luxury residence with travertine architecture, landscaped garden, and reflecting pool"></div>
+  <div class="architecture" aria-hidden="true"></div>
+  <div class="hero-content container">
+    <div class="hero-copy reveal">
+      <div class="eyebrow">A new address, carefully considered</div>
+      <h1>Made for the way you live.</h1>
+      <p class="lede">A private collection of contemporary residences shaped around space, light, and the quiet confidence of good architecture.</p>
+      <div class="actions">
+        <a class="btn" href="#inquire">Request details</a>
+        <a class="btn alt" href="#vision">Explore Apex</a>
+      </div>
+      <div class="note">Studio concept. Residential imagery will be replaced with final project visuals.</div>
+    </div>
+  </div>
+  <div class="scroll">Explore the residence</div>
+</section>
+
+<section class="intro" id="vision">
+<div class="container">
+  <div class="grid2 reveal">
+    <div><div class="kicker">The vision</div><h2>Architecture with room to breathe.</h2></div>
+    <div>
+      <p class="copy">Apex Residences is imagined as a calm counterpoint to the pace of the city. Generous proportions, natural materials, and deliberate transitions create homes that feel composed rather than over-designed.</p>
+      <div class="rule"></div>
+      <p class="copy">Every visual and spatial decision is guided by the same idea: luxury should be felt in the details, not announced.</p>
+    </div>
+  </div>
+  <div class="cards" id="residences">
+    <article class="card reveal"><div class="kicker">01 / SPACE</div><h3>Generous by design</h3><p>Open living areas and carefully framed views create a sense of scale without sacrificing warmth.</p></article>
+    <article class="card reveal"><div class="kicker">02 / MATERIAL</div><h3>Natural character</h3><p>Stone, timber, bronze, and tactile finishes bring depth to a restrained architectural palette.</p></article>
+    <article class="card reveal"><div class="kicker">03 / LIGHT</div><h3>Daylight, considered</h3><p>Rooms are shaped around changing light, creating a home that feels different throughout the day.</p></article>
+  </div>
+</div>
+</section>
+
+<section class="dark" id="experience">
+<div class="container">
+  <div class="reveal"><div class="kicker">The experience</div><h2>A quieter kind of luxury.</h2></div>
+  <div class="feature-grid">
+    <article class="feature reveal"><div class="bronze">The arrival</div><h3>First impressions that linger.</h3><p>A considered sequence from arrival to residence creates a sense of privacy before you even reach your door.</p></article>
+    <article class="feature small reveal"><div class="bronze">The detail</div><h3>Nothing excessive.</h3><p>Materials and finishes are selected for how they feel, age, and belong together.</p></article>
+  </div>
+</div>
+</section>
+
+<section class="journey" id="journey">
+<div class="container">
+  <div class="grid2 reveal">
+    <div><div class="kicker">Discover Apex</div><h2>A straightforward way to explore your next home.</h2></div>
+    <p class="copy">Tell us what you are looking for and we will shape the conversation around your requirements. No pressure, no unnecessary complexity.</p>
+  </div>
+  <div class="steps">
+    <div class="step reveal"><div class="step-no">01</div><h3>Share your requirements</h3><p>Tell us about the residence, setting, and lifestyle you have in mind.</p></div>
+    <div class="step reveal"><div class="step-no">02</div><h3>Explore the collection</h3><p>Review the concept, architecture, spaces, and available information at your own pace.</p></div>
+    <div class="step reveal"><div class="step-no">03</div><h3>Arrange a conversation</h3><p>Move from curiosity to a private conversation when the time feels right.</p></div>
+  </div>
+</div>
+</section>
+
+<section class="cta" id="inquire">
+<div class="container">
+  <div class="panel reveal">
+    <div class="kicker">Private enquiries</div>
+    <h2>Find out what makes Apex different.</h2>
+    <p>Leave a few details and this concept enquiry flow will acknowledge your request.</p>
+    <form class="form" id="form">
+      <input class="field" required placeholder="Your name" autocomplete="name">
+      <input class="field" required type="email" placeholder="Email address" autocomplete="email">
+      <input class="field full" placeholder="What would you like to know?">
+      <button class="btn" type="submit">Request details</button>
+      <div class="message" id="message">Thank you. Your enquiry has been noted for this concept preview.</div>
+    </form>
+  </div>
+</div>
+</section>
+</main>
+
+<footer>
+<div class="container footer">
+  <div><strong>Apex Residences</strong><div class="small">Made for the way you live.</div></div>
+  <div class="small">Studio concept for presentation purposes.</div>
+</div>
+</footer>
+
+<script>
+(() => {
+ const progress=document.getElementById('progress');
+ const update=()=>{const d=document.documentElement;progress.style.width=(scrollY/(d.scrollHeight-innerHeight)*100)+'%';};
+ addEventListener('scroll',update,{passive:true});update();
+ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.12});
+ document.querySelectorAll('.reveal').forEach(x=>io.observe(x));
+ document.getElementById('form').addEventListener('submit',e=>{
+   e.preventDefault();document.getElementById('message').style.display='block';
+   e.target.querySelector('button').textContent='Request noted';
+ });
+})();
+</script>
+</body>
+</html>

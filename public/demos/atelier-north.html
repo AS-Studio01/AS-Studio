@@ -1,376 +1,190 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth bg-[#0E0E11] text-[#E5E3DD]">
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Atelier North — Spatial Architecture & Interior Atelier</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Space Grotesk', sans-serif; }
-    .font-serif-editorial { font-family: 'Newsreader', serif; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Atelier North is a studio concept for contemporary architecture and interior design.">
+<title>Atelier North | Architecture & Interior Design</title>
+<style>
+:root{
+  --ink:#20201d;--muted:#68665f;--paper:#f1eee7;--stone:#d8d1c4;
+  --line:rgba(32,32,29,.14);--dark:#171715;--accent:#8b765d;
+  --max:1240px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
+.nav{position:fixed;top:0;left:0;right:0;z-index:20;padding:22px 5vw;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(rgba(20,20,18,.32),transparent);color:#fff}
+.brand{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase}
+.navlinks{display:flex;gap:28px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+.navlinks a{opacity:.86}
+.hero{min-height:100svh;position:relative;background:#24231f;color:#fff;display:flex;align-items:flex-end;overflow:hidden}
+.hero-visual{position:absolute;inset:0;background:
+linear-gradient(90deg,rgba(16,16,14,.72),rgba(16,16,14,.28) 55%,rgba(16,16,14,.08)),
+linear-gradient(180deg,rgba(0,0,0,.12),transparent 48%,rgba(0,0,0,.38)),
+radial-gradient(circle at 74% 34%,rgba(220,210,190,.42),transparent 18%),
+linear-gradient(118deg,#5f5a50 0 18%,#d0c7b7 18% 42%,#383631 42% 66%,#b2a38c 66% 100%);
+}
+.hero-visual:before{content:"";position:absolute;inset:10% 9% 0 52%;border-left:1px solid rgba(255,255,255,.25);border-top:1px solid rgba(255,255,255,.18);transform:skewY(-7deg);box-shadow:-120px 90px 0 rgba(255,255,255,.035)}
+.hero-content{position:relative;z-index:2;width:100%;padding:150px 5vw 78px}
+.eyebrow{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;opacity:.75;margin-bottom:24px}
+h1{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:clamp(4rem,10vw,9.5rem);line-height:.82;letter-spacing:-.055em;max-width:900px;margin:0}
+.hero-copy{max-width:570px;font-size:1rem;line-height:1.75;color:rgba(255,255,255,.78);margin:30px 0 0}
+.cta{display:inline-flex;margin-top:32px;padding:13px 20px;border:1px solid rgba(255,255,255,.4);border-radius:999px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;transition:.3s}
+.cta:hover{background:#fff;color:var(--ink)}
+.container{max-width:var(--max);margin:auto;padding:0 5vw}
+.section{padding:120px 0}
+.section-head{display:grid;grid-template-columns:1fr 2fr;gap:50px;align-items:start}
+.kicker{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.display{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:clamp(2.8rem,6vw,6.2rem);line-height:.94;letter-spacing:-.045em;margin:0}
+.lead{font-size:1.08rem;line-height:1.8;color:#55534d;max-width:650px}
+.project-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:22px;margin-top:72px}
+.card{background:#ded8cc;min-height:520px;position:relative;overflow:hidden}
+.card.small{min-height:360px}
+.card.visual-a{background:
+linear-gradient(145deg,rgba(0,0,0,.08),transparent),
+linear-gradient(125deg,#5d584f 0 18%,#d8d0c2 18% 54%,#373632 54% 73%,#a89983 73%)}
+.card.visual-b{background:
+linear-gradient(135deg,rgba(255,255,255,.13),transparent),
+linear-gradient(135deg,#d9d2c5 0 32%,#8b8275 32% 50%,#252522 50% 70%,#b8aa95 70%)}
+.card-label{position:absolute;left:22px;bottom:20px;background:rgba(20,20,18,.68);color:#fff;padding:10px 13px;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;backdrop-filter:blur(10px)}
+.statement{background:#1c1c19;color:#f3f0e9}
+.statement .lead{color:rgba(243,240,233,.68)}
+.principles{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(255,255,255,.14);margin-top:70px}
+.principle{padding:28px 22px 8px 0;border-right:1px solid rgba(255,255,255,.14)}
+.principle:last-child{border-right:0;padding-left:22px}
+.principle h3{font:400 1.7rem Georgia,serif;margin:0 0 12px}
+.principle p{font-size:.9rem;line-height:1.7;color:rgba(255,255,255,.62);margin:0}
+.journey{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}
+.journey-list{border-top:1px solid var(--line)}
+.step{padding:24px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:70px 1fr;gap:20px}
+.step-num{font-family:Georgia,serif;font-size:1.3rem;color:var(--accent)}
+.step h3{margin:0 0 8px;font:400 1.35rem Georgia,serif}
+.step p{margin:0;color:var(--muted);line-height:1.65;font-size:.9rem}
+.contact{background:#d8d0c1}
+.contact-box{display:grid;grid-template-columns:1.1fr .9fr;gap:80px;align-items:end}
+.contact-form{display:grid;gap:12px}
+.contact-form input,.contact-form textarea{width:100%;border:0;border-bottom:1px solid rgba(32,32,29,.25);background:transparent;padding:15px 0;font:inherit;outline:0}
+.contact-form textarea{min-height:110px;resize:vertical}
+.submit{justify-self:start;margin-top:12px;border:0;border-radius:999px;padding:14px 22px;background:var(--ink);color:#fff;cursor:pointer;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+.disclosure{font-size:.68rem;line-height:1.6;color:var(--muted);margin-top:28px}
+footer{padding:28px 5vw;background:#171715;color:rgba(255,255,255,.55);display:flex;justify-content:space-between;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+.reveal.visible{opacity:1;transform:none}
+.progress{position:fixed;top:0;left:0;height:2px;width:0;background:#fff;z-index:30}
+@media(max-width:800px){
+.navlinks{display:none}
+.section{padding:82px 0}
+.section-head,.project-grid,.journey,.contact-box{grid-template-columns:1fr;gap:34px}
+.principles{grid-template-columns:1fr}
+.principle,.principle:last-child{border-right:0;border-bottom:1px solid rgba(255,255,255,.14);padding:22px 0}
+.card{min-height:380px}
+h1{font-size:clamp(4rem,19vw,6.5rem)}
+.hero-content{padding-bottom:54px}
+footer{display:block;line-height:1.8}
+}
+@media(prefers-reduced-motion:reduce){
+html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.cta,.submit{transition:none}
+}
+</style>
 </head>
-<body class="bg-[#0E0E11] text-[#E5E3DD] selection:bg-[#788878] selection:text-white antialiased min-h-screen flex flex-col">
+<body>
+<div class="progress" id="progress"></div>
+<nav class="nav">
+  <a class="brand" href="#">Atelier North</a>
+  <div class="navlinks"><a href="#studio">Studio</a><a href="#work">Work</a><a href="#approach">Approach</a><a href="#contact">Enquire</a></div>
+</nav>
 
-  <!-- Minimal Header -->
-  <header class="sticky top-0 z-40 bg-[#0E0E11]/90 backdrop-blur-md border-b border-white/[0.08]">
-    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-      <a href="#hero" class="flex items-center gap-3">
-        <span class="text-sm font-bold tracking-[0.25em] uppercase text-white">ATELIER NORTH</span>
-        <span class="text-[10px] font-mono text-[#8C8A82] border-l border-white/15 pl-3 hidden sm:inline">SPATIAL ARCHITECTURE</span>
-      </a>
+<header class="hero">
+  <div class="hero-visual" aria-label="Temporary architectural hero placeholder"></div>
+  <div class="hero-content reveal">
+    <div class="eyebrow">Architecture · Interiors · Spatial Design</div>
+    <h1>Spaces with<br>quiet presence.</h1>
+    <p class="hero-copy">Atelier North creates considered architecture and interiors shaped by material, proportion, light, and the way people move through a space.</p>
+    <a class="cta" href="#contact">Start a conversation</a>
+  </div>
+</header>
 
-      <nav class="hidden md:flex items-center gap-8 text-xs font-mono uppercase tracking-widest text-[#A8A69E]">
-        <a href="#works" class="hover:text-white transition-colors">Works</a>
-        <a href="#materials" class="hover:text-white transition-colors">Materials</a>
-        <a href="#philosophy" class="hover:text-white transition-colors">Philosophy</a>
-        <a href="#monograph" class="hover:text-white transition-colors">Monograph</a>
-      </nav>
-
-      <button onclick="openBriefModal()" class="px-5 py-2 text-xs font-mono uppercase tracking-wider rounded border border-white/20 hover:border-white text-white transition-all bg-white/[0.02]">
-        Commission Space
-      </button>
-    </div>
-  </header>
-
-  <!-- Hero Section -->
-  <section id="hero" class="pt-16 pb-20 md:pt-28 md:pb-36 border-b border-white/[0.08]">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="max-w-4xl space-y-6">
-        <div class="inline-flex items-center gap-2 text-xs font-mono text-[#8F9F8F]">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#8F9F8F]"></span>
-          <span>STUDIO PRACTICE · RESIDENTIAL & INSTITUTIONAL</span>
-        </div>
-
-        <h1 class="font-serif-editorial text-4xl sm:text-6xl md:text-7xl font-normal leading-[1.08] text-white">
-          Architecture rooted in silence, material honesty, and natural light.
-        </h1>
-
-        <p class="text-base sm:text-lg text-[#A8A69E] max-w-2xl font-light leading-relaxed">
-          Atelier North conceives tactile spatial environments. We eliminate decorative distraction to amplify proportion, natural shadows, and the raw character of stone, timber, and lime.
-        </p>
-
-        <div class="flex flex-wrap items-center gap-4 pt-4">
-          <a href="#works" class="px-7 py-3.5 bg-white text-black text-xs font-mono uppercase tracking-widest hover:bg-[#E5E3DD] transition-all">
-            View Selected Spaces
-          </a>
-          <button onclick="openBriefModal()" class="px-7 py-3.5 border border-white/20 hover:border-white text-white text-xs font-mono uppercase tracking-widest transition-all">
-            Initiate Project Brief
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Selected Architectural Works -->
-  <section id="works" class="py-20 md:py-28 border-b border-white/[0.08] bg-[#0A0A0D]">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-16 pb-6 border-b border-white/[0.08]">
-        <div>
-          <span class="text-xs font-mono uppercase tracking-widest text-[#8F9F8F] block mb-2">01 / Portfolios</span>
-          <h2 class="font-serif-editorial text-3xl sm:text-4xl text-white">Selected Architectural Works</h2>
-        </div>
-        <span class="text-xs font-mono text-[#7D7B74]">RESIDENTIAL & CONTEMPLATIVE SPACES</span>
-      </div>
-
-      <!-- Works Grid -->
-      <div class="space-y-20">
-        
-        <!-- Project 1 -->
-        <article class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div class="lg:col-span-8 overflow-hidden rounded-lg border border-white/10 group">
-            <img 
-              src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=85" 
-              alt="Villa Kanso Kyoto Pavilion"
-              class="w-full aspect-[16/10] object-cover transition-transform duration-1000 group-hover:scale-105"
-            />
-          </div>
-          <div class="lg:col-span-4 space-y-4">
-            <div class="flex items-center justify-between text-xs font-mono text-[#7D7B74]">
-              <span>KYOTO, JAPAN</span>
-              <span>2025</span>
-            </div>
-            <h3 class="font-serif-editorial text-3xl text-white">Villa Kanso</h3>
-            <p class="text-xs sm:text-sm text-[#A8A69E] leading-relaxed">
-              A private cedar residence conceived around an internal courtyard of weathered granite. Continuous floor-to-ceiling glass screens dissolve the boundary between living room and forested mountain slope.
-            </p>
-            <div class="pt-2 flex flex-wrap gap-2 text-[10px] font-mono text-[#8C8A82]">
-              <span class="px-2 py-1 bg-white/[0.03] border border-white/10">Japanese Sugi Cedar</span>
-              <span class="px-2 py-1 bg-white/[0.03] border border-white/10">Kurama Granite</span>
-              <span class="px-2 py-1 bg-white/[0.03] border border-white/10">3,800 sq ft</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Project 2 -->
-        <article class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div class="lg:col-span-4 order-2 lg:order-1 space-y-4">
-            <div class="flex items-center justify-between text-xs font-mono text-[#7D7B74]">
-              <span>BERGEN, NORWAY</span>
-              <span>2025</span>
-            </div>
-            <h3 class="font-serif-editorial text-3xl text-white">Fjord House</h3>
-            <p class="text-xs sm:text-sm text-[#A8A69E] leading-relaxed">
-              Cantilevered over glacial rock, Fjord House uses monolithic poured charcoal concrete and charred timber to withstand extreme coastal weather while creating a serene, insulated sanctuary inside.
-            </p>
-            <div class="pt-2 flex flex-wrap gap-2 text-[10px] font-mono text-[#8C8A82]">
-              <span class="px-2 py-1 bg-white/[0.03] border border-white/10">Monolithic Concrete</span>
-              <span class="px-2 py-1 bg-white/[0.03] border border-white/10">Charred Pine</span>
-              <span class="px-2 py-1 bg-white/[0.03] border border-white/10">4,400 sq ft</span>
-            </div>
-          </div>
-          <div class="lg:col-span-8 order-1 lg:order-2 overflow-hidden rounded-lg border border-white/10 group">
-            <img 
-              src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85" 
-              alt="Fjord House Cantilever Architecture"
-              class="w-full aspect-[16/10] object-cover transition-transform duration-1000 group-hover:scale-105"
-            />
-          </div>
-        </article>
-
-        <!-- Project 3 -->
-        <article class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div class="lg:col-span-8 overflow-hidden rounded-lg border border-white/10 group">
-            <img 
-              src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=85" 
-              alt="Pavilion North Monograph"
-              class="w-full aspect-[16/10] object-cover transition-transform duration-1000 group-hover:scale-105"
-            />
-          </div>
-          <div class="lg:col-span-4 space-y-4">
-            <div class="flex items-center justify-between text-xs font-mono text-[#7D7B74]">
-              <span>STOCKHOLM, SWEDEN</span>
-              <span>2026</span>
-            </div>
-            <h3 class="font-serif-editorial text-3xl text-white">Pavilion North</h3>
-            <p class="text-xs sm:text-sm text-[#A8A69E] leading-relaxed">
-              An architectural pavilion and sculpture archive emphasizing acoustic quietness, daylight baffles, and custom joinery manufactured in untreated birch and brushed raw bronze.
-            </p>
-            <div class="pt-2 flex flex-wrap gap-2 text-[10px] font-mono text-[#8C8A82]">
-              <span class="px-2 py-1 bg-white/[0.03] border border-white/10">Untreated Birch</span>
-              <span class="px-2 py-1 bg-white/[0.03] border border-white/10">Brushed Bronze</span>
-              <span class="px-2 py-1 bg-white/[0.03] border border-white/10">5,100 sq ft</span>
-            </div>
-          </div>
-        </article>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Interactive Material Palette Inspector -->
-  <section id="materials" class="py-20 md:py-28 border-b border-white/[0.08]">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="max-w-2xl mb-14">
-        <span class="text-xs font-mono uppercase tracking-widest text-[#8F9F8F] block mb-2">02 / Material Grammar</span>
-        <h2 class="font-serif-editorial text-3xl sm:text-4xl text-white">Tactile Material Library</h2>
-        <p class="text-xs sm:text-sm text-[#A8A69E] mt-2">
-          Materials selected for how they age, collect patina, and absorb rather than reflect harsh direct glare.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        
-        <div class="p-6 rounded-lg bg-white/[0.02] border border-white/[0.08] space-y-4 hover:border-white/30 transition-all">
-          <div class="w-full h-32 rounded bg-[#C7B79D] relative overflow-hidden flex items-end p-3">
-            <span class="text-[10px] font-mono text-black font-bold uppercase tracking-wider">Honed Roman Travertine</span>
-          </div>
-          <div>
-            <h4 class="text-sm font-bold text-white">Roman Travertine</h4>
-            <p class="text-xs text-[#8C8A82] mt-1 leading-relaxed">
-              Unfilled and honed by hand. Retains thermal mass and provides acoustic damping across open floorpans.
-            </p>
-          </div>
-        </div>
-
-        <div class="p-6 rounded-lg bg-white/[0.02] border border-white/[0.08] space-y-4 hover:border-white/30 transition-all">
-          <div class="w-full h-32 rounded bg-[#5A4B3C] relative overflow-hidden flex items-end p-3">
-            <span class="text-[10px] font-mono text-white font-bold uppercase tracking-wider">Smoked Nordic Oak</span>
-          </div>
-          <div>
-            <h4 class="text-sm font-bold text-white">Smoked Nordic Oak</h4>
-            <p class="text-xs text-[#8C8A82] mt-1 leading-relaxed">
-              Deep cellular fuming with organic vegetable tannins. Warm underfoot, dimensional stability across decades.
-            </p>
-          </div>
-        </div>
-
-        <div class="p-6 rounded-lg bg-white/[0.02] border border-white/[0.08] space-y-4 hover:border-white/30 transition-all">
-          <div class="w-full h-32 rounded bg-[#3D3A38] relative overflow-hidden flex items-end p-3">
-            <span class="text-[10px] font-mono text-[#D4C3A3] font-bold uppercase tracking-wider">Gunmetal Bronze</span>
-          </div>
-          <div>
-            <h4 class="text-sm font-bold text-white">Gunmetal Bronze</h4>
-            <p class="text-xs text-[#8C8A82] mt-1 leading-relaxed">
-              Cast alloy hardware and window mullions that gently develop natural golden patina with touch over years.
-            </p>
-          </div>
-        </div>
-
-        <div class="p-6 rounded-lg bg-white/[0.02] border border-white/[0.08] space-y-4 hover:border-white/30 transition-all">
-          <div class="w-full h-32 rounded bg-[#9E9B93] relative overflow-hidden flex items-end p-3">
-            <span class="text-[10px] font-mono text-black font-bold uppercase tracking-wider">Mineral Lime Plaster</span>
-          </div>
-          <div>
-            <h4 class="text-sm font-bold text-white">Natural Lime Plaster</h4>
-            <p class="text-xs text-[#8C8A82] mt-1 leading-relaxed">
-              Breathable, vapor-permeable wall coatings that gently diffuse artificial and daylight into soft ambient gradients.
-            </p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Philosophy -->
-  <section id="philosophy" class="py-20 md:py-28 border-b border-white/[0.08] bg-[#0A0A0D]">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        <div class="lg:col-span-5 space-y-6">
-          <span class="text-xs font-mono uppercase tracking-widest text-[#8F9F8F]">03 / Studio Philosophy</span>
-          <h2 class="font-serif-editorial text-3xl sm:text-5xl text-white">Three structural disciplines.</h2>
-          <p class="text-xs sm:text-sm text-[#A8A69E] leading-relaxed">
-            We reject the rapid churn of architectural trends. Our studios produce buildings and interiors that feel complete on day one, and more grounded in year twenty.
-          </p>
-        </div>
-
-        <div class="lg:col-span-7 space-y-6">
-          <div class="p-6 rounded bg-white/[0.02] border border-white/[0.08] space-y-2">
-            <span class="text-xs font-mono text-[#8F9F8F]">01</span>
-            <h3 class="text-lg font-bold text-white">Light as Primary Building Material</h3>
-            <p class="text-xs text-[#A8A69E] leading-relaxed">
-              We model solar angles before drawing interior walls. Daylight determines living rhythms, sightlines, and reading nooks.
-            </p>
-          </div>
-
-          <div class="p-6 rounded bg-white/[0.02] border border-white/[0.08] space-y-2">
-            <span class="text-xs font-mono text-[#8F9F8F]">02</span>
-            <h3 class="text-lg font-bold text-white">Radical Restraint in Joinery</h3>
-            <p class="text-xs text-[#A8A69E] leading-relaxed">
-              Integrated millwork that acts as wall rather than furniture. Clean reveals, hidden hinges, and zero visual clutter.
-            </p>
-          </div>
-
-          <div class="p-6 rounded bg-white/[0.02] border border-white/[0.08] space-y-2">
-            <span class="text-xs font-mono text-[#8F9F8F]">03</span>
-            <h3 class="text-lg font-bold text-white">Permanent Ownership of Space</h3>
-            <p class="text-xs text-[#A8A69E] leading-relaxed">
-              Designs engineered to outlive digital ephemera, with drawings, specifications, and full intellectual property transferred to clients.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Monograph & Inquiries CTA -->
-  <section id="monograph" class="py-20 border-b border-white/[0.08]">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="p-8 sm:p-12 rounded-xl bg-[#131317] border border-white/10 flex flex-col md:flex-row items-center justify-between gap-8">
-        <div class="space-y-2 max-w-xl">
-          <span class="text-xs font-mono uppercase text-[#8F9F8F]">Project Commissions</span>
-          <h3 class="font-serif-editorial text-3xl font-normal text-white">Planning a residential or studio build?</h3>
-          <p class="text-xs text-[#A8A69E] leading-relaxed">
-            We undertake a limited number of commissions per calendar year to preserve direct partner involvement from brief through completion.
-          </p>
-        </div>
-        <button onclick="openBriefModal()" class="px-8 py-4 bg-white text-black font-mono text-xs uppercase tracking-widest hover:bg-[#E5E3DD] transition-all shrink-0">
-          Submit Architectural Brief
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="mt-auto py-12 bg-[#08080A] text-xs text-[#6B6A64]">
-    <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-2">
-        <span class="text-white font-mono uppercase tracking-wider">ATELIER NORTH</span>
-        <span>·</span>
-        <span>Spatial Architecture Atelier</span>
-      </div>
-      <div>
-        <span>Studio Concept Prototype by AS Studio</span>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Project Brief Modal -->
-  <div id="brief-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="bg-[#131317] border border-white/15 rounded-xl max-w-lg w-full p-6 sm:p-8 space-y-5 relative shadow-2xl">
-      <button onclick="closeBriefModal()" class="absolute top-4 right-4 text-[#7D7B74] hover:text-white text-lg font-mono">✕</button>
-      
-      <div class="space-y-1">
-        <span class="text-[10px] font-mono uppercase tracking-widest text-[#8F9F8F]">Commission Inquiry</span>
-        <h3 class="font-serif-editorial text-2xl text-white">Initiate Architectural Brief</h3>
-        <p class="text-xs text-[#A8A69E]">
-          Share project location, estimated site dimensions, and key architectural goals.
-        </p>
-      </div>
-
-      <form id="brief-form" onsubmit="handleBriefSubmit(event)" class="space-y-4">
-        <div>
-          <label class="block text-[11px] font-mono uppercase text-[#A8A69E] mb-1">Your Name</label>
-          <input type="text" required placeholder="Elena Rostova" class="w-full bg-black/50 border border-white/15 px-3 py-2 text-xs text-white rounded focus:border-white focus:outline-none">
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-[11px] font-mono uppercase text-[#A8A69E] mb-1">Email</label>
-            <input type="email" required placeholder="elena@rostova.com" class="w-full bg-black/50 border border-white/15 px-3 py-2 text-xs text-white rounded focus:border-white focus:outline-none">
-          </div>
-          <div>
-            <label class="block text-[11px] font-mono uppercase text-[#A8A69E] mb-1">Location</label>
-            <input type="text" required placeholder="e.g. Zurich or Kyoto" class="w-full bg-black/50 border border-white/15 px-3 py-2 text-xs text-white rounded focus:border-white focus:outline-none">
-          </div>
-        </div>
-        <div>
-          <label class="block text-[11px] font-mono uppercase text-[#A8A69E] mb-1">Project Scope</label>
-          <select class="w-full bg-black/50 border border-white/15 px-3 py-2 text-xs text-white rounded focus:border-white focus:outline-none font-mono">
-            <option>New Residential Architecture (Villa / Estate)</option>
-            <option>Full Interior Spatial Transformation</option>
-            <option>Cultural Pavilion or Gallery Archive</option>
-          </select>
-        </div>
-
-        <button type="submit" class="w-full py-3 bg-white hover:bg-[#E5E3DD] text-black text-xs font-mono uppercase tracking-widest rounded transition-all">
-          Send Project Inquiry
-        </button>
-      </form>
-
-      <div id="brief-success" class="hidden p-4 rounded bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-300 text-center font-mono">
-        ✓ Brief successfully received. Atelier partners will review and reply within 48 hours.
-      </div>
+<main>
+<section class="section" id="studio">
+<div class="container">
+  <div class="section-head reveal">
+    <div class="kicker">01 / The studio</div>
+    <div>
+      <h2 class="display">Architecture that<br>feels inevitable.</h2>
+      <p class="lead">The studio works across residential architecture and interiors, building calm environments where structure and atmosphere belong together.</p>
     </div>
   </div>
+  <div class="project-grid" id="work">
+    <div class="card visual-a reveal"><div class="card-label">Residential architecture</div></div>
+    <div class="card small visual-b reveal"><div class="card-label">Interior study</div></div>
+  </div>
+</div>
+</section>
 
-  <script>
-    function openBriefModal() {
-      const modal = document.getElementById('brief-modal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
+<section class="section statement" id="approach">
+<div class="container">
+  <div class="section-head reveal">
+    <div class="kicker">02 / Approach</div>
+    <div>
+      <h2 class="display">Less noise.<br>More character.</h2>
+      <p class="lead">Every decision begins with the space itself. Natural materials, controlled daylight, honest structure, and details that reward a closer look.</p>
+    </div>
+  </div>
+  <div class="principles">
+    <div class="principle reveal"><h3>Material</h3><p>Stone, timber, metal, and plaster selected for texture, longevity, and restraint.</p></div>
+    <div class="principle reveal"><h3>Light</h3><p>Daylight becomes part of the architecture, changing the atmosphere throughout the day.</p></div>
+    <div class="principle reveal"><h3>Proportion</h3><p>Spaces are composed around movement, sightlines, scale, and moments of pause.</p></div>
+  </div>
+</div>
+</section>
 
-    function closeBriefModal() {
-      const modal = document.getElementById('brief-modal');
-      modal.classList.remove('flex');
-      modal.classList.add('hidden');
-    }
+<section class="section">
+<div class="container journey">
+  <div class="reveal">
+    <div class="kicker">03 / From idea to place</div>
+    <h2 class="display">A clear path<br>from brief to detail.</h2>
+    <p class="lead">The process stays close to the design. Each stage turns the original idea into something precise enough to build and lived-in enough to last.</p>
+  </div>
+  <div class="journey-list">
+    <div class="step reveal"><div class="step-num">01</div><div><h3>Listen</h3><p>Understand the site, brief, routines, constraints, and ambitions.</p></div></div>
+    <div class="step reveal"><div class="step-num">02</div><div><h3>Shape</h3><p>Develop the spatial concept, material language, and key relationships.</p></div></div>
+    <div class="step reveal"><div class="step-num">03</div><div><h3>Refine</h3><p>Resolve proportions, surfaces, lighting, joinery, and the details that define the experience.</p></div></div>
+    <div class="step reveal"><div class="step-num">04</div><div><h3>Deliver</h3><p>Carry the design forward with a clear visual and technical direction.</p></div></div>
+  </div>
+</div>
+</section>
 
-    function handleBriefSubmit(e) {
-      e.preventDefault();
-      document.getElementById('brief-form').classList.add('hidden');
-      document.getElementById('brief-success').classList.remove('hidden');
-      setTimeout(() => {
-        closeBriefModal();
-        document.getElementById('brief-form').reset();
-        document.getElementById('brief-form').classList.remove('hidden');
-        document.getElementById('brief-success').classList.add('hidden');
-      }, 2500);
-    }
-  </script>
+<section class="section contact" id="contact">
+<div class="container contact-box">
+  <div class="reveal">
+    <div class="kicker">04 / Private enquiries</div>
+    <h2 class="display">Have a space<br>in mind?</h2>
+    <p class="lead">Tell us a little about the project and where it is in the process.</p>
+    <p class="disclosure">Studio concept created for AS Studio portfolio presentation. Project imagery will be replaced with final approved visuals.</p>
+  </div>
+  <form class="contact-form reveal" onsubmit="event.preventDefault();document.getElementById('formStatus').textContent='Thank you. Your enquiry has been noted for this concept preview.';">
+    <input required placeholder="Name" aria-label="Name">
+    <input required type="email" placeholder="Email" aria-label="Email">
+    <input placeholder="Project location" aria-label="Project location">
+    <textarea placeholder="Tell us about the project" aria-label="Project details"></textarea>
+    <button class="submit" type="submit">Send enquiry</button>
+    <div id="formStatus" class="disclosure" aria-live="polite"></div>
+  </form>
+</div>
+</section>
+</main>
+
+<footer><span>Atelier North · Studio concept</span><span>Architecture & Interior Design</span></footer>
+
+<script>
+const progress=document.getElementById('progress');
+const reveals=document.querySelectorAll('.reveal');
+const io=new IntersectionObserver((entries)=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});
+reveals.forEach(el=>io.observe(el));
+addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-innerHeight;progress.style.width=(h>0?(scrollY/h)*100:0)+'%'},{passive:true});
+</script>
 </body>
 </html>
