@@ -1,452 +1,238 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth bg-[#090A0D] text-[#ECEAE4]">
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Apex Residences — Architectural Living & Private Penthouses</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    .font-serif-luxury { font-family: 'Cinzel', serif; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#171714">
+<meta name="description" content="Apex Residences. A concept website for considered modern residences.">
+<title>Apex Residences | Made for the way you live</title>
+<style>
+:root{
+  --stone:#d9d0c2;--sand:#eee7dc;--charcoal:#171714;--charcoal2:#24231f;
+  --bronze:#a8865a;--muted:#817b72;--line:rgba(23,23,20,.13);
+  --paper:#f5f0e8;--white:#fcfaf5;--max:1180px;--r:30px
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--charcoal);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55}
+a{text-decoration:none;color:inherit}
+.container{width:min(calc(100% - 40px),var(--max));margin:auto}
+.progress{position:fixed;z-index:50;top:0;left:0;height:2px;width:0;background:var(--bronze)}
+.nav{
+ position:fixed;z-index:20;top:18px;left:50%;transform:translateX(-50%);
+ width:min(calc(100% - 28px),1120px);padding:10px 12px 10px 18px;
+ display:flex;align-items:center;justify-content:space-between;color:#fff;
+ background:rgba(20,20,17,.62);border:1px solid rgba(255,255,255,.16);
+ backdrop-filter:blur(15px);border-radius:999px
+}
+.brand{font-family:Georgia,serif;letter-spacing:.07em;font-size:1rem}
+.links{display:flex;gap:25px;font-size:.75rem;color:rgba(255,255,255,.7)}
+.links a:hover{color:#fff}
+.navcta,.btn{border:0;border-radius:999px;padding:12px 18px;font-weight:700}
+.navcta{background:#f5f0e8;color:#171714;font-size:.76rem}
+.hero{min-height:100svh;position:relative;overflow:hidden;background:var(--charcoal);color:#fff}
+.placeholder{
+ position:absolute;inset:0;
+ background:
+ radial-gradient(circle at 72% 35%,rgba(179,151,111,.34),transparent 22%),
+ linear-gradient(120deg,#302f29 0%,#777060 38%,#262621 69%,#11110f 100%);
+}
+.placeholder:before{
+ content:"";position:absolute;inset:0;
+ background:
+ linear-gradient(90deg,rgba(16,16,14,.86) 0%,rgba(16,16,14,.56) 40%,rgba(16,16,14,.12) 72%,rgba(16,16,14,.42)),
+ linear-gradient(0deg,rgba(16,16,14,.65),transparent 42%);
+}
+.architecture{
+ position:absolute;right:6%;top:12%;width:55%;height:76%;
+ border-left:1px solid rgba(255,255,255,.18);
+ transform:skewY(-3deg);
+}
+.architecture:before,.architecture:after{content:"";position:absolute;background:rgba(230,220,204,.15)}
+.architecture:before{left:12%;top:7%;width:2px;height:82%;box-shadow:110px 0 rgba(230,220,204,.12),220px 0 rgba(230,220,204,.10)}
+.architecture:after{left:4%;top:64%;width:92%;height:1px;box-shadow:0 -140px rgba(230,220,204,.10)}
+.hero-content{position:relative;z-index:2;min-height:100svh;display:flex;align-items:flex-end;padding:150px 0 72px}
+.hero-copy{max-width:720px}
+.eyebrow,.kicker{font-size:.7rem;text-transform:uppercase;letter-spacing:.2em;color:var(--bronze);font-weight:700}
+.eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:22px}
+.eyebrow:before{content:"";width:32px;height:1px;background:var(--bronze)}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:400;line-height:1.02;letter-spacing:-.04em}
+h1{font-size:clamp(4rem,9vw,8rem);margin:0}
+.lede{max-width:560px;color:rgba(255,255,255,.72);font-size:1.08rem;margin:25px 0 30px}
+.actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn{background:var(--white);color:var(--charcoal)}
+.btn.alt{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);color:#fff}
+.note{font-size:.68rem;color:rgba(255,255,255,.45);margin-top:20px}
+.scroll{position:absolute;right:30px;bottom:30px;writing-mode:vertical-rl;font-size:.63rem;letter-spacing:.2em;color:rgba(255,255,255,.5)}
+section{padding:120px 0}
+.intro{background:var(--sand)}
+.grid2{display:grid;grid-template-columns:1fr 1.2fr;gap:75px}
+h2{font-size:clamp(3rem,6vw,5.5rem);margin:0;color:var(--charcoal)}
+.copy{font-size:1.12rem;color:var(--muted);max-width:620px}
+.rule{height:1px;background:var(--line);margin:42px 0}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:55px}
+.card{min-height:290px;padding:30px;border:1px solid var(--line);border-radius:var(--r);background:rgba(255,255,255,.42);transition:.35s}
+.card:hover{transform:translateY(-5px);border-color:rgba(168,134,90,.5);box-shadow:0 22px 55px rgba(23,23,20,.08)}
+.card h3{font-size:2.05rem;margin:65px 0 12px}
+.card p{color:var(--muted);margin:0}
+.dark{background:var(--charcoal);color:#fff}
+.dark h2{color:#fff}
+.dark .copy{color:rgba(255,255,255,.62)}
+.feature-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:15px;margin-top:55px}
+.feature{min-height:420px;border:1px solid rgba(255,255,255,.12);border-radius:var(--r);padding:38px;background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.025))}
+.feature.small{background:rgba(255,255,255,.035)}
+.feature h3{font-size:3rem;margin:170px 0 10px}
+.feature.small h3{margin-top:120px}
+.feature p{color:rgba(255,255,255,.58);max-width:500px}
+.bronze{color:#d3bb92}
+.journey{background:#ded6ca}
+.steps{margin-top:55px;border-top:1px solid var(--line)}
+.step{display:grid;grid-template-columns:80px 1fr 1fr;gap:20px;padding:28px 0;border-bottom:1px solid var(--line)}
+.step-no{color:var(--bronze);font-size:.75rem;letter-spacing:.15em}
+.step h3{font-size:1.9rem;margin:0}
+.step p{margin:0;color:var(--muted)}
+.cta{background:var(--paper)}
+.panel{background:var(--charcoal);color:#fff;border-radius:36px;padding:clamp(35px,7vw,80px);position:relative;overflow:hidden}
+.panel:after{content:"";position:absolute;width:450px;height:450px;border:1px solid rgba(168,134,90,.2);border-radius:50%;right:-200px;top:-210px}
+.panel h2{color:#fff;max-width:760px;position:relative;z-index:1}
+.panel p{color:rgba(255,255,255,.62);max-width:570px;position:relative;z-index:1}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:700px;position:relative;z-index:2;margin-top:28px}
+.field{width:100%;padding:14px 16px;border-radius:14px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;outline:0}
+.field::placeholder{color:rgba(255,255,255,.4)}
+.full{grid-column:1/-1}
+.form .btn{justify-self:start;cursor:pointer}
+.message{display:none;grid-column:1/-1;color:#d3bb92;font-size:.85rem}
+footer{padding:35px 0;background:var(--paper);border-top:1px solid var(--line)}
+.footer{display:flex;justify-content:space-between;gap:25px}
+.small{font-size:.72rem;color:var(--muted)}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .75s ease,transform .75s ease}
+.reveal.in{opacity:1;transform:none}
+@media(max-width:800px){
+ .container{width:min(calc(100% - 28px),var(--max))}
+ .links{display:none}.navcta{padding:10px 14px}
+ .hero-content{padding:135px 0 52px}
+ h1{font-size:clamp(3.4rem,16vw,5.5rem)}
+ section{padding:85px 0}
+ .grid2,.feature-grid{grid-template-columns:1fr;gap:40px}
+ .cards{grid-template-columns:1fr}
+ .feature h3,.feature.small h3{margin-top:120px}
+ .step{grid-template-columns:45px 1fr;gap:14px}.step p{grid-column:2}
+ .form{grid-template-columns:1fr}.full,.message{grid-column:1}
+ .footer{flex-direction:column}
+ .scroll{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.card{transition:none}
+}
+</style>
 </head>
-<body class="bg-[#090A0D] text-[#ECEAE4] selection:bg-[#C5A880] selection:text-black antialiased min-h-screen flex flex-col">
+<body>
+<div class="progress" id="progress"></div>
 
-  <!-- Top Announcement Bar -->
-  <aside aria-label="Announcement" class="py-2.5 px-4 bg-[#121318] border-b border-white/[0.08] text-center text-xs font-mono tracking-wider text-[#A39E93]">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <span class="inline-flex items-center gap-2">
-        <span class="w-1.5 h-1.5 rounded-full bg-[#C5A880] animate-pulse"></span>
-        <span>PRIVATE PREVIEW PHASE · SELECT RESIDENCES AVAILABLE</span>
-      </span>
-      <span class="hidden md:inline text-[11px] text-[#78736A]">CONCIERGE DESK: +91 (0) 80 4920 8800</span>
-    </div>
-  </aside>
+<header class="nav">
+  <a class="brand" href="#top">Apex Residences</a>
+  <nav class="links"><a href="#vision">Vision</a><a href="#residences">Residences</a><a href="#experience">Experience</a><a href="#journey">Journey</a></nav>
+  <a class="navcta" href="#inquire">Request details</a>
+</header>
 
-  <!-- Navigation -->
-  <header class="sticky top-0 z-40 bg-[#090A0D]/90 backdrop-blur-md border-b border-white/[0.08]">
-    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-      <a href="#hero" class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded border border-[#C5A880]/40 flex items-center justify-center text-[#C5A880] font-serif-luxury font-bold text-sm">
-          A
-        </div>
-        <div>
-          <span class="font-serif-luxury font-bold tracking-[0.2em] text-white text-base block">APEX</span>
-          <span class="text-[9px] font-mono tracking-[0.25em] text-[#A39E93] block -mt-0.5">RESIDENCES</span>
-        </div>
-      </a>
-
-      <nav class="hidden md:flex items-center gap-8 text-xs font-medium tracking-wider uppercase text-[#C7C3B8]">
-        <a href="#residences" class="hover:text-[#C5A880] transition-colors">Residences</a>
-        <a href="#amenities" class="hover:text-[#C5A880] transition-colors">Amenities</a>
-        <a href="#architecture" class="hover:text-[#C5A880] transition-colors">Architecture</a>
-        <a href="#location" class="hover:text-[#C5A880] transition-colors">Location</a>
-      </nav>
-
-      <div class="flex items-center gap-3">
-        <button onclick="openTourModal()" class="px-5 py-2.5 rounded-full border border-[#C5A880] bg-[#C5A880]/10 hover:bg-[#C5A880] text-[#C5A880] hover:text-black text-xs font-bold uppercase tracking-widest transition-all">
-          Book Private Viewing
-        </button>
+<main id="top">
+<section class="hero">
+  <div class="placeholder" aria-label="Temporary hero visual placeholder"></div>
+  <div class="architecture" aria-hidden="true"></div>
+  <div class="hero-content container">
+    <div class="hero-copy reveal">
+      <div class="eyebrow">A new address, carefully considered</div>
+      <h1>Made for the way you live.</h1>
+      <p class="lede">A private collection of contemporary residences shaped around space, light, and the quiet confidence of good architecture.</p>
+      <div class="actions">
+        <a class="btn" href="#inquire">Request details</a>
+        <a class="btn alt" href="#vision">Explore Apex</a>
       </div>
-    </div>
-  </header>
-
-  <!-- Hero Section -->
-  <section id="hero" class="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden border-b border-white/[0.08]">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        
-        <div class="lg:col-span-7 space-y-6">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[11px] font-mono text-[#C5A880] uppercase tracking-wider">
-            <span>Skyline District · Architectural Collection</span>
-          </div>
-
-          <h1 class="font-serif-luxury text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.08]">
-            Permanence, light & vertical tranquility.
-          </h1>
-
-          <p class="text-base sm:text-lg text-[#B5B0A4] leading-relaxed max-w-xl font-light">
-            A bespoke collection of forty-eight sky residences and duplex penthouses sculpted from cast bronze, fluted travertine, and floor-to-ceiling panoramic thermal glass.
-          </p>
-
-          <div class="flex flex-wrap items-center gap-4 pt-2">
-            <button onclick="openTourModal()" class="px-8 py-4 bg-[#C5A880] hover:bg-[#D4BC96] text-[#090A0D] text-xs font-bold uppercase tracking-widest transition-all shadow-xl rounded-sm">
-              Schedule Private Tour
-            </button>
-            <a href="#residences" class="px-8 py-4 border border-white/20 hover:border-white text-white text-xs font-bold uppercase tracking-widest transition-all rounded-sm">
-              Explore Floorplans
-            </a>
-          </div>
-
-          <!-- Quick Metrics Strip -->
-          <div class="grid grid-cols-3 gap-6 pt-8 border-t border-white/[0.08]">
-            <div>
-              <span class="block text-2xl font-serif-luxury font-bold text-white">48</span>
-              <span class="text-[11px] font-mono uppercase tracking-wider text-[#8A857B]">Total Residences</span>
-            </div>
-            <div>
-              <span class="block text-2xl font-serif-luxury font-bold text-[#C5A880]">360°</span>
-              <span class="text-[11px] font-mono uppercase tracking-wider text-[#8A857B]">Panoramic Aspect</span>
-            </div>
-            <div>
-              <span class="block text-2xl font-serif-luxury font-bold text-white">3.6m</span>
-              <span class="text-[11px] font-mono uppercase tracking-wider text-[#8A857B]">Ceiling Clearance</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="lg:col-span-5 relative">
-          <div class="aspect-[4/5] rounded-xl overflow-hidden border border-white/15 shadow-2xl relative group">
-            <img 
-              src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=85" 
-              alt="Apex Residences Penthouse Terrace Architecture"
-              class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-            
-            <div class="absolute bottom-6 left-6 right-6 p-4 rounded-lg bg-black/60 backdrop-blur-md border border-white/10 flex items-center justify-between">
-              <div>
-                <span class="text-xs font-serif-luxury text-white block">Sky Suite 42A</span>
-                <span class="text-[10px] font-mono text-[#C5A880]">5,420 SQ FT · 4 BED DUPLEX</span>
-              </div>
-              <span class="text-xs font-mono text-white/90">Immediate Preview</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Interactive Residences Floorplan Selector -->
-  <section id="residences" class="py-20 md:py-28 border-b border-white/[0.08] bg-[#0E0F14]">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14 pb-6 border-b border-white/[0.08]">
-        <div>
-          <span class="text-xs font-mono tracking-widest text-[#C5A880] uppercase block mb-2">Curated Living Spaces</span>
-          <h2 class="font-serif-luxury text-3xl sm:text-4xl font-bold text-white">The Residence Collection</h2>
-        </div>
-        <p class="text-xs sm:text-sm text-[#A39E93] max-w-md">
-          Each residence is positioned for optimal cross-ventilation and natural daylight, featuring private biometric elevator vestibules.
-        </p>
-      </div>
-
-      <!-- Tab Switcher -->
-      <div class="flex flex-wrap gap-2 mb-8">
-        <button onclick="switchResidence('sky-penthouse')" id="tab-sky-penthouse" class="px-5 py-2.5 text-xs font-bold uppercase tracking-wider rounded border border-[#C5A880] bg-[#C5A880] text-black transition-all">
-          The Sky Penthouse (5,420 sq ft)
-        </button>
-        <button onclick="switchResidence('garden-villa')" id="tab-garden-villa" class="px-5 py-2.5 text-xs font-bold uppercase tracking-wider rounded border border-white/15 bg-white/[0.03] text-white hover:border-white/40 transition-all">
-          The Garden Residence (4,180 sq ft)
-        </button>
-        <button onclick="switchResidence('horizon-suite')" id="tab-horizon-suite" class="px-5 py-2.5 text-xs font-bold uppercase tracking-wider rounded border border-white/15 bg-white/[0.03] text-white hover:border-white/40 transition-all">
-          The Horizon Suite (3,250 sq ft)
-        </button>
-      </div>
-
-      <!-- Detail Card (Dynamic via JS) -->
-      <div id="residence-card" class="bg-[#12131A] border border-white/10 rounded-xl p-8 lg:p-12 shadow-2xl">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-          <div class="lg:col-span-6 space-y-6">
-            <div class="space-y-2">
-              <span id="res-badge" class="text-xs font-mono text-[#C5A880] uppercase">Level 40–44 · Private Sky Pool</span>
-              <h3 id="res-title" class="font-serif-luxury text-3xl font-bold text-white">The Sky Penthouse</h3>
-              <p id="res-desc" class="text-sm text-[#B5B0A4] leading-relaxed">
-                Featuring double-height 7.2-meter living salons, private heated infinity plunge pool overlooking the northern skyline, and Italian custom Valcucine chef's kitchen.
-              </p>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4 py-4 border-y border-white/[0.08] text-xs font-mono">
-              <div>
-                <span class="text-[#7A756D] block">BEDROOMS</span>
-                <span id="res-beds" class="text-white font-bold text-sm">4 En-Suite Suites</span>
-              </div>
-              <div>
-                <span class="text-[#7A756D] block">OUTDOOR TERRACE</span>
-                <span id="res-terrace" class="text-white font-bold text-sm">1,120 SQ FT Wrap-Around</span>
-              </div>
-              <div>
-                <span class="text-[#7A756D] block">PARKING SLOTS</span>
-                <span id="res-parking" class="text-white font-bold text-sm">3 Dedicated EV Bays</span>
-              </div>
-              <div>
-                <span class="text-[#7A756D] block">ELEVATOR ACCESS</span>
-                <span id="res-elevator" class="text-white font-bold text-sm">Dual High-Speed Biometric</span>
-              </div>
-            </div>
-
-            <div class="flex items-center gap-4">
-              <button onclick="openTourModal()" class="px-6 py-3 bg-[#C5A880] hover:bg-[#D4BC96] text-black text-xs font-bold uppercase tracking-widest rounded transition-all">
-                Request Floorplan PDF
-              </button>
-              <button onclick="openTourModal()" class="px-6 py-3 border border-white/20 hover:border-white text-white text-xs font-bold uppercase tracking-widest rounded transition-all">
-                Private Viewing
-              </button>
-            </div>
-          </div>
-
-          <div class="lg:col-span-6">
-            <div class="aspect-[16/10] rounded-lg overflow-hidden border border-white/10 relative">
-              <img 
-                id="res-image"
-                src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85" 
-                alt="Sky Penthouse Living Salon"
-                class="w-full h-full object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Amenities Grid -->
-  <section id="amenities" class="py-20 md:py-28 border-b border-white/[0.08]">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="max-w-2xl mb-14">
-        <span class="text-xs font-mono tracking-widest text-[#C5A880] uppercase block mb-2">Hospitality & Wellness</span>
-        <h2 class="font-serif-luxury text-3xl sm:text-4xl font-bold text-white">Curated Private Amenities</h2>
-        <p class="text-sm text-[#A39E93] mt-2">
-          Designed with the discretion of a private members' club, managed around the clock by dedicated resident concierge staff.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="p-6 rounded-xl bg-white/[0.02] border border-white/[0.08] space-y-3">
-          <div class="text-[#C5A880] font-serif-luxury text-xl font-bold">01</div>
-          <h3 class="text-base font-bold text-white">The Wellness Thermal Spa</h3>
-          <p class="text-xs text-[#A39E93] leading-relaxed">
-            Nordic cedar saunas, Himalayan salt inhalation rooms, and cold-plunge hydrotherapy suite reserved exclusively for residents.
-          </p>
-        </div>
-
-        <div class="p-6 rounded-xl bg-white/[0.02] border border-white/[0.08] space-y-3">
-          <div class="text-[#C5A880] font-serif-luxury text-xl font-bold">02</div>
-          <h3 class="text-base font-bold text-white">Sommelier Wine Vault</h3>
-          <p class="text-xs text-[#A39E93] leading-relaxed">
-            Individually secured climate-controlled wine lockers and private tasting salon for private entertaining.
-          </p>
-        </div>
-
-        <div class="p-6 rounded-xl bg-white/[0.02] border border-white/[0.08] space-y-3">
-          <div class="text-[#C5A880] font-serif-luxury text-xl font-bold">03</div>
-          <h3 class="text-base font-bold text-white">Skyline Lap Pool</h3>
-          <p class="text-xs text-[#A39E93] leading-relaxed">
-            30-meter heated outdoor pool suspended at Level 38 with unobstructed sunset views across the botanical reserve.
-          </p>
-        </div>
-
-        <div class="p-6 rounded-xl bg-white/[0.02] border border-white/[0.08] space-y-3">
-          <div class="text-[#C5A880] font-serif-luxury text-xl font-bold">04</div>
-          <h3 class="text-base font-bold text-white">Chauffeur & Valet Lounge</h3>
-          <p class="text-xs text-[#A39E93] leading-relaxed">
-            Subterranean reception with dedicated driver waiting quarters, vehicle detailing bays, and 100kW DC fast charging.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Location Section -->
-  <section id="location" class="py-20 border-b border-white/[0.08] bg-[#0E0F14]">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        <div class="lg:col-span-5 space-y-6">
-          <span class="text-xs font-mono tracking-widest text-[#C5A880] uppercase block">Location & Connectivity</span>
-          <h2 class="font-serif-luxury text-3xl font-bold text-white">Connected to the city, insulated from its noise.</h2>
-          <p class="text-xs sm:text-sm text-[#A39E93] leading-relaxed">
-            Situated within the most sought-after diplomatic and cultural enclave, bordered by historic parkland on two elevations.
-          </p>
-
-          <div class="space-y-3 text-xs font-mono">
-            <div class="flex items-center justify-between p-3 rounded bg-white/[0.03] border border-white/5">
-              <span class="text-white">Central Financial District</span>
-              <span class="text-[#C5A880]">07 Mins</span>
-            </div>
-            <div class="flex items-center justify-between p-3 rounded bg-white/[0.03] border border-white/5">
-              <span class="text-white">Royal Golf Club & Grounds</span>
-              <span class="text-[#C5A880]">04 Mins</span>
-            </div>
-            <div class="flex items-center justify-between p-3 rounded bg-white/[0.03] border border-white/5">
-              <span class="text-white">International Heliport Link</span>
-              <span class="text-[#C5A880]">12 Mins</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="lg:col-span-7">
-          <div class="p-8 rounded-xl bg-[#14151C] border border-white/10 space-y-4">
-            <h3 class="font-serif-luxury text-xl font-bold text-white">Private Tour Inquiries</h3>
-            <p class="text-xs text-[#A39E93]">
-              The on-site experiential gallery and completed model sky suite are open for discreet private appointments daily.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-3 pt-2">
-              <input type="text" id="quick-email" placeholder="Your executive email or phone" class="flex-1 bg-black/50 border border-white/15 px-4 py-3 text-xs text-white rounded focus:outline-none focus:border-[#C5A880]">
-              <button onclick="handleQuickSubmit()" class="px-6 py-3 bg-[#C5A880] hover:bg-[#D4BC96] text-black font-bold text-xs uppercase tracking-wider rounded transition-all">
-                Request Invitation
-              </button>
-            </div>
-            <div id="quick-success" class="hidden text-xs text-emerald-400 font-mono pt-1">
-              ✓ Invitation request received. The residential director will contact you directly within 4 hours.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="mt-auto py-12 border-t border-white/[0.08] bg-[#07070A] text-xs text-[#7A756D]">
-    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-      <div class="flex items-center gap-3">
-        <span class="font-serif-luxury text-white font-bold tracking-wider">APEX RESIDENCES</span>
-        <span>·</span>
-        <span>Architectural Living Collection</span>
-      </div>
-      <div>
-        <span>Demo Concept built by AS Studio · Interactive Showcase</span>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Private Viewing Modal -->
-  <div id="tour-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="bg-[#12131A] border border-white/15 rounded-xl max-w-lg w-full p-6 sm:p-8 space-y-5 relative shadow-2xl">
-      <button onclick="closeTourModal()" class="absolute top-4 right-4 text-[#7A756D] hover:text-white text-lg font-mono">✕</button>
-      
-      <div class="space-y-1">
-        <span class="text-[10px] font-mono uppercase tracking-widest text-[#C5A880]">Confidential Invitation</span>
-        <h3 class="font-serif-luxury text-2xl font-bold text-white">Schedule Private Viewing</h3>
-        <p class="text-xs text-[#A39E93]">
-          Please specify your preferred date and contact details. Our concierge will coordinate your private reception.
-        </p>
-      </div>
-
-      <form id="tour-form" onsubmit="handleTourSubmit(event)" class="space-y-4">
-        <div>
-          <label class="block text-[11px] font-mono uppercase text-[#A39E93] mb-1">Full Name</label>
-          <input type="text" required placeholder="Lord / Mr. / Dr. Alexander Vance" class="w-full bg-black/50 border border-white/15 px-3 py-2 text-xs text-white rounded focus:border-[#C5A880] focus:outline-none">
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-[11px] font-mono uppercase text-[#A39E93] mb-1">Email</label>
-            <input type="email" required placeholder="vance@heritage.com" class="w-full bg-black/50 border border-white/15 px-3 py-2 text-xs text-white rounded focus:border-[#C5A880] focus:outline-none">
-          </div>
-          <div>
-            <label class="block text-[11px] font-mono uppercase text-[#A39E93] mb-1">Phone</label>
-            <input type="tel" required placeholder="+91 98450 12345" class="w-full bg-black/50 border border-white/15 px-3 py-2 text-xs text-white rounded focus:border-[#C5A880] focus:outline-none">
-          </div>
-        </div>
-        <div>
-          <label class="block text-[11px] font-mono uppercase text-[#A39E93] mb-1">Residence Interest</label>
-          <select class="w-full bg-black/50 border border-white/15 px-3 py-2 text-xs text-white rounded focus:border-[#C5A880] focus:outline-none">
-            <option>The Sky Penthouse (5,420 sq ft)</option>
-            <option>The Garden Residence (4,180 sq ft)</option>
-            <option>The Horizon Suite (3,250 sq ft)</option>
-          </select>
-        </div>
-
-        <button type="submit" class="w-full py-3 bg-[#C5A880] hover:bg-[#D4BC96] text-black text-xs font-bold uppercase tracking-widest rounded transition-all">
-          Confirm Viewing Request
-        </button>
-      </form>
-
-      <div id="modal-success" class="hidden p-4 rounded bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-300 text-center font-mono">
-        ✓ Appointment request logged. Private Concierge will confirm your arrival protocol.
-      </div>
+      <div class="note">Studio concept. Residential imagery will be replaced with final project visuals.</div>
     </div>
   </div>
+  <div class="scroll">Explore the residence</div>
+</section>
 
-  <script>
-    const residences = {
-      'sky-penthouse': {
-        badge: 'Level 40–44 · Private Sky Pool',
-        title: 'The Sky Penthouse',
-        desc: "Featuring double-height 7.2-meter living salons, private heated infinity plunge pool overlooking the northern skyline, and Italian custom Valcucine chef's kitchen.",
-        beds: '4 En-Suite Suites',
-        terrace: '1,120 SQ FT Wrap-Around',
-        parking: '3 Dedicated EV Bays',
-        elevator: 'Dual High-Speed Biometric',
-        image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85'
-      },
-      'garden-villa': {
-        badge: 'Ground & Level 01 · Private Botanicals',
-        title: 'The Garden Residence',
-        desc: "Sculpted with private perimeter landscaping, private reflecting water court, bespoke teak joinery, and subterranean private wine storage.",
-        beds: '4 Bedrooms + Study',
-        terrace: '1,850 SQ FT Private Lawn',
-        parking: '3 Private Garage Bays',
-        elevator: 'Direct Private Foyer',
-        image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=85'
-      },
-      'horizon-suite': {
-        badge: 'Levels 22–35 · Sunrise East Aspect',
-        title: 'The Horizon Suite',
-        desc: "Designed around expansive morning light, open-concept gallery living, and acoustic insulated floor-to-ceiling glass envelopes.",
-        beds: '3 Large Suites',
-        terrace: '480 SQ FT Deep Balcony',
-        parking: '2 Covered EV Bays',
-        elevator: 'Biometric Card Access',
-        image: 'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1000&q=85'
-      }
-    };
+<section class="intro" id="vision">
+<div class="container">
+  <div class="grid2 reveal">
+    <div><div class="kicker">The vision</div><h2>Architecture with room to breathe.</h2></div>
+    <div>
+      <p class="copy">Apex Residences is imagined as a calm counterpoint to the pace of the city. Generous proportions, natural materials, and deliberate transitions create homes that feel composed rather than over-designed.</p>
+      <div class="rule"></div>
+      <p class="copy">Every visual and spatial decision is guided by the same idea: luxury should be felt in the details, not announced.</p>
+    </div>
+  </div>
+  <div class="cards" id="residences">
+    <article class="card reveal"><div class="kicker">01 / SPACE</div><h3>Generous by design</h3><p>Open living areas and carefully framed views create a sense of scale without sacrificing warmth.</p></article>
+    <article class="card reveal"><div class="kicker">02 / MATERIAL</div><h3>Natural character</h3><p>Stone, timber, bronze, and tactile finishes bring depth to a restrained architectural palette.</p></article>
+    <article class="card reveal"><div class="kicker">03 / LIGHT</div><h3>Daylight, considered</h3><p>Rooms are shaped around changing light, creating a home that feels different throughout the day.</p></article>
+  </div>
+</div>
+</section>
 
-    function switchResidence(key) {
-      const data = residences[key];
-      if (!data) return;
+<section class="dark" id="experience">
+<div class="container">
+  <div class="reveal"><div class="kicker">The experience</div><h2>A quieter kind of luxury.</h2></div>
+  <div class="feature-grid">
+    <article class="feature reveal"><div class="bronze">The arrival</div><h3>First impressions that linger.</h3><p>A considered sequence from arrival to residence creates a sense of privacy before you even reach your door.</p></article>
+    <article class="feature small reveal"><div class="bronze">The detail</div><h3>Nothing excessive.</h3><p>Materials and finishes are selected for how they feel, age, and belong together.</p></article>
+  </div>
+</div>
+</section>
 
-      document.getElementById('res-badge').innerText = data.badge;
-      document.getElementById('res-title').innerText = data.title;
-      document.getElementById('res-desc').innerText = data.desc;
-      document.getElementById('res-beds').innerText = data.beds;
-      document.getElementById('res-terrace').innerText = data.terrace;
-      document.getElementById('res-parking').innerText = data.parking;
-      document.getElementById('res-elevator').innerText = data.elevator;
-      document.getElementById('res-image').src = data.image;
+<section class="journey" id="journey">
+<div class="container">
+  <div class="grid2 reveal">
+    <div><div class="kicker">Discover Apex</div><h2>A straightforward way to explore your next home.</h2></div>
+    <p class="copy">Tell us what you are looking for and we will shape the conversation around your requirements. No pressure, no unnecessary complexity.</p>
+  </div>
+  <div class="steps">
+    <div class="step reveal"><div class="step-no">01</div><h3>Share your requirements</h3><p>Tell us about the residence, setting, and lifestyle you have in mind.</p></div>
+    <div class="step reveal"><div class="step-no">02</div><h3>Explore the collection</h3><p>Review the concept, architecture, spaces, and available information at your own pace.</p></div>
+    <div class="step reveal"><div class="step-no">03</div><h3>Arrange a conversation</h3><p>Move from curiosity to a private conversation when the time feels right.</p></div>
+  </div>
+</div>
+</section>
 
-      ['sky-penthouse', 'garden-villa', 'horizon-suite'].forEach(id => {
-        const btn = document.getElementById('tab-' + id);
-        if (id === key) {
-          btn.className = "px-5 py-2.5 text-xs font-bold uppercase tracking-wider rounded border border-[#C5A880] bg-[#C5A880] text-black transition-all";
-        } else {
-          btn.className = "px-5 py-2.5 text-xs font-bold uppercase tracking-wider rounded border border-white/15 bg-white/[0.03] text-white hover:border-white/40 transition-all";
-        }
-      });
-    }
+<section class="cta" id="inquire">
+<div class="container">
+  <div class="panel reveal">
+    <div class="kicker">Private enquiries</div>
+    <h2>Find out what makes Apex different.</h2>
+    <p>Leave a few details and this concept enquiry flow will acknowledge your request.</p>
+    <form class="form" id="form">
+      <input class="field" required placeholder="Your name" autocomplete="name">
+      <input class="field" required type="email" placeholder="Email address" autocomplete="email">
+      <input class="field full" placeholder="What would you like to know?">
+      <button class="btn" type="submit">Request details</button>
+      <div class="message" id="message">Thank you. Your enquiry has been noted for this concept preview.</div>
+    </form>
+  </div>
+</div>
+</section>
+</main>
 
-    function openTourModal() {
-      const modal = document.getElementById('tour-modal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
+<footer>
+<div class="container footer">
+  <div><strong>Apex Residences</strong><div class="small">Made for the way you live.</div></div>
+  <div class="small">Studio concept for presentation purposes.</div>
+</div>
+</footer>
 
-    function closeTourModal() {
-      const modal = document.getElementById('tour-modal');
-      modal.classList.remove('flex');
-      modal.classList.add('hidden');
-    }
-
-    function handleTourSubmit(e) {
-      e.preventDefault();
-      document.getElementById('tour-form').classList.add('hidden');
-      document.getElementById('modal-success').classList.remove('hidden');
-      setTimeout(() => {
-        closeTourModal();
-        document.getElementById('tour-form').reset();
-        document.getElementById('tour-form').classList.remove('hidden');
-        document.getElementById('modal-success').classList.add('hidden');
-      }, 2500);
-    }
-
-    function handleQuickSubmit() {
-      const val = document.getElementById('quick-email').value.trim();
-      if (!val) return;
-      document.getElementById('quick-success').classList.remove('hidden');
-      document.getElementById('quick-email').value = '';
-    }
-  </script>
+<script>
+(() => {
+ const progress=document.getElementById('progress');
+ const update=()=>{const d=document.documentElement;progress.style.width=(scrollY/(d.scrollHeight-innerHeight)*100)+'%';};
+ addEventListener('scroll',update,{passive:true});update();
+ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.12});
+ document.querySelectorAll('.reveal').forEach(x=>io.observe(x));
+ document.getElementById('form').addEventListener('submit',e=>{
+   e.preventDefault();document.getElementById('message').style.display='block';
+   e.target.querySelector('button').textContent='Request noted';
+ });
+})();
+</script>
 </body>
 </html>
