@@ -1,0 +1,72 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function isAdmin() {
+      return signedIn() && (
+        request.auth.token.email == 'asstudioofficial001@gmail.com' ||
+        request.auth.token.email == 'asbusinessofficial01@gmail.com' ||
+        request.auth.token.email == 'sahina724462s@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+    function owner(uid) { return signedIn() && request.auth.uid == uid; }
+    function validId(id) { return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\-]+$'); }
+
+    match /inquiries/{id} {
+      allow create: if validId(id)
+        && request.resource.data.clientName is string
+        && request.resource.data.clientName.size() > 0
+        && request.resource.data.clientName.size() <= 100
+        && request.resource.data.businessName is string
+        && request.resource.data.businessName.size() <= 120
+        && request.resource.data.contactChannel is string
+        && request.resource.data.contactChannel.size() >= 3
+        && request.resource.data.contactChannel.size() <= 150
+        && request.resource.data.scopeSummary is string
+        && request.resource.data.scopeSummary.size() > 0
+        && request.resource.data.scopeSummary.size() <= 2500
+        && request.resource.data.source in ['website_contact_form', 'ai_chat_assistant', 'direct_inquiry']
+        && request.resource.data.status == 'new';
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /users/{uid} {
+      allow create: if owner(uid);
+      allow get, update: if owner(uid) || isAdmin();
+      allow list, delete: if isAdmin();
+    }
+
+    match /admins/{uid} {
+      allow read: if isAdmin() || owner(uid);
+      allow write: if isAdmin();
+    }
+
+    match /client_projects/{id} {
+      allow read: if isAdmin() || (signedIn() && resource.data.clientUid == request.auth.uid);
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /site_content/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /seo_pages/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /site_settings/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /reviews/{id} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /{document=**} { allow read, write: if false; }
+  }
+}
