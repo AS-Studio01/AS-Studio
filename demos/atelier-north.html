@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth bg-[#0E0E11] text-[#E5E3DD]">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atelier North - Spatial Architecture & Interior Atelier</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Space Grotesk', sans-serif; }
+    .font-serif-editorial { font-family: 'Newsreader', serif; }
+  </style>
+</head>
+<body class="bg-[#0E0E11] text-[#E5E3DD] selection:bg-[#788878] selection:text-white antialiased min-h-screen flex flex-col">
+
+  <!-- Minimal Header -->
+  <header class="sticky top-0 z-40 bg-[#0E0E11]/90 backdrop-blur-md border-b border-white/[0.08]">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <a href="#hero" class="flex items-center gap-3">
+        <span class="text-sm font-bold tracking-[0.25em] uppercase text-white">ATELIER NORTH</span>
+        <span class="text-[10px] font-mono text-[#8C8A82] border-l border-white/15 pl-3 hidden sm:inline">SPATIAL ARCHITECTURE</span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8 text-xs font-mono uppercase tracking-widest text-[#A8A69E]">
+        <a href="#works" class="hover:text-white transition-colors">Works</a>
+        <a href="#materials" class="hover:text-white transition-colors">Materials</a>
+        <a href="#philosophy" class="hover:text-white transition-colors">Philosophy</a>
+        <a href="#monograph" class="hover:text-white transition-colors">Monograph</a>
+      </nav>
+
+      <button onclick="openBriefModal()" class="px-5 py-2 text-xs font-mono uppercase tracking-wider rounded border border-white/20 hover:border-white text-white transition-all bg-white/[0.02]">
+        Commission Space
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero" class="pt-16 pb-20 md:pt-28 md:pb-36 border-b border-white/[0.08]">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="max-w-4xl space-y-6">
+        <div class="inline-flex items-center gap-2 text-xs font-mono text-[#8F9F8F]">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#8F9F8F]"></span>
+          <span>STUDIO PRACTICE · RESIDENTIAL & INSTITUTIONAL</span>
+        </div>
+
+        <h1 class="font-serif-editorial text-4xl sm:text-6xl md:text-7xl font-normal leading-[1.08] text-white">
+          Architecture rooted in silence, material honesty, and natural light.
+        </h1>
+
+        <p class="text-base sm:text-lg text-[#A8A69E] max-w-2xl font-light leading-relaxed">
+          Atelier North conceives tactile spatial environments. We eliminate decorative distraction to amplify proportion, natural shadows, and the raw character of stone, timber, and lime.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-4 pt-4">
+          <a href="#works" class="px-7 py-3.5 bg-white text-black text-xs font-mono uppercase tracking-widest hover:bg-[#E5E3DD] transition-all">
+            View Selected Spaces
+          </a>
+          <button onclick="openBriefModal()" class="px-7 py-3.5 border border-white/20 hover:border-white text-white text-xs font-mono uppercase tracking-widest transition-all">
+            Initiate Project Brief
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Selected Architectural Works -->
+  <section id="works" class="py-20 md:py-28 border-b border-white/[0.08] bg-[#0A0A0D]">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-16 pb-6 border-b border-white/[0.08]">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-widest text-[#8F9F8F] block mb-2">01 / Portfolios</span>
+          <h2 class="font-serif-editorial text-3xl sm:text-4xl text-white">Selected Architectural Works</h2>
+        </div>
+        <span class="text-xs font-mono text-[#7D7B74]">RESIDENTIAL & CONTEMPLATIVE SPACES</span>
+      </div>
+
+      <!-- Works Grid -->
+      <div class="space-y-20">
+        
+        <!-- Project 1 -->
+        <article class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-8 overflow-hidden rounded-lg border border-white/10 group">
+            <img 
+              src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=85" 
+              alt="Villa Kanso Kyoto Pavilion"
+              class="w-full aspect-[16/10] object-cover transition-transform duration-1000 group-hover:scale-105"
+            />
+          </div>
+          <div class="lg:col-span-4 space-y-4">
+            <div class="flex items-center justify-between text-xs font-mono text-[#7D7B74]">
+              <span>KYOTO, JAPAN</span>
+              <span>2025</span>
+            </div>
+            <h3 class="font-serif-editorial text-3xl text-white">Villa Kanso</h3>
+            <p class="text-xs sm:text-sm text-[#A8A69E] leading-relaxed">
+              A private cedar residence conceived around an internal courtyard of weathered granite. Continuous floor-to-ceiling glass screens dissolve the boundary between living room and forested mountain slope.
+            </p>
+            <div class="pt-2 flex flex-wrap gap-2 text-[10px] font-mono text-[#8C8A82]">
+              <span class="px-2 py-1 bg-white/[0.03] border border-white/10">Japanese Sugi Cedar</span>
+              <span class="px-2 py-1 bg-white/[0.03] border border-white/10">Kurama Granite</span>
+              <span class="px-2 py-1 bg-white/[0.03] border border-white/10">3,800 sq ft</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-4 order-2 lg:order-1 space-y-4">
+            <div class="flex items-center justify-between text-xs font-mono text-[#7D7B74]">
+              <span>BERGEN, NORWAY</span>
+              <span>2025</span>
+            </div>
+            <h3 class="font-serif-editorial text-3xl text-white">Fjord House</h3>
+            <p class="text-xs sm:text-sm text-[#A8A69E] leading-relaxed">
+              Cantilevered over glacial rock, Fjord House uses monolithic poured charcoal concrete and charred timber to withstand extreme coastal weather while creating a serene, insulated sanctuary inside.
+            </p>
+            <div class="pt-2 flex flex-wrap gap-2 text-[10px] font-mono text-[#8C8A82]">
+              <span class="px-2 py-1 bg-white/[0.03] border border-white/10">Monolithic Concrete</span>
+              <span class="px-2 py-1 bg-white/[0.03] border border-white/10">Charred Pine</span>
+              <span class="px-2 py-1 bg-white/[0.03] border border-white/10">4,400 sq ft</span>
+            </div>
+          </div>
+          <div class="lg:col-span-8 order-1 lg:order-2 overflow-hidden rounded-lg border border-white/10 group">
+            <img 
+              src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85" 
+              alt="Fjord House Cantilever Architecture"
+              class="w-full aspect-[16/10] object-cover transition-transform duration-1000 group-hover:scale-105"
+            />
+          </div>
+        </article>
+
+        <!-- Project 3 -->
+        <article class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-8 overflow-hidden rounded-lg border border-white/10 group">
+            <img 
+              src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=85" 
+              alt="Pavilion North Monograph"
+              class="w-full aspect-[16/10] object-cover transition-transform duration-1000 group-hover:scale-105"
+            />
+          </div>
+          <div class="lg:col-span-4 space-y-4">
+            <div class="flex items-center justify-between text-xs font-mono text-[#7D7B74]">
+              <span>STOCKHOLM, SWEDEN</span>
+              <span>2026</span>
+            </div>
+            <h3 class="font-serif-editorial text-3xl text-white">Pavilion North</h3>
+            <p class="text-xs sm:text-sm text-[#A8A69E] leading-relaxed">
+              An architectural pavilion and sculpture archive emphasizing acoustic quietness, daylight baffles, and custom joinery manufactured in untreated birch and brushed raw bronze.
+            </p>
+            <div class="pt-2 flex flex-wrap gap-2 text-[10px] font-mono text-[#8C8A82]">
+              <span class="px-2 py-1 bg-white/[0.03] border border-white/10">Untreated Birch</span>
+              <span class="px-2 py-1 bg-white/[0.03] border border-white/10">Brushed Bronze</span>
+              <span class="px-2 py-1 bg-white/[0.03] border border-white/10">5,100 sq ft</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Material Palette Inspector -->
+  <section id="materials" class="py-20 md:py-28 border-b border-white/[0.08]">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="max-w-2xl mb-14">
+        <span class="text-xs font-mono uppercase tracking-widest text-[#8F9F8F] block mb-2">02 / Material Grammar</span>
+        <h2 class="font-serif-editorial text-3xl sm:text-4xl text-white">Tactile Material Library</h2>
+        <p class="text-xs sm:text-sm text-[#A8A69E] mt-2">
+          Materials selected for how they age, collect patina, and absorb rather than reflect harsh direct glare.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <div class="p-6 rounded-lg bg-white/[0.02] border border-white/[0.08] space-y-4 hover:border-white/30 transition-all">
+          <div class="w-full h-32 rounded bg-[#C7B79D] relative overflow-hidden flex items-end p-3">
+            <span class="text-[10px] font-mono text-black font-bold uppercase tracking-wider">Honed Roman Travertine</span>
+          </div>
+          <div>
+            <h4 class="text-sm font-bold text-white">Roman Travertine</h4>
+            <p class="text-xs text-[#8C8A82] mt-1 leading-relaxed">
+              Unfilled and honed by hand. Retains thermal mass and provides acoustic damping across open floorpans.
+            </p>
+          </div>
+        </div>
+
+        <div class="p-6 rounded-lg bg-white/[0.02] border border-white/[0.08] space-y-4 hover:border-white/30 transition-all">
+          <div class="w-full h-32 rounded bg-[#5A4B3C] relative overflow-hidden flex items-end p-3">
+            <span class="text-[10px] font-mono text-white font-bold uppercase tracking-wider">Smoked Nordic Oak</span>
+          </div>
+          <div>
+            <h4 class="text-sm font-bold text-white">Smoked Nordic Oak</h4>
+            <p class="text-xs text-[#8C8A82] mt-1 leading-relaxed">
+              Deep cellular fuming with organic vegetable tannins. Warm underfoot, dimensional stability across decades.
+            </p>
+          </div>
+        </div>
+
+        <div class="p-6 rounded-lg bg-white/[0.02] border border-white/[0.08] space-y-4 hover:border-white/30 transition-all">
+          <div class="w-full h-32 rounded bg-[#3D3A38] relative overflow-hidden flex items-end p-3">
+            <span class="text-[10px] font-mono text-[#D4C3A3] font-bold uppercase tracking-wider">Gunmetal Bronze</span>
+          </div>
+          <div>
+            <h4 class="text-sm font-bold text-white">Gunmetal Bronze</h4>
+            <p class="text-xs text-[#8C8A82] mt-1 leading-relaxed">
+              Cast alloy hardware and window mullions that gently develop natural golden patina with touch over years.
+            </p>
+          </div>
+        </div>
+
+        <div class="p-6 rounded-lg bg-white/[0.02] border border-white/[0.08] space-y-4 hover:border-white/30 transition-all">
+          <div class="w-full h-32 rounded bg-[#9E9B93] relative overflow-hidden flex items-end p-3">
+            <span class="text-[10px] font-mono text-black font-bold uppercase tracking-wider">Mineral Lime Plaster</span>
+          </div>
+          <div>
+            <h4 class="text-sm font-bold text-white">Natural Lime Plaster</h4>
+            <p class="text-xs text-[#8C8A82] mt-1 leading-relaxed">
+              Breathable, vapor-permeable wall coatings that gently diffuse artificial and daylight into soft ambient gradients.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Philosophy -->
+  <section id="philosophy" class="py-20 md:py-28 border-b border-white/[0.08] bg-[#0A0A0D]">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-5 space-y-6">
+          <span class="text-xs font-mono uppercase tracking-widest text-[#8F9F8F]">03 / Studio Philosophy</span>
+          <h2 class="font-serif-editorial text-3xl sm:text-5xl text-white">Three structural disciplines.</h2>
+          <p class="text-xs sm:text-sm text-[#A8A69E] leading-relaxed">
+            We reject the rapid churn of architectural trends. Our studios produce buildings and interiors that feel complete on day one, and more grounded in year twenty.
+          </p>
+        </div>
+
+        <div class="lg:col-span-7 space-y-6">
+          <div class="p-6 rounded bg-white/[0.02] border border-white/[0.08] space-y-2">
+            <span class="text-xs font-mono text-[#8F9F8F]">01</span>
+            <h3 class="text-lg font-bold text-white">Light as Primary Building Material</h3>
+            <p class="text-xs text-[#A8A69E] leading-relaxed">
+              We model solar angles before drawing interior walls. Daylight determines living rhythms, sightlines, and reading nooks.
+            </p>
+          </div>
+
+          <div class="p-6 rounded bg-white/[0.02] border border-white/[0.08] space-y-2">
+            <span class="text-xs font-mono text-[#8F9F8F]">02</span>
+            <h3 class="text-lg font-bold text-white">Radical Restraint in Joinery</h3>
+            <p class="text-xs text-[#A8A69E] leading-relaxed">
+              Integrated millwork that acts as wall rather than furniture. Clean reveals, hidden hinges, and zero visual clutter.
+            </p>
+          </div>
+
+          <div class="p-6 rounded bg-white/[0.02] border border-white/[0.08] space-y-2">
+            <span class="text-xs font-mono text-[#8F9F8F]">03</span>
+            <h3 class="text-lg font-bold text-white">Permanent Ownership of Space</h3>
+            <p class="text-xs text-[#A8A69E] leading-relaxed">
+              Designs engineered to outlive digital ephemera, with drawings, specifications, and full intellectual property transferred to clients.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Monograph & Inquiries CTA -->
+  <section id="monograph" class="py-20 border-b border-white/[0.08]">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="p-8 sm:p-12 rounded-xl bg-[#131317] border border-white/10 flex flex-col md:flex-row items-center justify-between gap-8">
+        <div class="space-y-2 max-w-xl">
+          <span class="text-xs font-mono uppercase text-[#8F9F8F]">Project Commissions</span>
+          <h3 class="font-serif-editorial text-3xl font-normal text-white">Planning a residential or studio build?</h3>
+          <p class="text-xs text-[#A8A69E] leading-relaxed">
+            We undertake a limited number of commissions per calendar year to preserve direct partner involvement from brief through completion.
+          </p>
+        </div>
+        <button onclick="openBriefModal()" class="px-8 py-4 bg-white text-black font-mono text-xs uppercase tracking-widest hover:bg-[#E5E3DD] transition-all shrink-0">
+          Submit Architectural Brief
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-auto py-12 bg-[#08080A] text-xs text-[#6B6A64]">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="text-white font-mono uppercase tracking-wider">ATELIER NORTH</span>
+        <span>·</span>
+        <span>Spatial Architecture Atelier</span>
+      </div>
+      <div>
+        <span>Studio Concept Prototype by AS Studio</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Project Brief Modal -->
+  <div id="brief-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-[#131317] border border-white/15 rounded-xl max-w-lg w-full p-6 sm:p-8 space-y-5 relative shadow-2xl">
+      <button onclick="closeBriefModal()" class="absolute top-4 right-4 text-[#7D7B74] hover:text-white text-lg font-mono">✕</button>
+      
+      <div class="space-y-1">
+        <span class="text-[10px] font-mono uppercase tracking-widest text-[#8F9F8F]">Commission Inquiry</span>
+        <h3 class="font-serif-editorial text-2xl text-white">Initiate Architectural Brief</h3>
+        <p class="text-xs text-[#A8A69E]">
+          Share project location, estimated site dimensions, and key architectural goals.
+        </p>
+      </div>
+
+      <form id="brief-form" onsubmit="handleBriefSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-[11px] font-mono uppercase text-[#A8A69E] mb-1">Your Name</label>
+          <input type="text" required placeholder="Elena Rostova" class="w-full bg-black/50 border border-white/15 px-3 py-2 text-xs text-white rounded focus:border-white focus:outline-none">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[11px] font-mono uppercase text-[#A8A69E] mb-1">Email</label>
+            <input type="email" required placeholder="elena@rostova.com" class="w-full bg-black/50 border border-white/15 px-3 py-2 text-xs text-white rounded focus:border-white focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-[11px] font-mono uppercase text-[#A8A69E] mb-1">Location</label>
+            <input type="text" required placeholder="e.g. Zurich or Kyoto" class="w-full bg-black/50 border border-white/15 px-3 py-2 text-xs text-white rounded focus:border-white focus:outline-none">
+          </div>
+        </div>
+        <div>
+          <label class="block text-[11px] font-mono uppercase text-[#A8A69E] mb-1">Project Scope</label>
+          <select class="w-full bg-black/50 border border-white/15 px-3 py-2 text-xs text-white rounded focus:border-white focus:outline-none font-mono">
+            <option>New Residential Architecture (Villa / Estate)</option>
+            <option>Full Interior Spatial Transformation</option>
+            <option>Cultural Pavilion or Gallery Archive</option>
+          </select>
+        </div>
+
+        <button type="submit" class="w-full py-3 bg-white hover:bg-[#E5E3DD] text-black text-xs font-mono uppercase tracking-widest rounded transition-all">
+          Send Project Inquiry
+        </button>
+      </form>
+
+      <div id="brief-success" class="hidden p-4 rounded bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-300 text-center font-mono">
+        ✓ Brief successfully received. Atelier partners will review and reply within 48 hours.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openBriefModal() {
+      const modal = document.getElementById('brief-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeBriefModal() {
+      const modal = document.getElementById('brief-modal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+    }
+
+    function handleBriefSubmit(e) {
+      e.preventDefault();
+      document.getElementById('brief-form').classList.add('hidden');
+      document.getElementById('brief-success').classList.remove('hidden');
+      setTimeout(() => {
+        closeBriefModal();
+        document.getElementById('brief-form').reset();
+        document.getElementById('brief-form').classList.remove('hidden');
+        document.getElementById('brief-success').classList.add('hidden');
+      }, 2500);
+    }
+  </script>
+</body>
+</html>
