@@ -82,3 +82,40 @@ export interface ProcessStep {
   description: string;
   deliverables: string[];
 }
+
+export interface FAQItem {
+  question: string;
+  answer: string;
+  category?: string;
+}
+
+export interface TestimonialItem {
+  id: string;
+  quote: string;
+  author: string;
+  role: string;
+  company: string;
+  rating: number;
+}
+
+export interface IndustryItem {
+  id: string;
+  title: string;
+  tagline: string;
+  description: string;
+  typicalOutcome: string;
+  badge: string;
+}
+
+export type Language = 'en' | 'es' | 'de' | 'fr' | 'hi';
+export type Theme = 'dark' | 'light';
+
+export interface SiteContent {
+  studioName: string;
+  tagline: string;
+  headline: string;
+  subheadline: string;
+  supportEmail: string;
+  telegramHandle: string;
+  telegramUrl: string;
+}
