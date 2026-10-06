@@ -453,21 +453,17 @@ Looking forward to your reply!`
   }
 });
 async function startServer() {
-  const isProd = process.env.NODE_ENV === "production";
-  if (!isProd) {
-    const { createServer: createViteServer } = await import("vite");
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa"
-    });
-    app.use(vite.middlewares);
-  } else {
-    app.use(express.static(path.join(__dirname, "dist")));
-    app.get("*", (_req, res) => {
-      res.sendFile(path.join(__dirname, "dist", "index.html"));
-    });
-  }
-  app.listen(Number(PORT), "0.0.0.0", () => {
+  app.use(express.static(__dirname));
+
+  app.get('/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, 'admin', 'index.html'));
+  });
+
+  app.get('/portal', (req, res) => {
+    res.sendFile(path.join(__dirname, 'portal', 'index.html'));
+  });
+
+  app.listen(Number(PORT), '0.0.0.0', () => {
     console.log(`Server listening on http://0.0.0.0:${PORT}`);
   });
 }
