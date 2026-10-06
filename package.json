@@ -1,16 +1,1 @@
-{
-  "name": "as-studio-final",
-  "private": true,
-  "version": "1.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "node server.js",
-    "start": "node server.js",
-    "build": "node -e 'process.exit(0)'"
-  },
-  "dependencies": {
-    "@google/genai": "^2.4.0",
-    "dotenv": "^17.2.3",
-    "express": "^4.21.2"
-  }
-}
+{"name":"as-studio-static","private":true,"version":"1.0.0","description":"AS Studio production website. Firebase is loaded client-side; no build step is required.","scripts":{"dev":"python3 -m http.server 8080","build":"echo static-site-build-complete"}}
