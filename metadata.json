@@ -1,7 +1,1 @@
-{
-  "name": "AS Studio — Clean Business Websites & Redesigns",
-  "description": "AS Studio designs clean, fast and mobile-first websites and landing pages for local businesses and early-stage founders.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
-
+{"name":"AS Studio","description":"Independent digital studio creating high-performance websites with a refined editorial point of view.","version":"1.0.0"}

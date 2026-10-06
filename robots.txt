@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://as-studio-delta.vercel.app/sitemap.xml
