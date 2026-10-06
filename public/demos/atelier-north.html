@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atelier North — Spatial Architecture & Material Monograph</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .font-serif { font-family: 'Cinzel', serif; }
+  </style>
+</head>
+<body class="bg-[#121312] text-[#E5E6E4] min-h-screen antialiased">
+  <div class="border-b border-[#252825] px-6 py-2.5 text-xs text-[#8F9F8F] flex justify-between items-center">
+    <span>Studio Concept Demo by AS Studio</span>
+    <a href="/" class="hover:text-white transition">← Return to AS Studio</a>
+  </div>
+
+  <header class="border-b border-[#222422] px-8 py-6 flex justify-between items-center max-w-7xl mx-auto">
+    <div class="text-xl font-serif tracking-widest uppercase text-stone-200">Atelier North</div>
+    <nav class="hidden md:flex gap-8 text-xs tracking-widest uppercase text-[#A3A7A2]">
+      <a href="#monographs" class="hover:text-white transition">Monographs</a>
+      <a href="#materials" class="hover:text-white transition">Materials</a>
+      <a href="#philosophy" class="hover:text-white transition">Philosophy</a>
+      <a href="#commissions" class="hover:text-white transition">Commissions</a>
+    </nav>
+    <a href="#commissions" class="px-5 py-2 border border-[#8F9F8F]/60 text-xs text-[#8F9F8F] hover:bg-[#8F9F8F] hover:text-black transition tracking-widest uppercase">Commission Studio</a>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 py-16">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <span class="inline-block text-[#8F9F8F] text-xs tracking-widest uppercase mb-4">Architecture & Spatial Design</span>
+        <h1 class="text-4xl md:text-5xl font-serif font-light leading-snug tracking-wide">Silence, Proportion, and Geological Time</h1>
+        <p class="mt-6 text-[#9A9E99] text-base leading-relaxed">
+          Atelier North builds quiet, tactile structures grounded in raw volcanic stone, charred spruce, and natural Nordic light.
+        </p>
+        <div class="mt-8 flex gap-4">
+          <a href="#monographs" class="px-6 py-3 bg-[#8F9F8F] text-black text-xs uppercase font-medium tracking-widest hover:bg-[#A3B4A3] transition">Selected Works</a>
+          <a href="#materials" class="px-6 py-3 border border-[#3A3F3A] text-xs uppercase tracking-widest hover:border-[#8F9F8F] transition">Material Grammar</a>
+        </div>
+      </div>
+      <div class="rounded-xl overflow-hidden border border-[#2D312D]">
+        <img src="/assets/atelier-north-hero.jpg" alt="Atelier North Pavilion" class="w-full h-[450px] object-cover">
+      </div>
+    </div>
+
+    <!-- Material Grammar -->
+    <section id="materials" class="mt-24 pt-12 border-t border-[#222422]">
+      <h2 class="text-2xl font-serif font-light mb-8">Tactile Material Library</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="p-6 rounded-lg bg-[#181A18] border border-[#262B26]">
+          <div class="text-xs text-[#8F9F8F] tracking-widest uppercase mb-2">Quarried Mineral</div>
+          <h3 class="text-lg text-stone-200">Roman Travertine</h3>
+          <p class="text-xs text-[#888D88] mt-2">Open-pored Italian travertine cut across the grain for thermal retaining floors.</p>
+        </div>
+        <div class="p-6 rounded-lg bg-[#181A18] border border-[#262B26]">
+          <div class="text-xs text-[#8F9F8F] tracking-widest uppercase mb-2">Organic Timber</div>
+          <h3 class="text-lg text-stone-200">Smoked White Oak</h3>
+          <p class="text-xs text-[#888D88] mt-2">Deep ammoniated oak panels finished with organic plant-based waxes.</p>
+        </div>
+        <div class="p-6 rounded-lg bg-[#181A18] border border-[#262B26]">
+          <div class="text-xs text-[#8F9F8F] tracking-widest uppercase mb-2">Forged Metal</div>
+          <h3 class="text-lg text-stone-200">Gunmetal Bronze</h3>
+          <p class="text-xs text-[#888D88] mt-2">Hand-cast patinated bronze elements that self-heal with handling and age.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Commissions -->
+    <section id="commissions" class="mt-20 p-8 rounded-xl bg-[#181A18] border border-[#2B302B] max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl font-serif font-light mb-2">Initiate a Spatial Commission</h2>
+      <p class="text-xs text-[#8E948E] mb-6">Residential pavilions, museum galleries, and bespoke private spaces.</p>
+      <form class="space-y-4 text-left" onsubmit="event.preventDefault(); alert('Commission brief received. Atelier North will review your inquiry.');">
+        <input type="text" placeholder="Commissioner Name / Organization" required class="w-full bg-[#111211] border border-[#2D332D] rounded px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#8F9F8F]">
+        <input type="email" placeholder="Direct Contact Email" required class="w-full bg-[#111211] border border-[#2D332D] rounded px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#8F9F8F]">
+        <button type="submit" class="w-full py-3 bg-[#8F9F8F] text-black font-semibold text-xs uppercase tracking-widest hover:bg-[#A3B4A3] transition">Submit Commission Brief</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
