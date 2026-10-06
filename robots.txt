@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /admin/
 Disallow: /portal/
+Disallow: /x7q2m9r4v8k1p6z3/
 Sitemap: /sitemap.xml

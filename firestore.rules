@@ -52,13 +52,11 @@ service cloud.firestore {
       allow create: if isValidId(inquiryId) && isValidInquiry(incoming());
       
       // Signed-in clients or founders can view inquiries
-      allow read: if true;
-      
-      // Update status
-      allow update: if true;
-      
+      allow read: if isAdmin();
+      // Only admins / studio founders can update inquiry records
+      allow update: if isAdmin();
       // Only admins / studio founders can delete inquiry records
-      allow delete: if true;
+      allow delete: if isAdmin();
     }
 
     // Users Collection
@@ -80,19 +78,20 @@ service cloud.firestore {
     // Public CMS content: Public read, Admin or Founder write
     match /site_content/{contentId} {
       allow read: if true;
-      allow write: if true;
+      allow write: if isAdmin();
     }
 
     // Client Projects (Delivery Milestones Tracking)
     match /client_projects/{projectId} {
-      allow read: if true;
-      allow write: if true;
+      allow read: if isAdmin() || (isSignedIn() && (resource.data.clientUid == request.auth.uid || resource.data.userId == request.auth.uid));
+      allow create: if isAdmin();
+      allow update, delete: if isAdmin();
     }
 
     // Studio Site Settings
     match /site_settings/{settingId} {
       allow read: if true;
-      allow write: if true;
+      allow write: if isAdmin();
     }
   }
 }

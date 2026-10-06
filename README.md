@@ -207,3 +207,21 @@ npm run lint
   - Multi-page navigation (Home, Work, Services, Process, Contact).
 - **v1.0.0**:
   - Initial studio release.
+
+## Private studio access
+
+The public footer does not expose an Admin link. To open the private workspace, click the **AS Studio** wordmark in the top-left corner exactly five times within about two seconds.
+
+Private route: `/x7q2m9r4v8k1p6z3/`
+
+The route is intentionally unlinked and marked `noindex,nofollow`, but the real security boundary is Firebase Authentication and Firestore rules. URL obscurity is not a substitute for authentication.
+
+### Existing admin accounts
+
+The private workspace accepts the existing authorized Firebase Authentication accounts:
+
+- asstudioofficial001@gmail.com
+- asbusinessofficial01@gmail.com
+- sahina724462s@gmail.com
+
+No default password is stored in the website. If the password is unknown, use **Reset password** on the private workspace and complete the reset from the corresponding email account.
