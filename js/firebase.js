@@ -1,72 +1,15 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js';
-import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, serverTimestamp } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
-
-const config = {
-  projectId: 'profound-handbook-z3skh',
-  appId: '1:34016814266:web:30865e0746c21237d04e83',
-  apiKey: 'AIzaSyA1km1IvXjyPTkO0grVOunMorlOoARLd2w',
-  authDomain: 'profound-handbook-z3skh.firebaseapp.com',
-  firestoreDatabaseId: 'ai-studio-asstudio-a4c0c11f-272a-4140-b122-5ed482a959e7',
-  storageBucket: 'profound-handbook-z3skh.firebasestorage.app',
-  messagingSenderId: '34016814266'
-};
-
-const app = initializeApp(config);
-export const auth = getAuth(app);
-export const db = getFirestore(app, config.firestoreDatabaseId);
-
-export function handleFirestoreError(error, operationType, path) {
-  const errInfo = {
-    error: error instanceof Error ? error.message : String(error),
-    authInfo: {
-      userId: auth.currentUser?.uid || null,
-      email: auth.currentUser?.email || null,
-      emailVerified: auth.currentUser?.emailVerified || null,
-      isAnonymous: auth.currentUser?.isAnonymous || null,
-    },
-    operationType,
-    path
-  };
-  console.error('Firestore Error: ', JSON.stringify(errInfo));
-  throw new Error(JSON.stringify(errInfo));
+import { getFirestore, collection, doc, setDoc, getDoc, getDocs, query, orderBy, limit, updateDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
+// Web API keys for Firebase are public by design. Access is controlled by firestore.rules.
+const config={projectId:'profound-handbook-z3skh',appId:'1:34016814266:web:30865e0746c21237d04e83',apiKey:'AIzaSyA1km1IvXjyPTkO0grVOunMorlOoARLd2w',authDomain:'profound-handbook-z3skh.firebaseapp.com',storageBucket:'profound-handbook-z3skh.firebasestorage.app',messagingSenderId:'34016814266'};
+const DB_ID='ai-studio-asstudio-a4c0c11f-272a-4140-b122-5ed482a959e7';
+const app=initializeApp(config);
+export const auth=getAuth(app);
+export const db=getFirestore(app,DB_ID);
+export async function submitInquiry(d){
+  const id='web_'+Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+  await setDoc(doc(db,'inquiries',id),{clientName:d.clientName,businessName:d.businessName,contactChannel:d.contactChannel,scopeSummary:d.scopeSummary,source:'website_contact_form',status:'new',createdAt:serverTimestamp(),updatedAt:serverTimestamp()});
+  return id;
 }
-
-export async function submitInquiry(data) {
-  try {
-    const docRef = await addDoc(collection(db, 'inquiries'), {
-      clientName: data.clientName || '',
-      businessName: data.businessName || '',
-      contactChannel: data.contactChannel || '',
-      scopeSummary: data.scopeSummary || '',
-      status: 'new',
-      createdAt: serverTimestamp()
-    });
-    try {
-      await fetch('/api/inquiry/notify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    } catch (_) {}
-    return docRef;
-  } catch (error) {
-    handleFirestoreError(error, 'create', 'inquiries');
-  }
-}
-
-export {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  sendPasswordResetEmail,
-  signOut,
-  collection,
-  addDoc,
-  getDocs,
-  query,
-  orderBy,
-  limit,
-  serverTimestamp
-};
-
-
+export {onAuthStateChanged,signInWithEmailAndPassword,sendPasswordResetEmail,signOut,collection,doc,getDoc,setDoc,getDocs,query,orderBy,limit,updateDoc,serverTimestamp};
