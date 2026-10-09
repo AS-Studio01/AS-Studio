@@ -1,60 +1,54 @@
 /* AS Studio Design Tokens */
 :root {
-  /* Color Palette - Quiet Titanium & Warm Bronze */
-  --bg: #090a0b;
-  --bg-elevated: #0f1013;
-  --panel: #131518;
-  --panel-hover: #191c20;
-  --panel-active: #202328;
-  --surface-subtle: rgba(255, 255, 255, 0.03);
+  /* Palette - Warm Charcoal, Deep Obsidian & Titanium Bronze */
+  --bg: #0a0d10;
+  --bg-elevated: #111519;
+  --panel: #14191e;
+  --panel-hover: #1b2128;
+  --panel-active: #222932;
+  --surface-subtle: rgba(255, 255, 255, 0.035);
 
-  /* Lines & Dividers */
-  --line: rgba(255, 255, 255, 0.09);
+  /* Lines & Borders */
+  --line: rgba(255, 255, 255, 0.08);
   --line-subtle: rgba(255, 255, 255, 0.05);
-  --line-strong: rgba(255, 255, 255, 0.18);
-  --line-focus: #c7a77a;
+  --line-strong: rgba(255, 255, 255, 0.16);
+  --line-focus: #c59b63;
 
-  /* Typography Colors */
-  --text: #f4f1e9;
-  --text-secondary: #c5c7cb;
-  --muted: #8c8f94;
-  --dim: #5c5f64;
+  /* Typography */
+  --text: #f3efe6;
+  --text-secondary: #c2c5cb;
+  --muted: #858a93;
+  --dim: #545963;
 
   /* Brand Accents */
-  --warm: #c7a77a;
-  --warm-light: #dfc59f;
-  --warm-tint: rgba(199, 167, 122, 0.12);
-  --warm-glow: rgba(199, 167, 122, 0.25);
-  --cyan: #79d6df;
-  --emerald: #4ade80;
-  --rose: #f87171;
+  --warm: #c59b63;
+  --warm-light: #dfba88;
+  --warm-tint: rgba(197, 155, 99, 0.12);
+  --warm-glow: rgba(197, 155, 99, 0.32);
+  --warm-deep: #8f6a39;
 
-  /* Typography Fonts */
-  --font-heading: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  /* Fonts */
+  --font-heading: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-body: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'DM Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  /* Layout & Widths */
-  --max: 1240px;
+  /* Layout */
+  --max: 1200px;
   --max-narrow: 860px;
   --max-reading: 720px;
-  --header-height: 76px;
+  --nav-height: 72px;
 
   /* Radii */
-  --r-xs: 2px;
-  --r-sm: 4px;
-  --r-md: 8px;
-  --r-lg: 14px;
-  --r-full: 999px;
+  --r-xs: 3px;
+  --r-sm: 6px;
+  --r-md: 12px;
+  --r-lg: 20px;
+  --r-full: 9999px;
 
-  /* Motion Curves */
+  /* Transitions & Timing */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
-  --duration-fast: 150ms;
-  --duration-normal: 250ms;
+  --duration-fast: 160ms;
+  --duration-normal: 280ms;
   --duration-slow: 450ms;
-
-  /* Shadows */
-  --shadow-elevation: 0 16px 40px -12px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 35px -5px rgba(199, 167, 122, 0.15);
 }

@@ -1,60 +1,90 @@
 /**
- * AS Studio - Hero Visual & Video Scrub Engine
+ * AS Studio - Cinematic Hero & Video Scrub Engine
  */
-export function initHeroScrub() {
-  const video = document.querySelector('.hero-video');
-  const heroSection = document.querySelector('.section-hero');
+export function initHero() {
+  const hero = document.getElementById('hero') || document.querySelector('.hero');
+  const video = document.getElementById('heroVideo') || document.querySelector('.hero-video');
+  const ring = document.querySelector('.ring circle');
+  const bands = document.querySelectorAll('.hero .band');
 
-  if (!video || !heroSection) return;
+  if (!hero) return;
 
-  // Ensure video metadata is loaded
-  let isVideoReady = false;
-  video.addEventListener('loadedmetadata', () => {
-    isVideoReady = true;
-  });
+  // Ensure video source is linked if not present
+  if (video && !video.getAttribute('src') && !video.querySelector('source')) {
+    video.src = '/assets/video/hero-scrub.mp4';
+    video.load();
+  }
 
-  // Smooth scroll scrub when within hero viewport
-  let ticking = false;
-  function handleScroll() {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        const rect = heroSection.getBoundingClientRect();
-        const heroHeight = rect.height;
-        const scrolled = Math.max(0, -rect.top);
+  // Band visibility controller based on scroll
+  function updateHeroScroll() {
+    const rect = hero.getBoundingClientRect();
+    const heroHeight = rect.height;
+    const windowH = window.innerHeight;
+    const scrollDist = -rect.top;
+    const maxScroll = Math.max(1, heroHeight - windowH);
+    const progress = Math.min(1, Math.max(0, scrollDist / maxScroll));
 
-        if (scrolled <= heroHeight && isVideoReady && video.duration) {
-          const progress = Math.min(1, scrolled / heroHeight);
-          // Gently scrub video current time based on scroll progress
-          video.currentTime = progress * (video.duration * 0.85);
+    // Update ring progress offset
+    if (ring) {
+      const perimeter = 126;
+      const offset = perimeter * (1 - progress);
+      ring.style.setProperty('--ld', String(offset));
+    }
+
+    // Video scrub
+    if (video && video.duration && !isNaN(video.duration)) {
+      try {
+        video.currentTime = progress * video.duration;
+      } catch (e) {
+        // Video scrub safety
+      }
+    }
+
+    // Multi-band fade/slide transitions
+    if (bands.length > 1) {
+      bands.forEach(band => {
+        const a = parseFloat(band.getAttribute('data-a') || '0');
+        const b = parseFloat(band.getAttribute('data-b') || '1');
+        const isFirst = band.hasAttribute('data-first');
+        const isLast = band.hasAttribute('data-last');
+
+        let opacity = 0;
+        let translateY = 20;
+
+        if (progress >= a && progress <= b) {
+          // Peak visible range
+          opacity = 1;
+          translateY = 0;
+        } else if (progress < a && isFirst) {
+          opacity = 1;
+          translateY = 0;
+        } else if (progress > b && isLast) {
+          opacity = 1;
+          translateY = 0;
         }
 
-        ticking = false;
+        band.style.opacity = String(opacity);
+        band.style.transform = `translateY(${translateY}px)`;
+        band.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
       });
-      ticking = true;
     }
   }
 
-  window.addEventListener('scroll', handleScroll, { passive: true });
+  window.addEventListener('scroll', updateHeroScroll, { passive: true });
+  updateHeroScroll();
 
-  // Subtle ambient mouse parallax on hero content
-  const heroContent = document.querySelector('.hero-content');
-  if (heroContent && window.matchMedia('(pointer: fine)').matches) {
-    heroSection.addEventListener('mousemove', (e) => {
-      const { clientX, clientY } = e;
-      const xOffset = (clientX / window.innerWidth - 0.5) * 12;
-      const yOffset = (clientY / window.innerHeight - 0.5) * 12;
-      heroContent.style.transform = `translate3d(${xOffset}px, ${yOffset}px, 0)`;
-    });
-
-    heroSection.addEventListener('mouseleave', () => {
-      heroContent.style.transform = 'translate3d(0, 0, 0)';
+  // Try subtle autoplay if video can loop softly in background
+  if (video) {
+    video.play().catch(() => {
+      // Autoplay with audio policy allowed since muted
     });
   }
 }
 
-// Auto-run if element exists on page load
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initHeroScrub);
-} else {
-  initHeroScrub();
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHero);
+  } else {
+    initHero();
+  }
 }

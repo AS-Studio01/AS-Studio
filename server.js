@@ -470,11 +470,28 @@ Looking forward to your reply!`
 });
 async function startServer() {
   const isProd = process.env.NODE_ENV === "production";
+
+  // Explicitly serve static CSS with text/css headers so dev browser never receives Vite module transformation
+  app.use("/css", express.static(path.join(__dirname, "css"), {
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith(".css")) {
+        res.setHeader("Content-Type", "text/css; charset=utf-8");
+      }
+    }
+  }));
+
+  // Serve static assets, demos, legal, work and inbox
+  app.use("/assets", express.static(path.join(__dirname, "assets")));
+  app.use("/demos", express.static(path.join(__dirname, "demos")));
+  app.use("/work", express.static(path.join(__dirname, "work")));
+  app.use("/legal", express.static(path.join(__dirname, "legal")));
+  app.use("/x7q2m9r4v8k1p6z3", express.static(path.join(__dirname, "x7q2m9r4v8k1p6z3")));
+
   if (!isProd) {
     const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
-      appType: "spa"
+      appType: "mpa"
     });
     app.use(vite.middlewares);
   } else {

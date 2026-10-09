@@ -32,6 +32,29 @@ export function handleFirestoreError(error, operationType, path) {
   throw new Error(JSON.stringify(errInfo));
 }
 
+export async function submitInquiry(data) {
+  try {
+    const docRef = await addDoc(collection(db, 'inquiries'), {
+      clientName: data.clientName || '',
+      businessName: data.businessName || '',
+      contactChannel: data.contactChannel || '',
+      scopeSummary: data.scopeSummary || '',
+      status: 'new',
+      createdAt: serverTimestamp()
+    });
+    try {
+      await fetch('/api/inquiry/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch (_) {}
+    return docRef;
+  } catch (error) {
+    handleFirestoreError(error, 'create', 'inquiries');
+  }
+}
+
 export {
   onAuthStateChanged,
   signInWithEmailAndPassword,
@@ -45,4 +68,5 @@ export {
   limit,
   serverTimestamp
 };
+
 
