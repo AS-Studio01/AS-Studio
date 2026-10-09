@@ -1,0 +1,102 @@
+/* AS Studio - Demo Themes & Framing */
+
+/* Device Framing (Desktop/Mobile preview bar) */
+.demo-stage {
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: #141619;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+}
+
+.demo-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: #0f1013;
+  border-bottom: 1px solid var(--line);
+  font-size: 11px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+}
+
+.demo-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.demo-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.demo-dot:nth-child(1) { background: #ef4444; }
+.demo-dot:nth-child(2) { background: #f59e0b; }
+.demo-dot:nth-child(3) { background: #10b981; }
+
+.demo-url {
+  background: #16181c;
+  padding: 4px 14px;
+  border-radius: var(--r-full);
+  border: 1px solid var(--line-subtle);
+  color: var(--text-secondary);
+}
+
+/* Specific Aesthetic Theme Tokens for Demos */
+
+/* 1. Apex Residences: Charcoal, Bronze, Editorial Restraint */
+.theme-apex {
+  --d-bg: #171714;
+  --d-panel: #24231f;
+  --d-accent: #a8865a;
+  --d-text: #f5f0e8;
+  --d-muted: #817b72;
+}
+
+/* 2. Atelier North: Scandinavian Spatial Monograph */
+.theme-atelier {
+  --d-bg: #121415;
+  --d-panel: #1a1d1f;
+  --d-accent: #92a4b0;
+  --d-text: #f0f3f5;
+  --d-muted: #7d858b;
+}
+
+/* 3. Nova Dental Care: High-Trust Clinical Medicine */
+.theme-nova {
+  --d-bg: #0b1117;
+  --d-panel: #131c24;
+  --d-accent: #38bdf8;
+  --d-text: #f1f7fb;
+  --d-muted: #748897;
+}
+
+/* 4. Aura Living & Home Decor: Artisanal Tactile Ateliers */
+.theme-aura {
+  --d-bg: #191613;
+  --d-panel: #25201a;
+  --d-accent: #d4a373;
+  --d-text: #faedcd;
+  --d-muted: #9c8e7e;
+}
+
+/* 5. Mitti Café: Terracotta, Roasted Espresso & Cocoa */
+.theme-mitti {
+  --d-bg: #1e130c;
+  --d-panel: #2b1d14;
+  --d-accent: #e07a5f;
+  --d-text: #f4f1de;
+  --d-muted: #a68a78;
+}
+
+/* 6. Lumina Clinical Skincare: Frosted Sage & Minimalist Dermatology */
+.theme-lumina {
+  --d-bg: #0f1616;
+  --d-panel: #162222;
+  --d-accent: #2dd4bf;
+  --d-text: #f0fdfa;
+  --d-muted: #6b8987;
+}

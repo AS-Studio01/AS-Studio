@@ -3,7 +3,7 @@ import express from "express";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
-import { GoogleGenAI, ThinkingLevel } from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 
 // src/data/projects.ts
 var PROJECTS = [
@@ -108,8 +108,9 @@ function getSitemapRoutes() {
   const coreRoutes = [
     { path: "", changefreq: "weekly", priority: 1, lastmod: today },
     { path: "work", changefreq: "weekly", priority: 0.9, lastmod: today },
-    { path: "services", changefreq: "monthly", priority: 0.9, lastmod: today },
-    { path: "process", changefreq: "monthly", priority: 0.8, lastmod: today },
+    { path: "work/as-studio", changefreq: "monthly", priority: 0.9, lastmod: today },
+    { path: "packages", changefreq: "weekly", priority: 0.9, lastmod: today },
+    { path: "about", changefreq: "monthly", priority: 0.8, lastmod: today },
     { path: "contact", changefreq: "weekly", priority: 0.9, lastmod: today }
   ];
   const projectRoutes = PROJECTS.map((proj) => ({
@@ -143,16 +144,20 @@ dotenv.config();
 var __filename = fileURLToPath(import.meta.url);
 var __dirname = path.dirname(__filename);
 var app = express();
-var PORT = process.env.PORT || 3e3;
+var PORT = 3000;
 app.use(express.json());
-var ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY,
-  httpOptions: {
-    headers: {
-      "User-Agent": "aistudio-build"
+function getGenAI() {
+  const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+  if (!apiKey) return null;
+  return new GoogleGenAI({
+    apiKey,
+    httpOptions: {
+      headers: {
+        "User-Agent": "aistudio-build"
+      }
     }
-  }
-});
+  });
+}
 var SYSTEM_INSTRUCTION = `You are "AS Studio Helper AI", the dedicated, ultra-fast AI concierge and client assistant for AS Studio.
 
 CRITICAL IDENTITY DIRECTIVES:
@@ -372,7 +377,8 @@ Would you like to discuss your target budget directly on **Telegram** (@AS_Studi
 *(Please note: WhatsApp is currently disabled).* How else can I help you today?`
       });
     }
-    if (!process.env.GEMINI_API_KEY && !process.env.GOOGLE_API_KEY) {
+    const aiClient = getGenAI();
+    if (!aiClient) {
       return res.json({
         reply: `Hello! I am **AS Studio Helper AI**, your direct assistant for AS Studio.
         
@@ -385,12 +391,12 @@ You can connect with the founders directly on **Telegram** ([@AS_Studio_official
       role: m.role === "assistant" ? "model" : "user",
       parts: [{ text: m.content }]
     }));
-    const response = await ai.models.generateContent({
-      model: "gemini-3.1-flash-lite",
+    const response = await aiClient.models.generateContent({
+      model: "gemini-3.8-flash",
       contents,
       config: {
         systemInstruction: SYSTEM_INSTRUCTION,
-        thinkingConfig: { thinkingLevel: ThinkingLevel.MINIMAL },
+        thinkingConfig: { thinkingBudget: 0 },
         temperature: 0.5
       }
     });
@@ -427,11 +433,21 @@ I'm reaching out after discussing my project with AS Studio Helper AI:
 \u2022 My key question/notes: [Any specific detail or question client asked]
 
 Looking forward to your reply!`;
-    const response = await ai.models.generateContent({
-      model: "gemini-3.1-flash-lite",
+    const aiClient = getGenAI();
+    if (!aiClient) {
+      return res.json({
+        inquiryText: `Hi AS Studio team,
+
+I was chatting with AS Studio Helper AI and would like to discuss building a website for my business with negotiable pricing.
+
+Looking forward to your reply!`
+      });
+    }
+    const response = await aiClient.models.generateContent({
+      model: "gemini-3.8-flash",
       contents: prompt,
       config: {
-        thinkingConfig: { thinkingLevel: ThinkingLevel.MINIMAL },
+        thinkingConfig: { thinkingBudget: 0 },
         temperature: 0.3
       }
     });
@@ -462,7 +478,7 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   } else {
-    app.use(express.static(path.join(__dirname, "dist")));
+    app.use(express.static(path.join(__dirname, "dist"), { extensions: ["html"] }));
     app.get("*", (_req, res) => {
       res.sendFile(path.join(__dirname, "dist", "index.html"));
     });

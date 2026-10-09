@@ -1,1 +1,211 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Start a Project | AS Studio</title><meta name="description" content="Tell AS Studio what you are building and receive a focused response within one business day."><link rel="stylesheet" href="/css/main.css"></head><body><div id="site"></div><script type="module" src="/js/app.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Start a Project Brief | AS Studio</title>
+  <meta name="description" content="Submit a short project brief or connect directly via Telegram, Fiverr, or Email. Receive a focused proposal within 24 hours.">
+  <meta property="og:title" content="Start a Project Brief | AS Studio">
+  <meta property="og:description" content="Submit a short project brief or connect directly via Telegram, Fiverr, or Email.">
+  <link rel="icon" type="image/svg+xml" href="/assets/brand/favicon.svg">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <div class="scroll-progress"></div>
+
+  <!-- Navigation -->
+  <header class="nav">
+    <div class="navin">
+      <a class="logo secret-trigger" href="/" aria-label="AS Studio">
+        AS<span>.</span>Studio
+      </a>
+      <nav class="links">
+        <a class="nav-link" href="/work.html">Work</a>
+        <a class="nav-link" href="/packages.html">Packages</a>
+        <a class="nav-link" href="/about.html">About</a>
+        <a class="nav-link active" href="/contact.html">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="btn warm sm" href="/contact.html">Start a project</a>
+        <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Contact Hero -->
+    <section class="pagehero">
+      <div class="wrap">
+        <span class="eyebrow">Direct Studio Collaboration</span>
+        <h1>Tell us what you're building.</h1>
+        <p class="lead" style="max-width: 780px;">
+          A short brief is enough. We will come back with a tailored roadmap, smartphone staging timeline, and flexible fee proposal within one business day.
+        </p>
+      </div>
+    </section>
+
+    <!-- Brief Form & Channels Grid -->
+    <section class="section">
+      <div class="wrap split-header">
+        <!-- Direct Channels Panel -->
+        <div>
+          <span class="kicker">Direct Contact Channels</span>
+          <h2>Prefer direct communication?</h2>
+          <p style="color: var(--text-secondary); margin-bottom: 28px;">
+            Choose whichever channel matches your preferred way of working:
+          </p>
+
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <!-- Telegram -->
+            <a href="https://t.me/AS_Studio_official01" target="_blank" class="channel-card">
+              <span class="channel-card-icon">✈</span>
+              <div>
+                <h4>Telegram Direct</h4>
+                <p>@AS_Studio_official01 · Fastest direct response, typically under 2 hours.</p>
+              </div>
+            </a>
+
+            <!-- Fiverr Escrow -->
+            <a href="https://www.fiverr.com" target="_blank" class="channel-card">
+              <span class="channel-card-icon">⚡</span>
+              <div>
+                <h4>Fiverr Platform Escrow</h4>
+                <p>Verified service contracts with built-in buyer protection and milestone payments.</p>
+              </div>
+            </a>
+
+            <!-- Direct Email -->
+            <a href="mailto:asbusinessofficial01@gmail.com" class="channel-card">
+              <span class="channel-card-icon">✉</span>
+              <div>
+                <h4>Direct Studio Email</h4>
+                <p>asbusinessofficial01@gmail.com · For RFPs, design files, or detailed docs.</p>
+              </div>
+            </a>
+          </div>
+
+          <div style="margin-top: 36px; padding: 20px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-sm);">
+            <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--warm); font-weight: 700;">Client Notice</span>
+            <p style="font-size: 13px; color: var(--text-secondary); margin: 8px 0 0;">
+              Please note: WhatsApp is currently disabled. Telegram and direct email are our primary active communications.
+            </p>
+          </div>
+        </div>
+
+        <!-- Project Brief Form -->
+        <div>
+          <div style="background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-sm); padding: clamp(28px, 4vw, 44px);">
+            <h3 style="font-size: 24px; margin-bottom: 8px;">Project Brief Form</h3>
+            <p style="font-size: 14px; color: var(--muted); margin-bottom: 28px;">
+              Direct submission saved to our studio dashboard.
+            </p>
+
+            <form id="contactForm" class="brief-form">
+              <div class="form-group">
+                <label for="name">Your Name *</label>
+                <input id="name" name="name" class="form-input" required placeholder="e.g. Elena Vance">
+              </div>
+
+              <div class="form-group">
+                <label for="business">Business / Brand / Practice *</label>
+                <input id="business" name="business" class="form-input" required placeholder="e.g. Apex Living, Dr. Rao Dental">
+              </div>
+
+              <div class="form-group">
+                <label for="email">Direct Contact (Email or Telegram handle) *</label>
+                <input id="email" name="email" class="form-input" required placeholder="elena@example.com or @telegram_handle">
+              </div>
+
+              <div class="form-group">
+                <label for="package">Package Tier of Interest</label>
+                <select id="package" name="package" class="form-select">
+                  <option value="Not specified">— Select package if decided —</option>
+                  <option value="Launchpad Landing (5–7 days)">Launchpad Landing Page (5–7 days)</option>
+                  <option value="Core Business Website (7–12 days)">Core Business Website (7–12 days)</option>
+                  <option value="Bespoke Flagship (10–14 days)">Bespoke Flagship Experience (10–14 days)</option>
+                  <option value="Undecided / Custom scope">Undecided / Custom exploration</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="budget">Indicative Target Budget (Negotiable)</label>
+                <select id="budget" name="budget" class="form-select">
+                  <option value="Flexible / Negotiable">Flexible / Open to proposal</option>
+                  <option value="₹40k–₹75k ($500–$900)">₹40k–₹75k ($500–$900) · Launchpad tier</option>
+                  <option value="₹80k–₹1.5L ($1k–$1.8k)">₹80k–₹1.5L ($1k–$1.8k) · Core business tier</option>
+                  <option value="₹1.6L+ ($2k+)">₹1.6L+ ($2k+) · Flagship bespoke tier</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="scope">What are you building? What is not working today? *</label>
+                <textarea id="scope" name="scope" class="form-textarea" required placeholder="Tell us about your offer, audience, target launch timeline, or links to your current website..."></textarea>
+              </div>
+
+              <button type="submit" class="btn warm" style="width: 100%; margin-top: 10px;">
+                Transmit Project Brief →
+              </button>
+
+              <div style="font-size: 11px; color: var(--dim); text-align: center; margin-top: 10px;">
+                Protected by AS Studio Client Data Integrity · Handled with absolute confidentiality.
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Universal Footer -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a class="logo" href="/">AS<span>.</span>Studio</a>
+          <p>Considered websites and digital experiences for ambitious businesses, practices, and independent ateliers.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Navigation</h5>
+          <ul>
+            <li><a href="/work.html">Selected Work</a></li>
+            <li><a href="/packages.html">Packages & Pricing</a></li>
+            <li><a href="/about.html">About the Studio</a></li>
+            <li><a href="/contact.html">Start a Project</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Selected Demos</h5>
+          <ul>
+            <li><a href="/demos/apex-residences/">Apex Residences</a></li>
+            <li><a href="/demos/atelier-north/">Atelier North</a></li>
+            <li><a href="/demos/nova-dental-care/">Nova Dental Care</a></li>
+            <li><a href="/demos/aura-decor/">Aura Living</a></li>
+            <li><a href="/demos/mitti-cafe/">Mitti Café</a></li>
+            <li><a href="/demos/lumina-skin/">Lumina Clinic</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Direct Contact</h5>
+          <ul>
+            <li><a href="https://t.me/AS_Studio_official01" target="_blank">Telegram (@AS_Studio_official01)</a></li>
+            <li><a href="mailto:asbusinessofficial01@gmail.com">asbusinessofficial01@gmail.com</a></li>
+            <li><a href="/portal/">Client Portal</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 AS Studio. Independent digital practice. India.</div>
+        <div class="legalbar-links">
+          <a href="/legal/privacy.html">Privacy</a>
+          <a href="/legal/terms.html">Terms</a>
+          <a href="/legal/disclaimer.html">Disclaimer</a>
+          <a href="/legal/cancellation-refund.html">Refund Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/interactions.js"></script>
+  <script type="module" src="/js/form.js"></script>
+</body>
+</html>

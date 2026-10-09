@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#0A0B0C" />
+  <circle cx="950" cy="180" r="320" fill="#C7A77A" fill-opacity="0.08" filter="blur(60px)" />
+  <circle cx="200" cy="500" r="280" fill="#79D6DF" fill-opacity="0.04" filter="blur(80px)" />
+  
+  <!-- Subtle Grid -->
+  <line x1="80" y1="0" x2="80" y2="630" stroke="#FFFFFF" stroke-opacity="0.04" />
+  <line x1="1120" y1="0" x2="1120" y2="630" stroke="#FFFFFF" stroke-opacity="0.04" />
+  <line x1="0" y1="120" x2="1200" y2="120" stroke="#FFFFFF" stroke-opacity="0.04" />
+  <line x1="0" y1="510" x2="1200" y2="510" stroke="#FFFFFF" stroke-opacity="0.04" />
+  
+  <!-- Brand Header -->
+  <text x="80" y="80" font-family="'Manrope', sans-serif" font-weight="800" font-size="28" letter-spacing="-0.04em" fill="#F4F1E9">AS<tspan fill="#C7A77A">.</tspan>Studio</text>
+  <text x="1120" y="80" text-anchor="end" font-family="'Manrope', sans-serif" font-weight="600" font-size="14" letter-spacing="0.2em" fill="#A5A7AA">INDEPENDENT DIGITAL PRACTICE</text>
+
+  <!-- Headline -->
+  <text x="80" y="260" font-family="'Manrope', sans-serif" font-weight="800" font-size="64" letter-spacing="-0.05em" fill="#F4F1E9">Websites with presence.</text>
+  <text x="80" y="340" font-family="'DM Sans', sans-serif" font-weight="400" font-size="24" fill="#A5A7AA">Clean, fast, mobile-first digital experiences for practices, ateliers, and founders.</text>
+
+  <!-- Pillars -->
+  <text x="80" y="470" font-family="'Manrope', sans-serif" font-weight="700" font-size="14" letter-spacing="0.14em" fill="#C7A77A">100% CODE OWNERSHIP · LIVE PHONE STAGING · 30-DAY WARRANTY</text>
+  <text x="80" y="560" font-family="'DM Sans', sans-serif" font-size="16" fill="#888B8E">asstudio.in · Telegram: @AS_Studio_official01</text>
+</svg>

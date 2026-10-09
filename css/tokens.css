@@ -1,0 +1,60 @@
+/* AS Studio Design Tokens */
+:root {
+  /* Color Palette - Quiet Titanium & Warm Bronze */
+  --bg: #090a0b;
+  --bg-elevated: #0f1013;
+  --panel: #131518;
+  --panel-hover: #191c20;
+  --panel-active: #202328;
+  --surface-subtle: rgba(255, 255, 255, 0.03);
+
+  /* Lines & Dividers */
+  --line: rgba(255, 255, 255, 0.09);
+  --line-subtle: rgba(255, 255, 255, 0.05);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --line-focus: #c7a77a;
+
+  /* Typography Colors */
+  --text: #f4f1e9;
+  --text-secondary: #c5c7cb;
+  --muted: #8c8f94;
+  --dim: #5c5f64;
+
+  /* Brand Accents */
+  --warm: #c7a77a;
+  --warm-light: #dfc59f;
+  --warm-tint: rgba(199, 167, 122, 0.12);
+  --warm-glow: rgba(199, 167, 122, 0.25);
+  --cyan: #79d6df;
+  --emerald: #4ade80;
+  --rose: #f87171;
+
+  /* Typography Fonts */
+  --font-heading: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Layout & Widths */
+  --max: 1240px;
+  --max-narrow: 860px;
+  --max-reading: 720px;
+  --header-height: 76px;
+
+  /* Radii */
+  --r-xs: 2px;
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 14px;
+  --r-full: 999px;
+
+  /* Motion Curves */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 450ms;
+
+  /* Shadows */
+  --shadow-elevation: 0 16px 40px -12px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 35px -5px rgba(199, 167, 122, 0.15);
+}

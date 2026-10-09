@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mitti Café | Artisanal Coffee & Neighborhood Kitchen</title>
+  <meta name="description" content="A clean restaurant and cafe experience with interactive zero-PDF menu, neighborhood directions, and instant table booking.">
+  <link rel="stylesheet" href="/css/main.css">
+  <style>
+    body {
+      background-color: var(--d-bg, #1a120c);
+      color: #f7ede2;
+      font-family: var(--font-body);
+    }
+    .demo-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(18, 12, 8, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #baa795;
+    }
+    .demo-bar a {
+      color: #e07a5f;
+      text-decoration: underline;
+    }
+    .mitti-nav {
+      padding: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .mitti-logo {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 22px;
+      letter-spacing: -0.03em;
+    }
+    .mitti-hero {
+      max-width: 900px;
+      margin: 60px auto;
+      text-align: center;
+      padding: 0 24px;
+    }
+    .mitti-hero h1 {
+      font-size: clamp(40px, 6vw, 76px);
+      line-height: 0.98;
+      color: #f4f1de;
+      margin-bottom: 20px;
+    }
+    .menu-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 40px auto 30px;
+    }
+    .tab-btn {
+      padding: 10px 20px;
+      border-radius: var(--r-full);
+      background: #281b12;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #baa795;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .tab-btn.active {
+      background: #e07a5f;
+      color: #1a120c;
+      border-color: #e07a5f;
+    }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 900px;
+      margin: 0 auto 60px;
+      padding: 0 24px;
+    }
+    .menu-item {
+      background: #251911;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .menu-item h4 {
+      margin: 0 0 6px;
+      font-size: 18px;
+      color: #f4f1de;
+    }
+    .menu-price {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      color: #e07a5f;
+      font-size: 16px;
+    }
+    @media (max-width: 700px) {
+      .menu-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="theme-mitti">
+  <div class="demo-bar">
+    <span>AS Studio Demo · Launchpad Landing Package</span>
+    <div>
+      <a href="/work.html">← Return to Work</a>
+      <span style="margin: 0 8px;">·</span>
+      <a href="/contact.html?package=launchpad">Inquire About This Package</a>
+    </div>
+  </div>
+
+  <header class="mitti-nav">
+    <div class="mitti-logo">MITTI<span>.</span> CAFÉ</div>
+    <div style="font-size: 13px; color: #baa795;">Indiranagar, Bengaluru · 8:00 AM – 11:00 PM</div>
+    <a class="btn warm sm" href="https://t.me/AS_Studio_official01" target="_blank">Book a Table</a>
+  </header>
+
+  <main>
+    <section class="mitti-hero">
+      <span class="eyebrow" style="color: #e07a5f;">Single-Origin Micro-Roasts · Sourdough Bakes</span>
+      <h1>Coffee rooted in soil & patience.</h1>
+      <p style="font-size: 18px; color: #d4c3b3; line-height: 1.6; max-width: 680px; margin: 0 auto 28px;">
+        We source heirloom beans directly from shaded Western Ghats estates. Roasted in small batches, brewed without rush.
+      </p>
+      <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+        <a class="btn warm" href="#menu">View Zero-PDF Menu</a>
+        <a class="btn ghost" href="https://t.me/AS_Studio_official01" target="_blank">Direct Chat Reservation</a>
+      </div>
+    </section>
+
+    <!-- Interactive fast menu (Solves slow PDF download problem) -->
+    <section id="menu">
+      <div class="menu-tabs">
+        <button class="tab-btn active" onclick="switchMenu('coffee', this)">Specialty Coffee</button>
+        <button class="tab-btn" onclick="switchMenu('bakes', this)">Daily Bakes</button>
+        <button class="tab-btn" onclick="switchMenu('plates', this)">Kitchen Specials</button>
+      </div>
+
+      <div id="menuGrid" class="menu-grid">
+        <div class="menu-item">
+          <div>
+            <h4>Monsoon Malabar Pour-Over</h4>
+            <p style="font-size: 13px; color: #baa795; margin: 0;">Earthy, roasted hazelnut notes with velvety low acidity.</p>
+          </div>
+          <span class="menu-price">₹260</span>
+        </div>
+        <div class="menu-item">
+          <div>
+            <h4>Cascara Cold Brew & Tonic</h4>
+            <p style="font-size: 13px; color: #baa795; margin: 0;">18-hour slow steeped coffee cherry tea with elderflower tonic.</p>
+          </div>
+          <span class="menu-price">₹290</span>
+        </div>
+        <div class="menu-item">
+          <div>
+            <h4>Velvet Flat White</h4>
+            <p style="font-size: 13px; color: #baa795; margin: 0;">Double ristretto with micro-foamed whole farm milk.</p>
+          </div>
+          <span class="menu-price">₹240</span>
+        </div>
+        <div class="menu-item">
+          <div>
+            <h4>Iced Coconut Americano</h4>
+            <p style="font-size: 13px; color: #baa795; margin: 0;">Tender tender coconut water topped with double espresso float.</p>
+          </div>
+          <span class="menu-price">₹280</span>
+        </div>
+      </div>
+    </section>
+
+    <section style="background: #140d08; padding: 60px 24px; text-align: center; border-top: 1px solid rgba(255,255,255,0.08);">
+      <div style="max-width: 600px; margin: 0 auto;">
+        <h3 style="color: #f4f1de; font-size: 26px;">Visit Mitti Indiranagar</h3>
+        <p style="color: #baa795; font-size: 15px; margin: 12px 0 24px;">12th Main Road, HAL 2nd Stage, Indiranagar, Bengaluru · Dedicated parking available</p>
+        <a class="btn warm sm" href="https://maps.google.com" target="_blank">Open in Google Maps →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer style="text-align: center; padding: 40px 24px; font-size: 13px; color: #8a7364;">
+    <p>Mitti Café · Independent concept designed by AS Studio</p>
+    <p><a href="/work.html" style="color: #e07a5f; text-decoration: underline;">Return to AS Studio Portfolio</a></p>
+  </footer>
+
+  <script>
+    const menus = {
+      coffee: [
+        { name: 'Monsoon Malabar Pour-Over', desc: 'Earthy, roasted hazelnut notes with velvety low acidity.', price: '₹260' },
+        { name: 'Cascara Cold Brew & Tonic', desc: '18-hour slow steeped coffee cherry tea with elderflower tonic.', price: '₹290' },
+        { name: 'Velvet Flat White', desc: 'Double ristretto with micro-foamed whole farm milk.', price: '₹240' },
+        { name: 'Iced Coconut Americano', desc: 'Tender coconut water topped with double espresso float.', price: '₹280' }
+      ],
+      bakes: [
+        { name: 'Cardamom & Sea Salt Kouign-Amann', desc: 'Caramelized laminated pastry with freshly cracked Idukki cardamom.', price: '₹220' },
+        { name: 'Toasted Pistachio Babka Slice', desc: 'Slow-proved brioche rolled with 70% dark single-origin chocolate.', price: '₹240' },
+        { name: 'Sourdough Country Loaf (Whole)', desc: 'Wild fermented for 36 hours. Crisp charred crust, airy open crumb.', price: '₹340' }
+      ],
+      plates: [
+        { name: 'Avocado Tartine on Fermented Rye', desc: 'Hass avocado, pickled shallots, toasted hemp seeds, cold-pressed olive oil.', price: '₹420' },
+        { name: 'Wild Mushroom Brioche Toast', desc: 'Sautéed shimeji & cremini mushrooms with thyme butter and poached egg.', price: '₹450' }
+      ]
+    };
+
+    function switchMenu(key, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const grid = document.getElementById('menuGrid');
+      const items = menus[key] || [];
+      grid.innerHTML = items.map(i => `
+        <div class="menu-item">
+          <div>
+            <h4>${i.name}</h4>
+            <p style="font-size: 13px; color: #baa795; margin: 0;">${i.desc}</p>
+          </div>
+          <span class="menu-price">${i.price}</span>
+        </div>
+      `).join('');
+    }
+  </script>
+</body>
+</html>

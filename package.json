@@ -1,1 +1,18 @@
-{"name":"as-studio-static","private":true,"version":"1.0.0","description":"AS Studio production website. Firebase is loaded client-side; no build step is required.","scripts":{"dev":"python3 -m http.server 8080","build":"echo static-site-build-complete"}}
+{
+  "name": "as-studio-static",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "AS Studio production website. Firebase is loaded client-side; no build step is required.",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "vite build",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@google/genai": "^2.28.0",
+    "dotenv": "^18.0.6",
+    "express": "^5.2.1",
+    "vite": "^8.3.4"
+  }
+}

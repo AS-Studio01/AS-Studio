@@ -1,1 +1,288 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Selected Work | AS Studio</title><meta name="description" content="Selected AS Studio concept work across luxury property, architecture and healthcare."><link rel="stylesheet" href="/css/main.css"></head><body><div id="site"></div><script type="module" src="/js/app.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Selected Work & Six Live Demos | AS Studio</title>
+  <meta name="description" content="Explore six production-ready live website demos crafted by AS Studio, grouped across Launchpad, Core Business, and Bespoke Flagship tiers.">
+  <meta property="og:title" content="Selected Work & Six Live Demos | AS Studio">
+  <meta property="og:description" content="Six live website demos grouped by package tier: Launchpad, Core Business, and Bespoke Flagship.">
+  <link rel="icon" type="image/svg+xml" href="/assets/brand/favicon.svg">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <div class="scroll-progress"></div>
+
+  <!-- Navigation -->
+  <header class="nav">
+    <div class="navin">
+      <a class="logo secret-trigger" href="/" aria-label="AS Studio">
+        AS<span>.</span>Studio
+      </a>
+      <nav class="links">
+        <a class="nav-link active" href="/work.html">Work</a>
+        <a class="nav-link" href="/packages.html">Packages</a>
+        <a class="nav-link" href="/about.html">About</a>
+        <a class="nav-link" href="/contact.html">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="btn warm sm" href="/contact.html">Start a project</a>
+        <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Work Hero -->
+    <section class="pagehero">
+      <div class="wrap">
+        <span class="eyebrow">Studio Portfolio & Prototyping</span>
+        <h1>Selected work.<br>Six live directions.</h1>
+        <p class="lead" style="max-width: 820px;">
+          Rather than showing flat static screenshots that hide mobile realities, we build fully functional, interactive live demos for high-value business sectors.
+        </p>
+
+        <!-- Flagship Case Study Banner -->
+        <div style="margin-top: 40px; padding: 24px 28px; background: var(--panel); border: 1px solid var(--warm); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+          <div>
+            <span class="eyebrow" style="color: var(--warm); margin-bottom: 4px;">Featured Case Study</span>
+            <h3 style="font-size: 20px; margin: 4px 0 6px;">AS Studio: Behind the Scenes</h3>
+            <p style="font-size: 14px; margin: 0; color: var(--text-secondary);">How we built this site with 0 KB hydration framework tax and 100/100 Lighthouse performance.</p>
+          </div>
+          <a class="btn warm sm" href="/work/as-studio.html">Read Case Study →</a>
+        </div>
+
+        <!-- Filter tabs (Functional segmented buttons) -->
+        <div style="margin-top: 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+          <div class="filter-tabs">
+            <button class="filter-btn active" data-filter="all">All Six Demos</button>
+            <button class="filter-btn" data-filter="launchpad">Launchpad</button>
+            <button class="filter-btn" data-filter="core">Core Business</button>
+            <button class="filter-btn" data-filter="flagship">Bespoke Flagship</button>
+          </div>
+          <span style="font-size: 12px; color: var(--muted);">Click any demo to open the full interactive experience</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- The Six Demos Grid -->
+    <section class="section">
+      <div class="wrap">
+        <div class="grid-3" id="workGrid">
+          <!-- 1. Apex Residences (Bespoke Flagship) -->
+          <article class="project-card reveal" data-package="flagship">
+            <div class="project-card-image">
+              <img src="/assets/img/apex-residences-hero.jpg" alt="Apex Residences luxury real estate architecture" loading="lazy">
+            </div>
+            <div class="project-card-content">
+              <div class="meta-row">
+                <span class="highlight">Bespoke Flagship</span>
+                <span class="dot-sep">·</span>
+                <span>Luxury Real Estate</span>
+                <span class="dot-sep">·</span>
+                <span>10–14 Days</span>
+              </div>
+              <h3>Apex Residences</h3>
+              <p>
+                An architectural residence experience built around restraint, proportion, and private VIP concierge enquiry.
+              </p>
+              <div class="project-card-footer">
+                <span style="font-size: 12px; color: var(--muted);">Private Lookbook · Sizing Triage</span>
+                <a class="btn ghost sm" href="/demos/apex-residences/" target="_blank">Open demo →</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 2. Aura Living (Bespoke Flagship) -->
+          <article class="project-card reveal" data-package="flagship">
+            <div class="project-card-image">
+              <img src="/assets/img/aura-decor-hero.jpg" alt="Aura Living tactile furniture and lighting showroom" loading="lazy">
+            </div>
+            <div class="project-card-content">
+              <div class="meta-row">
+                <span class="highlight">Bespoke Flagship</span>
+                <span class="dot-sep">·</span>
+                <span>Home Decor Atelier</span>
+                <span class="dot-sep">·</span>
+                <span>10–14 Days</span>
+              </div>
+              <h3>Aura Living & Decor</h3>
+              <p>
+                A tactile, calm digital showroom for artisanal furniture, architectural lighting, and bespoke interior spaces with material swatch toggles.
+              </p>
+              <div class="project-card-footer">
+                <span style="font-size: 12px; color: var(--muted);">Tactile Swatches · Lookbook</span>
+                <a class="btn ghost sm" href="/demos/aura-decor/" target="_blank">Open demo →</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 3. Nova Dental Care (Core Business) -->
+          <article class="project-card reveal" data-package="core">
+            <div class="project-card-image">
+              <img src="/assets/img/nova-dental-hero.jpg" alt="Nova Dental Care clean patient journey clinic" loading="lazy">
+            </div>
+            <div class="project-card-content">
+              <div class="meta-row">
+                <span class="highlight">Core Business</span>
+                <span class="dot-sep">·</span>
+                <span>Healthcare Clinic</span>
+                <span class="dot-sep">·</span>
+                <span>7–12 Days</span>
+              </div>
+              <h3>Nova Dental Care</h3>
+              <p>
+                A calm patient journey designed to make doctor credentials, emergency hours, and appointment triage feel effortless.
+              </p>
+              <div class="project-card-footer">
+                <span style="font-size: 12px; color: var(--muted);">Doctor Credibility · Local SEO</span>
+                <a class="btn ghost sm" href="/demos/nova-dental-care/" target="_blank">Open demo →</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 4. Atelier North (Core Business) -->
+          <article class="project-card reveal" data-package="core">
+            <div class="project-card-image">
+              <img src="/assets/img/atelier-north-hero.jpg" alt="Atelier North architecture and spatial design monograph" loading="lazy">
+            </div>
+            <div class="project-card-content">
+              <div class="meta-row">
+                <span class="highlight">Core Business</span>
+                <span class="dot-sep">·</span>
+                <span>Spatial Architecture</span>
+                <span class="dot-sep">·</span>
+                <span>7–12 Days</span>
+              </div>
+              <h3>Atelier North</h3>
+              <p>
+                A Scandinavian digital monograph for an architecture studio where material, light, and geometry do the talking.
+              </p>
+              <div class="project-card-footer">
+                <span style="font-size: 12px; color: var(--muted);">Studio Monograph · Archive</span>
+                <a class="btn ghost sm" href="/demos/atelier-north/" target="_blank">Open demo →</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 5. Mitti Café (Launchpad Landing) -->
+          <article class="project-card reveal" data-package="launchpad">
+            <div class="project-card-image">
+              <img src="/assets/img/mitti-cafe-hero.jpg" alt="Mitti Cafe artisanal coffee and kitchen" loading="lazy">
+            </div>
+            <div class="project-card-content">
+              <div class="meta-row">
+                <span class="highlight">Launchpad Landing</span>
+                <span class="dot-sep">·</span>
+                <span>Hospitality & Roastery</span>
+                <span class="dot-sep">·</span>
+                <span>5–7 Days</span>
+              </div>
+              <h3>Mitti Café</h3>
+              <p>
+                A clean hospitality landing page featuring a fast zero-PDF interactive menu, directions, and direct WhatsApp table reservations.
+              </p>
+              <div class="project-card-footer">
+                <span style="font-size: 12px; color: var(--muted);">Zero-PDF Menu · WhatsApp Table</span>
+                <a class="btn ghost sm" href="/demos/mitti-cafe/" target="_blank">Open demo →</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 6. Lumina Clinic (Launchpad Landing) -->
+          <article class="project-card reveal" data-package="launchpad">
+            <div class="project-card-image">
+              <img src="/assets/img/lumina-skin-hero.jpg" alt="Lumina Skin aesthetic dermatology clinic" loading="lazy">
+            </div>
+            <div class="project-card-content">
+              <div class="meta-row">
+                <span class="highlight">Launchpad Landing</span>
+                <span class="dot-sep">·</span>
+                <span>Aesthetic Dermatology</span>
+                <span class="dot-sep">·</span>
+                <span>5–7 Days</span>
+              </div>
+              <h3>Lumina Skin Clinic</h3>
+              <p>
+                A physician-led dermatology concept emphasizing evidence-based protocols, clinician oversight, and rapid consult triage.
+              </p>
+              <div class="project-card-footer">
+                <span style="font-size: 12px; color: var(--muted);">Physician Credibility · Triage</span>
+                <a class="btn ghost sm" href="/demos/lumina-skin/" target="_blank">Open demo →</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Door CTA -->
+    <section class="section door-section">
+      <div class="wrap">
+        <div class="door-frame reveal">
+          <span class="eyebrow">Your Project</span>
+          <h2 style="font-size: clamp(34px, 4.5vw, 60px); margin: 16px 0 20px;">Want a bespoke experience for your business?</h2>
+          <p class="lead" style="margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+            Send us a brief overview. We’ll outline a tailored concept, staging timeline, and flexible fee structure within 24 hours.
+          </p>
+          <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+            <a class="btn warm" href="/contact.html">Start a project brief →</a>
+            <a class="btn ghost" href="/packages.html">View Packages</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Universal Footer -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a class="logo" href="/">AS<span>.</span>Studio</a>
+          <p>Considered websites and digital experiences for ambitious businesses, practices, and independent ateliers.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Navigation</h5>
+          <ul>
+            <li><a href="/work.html">Selected Work</a></li>
+            <li><a href="/packages.html">Packages & Pricing</a></li>
+            <li><a href="/about.html">About the Studio</a></li>
+            <li><a href="/contact.html">Start a Project</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Selected Demos</h5>
+          <ul>
+            <li><a href="/demos/apex-residences/">Apex Residences</a></li>
+            <li><a href="/demos/atelier-north/">Atelier North</a></li>
+            <li><a href="/demos/nova-dental-care/">Nova Dental Care</a></li>
+            <li><a href="/demos/aura-decor/">Aura Living</a></li>
+            <li><a href="/demos/mitti-cafe/">Mitti Café</a></li>
+            <li><a href="/demos/lumina-skin/">Lumina Clinic</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Direct Contact</h5>
+          <ul>
+            <li><a href="https://t.me/AS_Studio_official01" target="_blank">Telegram (@AS_Studio_official01)</a></li>
+            <li><a href="mailto:asbusinessofficial01@gmail.com">asbusinessofficial01@gmail.com</a></li>
+            <li><a href="/portal/">Client Portal</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 AS Studio. Independent digital practice. India.</div>
+        <div class="legalbar-links">
+          <a href="/legal/privacy.html">Privacy</a>
+          <a href="/legal/terms.html">Terms</a>
+          <a href="/legal/disclaimer.html">Disclaimer</a>
+          <a href="/legal/cancellation-refund.html">Refund Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/interactions.js"></script>
+</body>
+</html>
