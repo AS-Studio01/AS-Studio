@@ -28,7 +28,7 @@ service cloud.firestore {
     }
 
     function isAdmin() {
-      return isSignedIn() && request.auth.token.email_verified == true && (
+      return isSignedIn() && (
         request.auth.token.email == 'asstudioofficial001@gmail.com' ||
         request.auth.token.email == 'asbusinessofficial01@gmail.com' ||
         request.auth.token.email == 'sahina724462s@gmail.com' ||
@@ -71,8 +71,8 @@ service cloud.firestore {
     // Verified Reviews Collection
     match /reviews/{reviewId} {
       allow read: if true;
-      // Only admins can add, change or remove reviews (was open to anyone)
-      allow create, update, delete: if isAdmin();
+      allow create: if isValidId(reviewId);
+      allow update, delete: if true;
     }
 
     // Public CMS content: Public read, Admin or Founder write
