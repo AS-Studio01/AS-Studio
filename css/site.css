@@ -175,7 +175,8 @@ html:not([data-mode="fiverr"]) [data-mode="fiverr"],html[data-mode="fiverr"] [da
 .pack .btn{margin-top:auto}
 .demo-row,.packs,.steps,.promise{align-items:stretch}
 /* the door */
-.door{position:relative;display:block;width:min(340px,78vw);aspect-ratio:340/480;margin:56px auto 0;padding:0;border:0;border-radius:999px 999px 6px 6px;overflow:hidden;background:#0e1514;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;box-shadow:0 0 0 10px #d9d3c4,0 0 0 11px var(--line),0 44px 60px -34px rgba(20,48,45,.6);-webkit-tap-highlight-color:transparent}
+.door{position:relative;display:block;width:min(340px,78vw);aspect-ratio:340/480;margin:56px auto 0;padding:0;border:0;border-radius:999px 999px 6px 6px;overflow:hidden;background:#0e1514;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-user-drag:none;box-shadow:0 0 0 10px #d9d3c4,0 0 0 11px var(--line),0 44px 60px -34px rgba(20,48,45,.6);-webkit-tap-highlight-color:transparent}
+.door *{-webkit-touch-callout:none;user-select:none;-webkit-user-select:none;pointer-events:none;-webkit-user-drag:none}
 .door .inside{position:absolute;inset:0;background:url('../assets/img/court-wide.webp') 58% center/cover}
 .door .glow{position:absolute;inset:0;background:radial-gradient(55% 45% at 50% 58%,rgba(255,216,160,.6),transparent 72%);opacity:var(--p,0)}
 .door .leaf{position:absolute;top:0;bottom:0;width:50.4%;background:linear-gradient(90deg,#1e4540 0%,#173a35 60%,#14302d 100%);will-change:transform;backface-visibility:hidden}

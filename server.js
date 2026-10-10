@@ -509,11 +509,18 @@ async function startServer() {
     }
   }));
 
-  // Serve static assets, demos, legal, work and inbox
+  // Serve static assets, demos, legal, work, js and inbox
   app.use("/assets", express.static(path.join(__dirname, "assets")));
   app.use("/demos", express.static(path.join(__dirname, "demos")));
   app.use("/work", express.static(path.join(__dirname, "work")));
   app.use("/legal", express.static(path.join(__dirname, "legal")));
+  app.use("/js", express.static(path.join(__dirname, "js"), {
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith(".js")) {
+        res.setHeader("Content-Type", "application/javascript; charset=utf-8");
+      }
+    }
+  }));
   app.use("/x7q2m9r4v8k1p6z3", express.static(path.join(__dirname, "x7q2m9r4v8k1p6z3")));
 
   if (!isProd) {

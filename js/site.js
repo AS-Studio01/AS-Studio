@@ -13,7 +13,7 @@ if(nav){const light=nav.classList.contains('light');let last=-1;
   document.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>ln.classList.remove('open')));
 }
 /* private workspace: tap the wordmark (or the (c) line in the footer) five times quickly */
-(function(){var n=0,t=null;function tap(e,el){n++;clearTimeout(t);t=setTimeout(function(){n=0},1800);if(n>=5){n=0;e.preventDefault();var h=(document.querySelector('[data-admin]')||{}).getAttribute&&document.querySelector('[data-admin]').getAttribute('data-admin');if(h)location.href=h}}
+(function(){var n=0,t=null;function tap(e,el){n++;clearTimeout(t);t=setTimeout(function(){n=0},1800);if(n>=5){n=0;e.preventDefault();var h=(document.querySelector('[data-admin]')||{}).getAttribute&&document.querySelector('[data-admin]').getAttribute('data-admin')||'/x7q2m9r4v8k1p6z3/';if(h){if(!h.startsWith('/'))h='/'+h;location.href=h}}}
   var logo=document.querySelector('.logo');
   if(logo)logo.addEventListener('click',function(e){var same=new URL(logo.href,location.href).pathname.replace(/index\.html$/,'')===location.pathname.replace(/index\.html$/,'');
     if(same){e.preventDefault();if(n===0&&scrollY>40)scrollTo({top:0,behavior:'smooth'})}tap(e,logo)});
@@ -30,19 +30,31 @@ if(arch){const paths=[...arch.querySelectorAll('path[data-draw]')],glow=arch.que
   function clamp01(v){return Math.min(1,Math.max(0,v))}
   addEventListener('scroll',upd,{passive:true});upd();
 }
-/* hold to open the door */
+/* hold or tap to open the door */
 const door=document.querySelector('.door'),dl=document.querySelector('.door-links');
-if(door){let p=0,holding=false,raf=null,done=false,last=0;
+if(door){let p=0,holding=false,raf=null,done=false,last=0,pressStart=0;
   const apply=()=>{door.style.setProperty('--p',p.toFixed(3))};
-  const finish=()=>{done=true;door.classList.add('done');dl&&dl.classList.add('show');p=1;apply()};
+  const finish=()=>{done=true;holding=false;door.classList.add('done');dl&&dl.classList.add('show');p=1;apply()};
   const step=t=>{const dt=Math.min(64,t-(last||t));last=t;
-    if(holding)p=Math.min(1,p+dt/1400);else if(!done)p=Math.max(0,p-dt/700);
+    if(holding)p=Math.min(1,p+dt/850);else if(!done)p=Math.max(0,p-dt/500);
     apply();if(p>=1&&!done){finish();raf=null;return}
     if((holding&&p<1)||(!holding&&p>0&&!done)){raf=requestAnimationFrame(step)}else{raf=null;last=0}};
-  const start=e=>{if(done)return;e.preventDefault();holding=true;if(raf===null){last=0;raf=requestAnimationFrame(step)}};
-  const stop=()=>{holding=false;if(!done&&raf===null&&p>0){last=0;raf=requestAnimationFrame(step)}};
+  const start=e=>{if(done)return;if(e.button&&e.button!==0)return;e.preventDefault();
+    try{door.setPointerCapture(e.pointerId)}catch(_){}
+    holding=true;pressStart=Date.now();if(raf===null){last=0;raf=requestAnimationFrame(step)}};
+  const stop=e=>{if(e&&e.pointerId){try{door.releasePointerCapture(e.pointerId)}catch(_){}}
+    const elapsed=Date.now()-pressStart;holding=false;
+    if(!done&&elapsed<300&&elapsed>0){finish();return}
+    if(!done&&raf===null&&p>0){last=0;raf=requestAnimationFrame(step)}};
   if(reduce()){finish();p=1;apply()}
-  door.addEventListener('pointerdown',start);addEventListener('pointerup',stop);addEventListener('pointercancel',stop);
+  door.addEventListener('pointerdown',start);
+  door.addEventListener('pointerup',stop);
+  door.addEventListener('pointercancel',stop);
+  door.addEventListener('contextmenu',e=>{e.preventDefault();e.stopPropagation();return false});
+  door.addEventListener('touchstart',e=>{if(!done)e.preventDefault()},{passive:false});
+  door.addEventListener('touchend',e=>{if(!done)e.preventDefault()},{passive:false});
+  door.addEventListener('touchmove',e=>{if(!done)e.preventDefault()},{passive:false});
+  door.addEventListener('click',e=>{e.preventDefault();if(!done)finish()});
   door.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();finish()}});
 }
 /* process line fills as the section scrolls */
