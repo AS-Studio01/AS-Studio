@@ -30,3 +30,6 @@ Open `/x7q2m9r4v8k1p6z3/`, sign in, and use the **Fiverr mode** card.
 - **On:** the fixed Fiverr packages ($95 / $275 / $600), delivery days and "Order on Fiverr" buttons appear, all linking to the URL you saved. It cannot be turned on without a valid `https://www.fiverr.com/...` link.
 - The setting is stored in Firestore `site_settings/main` (public read, admin-only write). If it cannot be read, the site stays in direct mode. Visitors see a change on their next page load.
 - Share images, page titles and meta descriptions contain no prices, so they are correct in both modes.
+
+## Opening the private workspace
+Tap the **AS.Studio** wordmark five times quickly on the home page, or the "(c) 2026 AS Studio" line in the footer on any page. You can also go straight to `/x7q2m9r4v8k1p6z3/`.
