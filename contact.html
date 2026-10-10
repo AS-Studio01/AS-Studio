@@ -31,4 +31,4 @@ f.addEventListener('submit',async e=>{e.preventDefault();const d=Object.fromEntr
  try{await submitInquiry({clientName:d.name.trim(),businessName:d.business.trim(),contactChannel:d.email.trim(),scopeSummary:('Package: '+d.pack+'. '+(d.budget?'Budget: '+d.budget+'. ':'')+d.scope).trim().slice(0,2500)});f.reset();st.textContent='Received. We will reply within one business day.'}
  catch(err){console.error(err);const body=encodeURIComponent('Name: '+d.name+'\nBusiness: '+d.business+'\nEmail: '+d.email+'\nPackage: '+d.pack+'\nBudget: '+(d.budget||'')+'\n\n'+d.scope);st.innerHTML='We could not send that here. <a href="mailto:asbusinessofficial01@gmail.com?subject=Project%20brief&body='+body+'" style="text-decoration:underline">Open your email app instead</a>.'}
  btn.disabled=false});
-</script></body></html>
+</script><script type="module" src="js/speed-insights.js"></script></body></html>
