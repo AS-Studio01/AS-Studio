@@ -91,7 +91,7 @@ async function loadBlob(){
   const ctrl=new AbortController();let wd=setTimeout(()=>ctrl.abort(),20000);
   const res=await fetch(VIDEO_URL,{priority:'low',signal:ctrl.signal});
   if(!res.ok)throw new Error('video '+res.status);
-  const total=Number(res.headers.get('Content-Length'))||4029890;
+  const total=Number(res.headers.get('Content-Length'))||5532510;
   const reader=res.body.getReader();const chunks=[];let got=0,lastRing=0;
   for(;;){
     const {done,value}=await reader.read();if(done)break;

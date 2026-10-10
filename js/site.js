@@ -12,6 +12,12 @@ if(nav){const light=nav.classList.contains('light');let last=-1;
   if(mb)mb.addEventListener('click',()=>{const o=ln.classList.toggle('open');mb.setAttribute('aria-expanded',o);nav.classList.add('solid')});
   document.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>ln.classList.remove('open')));
 }
+/* private workspace: tap the wordmark (or the (c) line in the footer) five times quickly */
+(function(){var n=0,t=null;function tap(e,el){n++;clearTimeout(t);t=setTimeout(function(){n=0},1800);if(n>=5){n=0;e.preventDefault();var h=(document.querySelector('[data-admin]')||{}).getAttribute&&document.querySelector('[data-admin]').getAttribute('data-admin');if(h)location.href=h}}
+  var logo=document.querySelector('.logo');
+  if(logo)logo.addEventListener('click',function(e){var same=new URL(logo.href,location.href).pathname.replace(/index\.html$/,'')===location.pathname.replace(/index\.html$/,'');
+    if(same){e.preventDefault();if(n===0&&scrollY>40)scrollTo({top:0,behavior:'smooth'})}tap(e,logo)});
+  var f=document.querySelector('.fsecret');if(f)f.addEventListener('click',function(e){tap(e,f)})})();
 /* reveals */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
@@ -39,5 +45,12 @@ if(door){let p=0,holding=false,raf=null,done=false,last=0;
   door.addEventListener('pointerdown',start);addEventListener('pointerup',stop);addEventListener('pointercancel',stop);
   door.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();finish()}});
 }
+/* process line fills as the section scrolls */
+const steps=document.querySelector('.steps'),sl=document.querySelector('.stepline');
+if(steps&&sl){const items=[...steps.children];let lastP=-1;
+  const upd=()=>{if(reduce()){items.forEach(i=>i.classList.add('on'));sl.style.setProperty('--sp',1);return}
+    const r=steps.getBoundingClientRect();const p=Math.round(Math.min(1,Math.max(0,(innerHeight*0.8-r.top)/(r.height+innerHeight*0.3)))*100)/100;
+    if(p!==lastP){lastP=p;sl.style.setProperty('--sp',p);items.forEach((it,i)=>it.classList.toggle('on',p>=(i+0.4)/items.length*0.95))}};
+  addEventListener('scroll',upd,{passive:true});upd()}
 document.addEventListener('visibilitychange',()=>document.body.classList.toggle('paused',document.hidden));
 })();
