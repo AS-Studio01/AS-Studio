@@ -8,38 +8,67 @@ import { GoogleGenAI } from "@google/genai";
 // src/data/projects.ts
 var PROJECTS = [
   {
-    id: "aura-home-decor",
-    name: "Aura Living & Home Decor",
-    category: "Home Decor & Interior Architecture",
-    badge: "Design Concept",
+    id: "rao-law",
+    name: "Rao & Partners",
+    category: "Advocates & Legal Counsel",
+    badge: "Starter Demo",
     isConcept: true,
-    description: "A tactile, calm digital showroom for artisanal furniture, architectural lighting, and bespoke interior spaces with instant lookbook inquiries.",
+    description: "A focused, authoritative single-page website for commercial arbitration and dispute resolution counsel.",
     buttonText: "View demo preview",
-    tags: ["Home Decor", "Artisanal Furniture", "Lookbook & Catalogue", "Lighting Architecture"],
-    turnaround: "Design Exploration",
+    tags: ["Legal Practice", "Arbitration", "Appellate Litigation", "Commercial Law"],
+    turnaround: "3 days",
     conceptDetails: {
-      overview: "An independent design exploration created by AS Studio demonstrating how high-end home decor ateliers, furniture studios, and interior designers can showcase tactile materials, ambient lighting, and bespoke room collections without heavy load times.",
-      keyDeliverables: [
-        "Curated room-by-room lookbook discovery (Living, Dining, Lighting)",
-        "Tactile material & fabric swatch inspector (Oak, Travertine, Linen, Brass)",
-        "Direct Telegram inquiry for bespoke architectural sizing",
-        "Sub-second image rendering with zero cluttered ecommerce popups"
-      ],
-      focusAreas: [
-        "Discerning homeowners and architects browsing on high-resolution mobile devices",
-        "Communicating craftsmanship, texture, and proportions with restraint",
-        "Frictionless custom quotation request with one tap"
-      ],
-      structureBreakdown: [
-        "Editorial hero featuring signature sculptural lamp and linen lounge chair",
-        "Interactive seasonal lookbook with room filter toggles",
-        "Material palette showcase with texture swatches",
-        "Studio visit appointments and direct Telegram designer consultation"
-      ]
+      overview: "An independent concept study demonstrating how boutique legal chambers and dispute resolution practices can present practice areas and credentials with clarity.",
+      keyDeliverables: ["Practice areas overview", "Representative matters", "Direct consultation request", "Phone-first styling"]
     }
   },
   {
-    id: "nova-dental-care",
+    id: "fold-yoga",
+    name: "Fold Yoga Studio",
+    category: "Mindfulness & Movement Studio",
+    badge: "Growth Demo",
+    isConcept: true,
+    description: "A serene three-page sanctuary website with dynamic class schedules, pricing tiers, and trial pass booking.",
+    buttonText: "View demo preview",
+    tags: ["Wellness Studio", "Class Schedule", "Pricing Tiers", "Trial Pass Booking"],
+    turnaround: "5 days",
+    conceptDetails: {
+      overview: "A three-page wellness sanctuary website built for phones first, featuring filterable movement styles and trial pass reservations.",
+      keyDeliverables: ["Filterable schedule", "Pass options & memberships", "Interactive trial pass form", "Opt-in sequence"]
+    }
+  },
+  {
+    id: "apex-residences",
+    name: "Apex Residences",
+    category: "Luxury Residential Architecture",
+    badge: "Signature Demo",
+    isConcept: true,
+    description: "A six-page editorial showcase for considered modern residences with apartment specs, gallery, and deposit reservations.",
+    buttonText: "View demo preview",
+    tags: ["Real Estate", "Architecture", "Apartment Specs", "Deposit Flow"],
+    turnaround: "7 days",
+    conceptDetails: {
+      overview: "A comprehensive six-page property showcase with floor plans, gallery, and interactive reservation.",
+      keyDeliverables: ["Residence details", "Interactive unit explorer", "Deposit reservation modal", "Direct developer contact"]
+    }
+  },
+  {
+    id: "atelier-north",
+    name: "Atelier North",
+    category: "Home Decor & Objects",
+    badge: "Signature Demo",
+    isConcept: true,
+    description: "A six-page store experience with curated furniture, active shopping cart, and mock checkout.",
+    buttonText: "View demo preview",
+    tags: ["E-commerce", "Interior Decor", "Active Cart", "Mock Checkout"],
+    turnaround: "7 days",
+    conceptDetails: {
+      overview: "A full ecommerce demonstration showing how an independent design atelier can sell curated collections online.",
+      keyDeliverables: ["Product catalogue with filters", "Interactive cart state", "Checkout demo", "Tactile imagery"]
+    }
+  },
+  {
+    id: "nova-dental",
     name: "Nova Dental Care",
     category: "Clinic Website Redesign",
     badge: "Independent Concept",
