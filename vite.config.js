@@ -16,7 +16,7 @@ export default defineConfig({
         about: resolve(__dirname, 'about.html'),
         contact: resolve(__dirname, 'contact.html'),
         notFound: resolve(__dirname, '404.html'),
-        secret: resolve(__dirname, 'x7q2m9r4v8k1p6z3/Index.html'),
+        secret: resolve(__dirname, 'x7q2m9r4v8k1p6z3/index.html'),
         apex: resolve(__dirname, 'demos/apex-residences/index.html'),
         atelier: resolve(__dirname, 'demos/atelier-north/index.html'),
         nova: resolve(__dirname, 'demos/nova-dental-care/index.html'),
