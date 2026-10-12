@@ -1,0 +1,10 @@
+server.js
+vite.config.js
+node_modules
+.env
+.env.*
+metadata.json
+firebase-blueprint.json
+firebase.json
+firestore.rules
+README.md
