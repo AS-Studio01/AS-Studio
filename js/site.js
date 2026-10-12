@@ -6,42 +6,12 @@ setTimeout(()=>document.body&&document.body.classList.add('ready'),1200);
 /* nav */
 const nav=document.querySelector('.nav');
 if(nav){const light=nav.classList.contains('light');let last=-1;
-  const upd=()=>{const s=!light&&scrollY>(document.getElementById('hero')?innerHeight*6.5:30);if(s!==last){last=s;nav.classList.toggle('solid',s||light)}};
+  const upd=()=>{const hh=document.getElementById('hero'),hs=document.querySelector('.hero-static'),scrub=hh&&getComputedStyle(hh).display!=='none';const th=scrub?hh.offsetHeight-innerHeight*0.55:(hs&&getComputedStyle(hs).display!=='none'?innerHeight*0.8:30);const s=!light&&scrollY>th;if(s!==last){last=s;nav.classList.toggle('solid',s||light)}};
   addEventListener('scroll',upd,{passive:true});upd();
   const mb=document.querySelector('.menu'),ln=document.querySelector('.links');
-  if(mb&&ln){
-    mb.addEventListener('click',e=>{e.stopPropagation();const o=ln.classList.toggle('open');mb.setAttribute('aria-expanded',o);nav.classList.add('solid')});
-    document.addEventListener('click',e=>{if(ln.classList.contains('open')&&!ln.contains(e.target)&&e.target!==mb){ln.classList.remove('open');mb.setAttribute('aria-expanded','false')}});
-    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ln.classList.contains('open')){ln.classList.remove('open');mb.setAttribute('aria-expanded','false')}});
-    document.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>{ln.classList.remove('open');mb.setAttribute('aria-expanded','false')}));
-  }
+  if(mb)mb.addEventListener('click',()=>{const o=ln.classList.toggle('open');mb.setAttribute('aria-expanded',o);nav.classList.add('solid')});
+  document.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>ln.classList.remove('open')));
 }
-/* lightweight site traffic analytics */
-(function trackSiteTraffic(){
-  try{
-    const payload={
-      demo:'studio-main',
-      path:location.pathname,
-      title:document.title,
-      referrer:document.referrer||'direct',
-      device:window.innerWidth<=768?'mobile':(window.innerWidth<=1024?'tablet':'desktop'),
-      width:window.innerWidth,
-      ts:Date.now()
-    };
-    const KEY='as_site_traffic';
-    const raw=localStorage.getItem(KEY);
-    const data=raw?JSON.parse(raw):{total:0,byPath:{},lastVisit:null};
-    data.total=(data.total||0)+1;
-    data.byPath[location.pathname]=(data.byPath[location.pathname]||0)+1;
-    data.lastVisit=payload;
-    localStorage.setItem(KEY,JSON.stringify(data));
-    if(navigator.sendBeacon){
-      navigator.sendBeacon('/api/track',JSON.stringify(payload));
-    }else{
-      fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),keepalive:true}).catch(()=>{});
-    }
-  }catch(_){}
-})();
 /* private workspace: tap the wordmark (or the (c) line in the footer) five times quickly */
 (function(){var n=0,t=null;function tap(e,el){n++;clearTimeout(t);t=setTimeout(function(){n=0},1800);if(n>=5){n=0;e.preventDefault();var h=(document.querySelector('[data-admin]')||{}).getAttribute&&document.querySelector('[data-admin]').getAttribute('data-admin')||'/x7q2m9r4v8k1p6z3/';if(h){if(!h.startsWith('/'))h='/'+h;location.href=h}}}
   var logo=document.querySelector('.logo');
@@ -77,12 +47,10 @@ if(door){let p=0,holding=false,raf=null,done=false,last=0,pressStart=0;
     if(!done&&elapsed<300&&elapsed>0){finish();return}
     if(!done&&raf===null&&p>0){last=0;raf=requestAnimationFrame(step)}};
   if(reduce()){finish();p=1;apply()}
-  door.oncontextmenu=e=>{e.preventDefault();e.stopPropagation();return false};
   door.addEventListener('pointerdown',start);
   door.addEventListener('pointerup',stop);
   door.addEventListener('pointercancel',stop);
   door.addEventListener('contextmenu',e=>{e.preventDefault();e.stopPropagation();return false});
-  window.addEventListener('contextmenu',e=>{if(door&&(e.target===door||door.contains(e.target))){e.preventDefault();e.stopPropagation()}},{capture:true});
   door.addEventListener('touchstart',e=>{if(!done)e.preventDefault()},{passive:false});
   door.addEventListener('touchend',e=>{if(!done)e.preventDefault()},{passive:false});
   door.addEventListener('touchmove',e=>{if(!done)e.preventDefault()},{passive:false});
