@@ -387,6 +387,47 @@
         <div id="settingsAlert" class="msg-box" role="status"></div>
       </div>
 
+      <!-- Demo Visitor Traffic Card -->
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+          <div>
+            <h2 style="font-size:19px;margin-bottom:4px">Demo Pages Visitor Traffic</h2>
+            <p style="color:var(--muted);font-size:13px">Live tracking across the six concept demo websites.</p>
+          </div>
+          <button id="refreshTrafficBtn" class="ghost" type="button" style="padding:6px 12px;font-size:13px">Refresh Traffic</button>
+        </div>
+        <div id="trafficGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:16px">
+          <div style="background:#f9f7f2;border:1px solid var(--line);border-radius:8px;padding:12px;text-align:center">
+            <div style="font-size:11px;text-transform:uppercase;color:var(--muted);font-weight:600">Total Demo Hits</div>
+            <div id="cntTotal" style="font-size:22px;font-weight:700;color:var(--ink);margin-top:4px">0</div>
+          </div>
+          <div style="background:#f9f7f2;border:1px solid var(--line);border-radius:8px;padding:12px;text-align:center">
+            <div style="font-size:11px;text-transform:uppercase;color:var(--muted);font-weight:600">Apex Residences</div>
+            <div id="cntApex" style="font-size:22px;font-weight:700;color:var(--accent);margin-top:4px">0</div>
+          </div>
+          <div style="background:#f9f7f2;border:1px solid var(--line);border-radius:8px;padding:12px;text-align:center">
+            <div style="font-size:11px;text-transform:uppercase;color:var(--muted);font-weight:600">Atelier North</div>
+            <div id="cntAtelier" style="font-size:22px;font-weight:700;color:var(--accent);margin-top:4px">0</div>
+          </div>
+          <div style="background:#f9f7f2;border:1px solid var(--line);border-radius:8px;padding:12px;text-align:center">
+            <div style="font-size:11px;text-transform:uppercase;color:var(--muted);font-weight:600">Fold Yoga</div>
+            <div id="cntFold" style="font-size:22px;font-weight:700;color:var(--accent);margin-top:4px">0</div>
+          </div>
+          <div style="background:#f9f7f2;border:1px solid var(--line);border-radius:8px;padding:12px;text-align:center">
+            <div style="font-size:11px;text-transform:uppercase;color:var(--muted);font-weight:600">Mitti Café</div>
+            <div id="cntMitti" style="font-size:22px;font-weight:700;color:var(--accent);margin-top:4px">0</div>
+          </div>
+          <div style="background:#f9f7f2;border:1px solid var(--line);border-radius:8px;padding:12px;text-align:center">
+            <div style="font-size:11px;text-transform:uppercase;color:var(--muted);font-weight:600">Nova Dental</div>
+            <div id="cntNova" style="font-size:22px;font-weight:700;color:var(--accent);margin-top:4px">0</div>
+          </div>
+          <div style="background:#f9f7f2;border:1px solid var(--line);border-radius:8px;padding:12px;text-align:center">
+            <div style="font-size:11px;text-transform:uppercase;color:var(--muted);font-weight:600">Rao & Partners</div>
+            <div id="cntRao" style="font-size:22px;font-weight:700;color:var(--accent);margin-top:4px">0</div>
+          </div>
+        </div>
+      </div>
+
       <!-- Inquiries Stream Card -->
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
@@ -780,6 +821,41 @@
       });
     }
 
+    // Load Demo Visitor Traffic
+    async function loadTraffic() {
+      try {
+        const res = await fetch('/api/track/stats');
+        if (res.ok) {
+          const data = await res.json();
+          const bd = data.byDemo || {};
+          $('cntTotal').textContent = data.total || 0;
+          $('cntApex').textContent = bd['apex-residences'] || 0;
+          $('cntAtelier').textContent = bd['atelier-north'] || 0;
+          $('cntFold').textContent = bd['fold-yoga'] || 0;
+          $('cntMitti').textContent = bd['mitti-cafe'] || 0;
+          $('cntNova').textContent = bd['nova-dental'] || 0;
+          $('cntRao').textContent = bd['rao-law'] || 0;
+        }
+      } catch (_) {
+        const raw = localStorage.getItem('as_demo_traffic');
+        if (raw) {
+          try {
+            const d = JSON.parse(raw);
+            const bd = d.byDemo || {};
+            $('cntTotal').textContent = d.total || 0;
+            $('cntApex').textContent = bd['apex-residences'] || 0;
+            $('cntAtelier').textContent = bd['atelier-north'] || 0;
+            $('cntFold').textContent = bd['fold-yoga'] || 0;
+            $('cntMitti').textContent = bd['mitti-cafe'] || 0;
+            $('cntNova').textContent = bd['nova-dental'] || 0;
+            $('cntRao').textContent = bd['rao-law'] || 0;
+          } catch (_) {}
+        }
+      }
+    }
+
+    $('refreshTrafficBtn').onclick = loadTraffic;
+
     // Auth State Observer
     onAuthStateChanged(auth, user => {
       if (user) {
@@ -789,6 +865,7 @@
         $('whoText').textContent = user.email || 'Authenticated User';
         loadMode();
         loadInquiries();
+        loadTraffic();
       } else {
         if (localStorage.getItem('as-admin-unlocked') === '1') {
           $('authSection').hidden = true;
@@ -797,6 +874,7 @@
           $('whoText').textContent = 'Passcode Session (Admin)';
           loadMode();
           loadInquiries();
+          loadTraffic();
         } else {
           $('authSection').hidden = false;
           $('dashboardSection').hidden = true;

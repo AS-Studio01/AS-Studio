@@ -2,7 +2,43 @@
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
 $$('.reveal').forEach(el=>io.observe(el));
-const m=$('.dmenu'),l=$('.dlinks');if(m)m.addEventListener('click',()=>{const o=l.classList.toggle('open');m.setAttribute('aria-expanded',o)});
+const m=$('.dmenu'),l=$('.dlinks');
+if(m&&l){
+  m.addEventListener('click',e=>{e.stopPropagation();const o=l.classList.toggle('open');m.setAttribute('aria-expanded',o)});
+  document.addEventListener('click',e=>{if(l.classList.contains('open')&&!l.contains(e.target)&&e.target!==m){l.classList.remove('open');m.setAttribute('aria-expanded','false')}});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&l.classList.contains('open')){l.classList.remove('open');m.setAttribute('aria-expanded','false')}});
+  $$('a',l).forEach(a=>a.addEventListener('click',()=>{l.classList.remove('open');m.setAttribute('aria-expanded','false')}));
+}
+
+/* lightweight demo analytics tracking */
+(function trackDemoTraffic(){
+  try{
+    const path=location.pathname;
+    const match=path.match(/\/demos\/([^\/]+)/);
+    const demo=match?match[1]:'generic-demo';
+    const payload={
+      demo,
+      path,
+      title:document.title,
+      referrer:document.referrer||'direct',
+      device:window.innerWidth<=768?'mobile':(window.innerWidth<=1024?'tablet':'desktop'),
+      width:window.innerWidth,
+      ts:Date.now()
+    };
+    const KEY='as_demo_traffic';
+    const raw=localStorage.getItem(KEY);
+    const data=raw?JSON.parse(raw):{total:0,byDemo:{},lastVisit:null};
+    data.total=(data.total||0)+1;
+    data.byDemo[demo]=(data.byDemo[demo]||0)+1;
+    data.lastVisit=payload;
+    localStorage.setItem(KEY,JSON.stringify(data));
+    if(navigator.sendBeacon){
+      navigator.sendBeacon('/api/track',JSON.stringify(payload));
+    }else{
+      fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),keepalive:true}).catch(()=>{});
+    }
+  }catch(_){}
+})();
 /* tabs */
 $$('[data-tabs]').forEach(g=>{const btns=$$('button',g),panes=$$('.pane',g.parentElement);
  btns.forEach(b=>b.addEventListener('click',()=>{btns.forEach(x=>x.classList.toggle('on',x===b));panes.forEach(p=>p.classList.toggle('on',p.dataset.pane===b.dataset.tab))}))});
