@@ -7,7 +7,7 @@ const stage=hero.querySelector('.stage'),video=document.getElementById('heroVide
 const bands=[...hero.querySelectorAll('.band')].map(el=>({el,a:+el.dataset.a,b:+el.dataset.b,ramp:el.dataset.ramp?+el.dataset.ramp:0,first:el.dataset.first==='1',last:el.dataset.last==='1',op:-1,k:-1,ks:-1,kb:-1}));
 const clamp=(v,lo,hi)=>Math.min(hi,Math.max(lo,v));
 const smooth=(p,e0,e1)=>{const t=clamp((p-e0)/(e1-e0),0,1);return t*t*(3-2*t)};
-const VIDEO_URL='assets/video/hero-scrub.mp4',POSTER_URL='assets/video/hero-poster.webp';
+const VIDEO_URL='/assets/video/hero-scrub.mp4',POSTER_URL='/assets/video/hero-poster.webp';
 
 /* split headline text once, seeded so offsets are identical every load */
 function rng(seed){let s=seed>>>0;return()=>(s=(s*1664525+1013904223)>>>0)/4294967296}
