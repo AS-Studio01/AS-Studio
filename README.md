@@ -33,3 +33,14 @@ Open `/x7q2m9r4v8k1p6z3/`, sign in, and use the **Fiverr mode** card.
 
 ## Opening the private workspace
 Tap the **AS.Studio** wordmark five times quickly on the home page, or the "(c) 2026 AS Studio" line in the footer on any page. You can also go straight to `/x7q2m9r4v8k1p6z3/`.
+
+
+## Admin sign-in (read this if you cannot log in)
+Open `/x7q2m9r4v8k1p6z3/`, or tap the AS.Studio name five times on the home page.
+Sign in with **Google** or **email and password**. Both need setting up once in the Firebase Console:
+1. Authentication, Sign-in method: switch on **Google** and **Email/Password**.
+2. Authentication, Settings, Authorized domains: add the domain you are using (the admin page shows it under "Cannot sign in?").
+3. Use an email listed in `firestore.rules`. Email accounts must be **verified**: the admin page sends the verification email for you.
+4. Deploy the rules: `firebase deploy --only firestore:rules`.
+
+Security changes in this version: the public "admin passcode" was removed (anyone could read it in the page source), the clickable list of admin emails was removed, verified email is required again in `firestore.rules`, and the unused `/api/*` endpoints in `server.js` (an open email and AI relay) now return 410.

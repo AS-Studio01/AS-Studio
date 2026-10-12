@@ -1,4 +1,5 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
   "buildCommand": "echo static-site",
   "installCommand": "echo skip-install",
@@ -7,19 +8,41 @@
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
       ]
     },
     {
       "source": "/assets/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
+      ]
     },
     {
       "source": "/x7q2m9r4v8k1p6z3/(.*)",
-      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
     }
   ]
 }

@@ -175,6 +175,8 @@ var __dirname = path.dirname(__filename);
 var app = express();
 var PORT = 3000;
 app.use(express.json());
+// The public site no longer uses these endpoints. They were open to anyone (email relay, AI chat), so they are switched off.
+app.use("/api", (_req, res) => res.status(410).json({ error: "API disabled" }));
 function getGenAI() {
   const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
   if (!apiKey) return null;
@@ -334,52 +336,6 @@ app.post("/api/send-email", async (req, res) => {
     return res.status(500).json({ error: "Failed to dispatch email" });
   }
 });
-
-// Lightweight visitor traffic analytics store
-const trafficStore = {
-  total: 0,
-  byDemo: {
-    "apex-residences": 0,
-    "atelier-north": 0,
-    "fold-yoga": 0,
-    "mitti-cafe": 0,
-    "nova-dental": 0,
-    "rao-law": 0,
-    "studio-main": 0
-  },
-  recent: []
-};
-
-app.post("/api/track", (req, res) => {
-  try {
-    let b = req.body;
-    if (typeof b === "string") {
-      try { b = JSON.parse(b); } catch (_) {}
-    }
-    const demo = b?.demo || "generic";
-    const path = b?.path || "/";
-    const device = b?.device || "desktop";
-    const ts = b?.ts || Date.now();
-
-    trafficStore.total += 1;
-    trafficStore.byDemo[demo] = (trafficStore.byDemo[demo] || 0) + 1;
-    trafficStore.recent.unshift({ demo, path, device, ts });
-    if (trafficStore.recent.length > 100) trafficStore.recent.pop();
-
-    return res.status(200).json({ success: true, count: trafficStore.total });
-  } catch (_) {
-    return res.status(200).json({ success: true });
-  }
-});
-
-app.get("/api/track/stats", (req, res) => {
-  return res.json({
-    total: trafficStore.total,
-    byDemo: trafficStore.byDemo,
-    recent: trafficStore.recent.slice(0, 25)
-  });
-});
-
 app.post("/api/inquiry/notify", async (req, res) => {
   try {
     const { clientName, businessName, contactChannel, scopeSummary, targetBudget, source } = req.body;
