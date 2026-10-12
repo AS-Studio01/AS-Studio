@@ -3,14 +3,72 @@
 const reduce=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 document.addEventListener('DOMContentLoaded',()=>requestAnimationFrame(()=>document.body.classList.add('ready')));
 setTimeout(()=>document.body&&document.body.classList.add('ready'),1200);
+/* lightweight visitor analytics tracking */
+(function trackSiteTraffic(){
+  try{
+    const path=location.pathname;
+    const isDemo=path.includes('/demos/');
+    const m=path.match(/\/demos\/([^\/]+)/);
+    const payload={
+      path:path,
+      demo:isDemo?(m?m[1]:'demo'):'studio',
+      title:(document.title||'').slice(0,200),
+      referrer:(document.referrer||'direct').slice(0,300),
+      createdAt:new Date().toISOString()
+    };
+    fetch('/api/track',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload),
+      keepalive:true
+    }).catch(function(){});
+  }catch(_){}
+})();
 /* nav */
 const nav=document.querySelector('.nav');
 if(nav){const light=nav.classList.contains('light');let last=-1;
   const upd=()=>{const hh=document.getElementById('hero'),hs=document.querySelector('.hero-static'),scrub=hh&&getComputedStyle(hh).display!=='none';const th=scrub?hh.offsetHeight-innerHeight*0.55:(hs&&getComputedStyle(hs).display!=='none'?innerHeight*0.8:30);const s=!light&&scrollY>th;if(s!==last){last=s;nav.classList.toggle('solid',s||light)}};
   addEventListener('scroll',upd,{passive:true});upd();
   const mb=document.querySelector('.menu'),ln=document.querySelector('.links');
-  if(mb)mb.addEventListener('click',()=>{const o=ln.classList.toggle('open');mb.setAttribute('aria-expanded',o);nav.classList.add('solid')});
-  document.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>ln.classList.remove('open')));
+  if(ln){
+    // Ensure "Home" option is always present in the navigation
+    const hasHome=Array.from(ln.querySelectorAll('a')).some(a=>(a.textContent||'').trim().toLowerCase()==='home');
+    if(!hasHome){
+      const homeA=document.createElement('a');
+      const prefix=(location.pathname.includes('/legal/')||location.pathname.includes('/work/'))?'../':'';
+      homeA.href=prefix+'index.html';
+      homeA.textContent='Home';
+      if(location.pathname==='/'||location.pathname.endsWith('/index.html')){
+        homeA.setAttribute('aria-current','page');
+      }
+      ln.insertBefore(homeA,ln.firstChild);
+    }
+  }
+  if(mb&&ln){
+    mb.addEventListener('click',e=>{
+      e.stopPropagation();
+      const o=ln.classList.toggle('open');
+      mb.setAttribute('aria-expanded',o);
+      nav.classList.add('solid');
+    });
+    document.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>{
+      ln.classList.remove('open');
+      mb.setAttribute('aria-expanded','false');
+    }));
+    document.addEventListener('click',e=>{
+      if(ln.classList.contains('open')&&!ln.contains(e.target)&&!mb.contains(e.target)){
+        ln.classList.remove('open');
+        mb.setAttribute('aria-expanded','false');
+      }
+    });
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Escape'&&ln.classList.contains('open')){
+        ln.classList.remove('open');
+        mb.setAttribute('aria-expanded','false');
+        mb.focus();
+      }
+    });
+  }
 }
 /* private workspace: tap the wordmark (or the (c) line in the footer) five times quickly */
 (function(){var n=0,t=null;function tap(e,el){n++;clearTimeout(t);t=setTimeout(function(){n=0},1800);if(n>=5){n=0;e.preventDefault();var h=(document.querySelector('[data-admin]')||{}).getAttribute&&document.querySelector('[data-admin]').getAttribute('data-admin')||'/x7q2m9r4v8k1p6z3/';if(h){if(!h.startsWith('/'))h='/'+h;location.href=h}}}
@@ -30,32 +88,52 @@ if(arch){const paths=[...arch.querySelectorAll('path[data-draw]')],glow=arch.que
   function clamp01(v){return Math.min(1,Math.max(0,v))}
   addEventListener('scroll',upd,{passive:true});upd();
 }
-/* hold or tap to open the door */
+/* 2-second door open and close animation */
 const door=document.querySelector('.door'),dl=document.querySelector('.door-links');
-if(door){let p=0,holding=false,raf=null,done=false,last=0,pressStart=0;
-  const apply=()=>{door.style.setProperty('--p',p.toFixed(3))};
-  const finish=()=>{done=true;holding=false;door.classList.add('done');dl&&dl.classList.add('show');p=1;apply()};
-  const step=t=>{const dt=Math.min(64,t-(last||t));last=t;
-    if(holding)p=Math.min(1,p+dt/850);else if(!done)p=Math.max(0,p-dt/500);
-    apply();if(p>=1&&!done){finish();raf=null;return}
-    if((holding&&p<1)||(!holding&&p>0&&!done)){raf=requestAnimationFrame(step)}else{raf=null;last=0}};
-  const start=e=>{if(done)return;if(e.button&&e.button!==0)return;e.preventDefault();
-    try{door.setPointerCapture(e.pointerId)}catch(_){}
-    holding=true;pressStart=Date.now();if(raf===null){last=0;raf=requestAnimationFrame(step)}};
-  const stop=e=>{if(e&&e.pointerId){try{door.releasePointerCapture(e.pointerId)}catch(_){}}
-    const elapsed=Date.now()-pressStart;holding=false;
-    if(!done&&elapsed<300&&elapsed>0){finish();return}
-    if(!done&&raf===null&&p>0){last=0;raf=requestAnimationFrame(step)}};
-  if(reduce()){finish();p=1;apply()}
-  door.addEventListener('pointerdown',start);
-  door.addEventListener('pointerup',stop);
-  door.addEventListener('pointercancel',stop);
+if(door){let isOpen=false,isAnimating=false,timer=null;
+  const setOpenState=open=>{
+    if(isAnimating)return;
+    isAnimating=true;
+    door.classList.add('animating');
+    if(open){
+      isOpen=true;
+      door.classList.remove('is-closed');
+      door.classList.add('is-open');
+      door.style.setProperty('--p','1');
+      clearTimeout(timer);
+      timer=setTimeout(()=>{
+        isAnimating=false;
+        door.classList.remove('animating');
+        door.classList.add('done');
+        dl&&dl.classList.add('show');
+      },2000);
+    }else{
+      isOpen=false;
+      door.classList.remove('done','is-open');
+      dl&&dl.classList.remove('show');
+      door.classList.add('is-closed');
+      door.style.setProperty('--p','0');
+      clearTimeout(timer);
+      timer=setTimeout(()=>{
+        isAnimating=false;
+        door.classList.remove('animating','is-closed');
+      },2000);
+    }
+  };
+  const toggle=e=>{
+    if(e){e.preventDefault();e.stopPropagation()}
+    if(isAnimating)return;
+    setOpenState(!isOpen);
+  };
+  if(reduce()){
+    isOpen=true;
+    door.classList.add('done','is-open');
+    dl&&dl.classList.add('show');
+    door.style.setProperty('--p','1');
+  }
+  door.addEventListener('click',toggle);
   door.addEventListener('contextmenu',e=>{e.preventDefault();e.stopPropagation();return false});
-  door.addEventListener('touchstart',e=>{if(!done)e.preventDefault()},{passive:false});
-  door.addEventListener('touchend',e=>{if(!done)e.preventDefault()},{passive:false});
-  door.addEventListener('touchmove',e=>{if(!done)e.preventDefault()},{passive:false});
-  door.addEventListener('click',e=>{e.preventDefault();if(!done)finish()});
-  door.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();finish()}});
+  door.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle(e)}});
 }
 /* process line fills as the section scrolls */
 const steps=document.querySelector('.steps'),sl=document.querySelector('.stepline');

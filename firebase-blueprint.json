@@ -84,6 +84,40 @@
         }
       },
       "required": ["email", "role", "createdAt"]
+    },
+    "PageView": {
+      "title": "PageView",
+      "description": "Visitor page view tracking entry across demo and site pages",
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "URL path visited",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "demo": {
+          "type": "string",
+          "description": "Demo identifier or studio root",
+          "maxLength": 80
+        },
+        "title": {
+          "type": "string",
+          "description": "Page document title",
+          "maxLength": 200
+        },
+        "referrer": {
+          "type": "string",
+          "description": "HTTP referrer or direct",
+          "maxLength": 300
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of visit"
+        }
+      },
+      "required": ["path", "createdAt"]
     }
   },
   "firestore": {
@@ -94,6 +128,10 @@
     "/users/{userId}": {
       "schema": "UserProfile",
       "description": "User profile records for authenticated portal clients and founders"
+    },
+    "/page_views/{viewId}": {
+      "schema": "PageView",
+      "description": "Collection of visitor page view events for dashboard analytics overview"
     }
   }
 }

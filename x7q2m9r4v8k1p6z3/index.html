@@ -346,6 +346,54 @@
 
     <!-- MAIN ADMIN DASHBOARD -->
     <div id="dashboardSection" hidden>
+      <!-- Traffic & Demo Analytics Overview Card -->
+      <div class="card" id="analyticsCard">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px">
+          <div>
+            <h2 style="font-size:19px;margin-bottom:4px">Visitor Traffic & Demo Analytics</h2>
+            <p style="color:var(--muted);font-size:13px">Live page views tracked across all 6 demo websites and studio pages.</p>
+          </div>
+          <div class="row">
+            <button id="refreshAnalyticsBtn" class="ghost" type="button" style="padding:6px 12px;font-size:13px">Refresh Traffic</button>
+          </div>
+        </div>
+
+        <!-- Metrics Grid -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px">
+          <div style="background:#f8f6f0;border:1px solid var(--line);border-radius:10px;padding:14px">
+            <div style="font-size:11px;font-family:var(--mono);text-transform:uppercase;color:var(--muted);letter-spacing:0.08em">Total Page Views</div>
+            <div id="statTotalViews" style="font-size:26px;font-weight:700;color:var(--accent);margin-top:4px">0</div>
+          </div>
+          <div style="background:#f8f6f0;border:1px solid var(--line);border-radius:10px;padding:14px">
+            <div style="font-size:11px;font-family:var(--mono);text-transform:uppercase;color:var(--muted);letter-spacing:0.08em">Demo Traffic</div>
+            <div id="statDemoViews" style="font-size:26px;font-weight:700;color:#2a6159;margin-top:4px">0</div>
+          </div>
+          <div style="background:#f8f6f0;border:1px solid var(--line);border-radius:10px;padding:14px">
+            <div style="font-size:11px;font-family:var(--mono);text-transform:uppercase;color:var(--muted);letter-spacing:0.08em">Studio Traffic</div>
+            <div id="statStudioViews" style="font-size:26px;font-weight:700;color:#8a6428;margin-top:4px">0</div>
+          </div>
+          <div style="background:#f8f6f0;border:1px solid var(--line);border-radius:10px;padding:14px">
+            <div style="font-size:11px;font-family:var(--mono);text-transform:uppercase;color:var(--muted);letter-spacing:0.08em">Top Demo</div>
+            <div id="statTopDemo" style="font-size:15px;font-weight:600;color:var(--ink);margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">—</div>
+          </div>
+        </div>
+
+        <!-- Demo-by-Demo Traffic Breakdown -->
+        <h3 style="font-size:14px;text-transform:uppercase;font-family:var(--mono);letter-spacing:0.08em;color:var(--muted);margin-bottom:10px">Traffic by Demo Website</h3>
+        <div id="demoBreakdownContainer" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:20px">
+          <!-- Dynamically populated -->
+        </div>
+
+        <!-- Recent Visits Stream -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <h3 style="font-size:14px;text-transform:uppercase;font-family:var(--mono);letter-spacing:0.08em;color:var(--muted)">Recent Activity</h3>
+          <span id="trafficSyncTime" style="font-size:12px;color:var(--muted)">Synced just now</span>
+        </div>
+        <div id="recentVisitsList" style="max-height:220px;overflow-y:auto;border:1px solid var(--line);border-radius:8px;background:#fcfbf8">
+          <p style="color:var(--muted);font-style:italic;padding:12px;margin:0">Loading activity...</p>
+        </div>
+      </div>
+
       <!-- Mode & Fiverr Config Card -->
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px">
@@ -745,6 +793,145 @@
       });
     }
 
+    // Analytics & Visitor Traffic Logic
+    const DEMO_NAMES = {
+      'mitti-cafe': { name: 'Mitti Café', package: 'Starter ($95)' },
+      'rao-law': { name: 'Rao & Partners', package: 'Starter ($95)' },
+      'nova-dental': { name: 'Nova Dental', package: 'Growth ($275)' },
+      'fold-yoga': { name: 'Fold Yoga', package: 'Growth ($275)' },
+      'apex-residences': { name: 'Apex Residences', package: 'Signature ($600)' },
+      'atelier-north': { name: 'Atelier North', package: 'Signature ($600)' }
+    };
+
+    async function loadAnalytics() {
+      const breakdownEl = $('demoBreakdownContainer');
+      const listEl = $('recentVisitsList');
+      const syncEl = $('trafficSyncTime');
+      if (syncEl) syncEl.textContent = 'Syncing...';
+
+      let totalCount = 0;
+      let demoCount = 0;
+      let studioCount = 0;
+      const countsByDemo = {
+        'mitti-cafe': 0,
+        'rao-law': 0,
+        'nova-dental': 0,
+        'fold-yoga': 0,
+        'apex-residences': 0,
+        'atelier-north': 0
+      };
+      let recentList = [];
+
+      // 1. Query Firestore page_views collection
+      try {
+        const snap = await getDocs(query(collection(db, 'page_views'), orderBy('createdAt', 'desc'), limit(100)));
+        if (!snap.empty) {
+          snap.forEach(d => {
+            const data = d.data();
+            totalCount++;
+            const demo = data.demo;
+            if (demo && countsByDemo[demo] !== undefined) {
+              countsByDemo[demo]++;
+              demoCount++;
+            } else if (demo === 'studio') {
+              studioCount++;
+            } else {
+              demoCount++;
+            }
+            if (recentList.length < 30) {
+              recentList.push(data);
+            }
+          });
+        }
+      } catch (err) {
+        console.warn('[Analytics Firestore Query]', err?.message);
+      }
+
+      // 2. Fetch /api/analytics from server cache to augment with live real-time stats
+      try {
+        const res = await fetch('/api/analytics');
+        if (res.ok) {
+          const apiData = await res.json();
+          if (apiData.totalViews > totalCount) {
+            totalCount = Math.max(totalCount, apiData.totalViews);
+            if (apiData.demoViews) {
+              Object.keys(countsByDemo).forEach(k => {
+                countsByDemo[k] = Math.max(countsByDemo[k], apiData.demoViews[k] || 0);
+              });
+              studioCount = Math.max(studioCount, apiData.demoViews['studio'] || 0);
+              demoCount = Object.values(countsByDemo).reduce((a, b) => a + b, 0);
+            }
+            if (apiData.recentViews && apiData.recentViews.length) {
+              recentList = apiData.recentViews;
+            }
+          }
+        }
+      } catch (apiErr) {
+        console.warn('[Analytics API]', apiErr?.message);
+      }
+
+      // Update Dashboard Top Metrics
+      $('statTotalViews').textContent = totalCount;
+      $('statDemoViews').textContent = demoCount;
+      $('statStudioViews').textContent = studioCount;
+
+      let topDemoName = '—';
+      let topDemoCount = 0;
+      Object.keys(countsByDemo).forEach(k => {
+        if (countsByDemo[k] > topDemoCount) {
+          topDemoCount = countsByDemo[k];
+          topDemoName = DEMO_NAMES[k]?.name || k;
+        }
+      });
+      $('statTopDemo').textContent = topDemoCount > 0 ? `${topDemoName} (${topDemoCount})` : 'Awaiting visits';
+
+      // Render Demo Breakdown Cards
+      if (breakdownEl) {
+        breakdownEl.innerHTML = '';
+        Object.keys(DEMO_NAMES).forEach(k => {
+          const meta = DEMO_NAMES[k];
+          const count = countsByDemo[k] || 0;
+          const card = document.createElement('div');
+          card.style.cssText = 'background:#ffffff;border:1px solid var(--line);border-radius:8px;padding:12px;display:flex;justify-content:space-between;align-items:center';
+          card.innerHTML = `
+            <div>
+              <div style="font-weight:600;font-size:13px">${meta.name}</div>
+              <div style="font-size:11px;color:var(--muted)">${meta.package}</div>
+            </div>
+            <div style="font-size:16px;font-weight:700;color:var(--accent);background:#f6f3ea;padding:3px 8px;border-radius:6px">${count}</div>
+          `;
+          breakdownEl.appendChild(card);
+        });
+      }
+
+      // Render Recent Activity Stream
+      if (listEl) {
+        if (recentList.length === 0) {
+          listEl.innerHTML = '<p style="color:var(--muted);font-style:italic;padding:14px;margin:0">No recent page views recorded yet. Traffic will appear here in real-time as visitors explore demo pages.</p>';
+        } else {
+          listEl.innerHTML = '';
+          recentList.forEach(item => {
+            const row = document.createElement('div');
+            row.style.cssText = 'padding:10px 14px;border-bottom:1px solid var(--line);font-size:13px;display:flex;justify-content:space-between;align-items:center;gap:10px';
+            const demoTag = item.demo && item.demo !== 'studio' ? `<span style="font-size:11px;background:#e7e2d6;color:var(--ink);padding:2px 6px;border-radius:4px;font-weight:600">${item.demo}</span>` : `<span style="font-size:11px;background:#f0ebd8;color:#7a5a22;padding:2px 6px;border-radius:4px">Studio</span>`;
+            const dateStr = item.createdAt ? new Date(item.createdAt).toLocaleTimeString() : 'Just now';
+            row.innerHTML = `
+              <div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1">
+                ${demoTag} <code style="font-family:var(--mono);font-size:12px;color:var(--ink)">${item.path || '/'}</code>
+                ${item.title ? `<span style="color:var(--muted);font-size:12px"> — ${item.title}</span>` : ''}
+              </div>
+              <span style="font-size:11px;color:var(--muted);white-space:nowrap">${dateStr}</span>
+            `;
+            listEl.appendChild(row);
+          });
+        }
+      }
+
+      if (syncEl) syncEl.textContent = 'Synced ' + new Date().toLocaleTimeString();
+    }
+
+    $('refreshAnalyticsBtn').onclick = loadAnalytics;
+
     // Auth State Observer: dashboard only for signed-in AND verified accounts
     onAuthStateChanged(auth, async user => {
       if (!user) {
@@ -768,6 +955,7 @@
       $('dashboardSection').hidden = false;
       loadMode();
       loadInquiries();
+      loadAnalytics();
     });
   </script>
 </body>

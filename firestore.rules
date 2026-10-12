@@ -46,6 +46,14 @@ service cloud.firestore {
         && data.status in ['new', 'in_review', 'contacted', 'completed'];
     }
 
+    function isValidPageView(data) {
+      return data.keys().hasAll(['path', 'createdAt'])
+        && data.path is string && data.path.size() > 0 && data.path.size() <= 300
+        && (!('demo' in data) || (data.demo is string && data.demo.size() <= 80))
+        && (!('title' in data) || (data.title is string && data.title.size() <= 200))
+        && (!('referrer' in data) || (data.referrer is string && data.referrer.size() <= 300));
+    }
+
     // Inquiries Collection
     match /inquiries/{inquiryId} {
       // Anyone can submit a project brief (public contact form / AI chat assistant)
@@ -57,6 +65,13 @@ service cloud.firestore {
       allow update: if isAdmin();
       // Only admins / studio founders can delete inquiry records
       allow delete: if isAdmin();
+    }
+
+    // Page Views Collection (Visitor analytics tracking)
+    match /page_views/{viewId} {
+      allow create: if isValidId(viewId) && isValidPageView(incoming());
+      allow read, delete: if isAdmin();
+      allow update: if false;
     }
 
     // Users Collection

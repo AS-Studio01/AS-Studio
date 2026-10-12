@@ -175,8 +175,6 @@ var __dirname = path.dirname(__filename);
 var app = express();
 var PORT = 3000;
 app.use(express.json());
-// The public site no longer uses these endpoints. They were open to anyone (email relay, AI chat), so they are switched off.
-app.use("/api", (_req, res) => res.status(410).json({ error: "API disabled" }));
 function getGenAI() {
   const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
   if (!apiKey) return null;
@@ -382,6 +380,95 @@ AS Studio Automated Inbound Dispatcher`;
     return res.status(500).json({ error: "Failed to notify founders" });
   }
 });
+
+// Lightweight analytics store & Firestore sync for dashboard overview
+const ANALYTICS_CACHE = {
+  totalViews: 0,
+  demoViews: {
+    "mitti-cafe": 0,
+    "rao-law": 0,
+    "nova-dental": 0,
+    "fold-yoga": 0,
+    "apex-residences": 0,
+    "atelier-north": 0,
+    "studio": 0
+  },
+  recentViews: []
+};
+
+app.post("/api/track", async (req, res) => {
+  try {
+    const { path: reqPath, demo, title, referrer, createdAt } = req.body || {};
+    const cleanPath = typeof reqPath === "string" ? reqPath.slice(0, 300) : "/";
+    const cleanDemo = typeof demo === "string" ? demo.slice(0, 80) : "studio";
+    const cleanTitle = typeof title === "string" ? title.slice(0, 200) : "";
+    const cleanReferrer = typeof referrer === "string" ? referrer.slice(0, 300) : "direct";
+    const cleanCreatedAt = createdAt || new Date().toISOString();
+
+    // Increment analytics metrics
+    ANALYTICS_CACHE.totalViews++;
+    if (ANALYTICS_CACHE.demoViews[cleanDemo] !== undefined) {
+      ANALYTICS_CACHE.demoViews[cleanDemo]++;
+    } else {
+      ANALYTICS_CACHE.demoViews[cleanDemo] = 1;
+    }
+
+    const viewItem = {
+      path: cleanPath,
+      demo: cleanDemo,
+      title: cleanTitle,
+      referrer: cleanReferrer,
+      createdAt: cleanCreatedAt
+    };
+    ANALYTICS_CACHE.recentViews.unshift(viewItem);
+    if (ANALYTICS_CACHE.recentViews.length > 80) {
+      ANALYTICS_CACHE.recentViews.pop();
+    }
+
+    // Persist to Firestore asynchronously via REST API
+    const docId = `pv_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+    const firestoreUrl = `https://firestore.googleapis.com/v1/projects/profound-handbook-z3skh/databases/ai-studio-asstudio-a4c0c11f-272a-4140-b122-5ed482a959e7/documents/page_views?documentId=${docId}`;
+    fetch(firestoreUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fields: {
+          path: { stringValue: cleanPath },
+          demo: { stringValue: cleanDemo },
+          title: { stringValue: cleanTitle },
+          referrer: { stringValue: cleanReferrer },
+          createdAt: { stringValue: cleanCreatedAt }
+        }
+      })
+    }).catch(err => {
+      // Async logging notification without blocking response
+      console.warn("[Analytics Firestore] Async save notice:", err?.message);
+    });
+
+    return res.json({ success: true });
+  } catch (err) {
+    console.error("[Analytics Error]:", err);
+    return res.status(200).json({ success: false });
+  }
+});
+
+app.get("/api/analytics", (_req, res) => {
+  return res.json({
+    totalViews: ANALYTICS_CACHE.totalViews,
+    demoViews: ANALYTICS_CACHE.demoViews,
+    recentViews: ANALYTICS_CACHE.recentViews.slice(0, 40)
+  });
+});
+
+app.get("/site.html", (_req, res) => {
+  const isProd = process.env.NODE_ENV === "production";
+  if (isProd) {
+    res.sendFile(path.join(__dirname, "dist", "index.html"));
+  } else {
+    res.sendFile(path.join(__dirname, "index.html"));
+  }
+});
+
 app.post("/api/chat", async (req, res) => {
   try {
     const { messages } = req.body;
