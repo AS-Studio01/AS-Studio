@@ -330,7 +330,19 @@
           <button id="primaryAuthBtn" type="button" style="flex:1">Sign In</button>
           <button id="resetPassBtn" class="ghost" type="button">Reset Password</button>
         </div>
-      </form><div id="authAlert" class="msg-box" role="status"></div>
+      </form>
+      <details id="helpBox" style="margin-top:14px;font-size:13px;line-height:1.6;opacity:.92">
+        <summary style="cursor:pointer;font-weight:600">Cannot sign in? Check the connection</summary>
+        <ol style="margin:10px 0 10px 18px;padding:0">
+          <li>Firebase Console, Authentication, Sign-in method: turn on <b>Email/Password</b> and <b>Google</b>.</li>
+          <li>Authentication, Settings, Authorized domains: add <b id="hostName"></b>.</li>
+          <li>Authentication, Users: create your account, then verify its email.</li>
+          <li>Firestore Database: pick the database named in <code>js/firebase.js</code>, open Rules, and publish <code>firestore.rules</code>.</li>
+        </ol>
+        <button id="diagBtn" type="button" style="padding:10px 16px;border-radius:10px;border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer;font:inherit;font-weight:600">Run Firebase check</button>
+        <pre id="diagOut" style="white-space:pre-wrap;margin:12px 0 0;font:12px/1.6 ui-monospace,monospace"></pre>
+      </details>
+<div id="authAlert" class="msg-box" role="status"></div>
     </div>
 
 
@@ -829,8 +841,7 @@
           snap.forEach(d => {
             const data = d.data();
             totalCount++;
-            let demo = data.demo;
-            if (demo === 'fold-yoga') demo = 'fold-atelier';
+            const demo = data.demo;
             if (demo && countsByDemo[demo] !== undefined) {
               countsByDemo[demo]++;
               demoCount++;
@@ -959,5 +970,37 @@
       loadAnalytics();
     });
   </script>
+
+<script type="module">
+import { auth, db, signInWithEmailAndPassword } from '../js/firebase.js';
+const $ = id => document.getElementById(id);
+$('hostName').textContent = location.hostname;
+$('diagBtn').onclick = async () => {
+  const out = $('diagOut'); const L = [];
+  const log = (ok, text) => { L.push((ok === true ? 'OK    ' : ok === false ? 'FAIL  ' : 'INFO  ') + text); out.textContent = L.join('\n'); };
+  out.textContent = 'Checking...';
+  const o = auth.app.options, project = o.projectId, key = o.apiKey, dbid = (db && db._databaseId && db._databaseId.database) || '(default)';
+  log(null, 'Address: ' + location.hostname + ' | Project: ' + project + ' | Database: ' + dbid);
+  try {
+    const r = await fetch('https://firestore.googleapis.com/v1/projects/' + project + '/databases/' + dbid + '/documents/site_settings/main?key=' + key, { cache: 'no-store' });
+    if (r.status === 200) log(true, 'Firestore reachable and rules allow the public setting read.');
+    else if (r.status === 404) { const j = await r.json().catch(() => ({})); const m = (j.error && j.error.message) || ''; log(/database/i.test(m) && /not found|does not exist/i.test(m) ? false : true, /database/i.test(m) && /not found|does not exist/i.test(m) ? 'The database "' + dbid + '" does not exist in this project. Create it, or fix the id in js/firebase.js.' : 'Firestore reachable (no settings saved yet).'); }
+    else if (r.status === 403) log(false, 'Firestore refused the read (403). Publish firestore.rules to database "' + dbid + '", and check the API key is not restricted to other websites.');
+    else log(false, 'Firestore answered with HTTP ' + r.status + '.');
+  } catch (e) { log(false, 'Could not reach Firestore (network or blocked).'); }
+  try {
+    await signInWithEmailAndPassword(auth, 'check-' + Date.now() + '@example.invalid', 'not-a-real-password');
+  } catch (e) {
+    const c = e.code || '';
+    if (['auth/invalid-credential','auth/user-not-found','auth/wrong-password','auth/invalid-email'].includes(c)) log(true, 'Email/Password sign-in is switched on and reachable.');
+    else if (c === 'auth/operation-not-allowed') log(false, 'Email/Password sign-in is switched OFF. Turn it on under Authentication, Sign-in method.');
+    else if (c === 'auth/api-key-not-valid' || c === 'auth/invalid-api-key') log(false, 'The Firebase API key was rejected. Check the key in js/firebase.js.');
+    else if (c === 'auth/network-request-failed') log(false, 'Sign-in could not reach Firebase (network, ad blocker or restricted key).');
+    else if (c === 'auth/unauthorized-domain') log(false, 'This address is not in Authorized domains: ' + location.hostname);
+    else log(false, 'Unexpected sign-in response: ' + (c || e.message));
+  }
+  log(null, 'Done. Google sign-in also needs the address above in Authorized domains.');
+};
+</script>
 </body>
 </html>
