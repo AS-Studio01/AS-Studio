@@ -798,7 +798,7 @@
       'mitti-cafe': { name: 'Mitti Café', package: 'Starter ($95)' },
       'rao-law': { name: 'Rao & Partners', package: 'Starter ($95)' },
       'nova-dental': { name: 'Nova Dental', package: 'Growth ($275)' },
-      'fold-yoga': { name: 'Fold Yoga', package: 'Growth ($275)' },
+      'fold-atelier': { name: 'Fold Atelier', package: 'Growth ($275)' },
       'apex-residences': { name: 'Apex Residences', package: 'Signature ($600)' },
       'atelier-north': { name: 'Atelier North', package: 'Signature ($600)' }
     };
@@ -816,7 +816,7 @@
         'mitti-cafe': 0,
         'rao-law': 0,
         'nova-dental': 0,
-        'fold-yoga': 0,
+        'fold-atelier': 0,
         'apex-residences': 0,
         'atelier-north': 0
       };
@@ -829,7 +829,8 @@
           snap.forEach(d => {
             const data = d.data();
             totalCount++;
-            const demo = data.demo;
+            let demo = data.demo;
+            if (demo === 'fold-yoga') demo = 'fold-atelier';
             if (demo && countsByDemo[demo] !== undefined) {
               countsByDemo[demo]++;
               demoCount++;

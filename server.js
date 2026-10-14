@@ -23,18 +23,18 @@ var PROJECTS = [
     }
   },
   {
-    id: "fold-yoga",
-    name: "Fold Yoga Studio",
-    category: "Mindfulness & Movement Studio",
+    id: "fold-atelier",
+    name: "Fold Atelier",
+    category: "Slow Fashion & Mindful Garments",
     badge: "Growth Demo",
     isConcept: true,
-    description: "A serene three-page sanctuary website with dynamic class schedules, pricing tiers, and trial pass booking.",
+    description: "A three-page slow clothing and mindful garment atelier website with capsule lookbook, artisan craft heritage, and private studio appointment booking.",
     buttonText: "View demo preview",
-    tags: ["Wellness Studio", "Class Schedule", "Pricing Tiers", "Trial Pass Booking"],
+    tags: ["Slow Fashion", "Artisan Craft", "Capsule Wardrobe", "Bespoke Fittings"],
     turnaround: "5 days",
     conceptDetails: {
-      overview: "A three-page wellness sanctuary website built for phones first, featuring filterable movement styles and trial pass reservations.",
-      keyDeliverables: ["Filterable schedule", "Pass options & memberships", "Interactive trial pass form", "Opt-in sequence"]
+      overview: "A three-page mindful garment atelier website built for phones first, featuring organic cotton lookbooks, seasonal capsule filters, and studio appointment reservations.",
+      keyDeliverables: ["Capsule collection filters", "Natural dye and handloom craft story", "Lookbook digital opt-in", "Private appointment booking"]
     }
   },
   {
@@ -175,6 +175,12 @@ var __dirname = path.dirname(__filename);
 var app = express();
 var PORT = 3000;
 app.use(express.json());
+app.use((req, _res, next) => {
+  if (req.url && req.url.includes("//")) {
+    req.url = req.url.replace(/\/{2,}/g, "/");
+  }
+  next();
+});
 function getGenAI() {
   const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
   if (!apiKey) return null;
@@ -388,7 +394,7 @@ const ANALYTICS_CACHE = {
     "mitti-cafe": 0,
     "rao-law": 0,
     "nova-dental": 0,
-    "fold-yoga": 0,
+    "fold-atelier": 0,
     "apex-residences": 0,
     "atelier-north": 0,
     "studio": 0
@@ -400,7 +406,8 @@ app.post("/api/track", async (req, res) => {
   try {
     const { path: reqPath, demo, title, referrer, createdAt } = req.body || {};
     const cleanPath = typeof reqPath === "string" ? reqPath.slice(0, 300) : "/";
-    const cleanDemo = typeof demo === "string" ? demo.slice(0, 80) : "studio";
+    let cleanDemo = typeof demo === "string" ? demo.slice(0, 80) : "studio";
+    if (cleanDemo === "fold-yoga") cleanDemo = "fold-atelier";
     const cleanTitle = typeof title === "string" ? title.slice(0, 200) : "";
     const cleanReferrer = typeof referrer === "string" ? referrer.slice(0, 300) : "direct";
     const cleanCreatedAt = createdAt || new Date().toISOString();
@@ -600,6 +607,7 @@ async function startServer() {
 
   // Serve static assets, demos, legal, work, js and inbox
   app.use("/assets", express.static(path.join(__dirname, "assets")));
+  app.use(["/demos/:demo/assets", "/demos/assets", "/work/assets", "/legal/assets"], express.static(path.join(__dirname, "assets")));
   app.use("/demos", express.static(path.join(__dirname, "demos")));
   app.use("/work", express.static(path.join(__dirname, "work")));
   app.use("/legal", express.static(path.join(__dirname, "legal")));
