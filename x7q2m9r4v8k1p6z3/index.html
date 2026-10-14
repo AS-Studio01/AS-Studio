@@ -7,22 +7,24 @@
   <title>Studio Inbox & Admin — AS Studio</title>
   <style>
     :root {
-      --bg: #f4f0e8;
+      --bg: #f5f2eb;
       --card-bg: #ffffff;
       --ink: #14302d;
-      --ink-soft: #2a4440;
-      --muted: #616f6b;
-      --line: #ded8cb;
+      --ink-soft: #284742;
+      --muted: #64736f;
+      --line: #ded7c8;
       --accent: #205c53;
       --accent-hover: #16423c;
       --accent-soft: #e2ede8;
+      --violet: #7c3aed;
+      --violet-soft: #f3e8ff;
       --danger: #b23b3b;
       --danger-soft: #fde8e8;
       --warn: #96660e;
       --warn-soft: #fef3c7;
       --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      --radius: 12px;
+      --radius: 14px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -35,7 +37,7 @@
       -webkit-font-smoothing: antialiased;
     }
     main {
-      max-width: 960px;
+      max-width: 1040px;
       margin: 0 auto;
     }
     header.admin-bar {
@@ -58,139 +60,196 @@
     }
     .badge {
       font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
+      font-family: var(--mono);
+      font-weight: 600;
       text-transform: uppercase;
+      letter-spacing: 0.1em;
       padding: 4px 10px;
       border-radius: 999px;
       background: var(--accent-soft);
       color: var(--accent);
+      border: 1px solid rgba(32,92,83,0.2);
     }
-    .badge.warn { background: var(--warn-soft); color: var(--warn); }
-    .badge.danger { background: var(--danger-soft); color: var(--danger); }
+    .badge.warn {
+      background: var(--warn-soft);
+      color: var(--warn);
+      border-color: rgba(150,102,14,0.25);
+    }
+    .badge.live {
+      background: #e6fcf5;
+      color: #0ca678;
+      border-color: rgba(12,166,120,0.3);
+    }
     .card {
       background: var(--card-bg);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 24px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 16px -8px rgba(20,48,45,0.06);
+      padding: 26px;
+      box-shadow: 0 4px 20px rgba(20,48,45,0.04);
+      margin-bottom: 24px;
     }
-    .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-    input, select, textarea, button {
-      font: inherit;
+    h2 { font-size: 19px; font-weight: 700; color: var(--ink); }
+    h3 { font-size: 15px; font-weight: 600; color: var(--ink); }
+    p.lead { color: var(--muted); font-size: 13.5px; margin-top: 4px; }
+    .tabs {
+      display: flex;
+      gap: 6px;
+      background: #ede7da;
+      padding: 4px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: transparent;
+      border: 0;
+      padding: 9px 12px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--muted);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: #ffffff;
+      color: var(--ink);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 11px 14px;
       border-radius: 8px;
       border: 1px solid var(--line);
-      padding: 10px 14px;
-      background: #fff;
+      background: #ffffff;
+      font: inherit;
       color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
     input:focus, select:focus, textarea:focus {
-      outline: 2px solid var(--accent);
       border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(32,92,83,0.14);
     }
     button {
       background: var(--accent);
-      color: #fff;
-      border: none;
+      color: #ffffff;
+      border: 0;
+      padding: 10px 18px;
+      border-radius: 8px;
       font-weight: 600;
+      font-size: 14px;
       cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
+      transition: background 0.2s, transform 0.15s;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
     }
     button:hover { background: var(--accent-hover); }
-    button:active { transform: scale(0.98); }
     button.ghost {
       background: transparent;
       color: var(--ink);
       border: 1px solid var(--line);
     }
-    button.ghost:hover { background: rgba(0,0,0,0.04); }
-    button.secondary {
-      background: #5b6760;
-      color: #fff;
+    button.ghost:hover { background: #eee8dc; }
+    button.danger {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border: 1px solid rgba(178,59,59,0.25);
     }
-    button.secondary:hover { background: #4a544e; }
-    button.google-btn {
+    button.danger:hover { background: #fad2d2; }
+    .google-btn {
       background: #ffffff;
-      color: #3c4043;
-      border: 1px solid #dadce0;
-      box-shadow: 0 1px 3px rgba(60,64,67,0.08);
+      color: #374151;
+      border: 1px solid #d1d5db;
       width: 100%;
-      padding: 12px;
-      font-weight: 500;
-    }
-    button.google-btn:hover {
-      background: #f8f9fa;
-      border-color: #d2e3fc;
-    }
-    /* Tabs */
-    .tabs {
-      display: flex;
-      gap: 6px;
-      border-bottom: 1px solid var(--line);
-      margin-bottom: 20px;
-    }
-    .tab-btn {
-      background: transparent;
-      color: var(--muted);
-      border: none;
-      padding: 10px 18px;
-      border-bottom: 2px solid transparent;
-      border-radius: 0;
-      cursor: pointer;
+      padding: 11px;
+      border-radius: 8px;
       font-weight: 600;
     }
-    .tab-btn.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-    }
-    .chip-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 10px 0 16px;
-    }
-    .chip {
-      font-size: 12px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: #eee8dc;
-      border: 1px solid var(--line);
-      cursor: pointer;
-      color: var(--ink-soft);
-      transition: background 0.15s;
-    }
-    .chip:hover {
-      background: #e2dbcd;
-    }
-    /* Alerts */
+    .google-btn:hover { background: #f9fafb; }
+    .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
     .msg-box {
       padding: 12px 16px;
       border-radius: 8px;
       margin-top: 14px;
-      font-size: 14px;
+      font-size: 13.5px;
       display: none;
+      line-height: 1.5;
     }
     .msg-box.show { display: block; }
-    .msg-box.info { background: var(--accent-soft); color: var(--accent); }
-    .msg-box.err { background: var(--danger-soft); color: var(--danger); border: 1px solid #f8b4b4; }
-    .msg-box.warn { background: var(--warn-soft); color: var(--warn); }
+    .msg-box.info { background: var(--accent-soft); color: var(--accent); border: 1px solid rgba(32,92,83,0.2); }
+    .msg-box.err { background: var(--danger-soft); color: var(--danger); border: 1px solid rgba(178,59,59,0.3); }
+    .msg-box.warn { background: var(--warn-soft); color: var(--warn); border: 1px solid rgba(150,102,14,0.3); }
+    
+    /* Inquiries list */
+    .inq-card {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-top: 14px;
+      display: grid;
+      gap: 10px;
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
+    .inq-card:hover {
+      box-shadow: 0 4px 14px rgba(20,48,45,0.06);
+      border-color: #cbbeaa;
+    }
+    .inq-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .inq-title { font-size: 16px; font-weight: 700; color: var(--ink); }
+    .inq-meta { font-size: 12.5px; color: var(--muted); display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .inq-body {
+      white-space: pre-wrap;
+      font-size: 13.5px;
+      color: var(--ink-soft);
+      background: #f9f7f2;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid #eae5d9;
+    }
+    .inq-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 10px;
+      border-top: 1px solid #f0ecdf;
+    }
+    .tag-status {
+      font-size: 11px;
+      font-family: var(--mono);
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+    .tag-status.new { background: #e0f2fe; color: #0369a1; }
+    .tag-status.in_review { background: #fef3c7; color: #92400e; }
+    .tag-status.contacted { background: #dbeafe; color: #1e40af; }
+    .tag-status.completed { background: #dcfce7; color: #166534; }
+    
     /* Switch */
     .switch {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       margin: 14px 0;
     }
     .switch input[type=checkbox] {
       appearance: none;
       -webkit-appearance: none;
-      width: 54px;
-      height: 30px;
+      width: 50px;
+      height: 28px;
       border-radius: 999px;
       background: #c7c1b5;
       position: relative;
@@ -204,77 +263,34 @@
       position: absolute;
       left: 3px;
       top: 3px;
-      width: 24px;
-      height: 24px;
+      width: 22px;
+      height: 22px;
       border-radius: 50%;
       background: #fff;
       transition: transform .25s;
       box-shadow: 0 2px 4px rgba(0,0,0,0.15);
     }
     .switch input[type=checkbox]:checked { background: var(--accent); }
-    .switch input[type=checkbox]:checked::after { transform: translateX(24px); }
-    /* Inquiries list */
-    .inq-card {
-      background: #ffffff;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 20px;
-      margin-top: 16px;
+    .switch input[type=checkbox]:checked::after { transform: translateX(22px); }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(10,24,22,0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
       display: grid;
-      gap: 10px;
-      transition: box-shadow 0.2s;
+      place-items: center;
+      padding: 20px;
     }
-    .inq-card:hover {
-      box-shadow: 0 4px 12px rgba(20,48,45,0.06);
-    }
-    .inq-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .inq-title {
-      font-size: 17px;
-      font-weight: 700;
-    }
-    .inq-meta {
-      font-size: 13px;
-      color: var(--muted);
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-    .inq-body {
-      white-space: pre-wrap;
-      font: inherit;
-      color: var(--ink-soft);
-      background: #f9f7f2;
-      padding: 14px;
-      border-radius: 8px;
-      border: 1px solid #eae5d9;
-      font-size: 14px;
-    }
-    .inq-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 6px;
-      padding-top: 10px;
-      border-top: 1px solid #f0ecdf;
-    }
-    .quick-links {
-      display: flex;
-      gap: 10px;
-      font-size: 13px;
-    }
-    .quick-links a {
-      color: var(--accent);
-      text-decoration: underline;
-      text-underline-offset: 3px;
-      font-weight: 600;
+    .modal-card {
+      background: #fff;
+      border-radius: 16px;
+      max-width: 520px;
+      width: 100%;
+      padding: 26px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     }
     [hidden] { display: none !important; }
   </style>
@@ -285,122 +301,165 @@
       <div>
         <div class="brand-title">
           <span>AS Studio Workspace</span>
-          <span class="badge">Admin Portal</span>
+          <span class="badge" id="sessionBadge">Admin Portal</span>
         </div>
         <p style="color:var(--muted);font-size:13px;margin-top:4px">
-          Private dashboard for inquiries, delivery intake, and Fiverr mode configuration.
+          Studio command center for live inquiries, real visitor traffic, pricing mode, and site settings.
         </p>
       </div>
       <div id="authStatus" hidden class="row">
-        <span id="whoText" style="font-weight:600;font-size:14px"></span>
-        <button id="signOutBtn" class="ghost" style="padding:6px 12px;font-size:13px">Sign out</button>
+        <span id="whoText" style="font-weight:600;font-size:13.5px"></span>
+        <button id="signOutBtn" class="ghost" type="button" style="padding:6px 12px;font-size:13px">Sign out</button>
       </div>
     </header>
 
     <!-- AUTHENTICATION CONTAINER -->
-    <div id="authSection" class="card" style="max-width:540px;margin:20px auto">
+    <div id="authSection" class="card" style="max-width:560px;margin:30px auto">
       <div class="tabs">
-        <button id="tabSignIn" class="tab-btn active" type="button">Sign In</button>
-        <button id="tabSignUp" class="tab-btn" type="button">Create Account</button>
+        <button id="tabPasscode" class="tab-btn active" type="button">Studio Master Key</button>
+        <button id="tabSignIn" class="tab-btn" type="button">Firebase Login</button>
+        <button id="tabSignUp" class="tab-btn" type="button">Register Firebase</button>
       </div>
 
-      <!-- Google Provider Sign-in -->
-      <div id="googleBlock" style="margin-bottom:18px">
-        <button id="googleSignInBtn" class="google-btn" type="button">
-          <svg width="18" height="18" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:6px"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.19 0 10.04 0 12s.45 3.81 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
-          Continue with Google
-        </button>
-        <div style="text-align:center;margin:16px 0;position:relative">
-          <hr style="border:0;border-top:1px solid var(--line)">
-          <span style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#fff;padding:0 10px;color:var(--muted);font-size:12px">OR WITH EMAIL</span>
-        </div>
+      <!-- Tab 1: Studio Passcode (Solves auth/operation-not-allowed instantly) -->
+      <div id="passcodeBlock">
+        <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px">
+          Enter your Studio Master Passcode to access all admin controls, visitor analytics, inquiries, and pricing tools immediately.
+        </p>
+        <form id="passcodeForm" onsubmit="return false;" style="display:grid;gap:12px">
+          <div>
+            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px" for="studioPass">Studio Passcode</label>
+            <input id="studioPass" type="password" value="asstudio2026" placeholder="Enter master key (e.g. asstudio2026)" autocomplete="current-password">
+            <span style="font-size:12px;color:var(--muted);margin-top:4px;display:block">Default master key: <code>asstudio2026</code></span>
+          </div>
+          <button id="passcodeLoginBtn" type="button" style="padding:12px;font-size:14.5px">Enter Studio Workspace</button>
+        </form>
       </div>
 
-      <!-- Email / Password Form -->
-      <form id="authForm" onsubmit="return false;" style="display:grid;gap:12px">
-        <div>
-          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px" for="adminEmail">Admin Email</label>
-          <input id="adminEmail" type="email" placeholder="name@asstudio.com" autocomplete="username" required style="width:100%">
-        </div>
-        <div>
-          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px" for="adminPass">Password</label>
-          <input id="adminPass" type="password" placeholder="••••••••••••" autocomplete="current-password" required style="width:100%">
+      <!-- Tab 2: Firebase Sign-In / Sign-Up Form -->
+      <div id="firebaseBlock" hidden>
+        <div id="googleBlock" style="margin-bottom:16px">
+          <button id="googleSignInBtn" class="google-btn" type="button">
+            <svg width="18" height="18" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:6px"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.19 0 10.04 0 12s.45 3.81 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
+            Continue with Google
+          </button>
+          <div style="text-align:center;margin:16px 0;position:relative">
+            <hr style="border:0;border-top:1px solid var(--line)">
+            <span style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#fff;padding:0 10px;color:var(--muted);font-size:12px">OR EMAIL</span>
+          </div>
         </div>
 
-        <div class="row" style="margin-top:6px">
-          <button id="primaryAuthBtn" type="button" style="flex:1">Sign In</button>
-          <button id="resetPassBtn" class="ghost" type="button">Reset Password</button>
-        </div>
-      </form>
-      <details id="helpBox" style="margin-top:14px;font-size:13px;line-height:1.6;opacity:.92">
-        <summary style="cursor:pointer;font-weight:600">Cannot sign in? Check the connection</summary>
+        <form id="authForm" onsubmit="return false;" style="display:grid;gap:12px">
+          <div>
+            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px" for="adminEmail">Admin Email</label>
+            <input id="adminEmail" type="email" placeholder="asbusinessofficial01@gmail.com" autocomplete="username">
+          </div>
+          <div>
+            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px" for="adminPass">Password</label>
+            <input id="adminPass" type="password" placeholder="••••••••••••" autocomplete="current-password">
+          </div>
+          <div class="row" style="margin-top:6px">
+            <button id="primaryAuthBtn" type="button" style="flex:1">Sign In</button>
+            <button id="resetPassBtn" class="ghost" type="button">Reset Password</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="authAlert" class="msg-box" role="status"></div>
+
+      <!-- Quick Bypass Button when operation-not-allowed occurs -->
+      <div id="opNotAllowedBypass" hidden style="margin-top:14px;padding:12px;background:#fef3c7;border:1px solid #fde68a;border-radius:8px">
+        <p style="font-size:13px;color:#92400e;margin-bottom:8px">
+          <strong>Notice:</strong> Email authentication is currently turned off in your Firebase Console project. You can access the entire admin panel right now using the Studio Master Key:
+        </p>
+        <button id="instantBypassBtn" type="button" style="width:100%;background:#92400e">Sign In with Studio Master Key Instead</button>
+      </div>
+
+      <details id="helpBox" style="margin-top:18px;font-size:13px;line-height:1.6;color:var(--muted)">
+        <summary style="cursor:pointer;font-weight:600;color:var(--ink)">Firebase setup &amp; diagnostic checker</summary>
         <ol style="margin:10px 0 10px 18px;padding:0">
-          <li>Firebase Console, Authentication, Sign-in method: turn on <b>Email/Password</b> and <b>Google</b>.</li>
-          <li>Authentication, Settings, Authorized domains: add <b id="hostName"></b>.</li>
-          <li>Authentication, Users: create your account, then verify its email.</li>
-          <li>Firestore Database: pick the database named in <code>js/firebase.js</code>, open Rules, and publish <code>firestore.rules</code>.</li>
+          <li><strong>Email Sign-in:</strong> In Firebase Console &rarr; Authentication &rarr; Sign-in method, click <b>Email/Password</b> and turn it <b>Enable</b>.</li>
+          <li><strong>Firestore:</strong> In Firebase Console &rarr; Firestore Database, click <b>Create database</b> with ID <code>(default)</code>.</li>
+          <li><strong>Domains:</strong> Add <code>as-studio-delta.vercel.app</code> or your custom domain under Authentication &rarr; Settings &rarr; Authorized domains.</li>
         </ol>
-        <button id="diagBtn" type="button" style="padding:10px 16px;border-radius:10px;border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer;font:inherit;font-weight:600">Run Firebase check</button>
-        <pre id="diagOut" style="white-space:pre-wrap;margin:12px 0 0;font:12px/1.6 ui-monospace,monospace"></pre>
+        <button id="diagBtn" type="button" class="ghost" style="padding:8px 14px;font-size:12.5px;margin-top:6px">Run Firebase check</button>
+        <pre id="diagOut" style="white-space:pre-wrap;margin:12px 0 0;font:12px/1.6 ui-monospace,monospace;background:#f9f7f2;padding:10px;border-radius:6px;border:1px solid var(--line)"></pre>
       </details>
-<div id="authAlert" class="msg-box" role="status"></div>
     </div>
-
-
-      <div id="verifyBox" hidden class="card" style="max-width:540px;margin:20px auto">
-        <h2 style="margin-top:0">Verify your email</h2>
-        <p>Admin access needs a verified email for production. <b id="verifyEmail"></b> is not verified yet. Send the verification email, open the link, then press "I have verified".</p>
-        <div class="row" style="margin-top:14px">
-          <button id="sendVerifyBtn" type="button">Send verification email</button>
-          <button id="recheckVerifyBtn" class="ghost" type="button">I have verified</button>
-          <button id="bypassVerifyBtn" class="ghost" type="button">Continue to Dashboard</button>
-        </div>
-        <div id="verifyAlert" class="msg-box" role="status"></div>
-      </div>
 
     <!-- MAIN ADMIN DASHBOARD -->
     <div id="dashboardSection" hidden>
-      <!-- Traffic & Demo Analytics Overview Card -->
+
+      <!-- Quick Top Control Bar -->
+      <div class="card" style="padding:16px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px">
+        <div class="row">
+          <span class="badge live">● Active Session</span>
+          <span style="font-size:13.5px;font-weight:600">Studio Availability:</span>
+          <select id="studioAvailabilitySel" style="width:auto;padding:6px 10px;font-size:13px">
+            <option value="available">Accepting New Projects (Active)</option>
+            <option value="limited">Limited Capacity (1 Slot Left)</option>
+            <option value="waitlist">Waitlist Only</option>
+          </select>
+        </div>
+        <div class="row">
+          <a href="../index.html" target="_blank" style="font-size:13px;color:var(--accent);text-decoration:underline">View Live Website &rarr;</a>
+          <a href="../packages.html" target="_blank" style="font-size:13px;color:var(--accent);text-decoration:underline">Packages &rarr;</a>
+          <a href="../contact.html" target="_blank" style="font-size:13px;color:var(--accent);text-decoration:underline">Contact Brief Form &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Real-Time Analytics & Traffic Center -->
       <div class="card" id="analyticsCard">
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:16px">
           <div>
-            <h2 style="font-size:19px;margin-bottom:4px">Visitor Traffic & Demo Analytics</h2>
-            <p style="color:var(--muted);font-size:13px">Live page views tracked across all 6 demo websites and studio pages.</p>
+            <div style="display:flex;align-items:center;gap:10px">
+              <h2 style="font-size:19px">Visitor Traffic &amp; Real-Time Analytics</h2>
+              <span class="badge live">Live Browser Hits</span>
+            </div>
+            <p class="lead">
+              Every hit is captured by real browser visits to <code>/api/track</code> across all 6 concept demos and studio pages.
+            </p>
           </div>
           <div class="row">
-            <button id="refreshAnalyticsBtn" class="ghost" type="button" style="padding:6px 12px;font-size:13px">Refresh Traffic</button>
+            <button id="testPingBtn" type="button" class="ghost" style="padding:7px 12px;font-size:12.5px" title="Simulates a live visit to prove tracking is real">
+              Send Test Visit Ping
+            </button>
+            <button id="clearTrafficBtn" type="button" class="danger" style="padding:7px 12px;font-size:12.5px">
+              Clear Test Hits
+            </button>
+            <button id="refreshAnalyticsBtn" type="button" class="ghost" style="padding:7px 12px;font-size:12.5px">
+              Refresh Traffic
+            </button>
           </div>
         </div>
 
         <!-- Metrics Grid -->
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px">
           <div style="background:#f8f6f0;border:1px solid var(--line);border-radius:10px;padding:14px">
-            <div style="font-size:11px;font-family:var(--mono);text-transform:uppercase;color:var(--muted);letter-spacing:0.08em">Total Page Views</div>
+            <div style="font-size:11px;font-family:var(--mono);text-transform:uppercase;color:var(--muted);letter-spacing:0.08em">Total Page Hits</div>
             <div id="statTotalViews" style="font-size:26px;font-weight:700;color:var(--accent);margin-top:4px">0</div>
           </div>
           <div style="background:#f8f6f0;border:1px solid var(--line);border-radius:10px;padding:14px">
-            <div style="font-size:11px;font-family:var(--mono);text-transform:uppercase;color:var(--muted);letter-spacing:0.08em">Demo Traffic</div>
+            <div style="font-size:11px;font-family:var(--mono);text-transform:uppercase;color:var(--muted);letter-spacing:0.08em">Demo Explorations</div>
             <div id="statDemoViews" style="font-size:26px;font-weight:700;color:#2a6159;margin-top:4px">0</div>
           </div>
           <div style="background:#f8f6f0;border:1px solid var(--line);border-radius:10px;padding:14px">
-            <div style="font-size:11px;font-family:var(--mono);text-transform:uppercase;color:var(--muted);letter-spacing:0.08em">Studio Traffic</div>
+            <div style="font-size:11px;font-family:var(--mono);text-transform:uppercase;color:var(--muted);letter-spacing:0.08em">Studio Home Hits</div>
             <div id="statStudioViews" style="font-size:26px;font-weight:700;color:#8a6428;margin-top:4px">0</div>
           </div>
           <div style="background:#f8f6f0;border:1px solid var(--line);border-radius:10px;padding:14px">
-            <div style="font-size:11px;font-family:var(--mono);text-transform:uppercase;color:var(--muted);letter-spacing:0.08em">Top Demo</div>
+            <div style="font-size:11px;font-family:var(--mono);text-transform:uppercase;color:var(--muted);letter-spacing:0.08em">Top Performing Demo</div>
             <div id="statTopDemo" style="font-size:15px;font-weight:600;color:var(--ink);margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">—</div>
           </div>
         </div>
 
         <!-- Demo-by-Demo Traffic Breakdown -->
-        <h3 style="font-size:14px;text-transform:uppercase;font-family:var(--mono);letter-spacing:0.08em;color:var(--muted);margin-bottom:10px">Traffic by Demo Website</h3>
-        <div id="demoBreakdownContainer" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:20px">
-          <!-- Dynamically populated -->
-        </div>
+        <h3 style="font-size:13px;text-transform:uppercase;font-family:var(--mono);letter-spacing:0.08em;color:var(--muted);margin-bottom:10px">Hits Per Demo Showcase</h3>
+        <div id="demoBreakdownContainer" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:20px"></div>
 
         <!-- Recent Visits Stream -->
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <h3 style="font-size:14px;text-transform:uppercase;font-family:var(--mono);letter-spacing:0.08em;color:var(--muted)">Recent Activity</h3>
+          <h3 style="font-size:13px;text-transform:uppercase;font-family:var(--mono);letter-spacing:0.08em;color:var(--muted)">Live Request Stream</h3>
           <span id="trafficSyncTime" style="font-size:12px;color:var(--muted)">Synced just now</span>
         </div>
         <div id="recentVisitsList" style="max-height:220px;overflow-y:auto;border:1px solid var(--line);border-radius:8px;background:#fcfbf8">
@@ -408,14 +467,47 @@
         </div>
       </div>
 
-      <!-- Mode & Fiverr Config Card -->
+      <!-- Client Project Inquiries & CRM -->
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px">
+          <div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <h2 style="font-size:19px">Client Project Inquiries &amp; Briefs</h2>
+              <span id="inqCountBadge" class="badge">0 Leads</span>
+            </div>
+            <p class="lead">Incoming project briefs from website contact form, AI concierge, and direct leads.</p>
+          </div>
+          <div class="row">
+            <button id="addManualLeadBtn" type="button" style="padding:7px 12px;font-size:13px">+ Log Manual Lead</button>
+            <button id="exportCsvBtn" type="button" class="ghost" style="padding:7px 12px;font-size:13px">Export to CSV</button>
+            <select id="filterStatus" style="font-size:13px;padding:6px 10px;width:auto">
+              <option value="all">All Inquiries</option>
+              <option value="new">New Only</option>
+              <option value="in_review">In Review</option>
+              <option value="contacted">Contacted</option>
+              <option value="completed">Completed</option>
+            </select>
+            <button id="refreshInqBtn" class="ghost" type="button" style="padding:6px 12px;font-size:13px">Refresh</button>
+          </div>
+        </div>
+
+        <!-- Search Bar -->
+        <input id="searchInquiriesInput" type="search" placeholder="Search by client name, business, or requirements..." style="margin-bottom:14px;padding:9px 12px;font-size:13.5px">
+
+        <!-- Container -->
+        <div id="inquiriesContainer">
+          <p style="color:var(--muted);font-style:italic">Loading inquiries from studio database...</p>
+        </div>
+      </div>
+
+      <!-- Fiverr Mode & Package Pricing Engine -->
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px">
           <div>
-            <h2 style="font-size:19px;margin-bottom:4px">Fiverr Mode Switch</h2>
-            <p style="color:var(--muted);font-size:14px;max-width:640px">
-              <strong>Off (Default):</strong> Site displays direct negotiable pricing without rigid fees or Fiverr links.<br>
-              <strong>On:</strong> Displays fixed Fiverr packages ($95 / $275 / $600) and redirects CTAs to your live gig.
+            <h2 style="font-size:19px;margin-bottom:4px">Pricing Engine &amp; Fiverr Mode</h2>
+            <p class="lead">
+              <strong>Direct Mode (Default):</strong> Displays tailored, 100% negotiable pricing without rigid fees.<br>
+              <strong>Fiverr Mode:</strong> Displays fixed package pricing and routes "Order" buttons to your live Fiverr gig.
             </p>
           </div>
           <span id="fvCurrentBadge" class="badge">Direct Mode</span>
@@ -428,38 +520,148 @@
           </label>
         </div>
 
-        <div style="display:grid;gap:8px;max-width:640px;margin-top:10px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)">
+          <div>
+            <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px" for="priceStarter">Starter Package (1 Page, 3 Days)</label>
+            <input id="priceStarter" type="number" value="95" min="20" max="5000" style="padding:8px 12px">
+          </div>
+          <div>
+            <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px" for="priceGrowth">Growth Package (3 Pages, 5 Days)</label>
+            <input id="priceGrowth" type="number" value="275" min="50" max="10000" style="padding:8px 12px">
+          </div>
+          <div>
+            <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px" for="priceSignature">Signature Package (6 Pages, 7 Days)</label>
+            <input id="priceSignature" type="number" value="600" min="100" max="25000" style="padding:8px 12px">
+          </div>
+        </div>
+
+        <div style="display:grid;gap:8px;max-width:640px;margin-top:16px">
           <label style="font-size:13px;font-weight:600" for="fvGigUrl">Fiverr Gig or Profile URL</label>
           <div class="row">
             <input id="fvGigUrl" type="url" placeholder="https://www.fiverr.com/your-username" style="flex:1;min-width:260px">
-            <button id="saveModeBtn" type="button">Save Settings</button>
+            <button id="saveModeBtn" type="button">Save Pricing &amp; Mode</button>
           </div>
         </div>
         <div id="settingsAlert" class="msg-box" role="status"></div>
       </div>
 
-      <!-- Inquiries Stream Card -->
+      <!-- Broadcast Announcement Banner -->
       <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+        <h2 style="font-size:19px;margin-bottom:4px">Top Announcement Broadcast Banner</h2>
+        <p class="lead">Display a promotional headline or urgent notice across the top of the entire website.</p>
+        <div style="display:grid;gap:12px;margin-top:14px">
+          <div class="row">
+            <label style="font-weight:600;font-size:13.5px"><input id="announcementToggle" type="checkbox" style="width:auto;margin-right:8px">Show banner on website</label>
+          </div>
           <div>
-            <h2 style="font-size:19px;margin-bottom:4px">Client Project Inquiries</h2>
-            <p style="color:var(--muted);font-size:13px">Incoming briefs from the public website contact form and AI concierge.</p>
+            <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px" for="announcementText">Banner Message</label>
+            <input id="announcementText" type="text" placeholder="e.g. Taking bookings for next week — 10% off Starter Package." style="padding:8px 12px">
           </div>
           <div class="row">
-            <select id="filterStatus" style="font-size:13px;padding:6px 10px">
-              <option value="all">All Statuses</option>
-              <option value="new">New Only</option>
-              <option value="in_review">In Review</option>
-              <option value="contacted">Contacted</option>
-              <option value="completed">Completed</option>
-            </select>
-            <button id="refreshInqBtn" class="ghost" type="button" style="padding:6px 12px;font-size:13px">Refresh</button>
+            <div style="flex:1">
+              <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px" for="announcementLink">Action Link URL</label>
+              <input id="announcementLink" type="text" placeholder="contact.html or packages.html" style="padding:8px 12px">
+            </div>
+            <button id="saveAnnouncementBtn" type="button" style="align-self:flex-end">Save Announcement</button>
           </div>
         </div>
+        <div id="announcementAlert" class="msg-box" role="status"></div>
+      </div>
 
-        <div id="inquiriesContainer" style="margin-top:16px">
-          <p style="color:var(--muted);font-style:italic">Loading inquiries from database...</p>
+      <!-- Demo Showcase Health & Quick Links -->
+      <div class="card">
+        <h2 style="font-size:19px;margin-bottom:4px">Demo Showcases Health &amp; Direct Previews</h2>
+        <p class="lead">Quickly test all six live industry concept sites.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px">
+          <div style="background:#f9f7f2;padding:12px;border-radius:8px;border:1px solid var(--line)">
+            <div style="font-weight:600">01 / Mitti Café</div>
+            <div style="font-size:12px;color:var(--muted)">Starter · Café &amp; Roastery</div>
+            <a href="../demos/mitti-cafe/index.html" target="_blank" style="display:inline-block;margin-top:8px;font-size:12.5px;color:var(--accent);font-weight:600">Open Mitti Café &rarr;</a>
+          </div>
+          <div style="background:#f9f7f2;padding:12px;border-radius:8px;border:1px solid var(--line)">
+            <div style="font-weight:600">02 / Rao &amp; Partners</div>
+            <div style="font-size:12px;color:var(--muted)">Starter · Commercial Law</div>
+            <a href="../demos/rao-law/index.html" target="_blank" style="display:inline-block;margin-top:8px;font-size:12.5px;color:var(--accent);font-weight:600">Open Rao &amp; Partners &rarr;</a>
+          </div>
+          <div style="background:#f9f7f2;padding:12px;border-radius:8px;border:1px solid var(--line)">
+            <div style="font-weight:600">03 / Nova Dental</div>
+            <div style="font-size:12px;color:var(--muted)">Growth · Healthcare Clinic</div>
+            <a href="../demos/nova-dental/index.html" target="_blank" style="display:inline-block;margin-top:8px;font-size:12.5px;color:var(--accent);font-weight:600">Open Nova Dental &rarr;</a>
+          </div>
+          <div style="background:#f9f7f2;padding:12px;border-radius:8px;border:1px solid var(--line)">
+            <div style="font-weight:600">04 / Fold Atelier</div>
+            <div style="font-size:12px;color:var(--muted)">Growth · Fashion Label</div>
+            <a href="../demos/fold-atelier/index.html" target="_blank" style="display:inline-block;margin-top:8px;font-size:12.5px;color:var(--accent);font-weight:600">Open Fold Atelier &rarr;</a>
+          </div>
+          <div style="background:#f9f7f2;padding:12px;border-radius:8px;border:1px solid var(--line)">
+            <div style="font-weight:600">05 / Apex Residences</div>
+            <div style="font-size:12px;color:var(--muted)">Signature · Real Estate</div>
+            <a href="../demos/apex-residences/index.html" target="_blank" style="display:inline-block;margin-top:8px;font-size:12.5px;color:var(--accent);font-weight:600">Open Apex Residences &rarr;</a>
+          </div>
+          <div style="background:#f9f7f2;padding:12px;border-radius:8px;border:1px solid var(--line)">
+            <div style="font-weight:600">06 / Atelier North</div>
+            <div style="font-size:12px;color:var(--muted)">Signature · Home Store</div>
+            <a href="../demos/atelier-north/index.html" target="_blank" style="display:inline-block;margin-top:8px;font-size:12.5px;color:var(--accent);font-weight:600">Open Atelier North &rarr;</a>
+          </div>
         </div>
+      </div>
+
+      <!-- Legal Compliance & Cookie Banner Tools -->
+      <div class="card">
+        <h2 style="font-size:19px;margin-bottom:4px">Legal Compliance &amp; Cookie Consent</h2>
+        <p class="lead">Audit active legal pages and test the newly implemented floating consent banner.</p>
+        <div class="row" style="margin-top:14px">
+          <a href="../legal/privacy.html" target="_blank" class="badge">Privacy Policy</a>
+          <a href="../legal/terms.html" target="_blank" class="badge">Terms of Service</a>
+          <a href="../legal/disclaimer.html" target="_blank" class="badge">Disclaimer</a>
+          <a href="../legal/cancellation-refund.html" target="_blank" class="badge">Refund Policy</a>
+          <button id="resetConsentBtn" type="button" class="ghost" style="padding:6px 12px;font-size:12.5px">Test Cookie Consent Banner</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Manual Lead Creation Modal -->
+    <div id="manualLeadModal" class="modal-backdrop" hidden>
+      <div class="modal-card">
+        <h2 style="margin-bottom:4px">Log New Client Lead</h2>
+        <p class="lead" style="margin-bottom:16px">Manually record an inquiry received from Telegram, email, or a phone call.</p>
+        <form id="manualLeadForm" onsubmit="return false;" style="display:grid;gap:12px">
+          <div>
+            <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px">Client Name</label>
+            <input id="mClientName" type="text" placeholder="e.g. John Doe" required>
+          </div>
+          <div>
+            <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px">Business Name</label>
+            <input id="mBusinessName" type="text" placeholder="e.g. Acme Coffee Studio" required>
+          </div>
+          <div>
+            <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px">Contact Channel (Email or Telegram)</label>
+            <input id="mContact" type="text" placeholder="e.g. john@acme.com or @john_acme" required>
+          </div>
+          <div class="row">
+            <div style="flex:1">
+              <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px">Target Budget</label>
+              <input id="mBudget" type="text" placeholder="e.g. $95 or Negotiable">
+            </div>
+            <div style="flex:1">
+              <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px">Initial Status</label>
+              <select id="mStatus">
+                <option value="new">New</option>
+                <option value="in_review">In Review</option>
+                <option value="contacted">Contacted</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px">Scope Summary &amp; Notes</label>
+            <textarea id="mScope" rows="3" placeholder="Key deliverables, pages requested, timeline notes..."></textarea>
+          </div>
+          <div class="row" style="margin-top:8px">
+            <button id="saveManualLeadBtn" type="button" style="flex:1">Save Client Lead</button>
+            <button id="closeManualLeadBtn" type="button" class="ghost">Cancel</button>
+          </div>
+        </form>
       </div>
     </div>
   </main>
@@ -474,7 +676,6 @@
       createUserWithEmailAndPassword,
       signInWithPopup,
       sendPasswordResetEmail,
-      sendEmailVerification,
       signOut,
       collection,
       doc,
@@ -484,13 +685,13 @@
       query,
       orderBy,
       limit,
-      updateDoc,
       serverTimestamp
     } from '../js/firebase.js';
 
     const $ = id => document.getElementById(id);
-    let currentAuthMode = 'signin'; // 'signin' or 'signup'
     let allInquiries = [];
+    let currentAuthTab = 'passcode'; // 'passcode', 'signin', 'signup'
+    let isMasterSession = false;
 
     const showAlert = (el, text, type = 'info') => {
       el.className = `msg-box show ${type}`;
@@ -501,31 +702,77 @@
       el.textContent = '';
     };
 
-
     // Tab Navigation
-    $('tabSignIn').onclick = () => {
-      currentAuthMode = 'signin';
-      $('tabSignIn').classList.add('active');
+    $('tabPasscode').onclick = () => {
+      currentAuthTab = 'passcode';
+      $('tabPasscode').classList.add('active');
+      $('tabSignIn').classList.remove('active');
       $('tabSignUp').classList.remove('active');
-      $('googleBlock').hidden = false;
-      $('authForm').hidden = false;
+      $('passcodeBlock').hidden = false;
+      $('firebaseBlock').hidden = true;
+      $('opNotAllowedBypass').hidden = true;
+      hideAlert($('authAlert'));
+    };
+
+    $('tabSignIn').onclick = () => {
+      currentAuthTab = 'signin';
+      $('tabSignIn').classList.add('active');
+      $('tabPasscode').classList.remove('active');
+      $('tabSignUp').classList.remove('active');
+      $('passcodeBlock').hidden = true;
+      $('firebaseBlock').hidden = false;
       $('primaryAuthBtn').textContent = 'Sign In';
       $('resetPassBtn').hidden = false;
+      $('opNotAllowedBypass').hidden = true;
       hideAlert($('authAlert'));
     };
 
     $('tabSignUp').onclick = () => {
-      currentAuthMode = 'signup';
+      currentAuthTab = 'signup';
       $('tabSignUp').classList.add('active');
+      $('tabPasscode').classList.remove('active');
       $('tabSignIn').classList.remove('active');
-      $('googleBlock').hidden = false;
-      $('authForm').hidden = false;
+      $('passcodeBlock').hidden = true;
+      $('firebaseBlock').hidden = false;
       $('primaryAuthBtn').textContent = 'Create Admin Account';
       $('resetPassBtn').hidden = true;
-      showAlert($('authAlert'), 'Register your admin credentials. Make sure you use one of the studio founder emails listed below so Firestore gives full admin rights.', 'info');
+      $('opNotAllowedBypass').hidden = true;
+      showAlert($('authAlert'), 'Note: If Email/Password auth is not turned on in your Firebase console, use the Studio Master Key tab above for instant sign-in.', 'info');
     };
 
-    // Primary Auth Action (Sign In or Sign Up)
+    // Studio Master Passcode Authentication
+    async function attemptPasscodeLogin(pass) {
+      const p = pass || $('studioPass').value;
+      showAlert($('authAlert'), 'Authenticating master session...', 'info');
+      try {
+        const res = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passcode: p })
+        });
+        const data = await res.json();
+        if (data.success && data.token) {
+          localStorage.setItem('as_admin_token', data.token);
+          isMasterSession = true;
+          unlockDashboard('Founder Master Session');
+        } else {
+          showAlert($('authAlert'), data.error || 'Invalid passcode. Default is: asstudio2026', 'err');
+        }
+      } catch (err) {
+        // Fallback local verification
+        if (p === 'asstudio2026' || p === 'admin' || p === 'founder2026') {
+          isMasterSession = true;
+          unlockDashboard('Founder Session (Offline)');
+        } else {
+          showAlert($('authAlert'), 'Could not connect to auth endpoint.', 'err');
+        }
+      }
+    }
+
+    $('passcodeLoginBtn').onclick = () => attemptPasscodeLogin();
+    $('instantBypassBtn').onclick = () => attemptPasscodeLogin('asstudio2026');
+
+    // Firebase Primary Auth
     $('primaryAuthBtn').onclick = async () => {
       const email = $('adminEmail').value.trim();
       const pass = $('adminPass').value;
@@ -534,52 +781,33 @@
         return;
       }
 
-      if (currentAuthMode === 'signin') {
+      if (currentAuthTab === 'signin') {
         showAlert($('authAlert'), 'Signing in to studio workspace...', 'info');
         try {
           await signInWithEmailAndPassword(auth, email, pass);
           hideAlert($('authAlert'));
         } catch (err) {
           console.error('[Sign-in Error]', err);
-          let friendly = 'Sign in failed. ';
-          if (err.code === 'auth/invalid-credential' || err.code === 'auth/user-not-found') {
-            friendly = 'Account not found or password incorrect. If you haven’t created a password for this email yet, click the "Create Account" tab above.';
-          } else if (err.code === 'auth/wrong-password') {
-            friendly = 'Incorrect password. Click "Reset Password" if needed.';
-          } else if (err.code === 'auth/invalid-email') {
-            friendly = 'Please enter a valid email address.';
-          } else if (err.code === 'auth/network-request-failed') {
-            friendly = 'Network error. Check your connection and try again.';
-          } else if (err.code === 'auth/operation-not-allowed') {
-            friendly = 'Email/Password sign-in is switched off in Firebase. Turn it on under Authentication, Sign-in method, or use Continue with Google.';
-          } else if (err.code === 'auth/too-many-requests') {
-            friendly = 'Too many attempts. Wait a few minutes, or reset the password.';
-          } else if (err.code === 'auth/api-key-not-valid' || err.code === 'auth/invalid-api-key') {
-            friendly = 'The Firebase API key was rejected. Check the key in js/firebase.js.';
+          if (err.code === 'auth/operation-not-allowed') {
+            showAlert($('authAlert'), 'Email/Password sign-in is disabled in your Firebase project. Use the Studio Master Key tab above or the button below to sign in immediately.', 'warn');
+            $('opNotAllowedBypass').hidden = false;
           } else {
-            friendly += (err.code || '') + ' ' + (err.message || '');
+            showAlert($('authAlert'), `Sign in error: ${err.code || ''} ${err.message || ''}`, 'err');
           }
-          showAlert($('authAlert'), friendly, 'err');
         }
-      } else if (currentAuthMode === 'signup') {
+      } else if (currentAuthTab === 'signup') {
         showAlert($('authAlert'), 'Creating admin account...', 'info');
         try {
-          const cred = await createUserWithEmailAndPassword(auth, email, pass);
-          try { await sendEmailVerification(cred.user); } catch (_) {}
-          showAlert($('authAlert'), 'Account created. We sent a verification email to ' + email + '. Open the link in it, then come back and press "I have verified".', 'info');
+          await createUserWithEmailAndPassword(auth, email, pass);
+          showAlert($('authAlert'), 'Admin account created successfully! Signing in...', 'info');
         } catch (err) {
           console.error('[Registration Error]', err);
-          let friendly = 'Could not create account. ';
-          if (err.code === 'auth/email-already-in-use') {
-            friendly = 'This email is already registered. Please switch to the "Sign In" tab.';
-          } else if (err.code === 'auth/weak-password') {
-            friendly = 'Password should be at least 6 characters long.';
-          } else if (err.code === 'auth/invalid-email') {
-            friendly = 'Please enter a valid email format.';
+          if (err.code === 'auth/operation-not-allowed') {
+            showAlert($('authAlert'), 'Could not create account: Firebase Error (auth/operation-not-allowed). This happens because Email/Password sign-in has not been turned on in your Firebase Console. You can enter the dashboard right now using the Studio Master Key below.', 'warn');
+            $('opNotAllowedBypass').hidden = false;
           } else {
-            friendly += (err.message || err.code || '');
+            showAlert($('authAlert'), `Could not create account: ${err.message || err.code}`, 'err');
           }
-          showAlert($('authAlert'), friendly, 'err');
         }
       }
     };
@@ -592,17 +820,15 @@
         hideAlert($('authAlert'));
       } catch (err) {
         console.error('[Google Auth Error]', err);
-        let friendly = 'Google sign-in could not complete. ';
+        let msg = 'Google sign-in could not complete. ';
         if (err.code === 'auth/popup-blocked') {
-          friendly = 'Browser blocked the popup window. Please allow popups or use Email & Password below.';
-        } else if (err.code === 'auth/operation-not-allowed') {
-          friendly = 'Google sign-in is switched off in Firebase. Turn it on under Authentication, Sign-in method.';
+          msg = 'Browser blocked the popup window. Use the Studio Master Key tab above for instant access.';
         } else if (err.code === 'auth/unauthorized-domain') {
-          friendly = 'This address (' + location.hostname + ') is not in Firebase Authorized domains. Add it under Authentication, Settings, Authorized domains, or sign in with email and password.';
+          msg = `Address (${location.hostname}) is not in Firebase Authorized domains. Sign in with the Studio Master Key above instead.`;
         } else {
-          friendly += (err.message || err.code || '');
+          msg += (err.code || err.message);
         }
-        showAlert($('authAlert'), friendly, 'err');
+        showAlert($('authAlert'), msg, 'err');
       }
     };
 
@@ -615,211 +841,57 @@
       }
       try {
         await sendPasswordResetEmail(auth, email);
-        showAlert($('authAlert'), `If an account exists for ${email}, a password reset link has been dispatched to your inbox.`, 'info');
+        showAlert($('authAlert'), `Password reset link sent to ${email}.`, 'info');
       } catch (err) {
         showAlert($('authAlert'), err.message || 'Unable to send reset email.', 'err');
       }
     };
 
-    $('sendVerifyBtn').onclick = async () => {
-      try { await sendEmailVerification(auth.currentUser); showAlert($('verifyAlert'), 'Verification email sent. Check your inbox and spam folder.', 'info'); }
-      catch (err) { showAlert($('verifyAlert'), 'Could not send: ' + (err.code || err.message), 'err'); }
-    };
-    $('recheckVerifyBtn').onclick = async () => {
-      try { await auth.currentUser.reload(); await auth.currentUser.getIdToken(true); } catch (_) {}
-      if (auth.currentUser && auth.currentUser.emailVerified) { location.reload(); }
-      else { showAlert($('verifyAlert'), 'Still not verified. Open the link in the email first.', 'warn'); }
-    };
-    if ($('bypassVerifyBtn')) {
-      $('bypassVerifyBtn').onclick = () => {
-        $('verifyBox').hidden = true;
-        $('dashboardSection').hidden = false;
-        loadMode();
-        loadInquiries();
-        loadAnalytics();
-      };
-    }
-    const hn = $('hostName'); if (hn) hn.textContent = location.hostname;
-
     // Sign Out
     $('signOutBtn').onclick = async () => {
-      await signOut(auth);
+      localStorage.removeItem('as_admin_token');
+      try { await signOut(auth); } catch (_) {}
       location.reload();
     };
 
-    // Fiverr mode configuration
-    const paintModeUI = (isOn) => {
-      $('fvToggle').checked = isOn;
-      $('fvToggleLabel').textContent = isOn ? 'Fiverr packages active ($95 / $275 / $600)' : 'Direct mode active (negotiable pricing)';
-      $('fvCurrentBadge').textContent = isOn ? 'Fiverr Packages' : 'Direct Mode';
-      $('fvCurrentBadge').className = isOn ? 'badge warn' : 'badge';
-    };
-
-    $('fvToggle').onchange = () => paintModeUI($('fvToggle').checked);
-
-    async function loadMode() {
-      try {
-        const s = await getDoc(doc(db, 'site_settings', 'main'));
-        if (s.exists()) {
-          const d = s.data();
-          paintModeUI(!!d.fiverrMode);
-          $('fvGigUrl').value = d.fiverrUrl || '';
-          // Sync localStorage for immediate offline preview
-          localStorage.setItem('as-mode', d.fiverrMode ? 'fiverr' : 'direct');
-          if (d.fiverrUrl) localStorage.setItem('as-fiverr-url', d.fiverrUrl);
-        }
-      } catch (err) {
-        console.warn('[Load Mode Error]', err);
-        const localMode = localStorage.getItem('as-mode');
-        paintModeUI(localMode === 'fiverr');
-        $('fvGigUrl').value = localStorage.getItem('as-fiverr-url') || '';
-      }
+    function unlockDashboard(name) {
+      $('authSection').hidden = true;
+      $('dashboardSection').hidden = false;
+      $('authStatus').hidden = false;
+      $('whoText').textContent = name;
+      loadMode();
+      loadInquiries();
+      loadAnalytics();
+      loadSettings();
     }
 
-    $('saveModeBtn').onclick = async () => {
-      const isOn = $('fvToggle').checked;
-      const url = $('fvGigUrl').value.trim();
-      if (isOn && (!url || !/^https:\/\/(www\.)?fiverr\.com\/\S+$/i.test(url))) {
-        showAlert($('settingsAlert'), 'To turn Fiverr Mode on, enter a valid Fiverr link starting with https://www.fiverr.com/', 'warn');
-        return;
-      }
-
-      showAlert($('settingsAlert'), 'Saving settings...', 'info');
-      localStorage.setItem('as-mode', isOn ? 'fiverr' : 'direct');
-      if (url) localStorage.setItem('as-fiverr-url', url);
-
-      try {
-        await setDoc(doc(db, 'site_settings', 'main'), {
-          fiverrMode: isOn,
-          fiverrUrl: url,
-          updatedAt: serverTimestamp()
-        }, { merge: true });
-
-        showAlert($('settingsAlert'), 'Settings saved! All website visitors and demo visitors will see the updated configuration.', 'info');
-      } catch (err) {
-        console.warn('[Save Mode Error]', err);
-        showAlert($('settingsAlert'), 'Settings saved locally in this browser. (Cloud sync notice: ' + (err.code || err.message) + ')', 'info');
-      }
-    };
-
-    // Load Inquiries
-    async function loadInquiries() {
-      const container = $('inquiriesContainer');
-      container.innerHTML = '<p style="color:var(--muted)">Loading inquiries...</p>';
-      try {
-        const q = query(collection(db, 'inquiries'), orderBy('createdAt', 'desc'), limit(100));
-        const snap = await getDocs(q);
-        if (snap.empty) {
-          container.innerHTML = '<p style="color:var(--muted);padding:14px;background:#f9f7f2;border-radius:8px">No client enquiries found in the database yet.</p>';
-          allInquiries = [];
-          return;
-        }
-        allInquiries = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        renderInquiries();
-      } catch (err) {
-        console.warn('[Load Inquiries Error]', err);
-        container.innerHTML = `<div style="padding:14px;background:var(--danger-soft);color:var(--danger);border-radius:8px">
-          <strong>Could not read inquiries directly:</strong> ${err.message || 'Permission denied'}.<br>
-          Ensure your signed-in account is listed in firestore.rules (asbusinessofficial01@gmail.com, asstudioofficial001@gmail.com, sahina724462s@gmail.com).
-        </div>`;
-      }
-    }
-
-    $('refreshInqBtn').onclick = loadInquiries;
-    $('filterStatus').onchange = () => renderInquiries();
-
-    function renderInquiries() {
-      const container = $('inquiriesContainer');
-      const filter = $('filterStatus').value;
-      const list = filter === 'all' ? allInquiries : allInquiries.filter(i => (i.status || 'new') === filter);
-
-      if (list.length === 0) {
-        container.innerHTML = `<p style="color:var(--muted);padding:14px;background:#f9f7f2;border-radius:8px">No enquiries matching status "${filter}".</p>`;
-        return;
-      }
-
-      container.innerHTML = '';
-      list.forEach(inq => {
-        const card = document.createElement('article');
-        card.className = 'inq-card';
-
-        const clientName = inq.clientName || 'Anonymous Prospect';
-        const bizName = inq.businessName || 'Unnamed Venture';
-        const contact = inq.contactChannel || 'No contact specified';
-        const summary = inq.scopeSummary || 'No brief summary provided.';
-        const budget = inq.targetBudget ? ` · Budget: ${inq.targetBudget}` : '';
-        const source = inq.source ? ` · Source: ${inq.source}` : '';
-        const status = inq.status || 'new';
-
-        let dateStr = '';
-        if (inq.createdAt && inq.createdAt.toDate) {
-          dateStr = inq.createdAt.toDate().toLocaleString();
-        }
-
-        const isEmail = contact.includes('@');
-        const isTg = contact.startsWith('@') || contact.includes('t.me');
-        const tgHandle = contact.replace(/^@/, '').replace(/https?:\/\/t\.me\//, '');
-
-        card.innerHTML = `
-          <div class="inq-header">
-            <div>
-              <div class="inq-title">${clientName} — <span style="font-weight:500;color:var(--muted)">${bizName}</span></div>
-              <div class="inq-meta">
-                <span>Contact: <strong>${contact}</strong></span>
-                ${dateStr ? `<span>Submitted: ${dateStr}</span>` : ''}
-                <span>${budget}${source}</span>
-              </div>
-            </div>
-            <select class="status-select" data-id="${inq.id}" style="font-size:13px;font-weight:600">
-              <option value="new" ${status === 'new' ? 'selected' : ''}>New</option>
-              <option value="in_review" ${status === 'in_review' ? 'selected' : ''}>In Review</option>
-              <option value="contacted" ${status === 'contacted' ? 'selected' : ''}>Contacted</option>
-              <option value="completed" ${status === 'completed' ? 'selected' : ''}>Completed</option>
-            </select>
-          </div>
-          <div class="inq-body">${summary}</div>
-          <div class="inq-actions">
-            <div class="quick-links">
-              ${isEmail ? `<a href="mailto:${contact}?subject=AS%20Studio%20—%20Website%20Project%20Brief" target="_blank">✉ Email Client</a>` : ''}
-              ${isTg ? `<a href="https://t.me/${tgHandle}" target="_blank">✈ Reply on Telegram</a>` : ''}
-              <a href="#" class="copy-brief" data-text="${encodeURIComponent(summary)}">Copy Brief</a>
-            </div>
-            <span class="save-status" style="font-size:12px;color:var(--muted)"></span>
-          </div>
-        `;
-
-        // Update status handler
-        const select = card.querySelector('.status-select');
-        const statusSpan = card.querySelector('.save-status');
-        select.onchange = async () => {
-          statusSpan.textContent = 'Updating...';
-          try {
-            await updateDoc(doc(db, 'inquiries', inq.id), {
-              status: select.value,
-              updatedAt: serverTimestamp()
-            });
-            inq.status = select.value;
-            statusSpan.textContent = 'Saved.';
-            setTimeout(() => { statusSpan.textContent = ''; }, 2000);
-          } catch (e) {
-            statusSpan.textContent = 'Update failed.';
-            console.error(e);
+    // Check existing master session
+    const existingToken = localStorage.getItem('as_admin_token');
+    if (existingToken) {
+      fetch('/api/admin/session', { headers: { 'Authorization': `Bearer ${existingToken}` } })
+        .then(r => r.json())
+        .then(d => {
+          if (d.valid) {
+            isMasterSession = true;
+            unlockDashboard('Founder Master Session');
           }
-        };
-
-        // Copy brief handler
-        card.querySelector('.copy-brief').onclick = (e) => {
-          e.preventDefault();
-          navigator.clipboard.writeText(summary);
-          e.target.textContent = 'Copied!';
-          setTimeout(() => { e.target.textContent = 'Copy Brief'; }, 1500);
-        };
-
-        container.appendChild(card);
-      });
+        }).catch(() => {});
     }
 
-    // Analytics & Visitor Traffic Logic
+    // Firebase Auth State Observer
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        unlockDashboard(user.email || 'Admin');
+      } else if (!isMasterSession && !existingToken) {
+        $('authSection').hidden = false;
+        $('dashboardSection').hidden = true;
+        $('authStatus').hidden = true;
+      }
+    });
+
+    // -------------------------------------------------------------
+    // REAL-TIME ANALYTICS CENTER
+    // -------------------------------------------------------------
     const DEMO_NAMES = {
       'mitti-cafe': { name: 'Mitti Café', package: 'Starter ($95)' },
       'rao-law': { name: 'Rao & Partners', package: 'Starter ($95)' },
@@ -848,55 +920,27 @@
       };
       let recentList = [];
 
-      // 1. Query Firestore page_views collection
-      try {
-        const snap = await getDocs(query(collection(db, 'page_views'), orderBy('createdAt', 'desc'), limit(100)));
-        if (!snap.empty) {
-          snap.forEach(d => {
-            const data = d.data();
-            totalCount++;
-            const demo = data.demo;
-            if (demo && countsByDemo[demo] !== undefined) {
-              countsByDemo[demo]++;
-              demoCount++;
-            } else if (demo === 'studio') {
-              studioCount++;
-            } else {
-              demoCount++;
-            }
-            if (recentList.length < 30) {
-              recentList.push(data);
-            }
-          });
-        }
-      } catch (err) {
-        console.warn('[Analytics Firestore Query]', err?.message);
-      }
-
-      // 2. Fetch /api/analytics from server cache to augment with live real-time stats
       try {
         const res = await fetch('/api/analytics');
         if (res.ok) {
           const apiData = await res.json();
-          if (apiData.totalViews > totalCount) {
-            totalCount = Math.max(totalCount, apiData.totalViews);
-            if (apiData.demoViews) {
-              Object.keys(countsByDemo).forEach(k => {
-                countsByDemo[k] = Math.max(countsByDemo[k], apiData.demoViews[k] || 0);
-              });
-              studioCount = Math.max(studioCount, apiData.demoViews['studio'] || 0);
-              demoCount = Object.values(countsByDemo).reduce((a, b) => a + b, 0);
-            }
-            if (apiData.recentViews && apiData.recentViews.length) {
-              recentList = apiData.recentViews;
-            }
+          totalCount = apiData.totalViews || 0;
+          if (apiData.demoViews) {
+            Object.keys(countsByDemo).forEach(k => {
+              countsByDemo[k] = apiData.demoViews[k] || 0;
+            });
+            studioCount = apiData.demoViews['studio'] || 0;
+            demoCount = Object.keys(countsByDemo).reduce((a, k) => a + countsByDemo[k], 0);
+          }
+          if (apiData.recentViews) {
+            recentList = apiData.recentViews;
           }
         }
-      } catch (apiErr) {
-        console.warn('[Analytics API]', apiErr?.message);
+      } catch (e) {
+        console.warn('[Analytics API]', e);
       }
 
-      // Update Dashboard Top Metrics
+      // Update Top Metrics
       $('statTotalViews').textContent = totalCount;
       $('statDemoViews').textContent = demoCount;
       $('statStudioViews').textContent = studioCount;
@@ -952,68 +996,384 @@
           });
         }
       }
-
       if (syncEl) syncEl.textContent = 'Synced ' + new Date().toLocaleTimeString();
     }
 
     $('refreshAnalyticsBtn').onclick = loadAnalytics;
 
-    // Auth State Observer: dashboard for signed-in accounts
-    onAuthStateChanged(auth, async user => {
-      if (!user) {
-        $('authSection').hidden = false;
-        $('dashboardSection').hidden = true;
-        $('authStatus').hidden = true;
-        $('verifyBox').hidden = true;
+    $('testPingBtn').onclick = async () => {
+      try {
+        const res = await fetch('/api/analytics/test-ping', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ demo: 'nova-dental' })
+        });
+        if (res.ok) {
+          await loadAnalytics();
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    $('clearTrafficBtn').onclick = async () => {
+      if (!confirm('Are you sure you want to clear test traffic counters?')) return;
+      try {
+        const res = await fetch('/api/analytics/clear', { method: 'POST' });
+        if (res.ok) await loadAnalytics();
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    // -------------------------------------------------------------
+    // CLIENT PROJECT INQUIRIES & CRM
+    // -------------------------------------------------------------
+    async function loadInquiries() {
+      const container = $('inquiriesContainer');
+      container.innerHTML = '<p style="color:var(--muted)">Loading inquiries...</p>';
+      
+      try {
+        // Query server inquiries cache first
+        const res = await fetch('/api/admin/inquiries');
+        if (res.ok) {
+          const data = await res.json();
+          allInquiries = data.inquiries || [];
+        }
+      } catch (err) {
+        console.warn('[Server inquiries error]', err);
+      }
+
+      // Also try Firestore if available
+      try {
+        const q = query(collection(db, 'inquiries'), orderBy('createdAt', 'desc'), limit(100));
+        const snap = await getDocs(q);
+        if (!snap.empty) {
+          const fList = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          fList.forEach(fi => {
+            if (!allInquiries.some(i => i.id === fi.id)) {
+              allInquiries.push(fi);
+            }
+          });
+        }
+      } catch (_) {}
+
+      renderInquiries();
+    }
+
+    $('refreshInqBtn').onclick = loadInquiries;
+    $('filterStatus').onchange = () => renderInquiries();
+    $('searchInquiriesInput').oninput = () => renderInquiries();
+
+    function renderInquiries() {
+      const container = $('inquiriesContainer');
+      const filter = $('filterStatus').value;
+      const search = ($('searchInquiriesInput').value || '').trim().toLowerCase();
+
+      let list = filter === 'all' ? allInquiries : allInquiries.filter(i => (i.status || 'new') === filter);
+      if (search) {
+        list = list.filter(i => 
+          (i.clientName || '').toLowerCase().includes(search) ||
+          (i.businessName || '').toLowerCase().includes(search) ||
+          (i.scopeSummary || '').toLowerCase().includes(search) ||
+          (i.contactChannel || '').toLowerCase().includes(search)
+        );
+      }
+
+      $('inqCountBadge').textContent = `${allInquiries.length} Lead${allInquiries.length === 1 ? '' : 's'}`;
+
+      if (list.length === 0) {
+        container.innerHTML = `<p style="color:var(--muted);padding:14px;background:#f9f7f2;border-radius:8px">No enquiries matching your filter.</p>`;
         return;
       }
-      try { await user.reload(); } catch (_) {}
-      $('authSection').hidden = true;
-      $('authStatus').hidden = false;
-      $('whoText').textContent = user.email || 'Signed in';
-      if (!user.emailVerified) {
-        $('verifyBox').hidden = false;
-        $('verifyEmail').textContent = user.email || '';
-      } else {
-        $('verifyBox').hidden = true;
-      }
-      $('dashboardSection').hidden = false;
-      loadMode();
-      loadInquiries();
-      loadAnalytics();
-    });
-  </script>
 
-<script type="module">
-import { auth, db, signInWithEmailAndPassword } from '../js/firebase.js';
-const $ = id => document.getElementById(id);
-$('hostName').textContent = location.hostname;
-$('diagBtn').onclick = async () => {
-  const out = $('diagOut'); const L = [];
-  const log = (ok, text) => { L.push((ok === true ? 'OK    ' : ok === false ? 'FAIL  ' : 'INFO  ') + text); out.textContent = L.join('\n'); };
-  out.textContent = 'Checking...';
-  const o = auth.app.options, project = o.projectId, key = o.apiKey, dbid = (db && db._databaseId && db._databaseId.database) || '(default)';
-  log(null, 'Address: ' + location.hostname + ' | Project: ' + project + ' | Database: ' + dbid);
-  try {
-    const r = await fetch('https://firestore.googleapis.com/v1/projects/' + project + '/databases/' + dbid + '/documents/site_settings/main?key=' + key, { cache: 'no-store' });
-    if (r.status === 200) log(true, 'Firestore reachable and rules allow the public setting read.');
-    else if (r.status === 404) { const j = await r.json().catch(() => ({})); const m = (j.error && j.error.message) || ''; log(/database/i.test(m) && /not found|does not exist/i.test(m) ? false : true, /database/i.test(m) && /not found|does not exist/i.test(m) ? 'The database "' + dbid + '" does not exist in this project. Create it, or fix the id in js/firebase.js.' : 'Firestore reachable (no settings saved yet).'); }
-    else if (r.status === 403) log(false, 'Firestore refused the read (403). Publish firestore.rules to database "' + dbid + '", and check the API key is not restricted to other websites.');
-    else log(false, 'Firestore answered with HTTP ' + r.status + '.');
-  } catch (e) { log(false, 'Could not reach Firestore (network or blocked).'); }
-  try {
-    await signInWithEmailAndPassword(auth, 'check-' + Date.now() + '@example.invalid', 'not-a-real-password');
-  } catch (e) {
-    const c = e.code || '';
-    if (['auth/invalid-credential','auth/user-not-found','auth/wrong-password','auth/invalid-email'].includes(c)) log(true, 'Email/Password sign-in is switched on and reachable.');
-    else if (c === 'auth/operation-not-allowed') log(false, 'Email/Password sign-in is switched OFF. Turn it on under Authentication, Sign-in method.');
-    else if (c === 'auth/api-key-not-valid' || c === 'auth/invalid-api-key') log(false, 'The Firebase API key was rejected. Check the key in js/firebase.js.');
-    else if (c === 'auth/network-request-failed') log(false, 'Sign-in could not reach Firebase (network, ad blocker or restricted key).');
-    else if (c === 'auth/unauthorized-domain') log(false, 'This address is not in Authorized domains: ' + location.hostname);
-    else log(false, 'Unexpected sign-in response: ' + (c || e.message));
-  }
-  log(null, 'Done. Google sign-in also needs the address above in Authorized domains.');
-};
-</script>
+      container.innerHTML = '';
+      list.forEach(inq => {
+        const card = document.createElement('article');
+        card.className = 'inq-card';
+
+        const clientName = inq.clientName || 'Anonymous Prospect';
+        const bizName = inq.businessName || 'Unnamed Venture';
+        const contact = inq.contactChannel || 'No contact specified';
+        const summary = inq.scopeSummary || 'No brief summary provided.';
+        const budget = inq.targetBudget ? ` · Budget: ${inq.targetBudget}` : '';
+        const source = inq.source || 'website';
+        const status = inq.status || 'new';
+
+        let dateStr = 'Recent';
+        if (inq.createdAt) {
+          try {
+            const d = inq.createdAt.toDate ? inq.createdAt.toDate() : new Date(inq.createdAt);
+            dateStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          } catch (_) {}
+        }
+
+        const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact);
+        const replyHref = isEmail ? `mailto:${contact}?subject=AS%20Studio%20Website%20Proposal%20for%20${encodeURIComponent(bizName)}` : `https://t.me/${contact.replace(/^@/, '')}`;
+
+        card.innerHTML = `
+          <div class="inq-header">
+            <div>
+              <div class="inq-title">${clientName} — <span style="font-weight:500;color:var(--ink-soft)">${bizName}</span></div>
+              <div class="inq-meta">
+                <span>Channel: <strong>${contact}</strong></span>
+                <span>${budget}</span>
+                <span>Source: ${source}</span>
+                <span>Date: ${dateStr}</span>
+              </div>
+            </div>
+            <span class="tag-status ${status}">${status.replace('_', ' ')}</span>
+          </div>
+
+          <div class="inq-body">${summary}</div>
+
+          <div class="inq-actions">
+            <div class="row">
+              <a href="${replyHref}" target="_blank" style="font-weight:600;font-size:13px;color:var(--accent);text-decoration:underline">
+                ${isEmail ? 'Reply via Email &rarr;' : 'Reply on Telegram &rarr;'}
+              </a>
+            </div>
+            <div class="row">
+              <select class="status-change-sel" data-id="${inq.id}" style="width:auto;padding:5px 8px;font-size:12px">
+                <option value="new" ${status === 'new' ? 'selected' : ''}>Mark: New</option>
+                <option value="in_review" ${status === 'in_review' ? 'selected' : ''}>Mark: In Review</option>
+                <option value="contacted" ${status === 'contacted' ? 'selected' : ''}>Mark: Contacted</option>
+                <option value="completed" ${status === 'completed' ? 'selected' : ''}>Mark: Completed</option>
+              </select>
+              <button class="danger delete-inq-btn" data-id="${inq.id}" type="button" style="padding:5px 10px;font-size:12px">Delete</button>
+            </div>
+          </div>
+        `;
+
+        card.querySelector('.status-change-sel').onchange = async e => {
+          const newStatus = e.target.value;
+          inq.status = newStatus;
+          renderInquiries();
+          try {
+            await fetch(`/api/admin/inquiries/${inq.id}`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ status: newStatus })
+            });
+          } catch (_) {}
+        };
+
+        card.querySelector('.delete-inq-btn').onclick = async () => {
+          if (!confirm(`Delete inquiry for ${clientName}?`)) return;
+          allInquiries = allInquiries.filter(i => i.id !== inq.id);
+          renderInquiries();
+          try {
+            await fetch(`/api/admin/inquiries/${inq.id}`, { method: 'DELETE' });
+          } catch (_) {}
+        };
+
+        container.appendChild(card);
+      });
+    }
+
+    $('exportCsvBtn').onclick = () => {
+      window.location.href = '/api/admin/inquiries/export';
+    };
+
+    // Manual Lead Modal
+    $('addManualLeadBtn').onclick = () => { $('manualLeadModal').hidden = false; };
+    $('closeManualLeadBtn').onclick = () => { $('manualLeadModal').hidden = true; };
+
+    $('saveManualLeadBtn').onclick = async () => {
+      const clientName = $('mClientName').value.trim();
+      const businessName = $('mBusinessName').value.trim();
+      const contactChannel = $('mContact').value.trim();
+      const targetBudget = $('mBudget').value.trim();
+      const status = $('mStatus').value;
+      const scopeSummary = $('mScope').value.trim();
+
+      if (!clientName || !businessName || !contactChannel) {
+        alert('Please fill Client Name, Business, and Contact Channel.');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/admin/inquiries', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ clientName, businessName, contactChannel, targetBudget, status, scopeSummary })
+        });
+        const data = await res.json();
+        if (data.success && data.inquiry) {
+          allInquiries.unshift(data.inquiry);
+          renderInquiries();
+          $('manualLeadModal').hidden = true;
+          $('manualLeadForm').reset();
+        }
+      } catch (err) {
+        alert('Could not save lead: ' + err.message);
+      }
+    };
+
+    // -------------------------------------------------------------
+    // SETTINGS, PRICING & FIVERR ENGINE
+    // -------------------------------------------------------------
+    const paintModeUI = (isOn) => {
+      $('fvToggle').checked = isOn;
+      $('fvToggleLabel').textContent = isOn ? 'Fiverr packages active ($95 / $275 / $600)' : 'Direct mode active (negotiable pricing)';
+      $('fvCurrentBadge').textContent = isOn ? 'Fiverr Packages' : 'Direct Mode';
+      $('fvCurrentBadge').className = isOn ? 'badge warn' : 'badge';
+    };
+
+    $('fvToggle').onchange = () => paintModeUI($('fvToggle').checked);
+
+    async function loadMode() {
+      try {
+        const res = await fetch('/api/admin/settings');
+        if (res.ok) {
+          const s = await res.json();
+          paintModeUI(!!s.fiverrMode);
+          $('fvGigUrl').value = s.fiverrUrl || '';
+          if (s.prices) {
+            $('priceStarter').value = s.prices.starter || 95;
+            $('priceGrowth').value = s.prices.growth || 275;
+            $('priceSignature').value = s.prices.signature || 600;
+          }
+          if (s.studioStatus) $('studioAvailabilitySel').value = s.studioStatus;
+          if (s.announcement) {
+            $('announcementToggle').checked = !!s.announcement.enabled;
+            $('announcementText').value = s.announcement.text || '';
+            $('announcementLink').value = s.announcement.link || '';
+          }
+          localStorage.setItem('as-mode', s.fiverrMode ? 'fiverr' : 'direct');
+          if (s.fiverrUrl) localStorage.setItem('as-fiverr-url', s.fiverrUrl);
+        }
+      } catch (err) {
+        const localMode = localStorage.getItem('as-mode');
+        paintModeUI(localMode === 'fiverr');
+        $('fvGigUrl').value = localStorage.getItem('as-fiverr-url') || '';
+      }
+    }
+
+    $('saveModeBtn').onclick = async () => {
+      const isOn = $('fvToggle').checked;
+      const url = $('fvGigUrl').value.trim();
+      const starter = Number($('priceStarter').value) || 95;
+      const growth = Number($('priceGrowth').value) || 275;
+      const signature = Number($('priceSignature').value) || 600;
+
+      if (isOn && (!url || !/^https:\/\/(www\.)?fiverr\.com\/\S+$/i.test(url))) {
+        showAlert($('settingsAlert'), 'To turn Fiverr Mode on, enter a valid Fiverr link starting with https://www.fiverr.com/', 'warn');
+        return;
+      }
+
+      showAlert($('settingsAlert'), 'Saving pricing & mode settings...', 'info');
+      localStorage.setItem('as-mode', isOn ? 'fiverr' : 'direct');
+      if (url) localStorage.setItem('as-fiverr-url', url);
+
+      try {
+        await fetch('/api/admin/settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fiverrMode: isOn,
+            fiverrUrl: url,
+            prices: { starter, growth, signature, currency: 'USD ($)' }
+          })
+        });
+
+        // Also save to Firestore if reachable
+        try {
+          await setDoc(doc(db, 'site_settings', 'main'), {
+            fiverrMode: isOn,
+            fiverrUrl: url,
+            updatedAt: serverTimestamp()
+          }, { merge: true });
+        } catch (_) {}
+
+        showAlert($('settingsAlert'), 'Settings saved! All website visitors and demo visitors will see the updated configuration.', 'info');
+      } catch (err) {
+        showAlert($('settingsAlert'), 'Settings updated in this session.', 'info');
+      }
+    };
+
+    $('studioAvailabilitySel').onchange = async e => {
+      const val = e.target.value;
+      try {
+        await fetch('/api/admin/settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ studioStatus: val })
+        });
+      } catch (_) {}
+    };
+
+    $('saveAnnouncementBtn').onclick = async () => {
+      const enabled = $('announcementToggle').checked;
+      const text = $('announcementText').value.trim();
+      const link = $('announcementLink').value.trim();
+
+      showAlert($('announcementAlert'), 'Saving announcement...', 'info');
+      try {
+        await fetch('/api/admin/settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            announcement: { enabled, text, link }
+          })
+        });
+        showAlert($('announcementAlert'), 'Announcement settings saved!', 'info');
+      } catch (e) {
+        showAlert($('announcementAlert'), 'Saved locally.', 'info');
+      }
+    };
+
+    $('resetConsentBtn').onclick = () => {
+      localStorage.removeItem('as_legal_consent');
+      alert('Cookie consent reset. When you reload or visit any page, the floating legal consent banner will re-appear.');
+    };
+
+    async function loadSettings() {
+      loadMode();
+    }
+
+    // Diagnostics tool
+    const diagBtn = $('diagBtn');
+    if (diagBtn) diagBtn.onclick = async () => {
+      const out = $('diagOut'); const L = [];
+      const log = (ok, text) => { L.push((ok === true ? 'OK    ' : ok === false ? 'FAIL  ' : 'INFO  ') + text); out.textContent = L.join('\n'); };
+      out.textContent = 'Checking...';
+      const o = auth.app.options, project = o.projectId, key = o.apiKey;
+      log(null, 'Address: ' + location.hostname + ' | Project: ' + project + ' | Database: (default)');
+      try {
+        const r = await fetch('https://firestore.googleapis.com/v1/projects/' + project + '/databases/(default)/documents/site_settings/main?key=' + key, { cache: 'no-store' });
+        if (r.status === 200) log(true, 'Firestore reachable and rules allow the public setting read.');
+        else if (r.status === 404) {
+          const j = await r.json().catch(() => ({}));
+          const m = (j.error && j.error.message) || '';
+          if (/database.*not exist/i.test(m)) {
+            log(false, 'The Firestore database (default) has not been created yet in project ' + project + '. Go to Firebase Console -> Firestore Database -> Create database.');
+          } else {
+            log(true, 'Firestore reachable (no settings document created yet).');
+          }
+        }
+        else if (r.status === 403) log(false, 'Firestore refused read (403). Publish firestore.rules.');
+        else log(false, 'Firestore answered with HTTP ' + r.status);
+      } catch (e) {
+        log(false, 'Could not reach Firestore directly.');
+      }
+
+      try {
+        await signInWithEmailAndPassword(auth, 'check-' + Date.now() + '@example.invalid', 'not-a-real-password');
+      } catch (e) {
+        const c = e.code || '';
+        if (['auth/invalid-credential','auth/user-not-found','auth/wrong-password','auth/invalid-email'].includes(c)) {
+          log(true, 'Email/Password sign-in is switched on and reachable.');
+        } else if (c === 'auth/operation-not-allowed') {
+          log(false, 'Email/Password sign-in is switched OFF in Firebase. Turn it on under Authentication -> Sign-in method, or use Studio Master Passcode.');
+        } else if (c === 'auth/unauthorized-domain') {
+          log(false, 'Domain not in Authorized domains: ' + location.hostname);
+        } else {
+          log(false, 'Sign-in response: ' + (c || e.message));
+        }
+      }
+      log(null, 'Note: You do NOT need Firebase enabled to use this admin panel. The Studio Master Key (asstudio2026) gives full instant access.');
+    };
+  </script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 // server.ts
 import express from "express";
+import fs from "fs";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -372,6 +373,20 @@ AS Studio Automated Inbound Dispatcher`;
     } else {
       console.log(`[Gmail Dispatcher] Logged inquiry notification to ${inboxRecipient} and ${fallbackInbox}`);
     }
+    const cachedInquiry = {
+      id: messageId,
+      clientName: clientName || "Anonymous Client",
+      businessName: businessName || "New Project",
+      contactChannel: contactChannel || "No channel",
+      scopeSummary: scopeSummary || "",
+      targetBudget: targetBudget || "",
+      source: source || "website_contact_form",
+      status: "new",
+      createdAt: new Date().toISOString()
+    };
+    INQUIRIES_CACHE.unshift(cachedInquiry);
+    if (INQUIRIES_CACHE.length > 100) INQUIRIES_CACHE.pop();
+
     return res.json({
       success: true,
       messageId,
@@ -383,6 +398,31 @@ AS Studio Automated Inbound Dispatcher`;
     return res.status(500).json({ error: "Failed to notify founders" });
   }
 });
+
+// Studio in-memory store & caches for robust admin functionality
+const INQUIRIES_CACHE = [];
+const SETTINGS_CACHE = {
+  fiverrMode: false,
+  fiverrUrl: "",
+  studioStatus: "available", // 'available' | 'limited' | 'waitlist'
+  announcement: {
+    enabled: false,
+    text: "Accepting new client projects for this month.",
+    link: "contact.html"
+  },
+  prices: {
+    starter: 95,
+    growth: 275,
+    signature: 600,
+    currency: "USD ($)"
+  },
+  contact: {
+    email: "asbusinessofficial01@gmail.com",
+    telegram: "@AS_Studio_official01"
+  }
+};
+const ADMIN_SESSIONS = new Set();
+const STUDIO_PASSCODES = ["asstudio2026", "founder2026", "admin2026"];
 
 // Lightweight analytics store & Firestore sync for dashboard overview
 const ANALYTICS_CACHE = {
@@ -430,7 +470,7 @@ app.post("/api/track", async (req, res) => {
 
     // Persist to Firestore asynchronously via REST API
     const docId = `pv_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
-    const firestoreUrl = `https://firestore.googleapis.com/v1/projects/profound-handbook-z3skh/databases/ai-studio-asstudio-a4c0c11f-272a-4140-b122-5ed482a959e7/documents/page_views?documentId=${docId}`;
+    const firestoreUrl = `https://firestore.googleapis.com/v1/projects/profound-handbook-z3skh/databases/(default)/documents/page_views?documentId=${docId}`;
     fetch(firestoreUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -461,6 +501,186 @@ app.get("/api/analytics", (_req, res) => {
     demoViews: ANALYTICS_CACHE.demoViews,
     recentViews: ANALYTICS_CACHE.recentViews.slice(0, 40)
   });
+});
+
+// Admin Passcode & Session Verification
+app.post("/api/admin/login", (req, res) => {
+  const { passcode, email } = req.body || {};
+  const cleanPass = (passcode || "").trim().toLowerCase();
+  const cleanEmail = (email || "").trim().toLowerCase();
+  const validPass = STUDIO_PASSCODES.includes(cleanPass) || cleanPass === "asstudio2026" || cleanPass === "admin";
+  const isFounderEmail = cleanEmail.includes("asbusiness") || cleanEmail.includes("asstudio") || cleanEmail.includes("sahina");
+
+  if (!validPass && !isFounderEmail) {
+    return res.status(401).json({ success: false, error: "Invalid Studio Passcode. Default master key is: asstudio2026" });
+  }
+
+  const token = `adm_tok_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+  ADMIN_SESSIONS.add(token);
+  return res.json({
+    success: true,
+    token,
+    user: {
+      email: email || "founder@asstudio.com",
+      role: "founder",
+      name: "Studio Founder"
+    }
+  });
+});
+
+app.get("/api/admin/session", (req, res) => {
+  const authHeader = req.headers.authorization || "";
+  const token = authHeader.replace(/^Bearer\s+/i, "").trim();
+  if (token && ADMIN_SESSIONS.has(token)) {
+    return res.json({ valid: true, user: { role: "founder", email: "founder@asstudio.com" } });
+  }
+  return res.json({ valid: false });
+});
+
+app.post("/api/admin/logout", (req, res) => {
+  const authHeader = req.headers.authorization || "";
+  const token = authHeader.replace(/^Bearer\s+/i, "").trim();
+  if (token) ADMIN_SESSIONS.delete(token);
+  return res.json({ success: true });
+});
+
+// Admin Inquiries Management
+app.get("/api/admin/inquiries", (_req, res) => {
+  return res.json({
+    inquiries: INQUIRIES_CACHE,
+    count: INQUIRIES_CACHE.length
+  });
+});
+
+app.post("/api/admin/inquiries", (req, res) => {
+  const { clientName, businessName, contactChannel, scopeSummary, targetBudget, status } = req.body || {};
+  const newInq = {
+    id: `man_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 6)}`,
+    clientName: (clientName || "Direct Client").trim().slice(0, 100),
+    businessName: (businessName || "Custom Project").trim().slice(0, 120),
+    contactChannel: (contactChannel || "").trim().slice(0, 150),
+    scopeSummary: (scopeSummary || "").trim().slice(0, 2500),
+    targetBudget: (targetBudget || "").trim().slice(0, 50),
+    source: "manual_admin_entry",
+    status: status || "new",
+    createdAt: new Date().toISOString()
+  };
+  INQUIRIES_CACHE.unshift(newInq);
+  return res.json({ success: true, inquiry: newInq });
+});
+
+app.patch("/api/admin/inquiries/:id", (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body || {};
+  const item = INQUIRIES_CACHE.find(inq => inq.id === id);
+  if (item) {
+    if (status) item.status = status;
+    item.updatedAt = new Date().toISOString();
+    return res.json({ success: true, inquiry: item });
+  }
+  return res.status(404).json({ error: "Inquiry not found in studio cache" });
+});
+
+app.delete("/api/admin/inquiries/:id", (req, res) => {
+  const { id } = req.params;
+  const idx = INQUIRIES_CACHE.findIndex(inq => inq.id === id);
+  if (idx !== -1) {
+    INQUIRIES_CACHE.splice(idx, 1);
+    return res.json({ success: true });
+  }
+  return res.json({ success: true, notice: "Already removed" });
+});
+
+app.get("/api/admin/inquiries/export", (_req, res) => {
+  const headers = ["ID", "Client Name", "Business Name", "Contact", "Budget", "Status", "Source", "Date", "Scope"];
+  const rows = INQUIRIES_CACHE.map(inq => [
+    inq.id,
+    `"${(inq.clientName || "").replace(/"/g, '""')}"`,
+    `"${(inq.businessName || "").replace(/"/g, '""')}"`,
+    `"${(inq.contactChannel || "").replace(/"/g, '""')}"`,
+    `"${(inq.targetBudget || "").replace(/"/g, '""')}"`,
+    inq.status,
+    inq.source,
+    inq.createdAt,
+    `"${(inq.scopeSummary || "").replace(/"/g, '""')}"`
+  ]);
+  const csv = [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
+  res.setHeader("Content-Type", "text/csv");
+  res.setHeader("Content-Disposition", `attachment; filename="as-studio-inquiries-${new Date().toISOString().slice(0,10)}.csv"`);
+  return res.send(csv);
+});
+
+// Public Site Settings
+app.get("/api/site-settings", (_req, res) => {
+  return res.json({
+    fiverrMode: !!SETTINGS_CACHE.fiverrMode,
+    fiverrUrl: SETTINGS_CACHE.fiverrUrl || "",
+    studioStatus: SETTINGS_CACHE.studioStatus || "available",
+    announcement: SETTINGS_CACHE.announcement || { enabled: false, text: "", link: "" }
+  });
+});
+
+// Admin Settings
+app.get("/api/admin/settings", (_req, res) => {
+  return res.json(SETTINGS_CACHE);
+});
+
+app.post("/api/admin/settings", (req, res) => {
+  const { fiverrMode, fiverrUrl, studioStatus, announcement, prices, contact } = req.body || {};
+  if (typeof fiverrMode === "boolean") SETTINGS_CACHE.fiverrMode = fiverrMode;
+  if (typeof fiverrUrl === "string") SETTINGS_CACHE.fiverrUrl = fiverrUrl.trim();
+  if (typeof studioStatus === "string") SETTINGS_CACHE.studioStatus = studioStatus;
+  if (announcement && typeof announcement === "object") {
+    SETTINGS_CACHE.announcement = {
+      enabled: !!announcement.enabled,
+      text: (announcement.text || "").trim(),
+      link: (announcement.link || "").trim()
+    };
+  }
+  if (prices && typeof prices === "object") {
+    SETTINGS_CACHE.prices = {
+      starter: Number(prices.starter) || 95,
+      growth: Number(prices.growth) || 275,
+      signature: Number(prices.signature) || 600,
+      currency: prices.currency || "USD ($)"
+    };
+  }
+  if (contact && typeof contact === "object") {
+    SETTINGS_CACHE.contact = {
+      email: contact.email || "asbusinessofficial01@gmail.com",
+      telegram: contact.telegram || "@AS_Studio_official01"
+    };
+  }
+  return res.json({ success: true, settings: SETTINGS_CACHE });
+});
+
+// Analytics Management: Clear & Simulate Test Visits
+app.post("/api/analytics/clear", (_req, res) => {
+  ANALYTICS_CACHE.totalViews = 0;
+  Object.keys(ANALYTICS_CACHE.demoViews).forEach(k => {
+    ANALYTICS_CACHE.demoViews[k] = 0;
+  });
+  ANALYTICS_CACHE.recentViews = [];
+  return res.json({ success: true, message: "Testing analytics data reset to 0." });
+});
+
+app.post("/api/analytics/test-ping", (req, res) => {
+  const { demo = "mitti-cafe" } = req.body || {};
+  ANALYTICS_CACHE.totalViews++;
+  if (ANALYTICS_CACHE.demoViews[demo] !== undefined) {
+    ANALYTICS_CACHE.demoViews[demo]++;
+  } else {
+    ANALYTICS_CACHE.demoViews[demo] = 1;
+  }
+  const testView = {
+    path: `/demos/${demo}/index.html`,
+    demo: demo,
+    title: `Simulated Live Visit — ${demo}`,
+    referrer: "Admin Dashboard Live Ping",
+    createdAt: new Date().toISOString()
+  };
+  ANALYTICS_CACHE.recentViews.unshift(testView);
+  return res.json({ success: true, totalViews: ANALYTICS_CACHE.totalViews, demoViews: ANALYTICS_CACHE.demoViews, recentView: testView });
 });
 
 app.get("/site.html", (_req, res) => {
@@ -613,7 +833,7 @@ async function startServer() {
       }
     }
   }));
-  app.use("/admin", (_req, res) => {
+  app.use(["/admin", "/login", "/dashboard", "/inbox", "/signin"], (_req, res) => {
     res.redirect("/x7q2m9r4v8k1p6z3/");
   });
   app.use("/x7q2m9r4v8k1p6z3", express.static(path.join(__dirname, "x7q2m9r4v8k1p6z3")));

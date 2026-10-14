@@ -1,7 +1,7 @@
 /* Fiverr mode switch: reads site_settings/main (public read) and shows or removes every Fiverr element. Default is direct mode. */
 (function(){
 'use strict';
-var P='profound-handbook-z3skh',DB='ai-studio-asstudio-a4c0c11f-272a-4140-b122-5ed482a959e7',K='AIzaSyA1km1IvXjyPTkO0grVOunMorlOoARLd2w';
+var P='profound-handbook-z3skh',DB='(default)',K='AIzaSyA1km1IvXjyPTkO0grVOunMorlOoARLd2w';
 var URL_='https://firestore.googleapis.com/v1/projects/'+P+'/databases/'+DB+'/documents/site_settings/main?key='+K;
 function valid(u){return typeof u==='string'&&/^https:\/\/(www\.)?fiverr\.com\/\S+$/i.test(u)&&u.indexOf('REPLACE')<0}
 function apply(on,u){

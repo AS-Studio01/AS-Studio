@@ -135,17 +135,150 @@ if(door){let isOpen=false,isAnimating=false,timer=null;
   door.addEventListener('contextmenu',e=>{e.preventDefault();e.stopPropagation();return false});
   door.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle(e)}});
 }
-/* process line fills as the section scrolls */
+/* process line fills smoothly with requestAnimationFrame */
 const steps=document.querySelector('.steps'),sl=document.querySelector('.stepline');
-if(steps&&sl){const items=[...steps.children];let lastP=-1;
-  const upd=()=>{if(reduce()){items.forEach(i=>i.classList.add('on'));sl.style.setProperty('--sp',1);return}
-    const r=steps.getBoundingClientRect();const p=Math.round(Math.min(1,Math.max(0,(innerHeight*0.8-r.top)/(r.height+innerHeight*0.3)))*100)/100;
-    if(p!==lastP){lastP=p;sl.style.setProperty('--sp',p);items.forEach((it,i)=>it.classList.toggle('on',p>=(i+0.4)/items.length*0.95))}};
-  addEventListener('scroll',upd,{passive:true});upd()}
+if(steps&&sl){
+  const items=[...steps.children];
+  let ticking=false;
+  const upd=()=>{
+    ticking=false;
+    if(reduce()){items.forEach(i=>i.classList.add('on'));sl.style.setProperty('--sp',1);return}
+    const r=steps.getBoundingClientRect();
+    const p=Math.min(1,Math.max(0,(innerHeight*0.75-r.top)/(r.height+innerHeight*0.2)));
+    sl.style.setProperty('--sp',p.toFixed(3));
+    items.forEach((it,i)=>{
+      const threshold=(i+0.25)/items.length;
+      it.classList.toggle('on',p>=threshold);
+    });
+  };
+  const onScroll=()=>{if(!ticking){ticking=true;requestAnimationFrame(upd)}};
+  addEventListener('scroll',onScroll,{passive:true});
+  upd();
+}
+
+/* single-open FAQ accordion with smooth slide animation */
+document.querySelectorAll('.faq').forEach(faq=>{
+  const allDetails=[...faq.querySelectorAll('details')];
+  allDetails.forEach(detail=>{
+    const summary=detail.querySelector('summary'),content=detail.querySelector('p');
+    if(!summary||!content)return;
+    summary.addEventListener('click',e=>{
+      e.preventDefault();
+      if(reduce()){
+        const willOpen=!detail.hasAttribute('open');
+        allDetails.forEach(d=>{if(d!==detail)d.removeAttribute('open')});
+        if(willOpen)detail.setAttribute('open','');else detail.removeAttribute('open');
+        return;
+      }
+      if(detail.hasAttribute('open')){
+        const startHeight=content.offsetHeight;
+        content.style.overflow='hidden';
+        const anim=content.animate([
+          {height:startHeight+'px',opacity:1,transform:'translateY(0)'},
+          {height:'0px',opacity:0,transform:'translateY(-6px)'}
+        ],{duration:260,easing:'cubic-bezier(0.16,1,0.3,1)'});
+        anim.onfinish=()=>{
+          detail.removeAttribute('open');
+          content.style.overflow='';
+          content.style.height='';
+        };
+      }else{
+        allDetails.forEach(other=>{
+          if(other!==detail&&other.hasAttribute('open')){
+            const oc=other.querySelector('p');
+            if(oc){
+              const sh=oc.offsetHeight;
+              oc.style.overflow='hidden';
+              const a=oc.animate([
+                {height:sh+'px',opacity:1},
+                {height:'0px',opacity:0}
+              ],{duration:220,easing:'cubic-bezier(0.16,1,0.3,1)'});
+              a.onfinish=()=>{
+                other.removeAttribute('open');
+                oc.style.overflow='';
+                oc.style.height='';
+              };
+            }else{
+              other.removeAttribute('open');
+            }
+          }
+        });
+        detail.setAttribute('open','');
+        const targetHeight=content.scrollHeight;
+        content.style.overflow='hidden';
+        const anim=content.animate([
+          {height:'0px',opacity:0,transform:'translateY(-6px)'},
+          {height:targetHeight+'px',opacity:1,transform:'translateY(0)'}
+        ],{duration:300,easing:'cubic-bezier(0.16,1,0.3,1)'});
+        anim.onfinish=()=>{
+          content.style.overflow='';
+          content.style.height='';
+        };
+      }
+    });
+  });
+});
+
 document.addEventListener('visibilitychange',()=>document.body.classList.toggle('paused',document.hidden));
 })();
 
-/* gentle parallax on image bands */
-(function(){var bands=[].slice.call(document.querySelectorAll('.imgband'));if(!bands.length||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
- var ticking=false;function upd(){ticking=false;bands.forEach(function(b){var r=b.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;var p=(r.top+r.height/2-innerHeight/2)/innerHeight;b.querySelector('.bg').style.setProperty('--py',(p*-60).toFixed(1)+'px')})}
- addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(upd)}},{passive:true});upd()})();
+/* gentle parallax on image bands & hero imagery */
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var bands=[].slice.call(document.querySelectorAll('.imgband'));
+  var heroStatic=document.querySelector('.hero-static');
+  var stage=document.querySelector('.stage');
+  var ticking=false;
+  function upd(){
+    ticking=false;
+    var sy=window.scrollY;
+    if(heroStatic&&sy<innerHeight*1.2){
+      heroStatic.style.backgroundPositionY=Math.round(sy*0.22)+'px';
+    }
+    if(stage&&sy<innerHeight*2){
+      stage.style.setProperty('--hero-py',(sy*0.12).toFixed(1)+'px');
+    }
+    bands.forEach(function(b){
+      var r=b.getBoundingClientRect();
+      if(r.bottom<0||r.top>innerHeight)return;
+      var p=(r.top+r.height/2-innerHeight/2)/innerHeight;
+      var bg=b.querySelector('.bg');
+      if(bg)bg.style.setProperty('--py',(p*-60).toFixed(1)+'px');
+    });
+  }
+  addEventListener('scroll',function(){
+    if(!ticking){ticking=true;requestAnimationFrame(upd)}
+  },{passive:true});
+  upd();
+})();
+
+/* cookie & legal consent banner */
+(function initLegalConsent(){
+  try{
+    if(localStorage.getItem('as_legal_consent')==='accepted')return;
+    const isSubdir=location.pathname.includes('/legal/')||location.pathname.includes('/work/')||location.pathname.includes('/demos/');
+    const prefix=isSubdir?'../':'';
+    const banner=document.createElement('div');
+    banner.className='consent-banner';
+    banner.setAttribute('role','dialog');
+    banner.setAttribute('aria-label','Privacy and legal consent notice');
+    banner.innerHTML=`
+      <p>By continuing to use this site, you accept our <a href="${prefix}legal/privacy.html">Privacy Policy</a>, <a href="${prefix}legal/terms.html">Terms of Service</a>, and <a href="${prefix}legal/disclaimer.html">Disclaimer</a>.</p>
+      <div class="consent-actions">
+        <a href="${prefix}legal/privacy.html" class="consent-btn ghost">Learn More</a>
+        <button type="button" class="consent-btn" id="acceptLegalConsentBtn">Accept &amp; Continue</button>
+      </div>
+    `;
+    document.body.appendChild(banner);
+    setTimeout(()=>banner.classList.add('show'),450);
+    const btn=banner.querySelector('#acceptLegalConsentBtn');
+    if(btn){
+      btn.addEventListener('click',()=>{
+        try{localStorage.setItem('as_legal_consent','accepted')}catch(_){}
+        banner.classList.remove('show');
+        setTimeout(()=>banner.remove(),400);
+      });
+    }
+  }catch(_){}
+})();
+

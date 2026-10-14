@@ -3,7 +3,7 @@
   "appId": "1:34016814266:web:30865e0746c21237d04e83",
   "apiKey": "AIzaSyA1km1IvXjyPTkO0grVOunMorlOoARLd2w",
   "authDomain": "profound-handbook-z3skh.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-asstudio-a4c0c11f-272a-4140-b122-5ed482a959e7",
+  "firestoreDatabaseId": "(default)",
   "storageBucket": "profound-handbook-z3skh.firebasestorage.app",
   "messagingSenderId": "34016814266",
   "measurementId": "",
