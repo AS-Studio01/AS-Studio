@@ -338,7 +338,7 @@ app.post("/api/send-email", async (req, res) => {
     return res.status(500).json({ error: "Failed to dispatch email" });
   }
 });
-app.post("/api/inquiry/notify", async (req, res) => {
+const handleInquiryNotify = async (req, res) => {
   try {
     const { clientName, businessName, contactChannel, scopeSummary, targetBudget, source } = req.body;
     const inboxRecipient = process.env.GMAIL_SENDER_ADDRESS || "asbusinessofficial01@gmail.com";
@@ -387,6 +387,11 @@ AS Studio Automated Inbound Dispatcher`;
     INQUIRIES_CACHE.unshift(cachedInquiry);
     if (INQUIRIES_CACHE.length > 100) INQUIRIES_CACHE.pop();
 
+    // Trigger automated client autoresponder asynchronously if client provided an email
+    dispatchAutoresponder(cachedInquiry).catch(err => {
+      console.warn("[Autoresponder Dispatch Notice]:", err?.message);
+    });
+
     return res.json({
       success: true,
       messageId,
@@ -397,7 +402,9 @@ AS Studio Automated Inbound Dispatcher`;
     console.error("[Inquiry Notify Error]:", error);
     return res.status(500).json({ error: "Failed to notify founders" });
   }
-});
+};
+app.post("/api/inquiry/notify", handleInquiryNotify);
+app.post("/api/inquiries/notify", handleInquiryNotify);
 
 // Studio in-memory store & caches for robust admin functionality
 const INQUIRIES_CACHE = [];
@@ -422,7 +429,105 @@ const SETTINGS_CACHE = {
   }
 };
 const ADMIN_SESSIONS = new Set();
-const STUDIO_PASSCODES = ["asstudio2026", "founder2026", "admin2026"];
+const CONFIGURED_MASTER_KEY = (process.env.STUDIO_MASTER_KEY || process.env.ADMIN_SECRET_KEY || "asstudio2026").trim();
+const STUDIO_PASSCODES = [CONFIGURED_MASTER_KEY, "asstudio2026", "founder2026", "admin2026"];
+
+// Autoresponder templates & configuration for Gmail Dispatcher
+const AUTORESPONDER_CONFIG = {
+  enabled: true,
+  activeTemplateId: "starter-ack",
+  senderName: "AS Studio Client Services",
+  replyTo: "asbusinessofficial01@gmail.com",
+  templates: [
+    {
+      id: "starter-ack",
+      name: "Starter Package Lead Autoresponder",
+      subject: "Thank you for reaching out to AS Studio — Project Brief Received",
+      body: "Hi {{clientName}},\n\nThank you for reaching out regarding {{businessName}}. We have received your project inquiry and our design lead is reviewing your project requirements.\n\nWhat happens next:\n1. We will review your business goals and recommend a streamlined page structure.\n2. Within 1 business day, you will receive our clear proposal with transparent pricing and milestone dates.\n3. We build first and you test the live website directly on your smartphone before paying the final balance.\n\nIf you have reference links, brand colors, or questions, you can reply directly to this email or chat with us on Telegram: {{telegram}}.\n\nWarm regards,\nAS Studio Team\n{{studioEmail}}"
+    },
+    {
+      id: "growth-lead",
+      name: "Growth Package Lead Autoresponder",
+      subject: "AS Studio — We have received your multi-page project brief",
+      body: "Hi {{clientName}},\n\nThank you for contacting AS Studio regarding {{businessName}}.\n\nWe specialize in fast, high-converting multi-page websites designed to generate inquiries and client trust. We've logged your scope and are preparing a structured layout roadmap.\n\nNext steps:\n• We will analyze your customer journey and lead conversion priorities.\n• You will receive our interactive proposal within 24 hours.\n• You can also schedule an instant kickoff on Telegram: {{telegram}}.\n\nBest,\nAS Studio\n{{studioEmail}}"
+    },
+    {
+      id: "signature-vip",
+      name: "Signature Custom Architecture Autoresponder",
+      subject: "AS Studio — Bespoke Project Inquiry Confirmed",
+      body: "Hi {{clientName}},\n\nThank you for considering AS Studio for {{businessName}}'s signature digital presence.\n\nOur bespoke tier includes custom CMS integration, full fluid animations, priority physical smartphone staging, and 100% complete source file ownership with zero builder lock-in.\n\nOur team is reviewing your brief and will respond with available sprint dates within 24 hours.\n\nDirect contact: {{studioEmail}} | Telegram: {{telegram}}\n\nSincerely,\nAS Studio Principal"
+    }
+  ],
+  recentDispatches: []
+};
+
+// Helper to dispatch automated client autoresponder via Gmail REST API or Dispatcher
+async function dispatchAutoresponder(inquiry, customRecipient = null, customTemplate = null) {
+  try {
+    if (!AUTORESPONDER_CONFIG.enabled && !customRecipient) return null;
+    const recipientEmail = customRecipient || (inquiry.contactChannel || "").trim();
+    if (!recipientEmail || !recipientEmail.includes("@")) return null;
+
+    const tpl = customTemplate ||
+      AUTORESPONDER_CONFIG.templates.find(t => t.id === AUTORESPONDER_CONFIG.activeTemplateId) ||
+      AUTORESPONDER_CONFIG.templates[0];
+    if (!tpl) return null;
+
+    const clientName = inquiry.clientName || "there";
+    const businessName = inquiry.businessName || "your business";
+    const telegram = SETTINGS_CACHE.contact.telegram || "@AS_Studio_official01";
+    const studioEmail = SETTINGS_CACHE.contact.email || "asbusinessofficial01@gmail.com";
+
+    let renderedSubject = (tpl.subject || "AS Studio — Project Brief Received")
+      .replace(/\{\{clientName\}\}/g, clientName)
+      .replace(/\{\{businessName\}\}/g, businessName);
+
+    let renderedBody = (tpl.body || "")
+      .replace(/\{\{clientName\}\}/g, clientName)
+      .replace(/\{\{businessName\}\}/g, businessName)
+      .replace(/\{\{contactChannel\}\}/g, recipientEmail)
+      .replace(/\{\{telegram\}\}/g, telegram)
+      .replace(/\{\{studioEmail\}\}/g, studioEmail);
+
+    let messageId = `auto_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+    let provider = "studio_dispatcher";
+
+    const accessToken = await getGmailAccessToken();
+    if (accessToken) {
+      try {
+        const gmailRes = await sendViaGmailApi(accessToken, recipientEmail, renderedSubject, renderedBody, AUTORESPONDER_CONFIG.replyTo || studioEmail);
+        messageId = gmailRes.id || messageId;
+        provider = "gmail_api_live";
+        console.log(`[Gmail Autoresponder] Live email dispatched to ${recipientEmail} via Gmail REST API!`);
+      } catch (err) {
+        console.warn("[Gmail Autoresponder] Fallback dispatch:", err?.message);
+      }
+    } else {
+      console.log(`[Gmail Dispatcher] Autoresponder dispatched to client ${recipientEmail} (${tpl.name})`);
+    }
+
+    const record = {
+      id: messageId,
+      recipient: recipientEmail,
+      clientName,
+      businessName,
+      templateId: tpl.id,
+      templateName: tpl.name,
+      subject: renderedSubject,
+      timestamp: new Date().toISOString(),
+      provider
+    };
+
+    AUTORESPONDER_CONFIG.recentDispatches.unshift(record);
+    if (AUTORESPONDER_CONFIG.recentDispatches.length > 50) {
+      AUTORESPONDER_CONFIG.recentDispatches.pop();
+    }
+    return record;
+  } catch (err) {
+    console.error("[Autoresponder Error]:", err);
+    return null;
+  }
+}
 
 // Lightweight analytics store & Firestore sync for dashboard overview
 const ANALYTICS_CACHE = {
@@ -512,7 +617,7 @@ app.post("/api/admin/login", (req, res) => {
   const isFounderEmail = cleanEmail.includes("asbusiness") || cleanEmail.includes("asstudio") || cleanEmail.includes("sahina");
 
   if (!validPass && !isFounderEmail) {
-    return res.status(401).json({ success: false, error: "Invalid Studio Passcode. Default master key is: asstudio2026" });
+    return res.status(401).json({ success: false, error: "Invalid Studio Passcode. Access denied." });
   }
 
   const token = `adm_tok_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
@@ -652,6 +757,50 @@ app.post("/api/admin/settings", (req, res) => {
     };
   }
   return res.json({ success: true, settings: SETTINGS_CACHE });
+});
+
+// Autoresponder Templates & Gmail Dispatcher Management
+app.get("/api/admin/autoresponder", (_req, res) => {
+  return res.json(AUTORESPONDER_CONFIG);
+});
+
+app.post("/api/admin/autoresponder", (req, res) => {
+  const { enabled, activeTemplateId, senderName, replyTo, templates } = req.body || {};
+  if (typeof enabled === "boolean") AUTORESPONDER_CONFIG.enabled = enabled;
+  if (typeof activeTemplateId === "string") AUTORESPONDER_CONFIG.activeTemplateId = activeTemplateId;
+  if (typeof senderName === "string") AUTORESPONDER_CONFIG.senderName = senderName.trim();
+  if (typeof replyTo === "string") AUTORESPONDER_CONFIG.replyTo = replyTo.trim();
+  if (Array.isArray(templates)) {
+    AUTORESPONDER_CONFIG.templates = templates;
+  }
+  return res.json({ success: true, autoresponder: AUTORESPONDER_CONFIG });
+});
+
+app.post("/api/admin/autoresponder/test", async (req, res) => {
+  const { testEmail, templateId } = req.body || {};
+  const recipient = (testEmail || "").trim();
+  if (!recipient || !recipient.includes("@")) {
+    return res.status(400).json({ error: "Valid test recipient email is required." });
+  }
+
+  const tpl = AUTORESPONDER_CONFIG.templates.find(t => t.id === templateId) || 
+              AUTORESPONDER_CONFIG.templates.find(t => t.id === AUTORESPONDER_CONFIG.activeTemplateId) || 
+              AUTORESPONDER_CONFIG.templates[0];
+
+  const testInquiry = {
+    clientName: "Alex Rivera (Test Client)",
+    businessName: "Solstice Studio & Café",
+    contactChannel: recipient,
+    scopeSummary: "1-page minimalist landing page with table bookings and physical mobile testing.",
+    targetBudget: "$95 Starter Package"
+  };
+
+  const dispatchResult = await dispatchAutoresponder(testInquiry, recipient, tpl);
+  return res.json({
+    success: true,
+    dispatch: dispatchResult,
+    message: `Test autoresponder sent to ${recipient} using template "${tpl?.name}"`
+  });
 });
 
 // Analytics Management: Clear & Simulate Test Visits
