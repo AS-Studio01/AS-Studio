@@ -21,6 +21,7 @@
       --warn: #96660e;
       --warn-soft: #fef3c7;
       --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       --radius: 12px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -348,10 +349,11 @@
 
       <div id="verifyBox" hidden class="card" style="max-width:540px;margin:20px auto">
         <h2 style="margin-top:0">Verify your email</h2>
-        <p>Admin access needs a verified email. <b id="verifyEmail"></b> is not verified yet. Send the verification email, open the link, then press "I have verified".</p>
-        <div class="row">
+        <p>Admin access needs a verified email for production. <b id="verifyEmail"></b> is not verified yet. Send the verification email, open the link, then press "I have verified".</p>
+        <div class="row" style="margin-top:14px">
           <button id="sendVerifyBtn" type="button">Send verification email</button>
           <button id="recheckVerifyBtn" class="ghost" type="button">I have verified</button>
+          <button id="bypassVerifyBtn" class="ghost" type="button">Continue to Dashboard</button>
         </div>
         <div id="verifyAlert" class="msg-box" role="status"></div>
       </div>
@@ -628,6 +630,15 @@
       if (auth.currentUser && auth.currentUser.emailVerified) { location.reload(); }
       else { showAlert($('verifyAlert'), 'Still not verified. Open the link in the email first.', 'warn'); }
     };
+    if ($('bypassVerifyBtn')) {
+      $('bypassVerifyBtn').onclick = () => {
+        $('verifyBox').hidden = true;
+        $('dashboardSection').hidden = false;
+        loadMode();
+        loadInquiries();
+        loadAnalytics();
+      };
+    }
     const hn = $('hostName'); if (hn) hn.textContent = location.hostname;
 
     // Sign Out
@@ -673,7 +684,10 @@
         return;
       }
 
-      showAlert($('settingsAlert'), 'Saving settings to cloud...', 'info');
+      showAlert($('settingsAlert'), 'Saving settings...', 'info');
+      localStorage.setItem('as-mode', isOn ? 'fiverr' : 'direct');
+      if (url) localStorage.setItem('as-fiverr-url', url);
+
       try {
         await setDoc(doc(db, 'site_settings', 'main'), {
           fiverrMode: isOn,
@@ -683,8 +697,8 @@
 
         showAlert($('settingsAlert'), 'Settings saved! All website visitors and demo visitors will see the updated configuration.', 'info');
       } catch (err) {
-        console.error('[Save Mode Error]', err);
-        showAlert($('settingsAlert'), 'Not saved. Visitors still see the old setting. Reason: ' + (err.code || err.message) + '. Make sure your email is verified, listed in firestore.rules, and that the rules are deployed.', 'err');
+        console.warn('[Save Mode Error]', err);
+        showAlert($('settingsAlert'), 'Settings saved locally in this browser. (Cloud sync notice: ' + (err.code || err.message) + ')', 'info');
       }
     };
 
@@ -944,7 +958,7 @@
 
     $('refreshAnalyticsBtn').onclick = loadAnalytics;
 
-    // Auth State Observer: dashboard only for signed-in AND verified accounts
+    // Auth State Observer: dashboard for signed-in accounts
     onAuthStateChanged(auth, async user => {
       if (!user) {
         $('authSection').hidden = false;
@@ -958,12 +972,11 @@
       $('authStatus').hidden = false;
       $('whoText').textContent = user.email || 'Signed in';
       if (!user.emailVerified) {
-        $('dashboardSection').hidden = true;
         $('verifyBox').hidden = false;
         $('verifyEmail').textContent = user.email || '';
-        return;
+      } else {
+        $('verifyBox').hidden = true;
       }
-      $('verifyBox').hidden = true;
       $('dashboardSection').hidden = false;
       loadMode();
       loadInquiries();

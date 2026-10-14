@@ -613,6 +613,9 @@ async function startServer() {
       }
     }
   }));
+  app.use("/admin", (_req, res) => {
+    res.redirect("/x7q2m9r4v8k1p6z3/");
+  });
   app.use("/x7q2m9r4v8k1p6z3", express.static(path.join(__dirname, "x7q2m9r4v8k1p6z3")));
 
   if (!isProd) {
