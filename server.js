@@ -25,16 +25,16 @@ var PROJECTS = [
   {
     id: "fold-atelier",
     name: "Fold Atelier",
-    category: "Slow Fashion & Mindful Garments",
+    category: "Slow Fashion Label",
     badge: "Growth Demo",
     isConcept: true,
-    description: "A three-page slow clothing and mindful garment atelier website with capsule lookbook, artisan craft heritage, and private studio appointment booking.",
+    description: "A three-page fashion label website with a filterable collection, atelier story, fitting requests and an early-access opt-in.",
     buttonText: "View demo preview",
-    tags: ["Slow Fashion", "Artisan Craft", "Capsule Wardrobe", "Bespoke Fittings"],
+    tags: ["Fashion Label", "Filterable Collection", "Fitting Requests", "Early Access Opt-in"],
     turnaround: "5 days",
     conceptDetails: {
-      overview: "A three-page mindful garment atelier website built for phones first, featuring organic cotton lookbooks, seasonal capsule filters, and studio appointment reservations.",
-      keyDeliverables: ["Capsule collection filters", "Natural dye and handloom craft story", "Lookbook digital opt-in", "Private appointment booking"]
+      overview: "A three-page fashion label website built for phones first, featuring a filterable collection and fitting requests.",
+      keyDeliverables: ["Filterable collection", "Fabric and care details", "Fitting request form", "Early-access opt-in"]
     }
   },
   {
@@ -175,12 +175,9 @@ var __dirname = path.dirname(__filename);
 var app = express();
 var PORT = 3000;
 app.use(express.json());
-app.use((req, _res, next) => {
-  if (req.url && req.url.includes("//")) {
-    req.url = req.url.replace(/\/{2,}/g, "/");
-  }
-  next();
-});
+// These endpoints were open to anyone (email relay and AI chat). The public site does not use them, so they are switched off.
+const DISABLED_API = ["/api/send-email", "/api/inquiry/notify", "/api/chat", "/api/chat/generate-inquiry"];
+app.use((req, res, next) => DISABLED_API.some(p => req.path === p || req.path.startsWith(p + "/")) ? res.status(410).json({ error: "API disabled" }) : next());
 function getGenAI() {
   const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
   if (!apiKey) return null;
@@ -406,8 +403,7 @@ app.post("/api/track", async (req, res) => {
   try {
     const { path: reqPath, demo, title, referrer, createdAt } = req.body || {};
     const cleanPath = typeof reqPath === "string" ? reqPath.slice(0, 300) : "/";
-    let cleanDemo = typeof demo === "string" ? demo.slice(0, 80) : "studio";
-    if (cleanDemo === "fold-yoga") cleanDemo = "fold-atelier";
+    const cleanDemo = typeof demo === "string" ? demo.slice(0, 80) : "studio";
     const cleanTitle = typeof title === "string" ? title.slice(0, 200) : "";
     const cleanReferrer = typeof referrer === "string" ? referrer.slice(0, 300) : "direct";
     const cleanCreatedAt = createdAt || new Date().toISOString();
@@ -607,7 +603,6 @@ async function startServer() {
 
   // Serve static assets, demos, legal, work, js and inbox
   app.use("/assets", express.static(path.join(__dirname, "assets")));
-  app.use(["/demos/:demo/assets", "/demos/assets", "/work/assets", "/legal/assets"], express.static(path.join(__dirname, "assets")));
   app.use("/demos", express.static(path.join(__dirname, "demos")));
   app.use("/work", express.static(path.join(__dirname, "work")));
   app.use("/legal", express.static(path.join(__dirname, "legal")));

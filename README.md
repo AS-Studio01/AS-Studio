@@ -44,3 +44,17 @@ Sign in with **Google** or **email and password**. Both need setting up once in 
 4. Deploy the rules: `firebase deploy --only firestore:rules`.
 
 Security changes in this version: the public "admin passcode" was removed (anyone could read it in the page source), the clickable list of admin emails was removed, verified email is required again in `firestore.rules`, and the unused `/api/*` endpoints in `server.js` (an open email and AI relay) now return 410.
+
+
+## Demo change: Fold Yoga is now FOLD Atelier (fashion)
+`demos/fold-yoga/` was replaced by `demos/fold-atelier/` with three pages: `index.html`, `collection.html`, `atelier.html`. The share image is `assets/og/demo-fold-atelier.jpg`. References were updated in `index.html`, `work.html`, `contact.html`, `sitemap.xml`, `vite.config.js`, `server.js` and the admin page. Delete the old `demos/fold-yoga/` folder and `assets/og/demo-fold-yoga.jpg` from the repo.
+
+
+## Firebase setup checklist (if sign-in or the contact form does not work)
+1. Authentication, Sign-in method: turn on Email/Password and Google.
+2. Authentication, Settings, Authorized domains: add your live domain (and the Vercel preview domain).
+3. Authentication, Users: add your admin account. Use an email that is listed in `firestore.rules`, then verify the email (the admin page can send the verification mail).
+4. Firestore Database: choose the database named in `js/firebase.js`, open Rules, paste `firestore.rules`, Publish.
+5. Open the admin page, open "Cannot sign in? Check the connection" and press "Run Firebase check". It reports which of these is missing.
+
+Never put a password in the website files or in `firestore.rules`. Passwords live only in Firebase Authentication.
