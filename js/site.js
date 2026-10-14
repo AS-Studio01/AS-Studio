@@ -144,3 +144,8 @@ if(steps&&sl){const items=[...steps.children];let lastP=-1;
   addEventListener('scroll',upd,{passive:true});upd()}
 document.addEventListener('visibilitychange',()=>document.body.classList.toggle('paused',document.hidden));
 })();
+
+/* gentle parallax on image bands */
+(function(){var bands=[].slice.call(document.querySelectorAll('.imgband'));if(!bands.length||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ var ticking=false;function upd(){ticking=false;bands.forEach(function(b){var r=b.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;var p=(r.top+r.height/2-innerHeight/2)/innerHeight;b.querySelector('.bg').style.setProperty('--py',(p*-60).toFixed(1)+'px')})}
+ addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(upd)}},{passive:true});upd()})();
