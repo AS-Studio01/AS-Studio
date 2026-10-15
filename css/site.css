@@ -227,8 +227,41 @@ p{text-wrap:pretty}
 @media (pointer:coarse){.btn,.menu,.faq summary{min-height:44px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}.env{animation:none}.door .leaf{transform:none;opacity:0}.door .glow{opacity:1}.door-links{opacity:1;transform:none;pointer-events:auto}.arch-draw path{stroke-dashoffset:0}.door .hint{display:none}}
 body.paused *,body.paused *::before,body.paused *::after{animation-play-state:paused!important}
-/* Fiverr mode: elements for the other mode do not exist visually, to screen readers or to the keyboard */
-html:not([data-mode="fiverr"]) [data-mode="fiverr"],html[data-mode="fiverr"] [data-mode="direct"]{display:none!important}
+/* Marketplace mode: elements for inactive marketplaces do not exist visually, to screen readers or to the keyboard */
+html:not([data-fiverr="on"]) [data-mode="fiverr"],
+html:not([data-fiverr="on"]) [data-fiverr-only],
+html:not([data-fiverr="on"]) [data-marketplace="fiverr"] {
+  display: none !important;
+}
+
+html:not([data-upwork="on"]) [data-mode="upwork"],
+html:not([data-upwork="on"]) [data-upwork-only],
+html:not([data-upwork="on"]) [data-marketplace="upwork"] {
+  display: none !important;
+}
+
+html[data-fiverr="on"] [data-mode="direct"] {
+  display: none !important;
+}
+
+/* Fixed pricing follows Fiverr rule */
+html:not([data-fiverr="on"]) [data-pricing="fixed"] {
+  display: none !important;
+}
+html[data-fiverr="on"] [data-pricing="direct"] {
+  display: none !important;
+}
+
+/* Visible keyboard focus states for all interactive elements */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--sun, #d4af37) !important;
+  outline-offset: 3px !important;
+}
 .pack .price.ask{font-size:clamp(28px,3vw,38px);line-height:1.1;padding:10px 0}.pack .price.ask small{display:block;font:500 13px var(--mono);letter-spacing:.06em;margin-top:6px}
 .howprice{margin-top:64px;border-top:1px solid var(--line);padding-top:30px}.hp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:20px}
 .hp-grid b{font:500 12px var(--mono);letter-spacing:.12em;color:var(--sun)}.hp-grid h3{font-size:22px;margin:12px 0 8px}.hp-grid p{font-size:15px;color:var(--text-secondary)}
@@ -410,16 +443,4 @@ input,textarea,select{accent-color:#8b5cf6}details,summary{color:#f5f2ff}hr{bord
 /* v4 contrast */
 .strip-list li{color:#dcd7ec!important}.strip-list svg{stroke:#b9a7ff!important}
 
-/* floating cookie & legal consent banner */
-.consent-banner{position:fixed;bottom:24px;left:24px;right:24px;max-width:540px;margin:0 auto;z-index:9999;background:rgba(15,13,26,0.94);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(205,190,255,0.24);border-radius:20px;padding:18px 22px;box-shadow:0 24px 70px rgba(0,0,0,0.65),0 0 0 1px rgba(139,92,246,0.18);display:flex;flex-direction:column;gap:12px;transform:translateY(120%);opacity:0;transition:transform .4s cubic-bezier(0.16,1,0.3,1),opacity .4s ease;pointer-events:none}
-.consent-banner.show{transform:translateY(0);opacity:1;pointer-events:auto}
-.consent-banner p{font-size:13.5px;line-height:1.55;color:#ddd6fe;margin:0}
-.consent-banner a{color:#e9c783;text-decoration:underline;text-underline-offset:3px;font-weight:500;transition:color .2s}
-.consent-banner a:hover{color:#fff}
-.consent-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}
-.consent-btn{background:var(--accent);color:#fff;border:none;padding:9px 18px;border-radius:999px;font:600 13px var(--body);cursor:pointer;transition:transform .2s,background .2s}
-.consent-btn:hover{background:var(--accent-hover);transform:scale(1.02)}
-.consent-btn.ghost{background:rgba(255,255,255,0.08);color:#d9d2ed;border:1px solid rgba(205,190,255,0.22);text-decoration:none;display:inline-flex;align-items:center}
-.consent-btn.ghost:hover{background:rgba(255,255,255,0.16);color:#fff}
-@media(max-width:560px){.consent-banner{bottom:14px;left:14px;right:14px;padding:16px;border-radius:18px}.consent-actions{width:100%}.consent-btn{flex:1;text-align:center;justify-content:center}}
 

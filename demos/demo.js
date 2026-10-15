@@ -82,29 +82,4 @@ $$('[data-close]').forEach(b=>b.addEventListener('click',()=>b.closest('.modal')
 const dep=$('#depositBtn');if(dep)dep.addEventListener('click',e=>{e.preventDefault();const f=$('#reserve');if(!f.checkValidity()){f.reportValidity();return}$('#payModal').classList.add('on')});
 const sel=$('#resSel'),amt=$('#depAmt');if(sel&&amt){const u=()=>{amt.textContent=sel.selectedOptions[0].dataset.dep||'$0'};sel.addEventListener('change',u);u()}
 
-/* cookie & legal consent banner on demos */
-try{
-  if(localStorage.getItem('as_legal_consent')!=='accepted'){
-    const banner=document.createElement('div');
-    banner.className='consent-banner';
-    banner.setAttribute('role','dialog');
-    banner.innerHTML=`
-      <p>By continuing to use this site, you accept our <a href="../../legal/privacy.html">Privacy Policy</a>, <a href="../../legal/terms.html">Terms of Service</a>, and <a href="../../legal/disclaimer.html">Disclaimer</a>.</p>
-      <div class="consent-actions">
-        <a href="../../legal/privacy.html" class="consent-btn ghost">Learn More</a>
-        <button type="button" class="consent-btn" id="acceptLegalConsentBtnDemo">Accept &amp; Continue</button>
-      </div>
-    `;
-    document.body.appendChild(banner);
-    setTimeout(()=>banner.classList.add('show'),450);
-    const btn=banner.querySelector('#acceptLegalConsentBtnDemo');
-    if(btn){
-      btn.addEventListener('click',()=>{
-        try{localStorage.setItem('as_legal_consent','accepted')}catch(_){}
-        banner.classList.remove('show');
-        setTimeout(()=>banner.remove(),400);
-      });
-    }
-  }
-}catch(_){}
 })();

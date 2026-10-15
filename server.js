@@ -429,8 +429,6 @@ const SETTINGS_CACHE = {
   }
 };
 const ADMIN_SESSIONS = new Set();
-const CONFIGURED_MASTER_KEY = (process.env.STUDIO_MASTER_KEY || process.env.ADMIN_SECRET_KEY || "asstudio2026").trim();
-const STUDIO_PASSCODES = [CONFIGURED_MASTER_KEY, "asstudio2026", "founder2026", "admin2026"];
 
 // Autoresponder templates & configuration for Gmail Dispatcher
 const AUTORESPONDER_CONFIG = {
@@ -608,37 +606,8 @@ app.get("/api/analytics", (_req, res) => {
   });
 });
 
-// Admin Passcode & Session Verification
-app.post("/api/admin/login", (req, res) => {
-  const { passcode, email } = req.body || {};
-  const cleanPass = (passcode || "").trim().toLowerCase();
-  const cleanEmail = (email || "").trim().toLowerCase();
-  const validPass = STUDIO_PASSCODES.includes(cleanPass) || cleanPass === "asstudio2026" || cleanPass === "admin";
-  const isFounderEmail = cleanEmail.includes("asbusiness") || cleanEmail.includes("asstudio") || cleanEmail.includes("sahina");
-
-  if (!validPass && !isFounderEmail) {
-    return res.status(401).json({ success: false, error: "Invalid Studio Passcode. Access denied." });
-  }
-
-  const token = `adm_tok_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
-  ADMIN_SESSIONS.add(token);
-  return res.json({
-    success: true,
-    token,
-    user: {
-      email: email || "founder@asstudio.com",
-      role: "founder",
-      name: "Studio Founder"
-    }
-  });
-});
-
-app.get("/api/admin/session", (req, res) => {
-  const authHeader = req.headers.authorization || "";
-  const token = authHeader.replace(/^Bearer\s+/i, "").trim();
-  if (token && ADMIN_SESSIONS.has(token)) {
-    return res.json({ valid: true, user: { role: "founder", email: "founder@asstudio.com" } });
-  }
+// Admin session is handled directly via Firebase Auth verified email
+app.get("/api/admin/session", (_req, res) => {
   return res.json({ valid: false });
 });
 

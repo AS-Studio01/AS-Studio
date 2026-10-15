@@ -252,33 +252,4 @@ document.addEventListener('visibilitychange',()=>document.body.classList.toggle(
   upd();
 })();
 
-/* cookie & legal consent banner */
-(function initLegalConsent(){
-  try{
-    if(localStorage.getItem('as_legal_consent')==='accepted')return;
-    const isSubdir=location.pathname.includes('/legal/')||location.pathname.includes('/work/')||location.pathname.includes('/demos/');
-    const prefix=isSubdir?'../':'';
-    const banner=document.createElement('div');
-    banner.className='consent-banner';
-    banner.setAttribute('role','dialog');
-    banner.setAttribute('aria-label','Privacy and legal consent notice');
-    banner.innerHTML=`
-      <p>By continuing to use this site, you accept our <a href="${prefix}legal/privacy.html">Privacy Policy</a>, <a href="${prefix}legal/terms.html">Terms of Service</a>, and <a href="${prefix}legal/disclaimer.html">Disclaimer</a>.</p>
-      <div class="consent-actions">
-        <a href="${prefix}legal/privacy.html" class="consent-btn ghost">Learn More</a>
-        <button type="button" class="consent-btn" id="acceptLegalConsentBtn">Accept &amp; Continue</button>
-      </div>
-    `;
-    document.body.appendChild(banner);
-    setTimeout(()=>banner.classList.add('show'),450);
-    const btn=banner.querySelector('#acceptLegalConsentBtn');
-    if(btn){
-      btn.addEventListener('click',()=>{
-        try{localStorage.setItem('as_legal_consent','accepted')}catch(_){}
-        banner.classList.remove('show');
-        setTimeout(()=>banner.remove(),400);
-      });
-    }
-  }catch(_){}
-})();
 

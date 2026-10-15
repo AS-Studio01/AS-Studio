@@ -314,30 +314,14 @@
     </header>
 
     <!-- AUTHENTICATION CONTAINER -->
-    <div id="authSection" class="card" style="max-width:560px;margin:30px auto">
+    <!-- AUTHENTICATION CONTAINER -->
+    <div id="authSection" class="card" style="max-width:520px;margin:30px auto">
       <div class="tabs">
-        <button id="tabPasscode" class="tab-btn active" type="button">Studio Master Key</button>
-        <button id="tabSignIn" class="tab-btn" type="button">Firebase Login</button>
-        <button id="tabSignUp" class="tab-btn" type="button">Register Firebase</button>
+        <button id="tabSignIn" class="tab-btn active" type="button">Admin Sign In</button>
+        <button id="tabSignUp" class="tab-btn" type="button">Create Account</button>
       </div>
 
-      <!-- Tab 1: Studio Passcode (Solves auth/operation-not-allowed instantly) -->
-      <div id="passcodeBlock">
-        <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px">
-          Enter your Studio Master Passcode to access all admin controls, visitor analytics, inquiries, and pricing tools immediately.
-        </p>
-        <form id="passcodeForm" onsubmit="return false;" style="display:grid;gap:12px">
-          <div>
-            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px" for="studioPass">Studio Master Passcode</label>
-            <input id="studioPass" type="password" value="" placeholder="••••••••••••" autocomplete="current-password">
-            <span style="font-size:12px;color:var(--muted);margin-top:4px;display:block">Founder access protected by server environment credentials.</span>
-          </div>
-          <button id="passcodeLoginBtn" type="button" style="padding:12px;font-size:14.5px">Enter Studio Workspace</button>
-        </form>
-      </div>
-
-      <!-- Tab 2: Firebase Sign-In / Sign-Up Form -->
-      <div id="firebaseBlock" hidden>
+      <div id="firebaseBlock">
         <div id="googleBlock" style="margin-bottom:16px">
           <button id="googleSignInBtn" class="google-btn" type="button">
             <svg width="18" height="18" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:6px"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.19 0 10.04 0 12s.45 3.81 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
@@ -352,7 +336,7 @@
         <form id="authForm" onsubmit="return false;" style="display:grid;gap:12px">
           <div>
             <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px" for="adminEmail">Admin Email</label>
-            <input id="adminEmail" type="email" placeholder="asbusinessofficial01@gmail.com" autocomplete="username">
+            <input id="adminEmail" type="email" placeholder="admin@yourdomain.com" autocomplete="username">
           </div>
           <div>
             <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px" for="adminPass">Password</label>
@@ -365,15 +349,19 @@
         </form>
       </div>
 
-      <div id="authAlert" class="msg-box" role="status"></div>
-
-      <!-- Quick Bypass Button when operation-not-allowed occurs -->
-      <div id="opNotAllowedBypass" hidden style="margin-top:14px;padding:12px;background:#fef3c7;border:1px solid #fde68a;border-radius:8px">
-        <p style="font-size:13px;color:#92400e;margin-bottom:8px">
-          <strong>Notice:</strong> Email authentication is currently turned off in your Firebase Console project. You can access the entire admin panel using your Studio Master Passcode:
+      <!-- Email Verification Gate -->
+      <div id="unverifiedEmailBox" hidden style="margin-top:16px;padding:14px;background:#fef3c7;border:1px solid #fde68a;border-radius:8px">
+        <strong style="color:#92400e;display:block;margin-bottom:6px">Email Verification Required</strong>
+        <p style="font-size:13px;color:#92400e;margin-bottom:10px;line-height:1.5">
+          Access to this admin workspace requires a verified email address. We have detected that <span id="unverifiedEmailSpan" style="font-weight:600"></span> is not yet verified. Please verify your email via the link sent to your inbox.
         </p>
-        <button id="instantBypassBtn" type="button" style="width:100%;background:#92400e">Switch to Studio Master Passcode Tab</button>
+        <div class="row" style="gap:8px">
+          <button id="resendVerificationBtn" type="button" style="background:#92400e;font-size:13px;padding:8px 14px">Resend Verification Email</button>
+          <button id="refreshVerificationBtn" type="button" class="ghost" style="font-size:13px;padding:8px 14px">I have verified — Refresh</button>
+        </div>
       </div>
+
+      <div id="authAlert" class="msg-box" role="status"></div>
 
       <details id="helpBox" style="margin-top:18px;font-size:13px;line-height:1.6;color:var(--muted)">
         <summary style="cursor:pointer;font-weight:600;color:var(--ink)">Firebase setup &amp; diagnostic checker</summary>
@@ -604,46 +592,65 @@
       </div>
 
       <!-- Fiverr Mode & Package Pricing Engine -->
-      <div class="card">
+      <!-- Marketplace Links & Package Pricing Engine -->
+      <div class="card" id="marketplaceCard">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px">
           <div>
-            <h2 style="font-size:19px;margin-bottom:4px">Pricing Engine &amp; Fiverr Mode</h2>
+            <h2 style="font-size:19px;margin-bottom:4px">Marketplace links</h2>
             <p class="lead">
-              <strong>Direct Mode (Default):</strong> Displays tailored, 100% negotiable pricing without rigid fees.<br>
-              <strong>Fiverr Mode:</strong> Displays fixed package pricing and routes "Order" buttons to your live Fiverr gig.
+              Configure independent marketplace links for Fiverr and Upwork, or turn both off for direct client inquiries with no public prices.
             </p>
           </div>
-          <span id="fvCurrentBadge" class="badge">Direct Mode</span>
+          <span id="marketplacesBadge" class="badge">Direct Mode</span>
         </div>
 
-        <div class="switch">
-          <input id="fvToggle" type="checkbox" role="switch" aria-label="Toggle Fiverr mode">
-          <label for="fvToggle" style="font-weight:600;cursor:pointer">
-            <span id="fvToggleLabel">Fiverr packages enabled</span>
-          </label>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)">
+          <!-- Fiverr Switch & Link -->
+          <div style="background:#fcfbf8;border:1px solid var(--line);border-radius:8px;padding:14px">
+            <div class="switch" style="margin-bottom:10px">
+              <input id="fvToggle" type="checkbox" role="switch" aria-label="Toggle Fiverr marketplace">
+              <label for="fvToggle" style="font-weight:600;cursor:pointer">
+                <span>Fiverr orders active</span>
+              </label>
+            </div>
+            <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px" for="fvGigUrl">Fiverr Gig or Profile URL</label>
+            <input id="fvGigUrl" type="url" placeholder="https://www.fiverr.com/your-username" style="width:100%;padding:8px 10px;font-size:13px">
+            <span style="font-size:11.5px;color:var(--muted);display:block;margin-top:4px">Must start with https://www.fiverr.com/ or https://fiverr.com/</span>
+          </div>
+
+          <!-- Upwork Switch & Link -->
+          <div style="background:#fcfbf8;border:1px solid var(--line);border-radius:8px;padding:14px">
+            <div class="switch" style="margin-bottom:10px">
+              <input id="upToggle" type="checkbox" role="switch" aria-label="Toggle Upwork marketplace">
+              <label for="upToggle" style="font-weight:600;cursor:pointer">
+                <span>Upwork contracts active</span>
+              </label>
+            </div>
+            <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px" for="upGigUrl">Upwork Profile or Agency URL</label>
+            <input id="upGigUrl" type="url" placeholder="https://www.upwork.com/freelancers/your-id" style="width:100%;padding:8px 10px;font-size:13px">
+            <span style="font-size:11.5px;color:var(--muted);display:block;margin-top:4px">Must start with https://www.upwork.com/freelancers/ or https://www.upwork.com/agencies/</span>
+          </div>
         </div>
 
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)">
+        <!-- Package Prices (Visible when Fiverr is active) -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)">
           <div>
-            <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px" for="priceStarter">Starter Package (1 Page, 3 Days)</label>
+            <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px" for="priceStarter">Starter Package ($)</label>
             <input id="priceStarter" type="number" value="95" min="20" max="5000" style="padding:8px 12px">
           </div>
           <div>
-            <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px" for="priceGrowth">Growth Package (3 Pages, 5 Days)</label>
+            <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px" for="priceGrowth">Growth Package ($)</label>
             <input id="priceGrowth" type="number" value="275" min="50" max="10000" style="padding:8px 12px">
           </div>
           <div>
-            <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px" for="priceSignature">Signature Package (6 Pages, 7 Days)</label>
+            <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px" for="priceSignature">Signature Package ($)</label>
             <input id="priceSignature" type="number" value="600" min="100" max="25000" style="padding:8px 12px">
           </div>
         </div>
 
-        <div style="display:grid;gap:8px;max-width:640px;margin-top:16px">
-          <label style="font-size:13px;font-weight:600" for="fvGigUrl">Fiverr Gig or Profile URL</label>
-          <div class="row">
-            <input id="fvGigUrl" type="url" placeholder="https://www.fiverr.com/your-username" style="flex:1;min-width:260px">
-            <button id="saveModeBtn" type="button">Save Pricing &amp; Mode</button>
-          </div>
+        <div style="margin-top:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <button id="saveModeBtn" type="button" style="padding:10px 18px">Save Marketplace Links</button>
+          <span style="font-size:12px;color:var(--muted)">Saved directly to Firestore <code>site_settings/main</code></span>
         </div>
         <div id="settingsAlert" class="msg-box" role="status"></div>
       </div>
@@ -793,8 +800,7 @@
 
     const $ = id => document.getElementById(id);
     let allInquiries = [];
-    let currentAuthTab = 'passcode'; // 'passcode', 'signin', 'signup'
-    let isMasterSession = false;
+    let currentAuthTab = 'signin'; // 'signin', 'signup'
 
     const showAlert = (el, text, type = 'info') => {
       el.className = `msg-box show ${type}`;
@@ -806,70 +812,22 @@
     };
 
     // Tab Navigation
-    $('tabPasscode').onclick = () => {
-      currentAuthTab = 'passcode';
-      $('tabPasscode').classList.add('active');
-      $('tabSignIn').classList.remove('active');
-      $('tabSignUp').classList.remove('active');
-      $('passcodeBlock').hidden = false;
-      $('firebaseBlock').hidden = true;
-      $('opNotAllowedBypass').hidden = true;
-      hideAlert($('authAlert'));
-    };
-
     $('tabSignIn').onclick = () => {
       currentAuthTab = 'signin';
       $('tabSignIn').classList.add('active');
-      $('tabPasscode').classList.remove('active');
       $('tabSignUp').classList.remove('active');
-      $('passcodeBlock').hidden = true;
-      $('firebaseBlock').hidden = false;
       $('primaryAuthBtn').textContent = 'Sign In';
       $('resetPassBtn').hidden = false;
-      $('opNotAllowedBypass').hidden = true;
       hideAlert($('authAlert'));
     };
 
     $('tabSignUp').onclick = () => {
       currentAuthTab = 'signup';
       $('tabSignUp').classList.add('active');
-      $('tabPasscode').classList.remove('active');
       $('tabSignIn').classList.remove('active');
-      $('passcodeBlock').hidden = true;
-      $('firebaseBlock').hidden = false;
       $('primaryAuthBtn').textContent = 'Create Admin Account';
       $('resetPassBtn').hidden = true;
-      $('opNotAllowedBypass').hidden = true;
-      showAlert($('authAlert'), 'Note: If Email/Password auth is not turned on in your Firebase console, use the Studio Master Key tab above for instant sign-in.', 'info');
-    };
-
-    // Studio Master Passcode Authentication
-    async function attemptPasscodeLogin(pass) {
-      const p = pass || $('studioPass').value;
-      showAlert($('authAlert'), 'Authenticating master session...', 'info');
-      try {
-        const res = await fetch('/api/admin/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ passcode: p })
-        });
-        const data = await res.json();
-        if (data.success && data.token) {
-          localStorage.setItem('as_admin_token', data.token);
-          isMasterSession = true;
-          unlockDashboard('Founder Master Session');
-        } else {
-          showAlert($('authAlert'), data.error || 'Invalid passcode. Access denied.', 'err');
-        }
-      } catch (err) {
-        showAlert($('authAlert'), 'Could not connect to authentication server. Please check your network connection.', 'err');
-      }
-    }
-
-    $('passcodeLoginBtn').onclick = () => attemptPasscodeLogin();
-    $('instantBypassBtn').onclick = () => {
-      $('tabPasscode').click();
-      $('studioPass').focus();
+      showAlert($('authAlert'), 'After registering, a verification email will be sent. Verification is strictly required to enter the workspace.', 'info');
     };
 
     // Firebase Primary Auth
@@ -884,30 +842,54 @@
       if (currentAuthTab === 'signin') {
         showAlert($('authAlert'), 'Signing in to studio workspace...', 'info');
         try {
-          await signInWithEmailAndPassword(auth, email, pass);
-          hideAlert($('authAlert'));
+          const userCredential = await signInWithEmailAndPassword(auth, email, pass);
+          if (!userCredential.user.emailVerified) {
+            $('unverifiedEmailSpan').textContent = userCredential.user.email;
+            $('unverifiedEmailBox').hidden = false;
+            showAlert($('authAlert'), 'Your email is not verified. Please check your inbox or click Resend Verification Email.', 'warn');
+          } else {
+            hideAlert($('authAlert'));
+          }
         } catch (err) {
           console.error('[Sign-in Error]', err);
-          if (err.code === 'auth/operation-not-allowed') {
-            showAlert($('authAlert'), 'Email/Password sign-in is disabled in your Firebase project. Use the Studio Master Key tab above or the button below to sign in immediately.', 'warn');
-            $('opNotAllowedBypass').hidden = false;
-          } else {
-            showAlert($('authAlert'), `Sign in error: ${err.code || ''} ${err.message || ''}`, 'err');
-          }
+          showAlert($('authAlert'), `Sign in error: ${err.message || err.code}`, 'err');
         }
       } else if (currentAuthTab === 'signup') {
         showAlert($('authAlert'), 'Creating admin account...', 'info');
         try {
-          await createUserWithEmailAndPassword(auth, email, pass);
-          showAlert($('authAlert'), 'Admin account created successfully! Signing in...', 'info');
+          const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+          await sendEmailVerification(userCredential.user);
+          $('unverifiedEmailSpan').textContent = userCredential.user.email;
+          $('unverifiedEmailBox').hidden = false;
+          showAlert($('authAlert'), `Account created! A verification link has been sent to ${email}. Please verify your email before entering.`, 'info');
         } catch (err) {
           console.error('[Registration Error]', err);
-          if (err.code === 'auth/operation-not-allowed') {
-            showAlert($('authAlert'), 'Could not create account: Firebase Error (auth/operation-not-allowed). This happens because Email/Password sign-in has not been turned on in your Firebase Console. You can enter the dashboard right now using the Studio Master Key below.', 'warn');
-            $('opNotAllowedBypass').hidden = false;
-          } else {
-            showAlert($('authAlert'), `Could not create account: ${err.message || err.code}`, 'err');
-          }
+          showAlert($('authAlert'), `Could not create account: ${err.message || err.code}`, 'err');
+        }
+      }
+    };
+
+    // Email verification actions
+    $('resendVerificationBtn').onclick = async () => {
+      if (auth.currentUser) {
+        try {
+          await sendEmailVerification(auth.currentUser);
+          showAlert($('authAlert'), `Verification email resent to ${auth.currentUser.email}. Check your inbox or spam folder.`, 'info');
+        } catch (err) {
+          showAlert($('authAlert'), `Failed to resend verification: ${err.message}`, 'err');
+        }
+      }
+    };
+
+    $('refreshVerificationBtn').onclick = async () => {
+      if (auth.currentUser) {
+        await auth.currentUser.reload();
+        if (auth.currentUser.emailVerified) {
+          $('unverifiedEmailBox').hidden = true;
+          hideAlert($('authAlert'));
+          unlockDashboard(auth.currentUser.email);
+        } else {
+          showAlert($('authAlert'), 'Email is not yet verified. Please click the link in your email first, then click Refresh.', 'warn');
         }
       }
     };
@@ -916,19 +898,17 @@
     $('googleSignInBtn').onclick = async () => {
       showAlert($('authAlert'), 'Opening Google sign-in...', 'info');
       try {
-        await signInWithPopup(auth, googleProvider);
-        hideAlert($('authAlert'));
+        const result = await signInWithPopup(auth, googleProvider);
+        if (!result.user.emailVerified) {
+          $('unverifiedEmailSpan').textContent = result.user.email;
+          $('unverifiedEmailBox').hidden = false;
+          showAlert($('authAlert'), 'Email verification required.', 'warn');
+        } else {
+          hideAlert($('authAlert'));
+        }
       } catch (err) {
         console.error('[Google Auth Error]', err);
-        let msg = 'Google sign-in could not complete. ';
-        if (err.code === 'auth/popup-blocked') {
-          msg = 'Browser blocked the popup window. Use the Studio Master Key tab above for instant access.';
-        } else if (err.code === 'auth/unauthorized-domain') {
-          msg = `Address (${location.hostname}) is not in Firebase Authorized domains. Sign in with the Studio Master Key above instead.`;
-        } else {
-          msg += (err.code || err.message);
-        }
-        showAlert($('authAlert'), msg, 'err');
+        showAlert($('authAlert'), `Google sign-in could not complete: ${err.message || err.code}`, 'err');
       }
     };
 
@@ -949,7 +929,6 @@
 
     // Sign Out
     $('signOutBtn').onclick = async () => {
-      localStorage.removeItem('as_admin_token');
       try { await signOut(auth); } catch (_) {}
       location.reload();
     };
@@ -965,27 +944,24 @@
       loadSettings();
     }
 
-    // Check existing master session
-    const existingToken = localStorage.getItem('as_admin_token');
-    if (existingToken) {
-      fetch('/api/admin/session', { headers: { 'Authorization': `Bearer ${existingToken}` } })
-        .then(r => r.json())
-        .then(d => {
-          if (d.valid) {
-            isMasterSession = true;
-            unlockDashboard('Founder Master Session');
-          }
-        }).catch(() => {});
-    }
-
-    // Firebase Auth State Observer
+    // Firebase Auth State Observer: strictly enforce email_verified == true
     onAuthStateChanged(auth, user => {
-      if (user) {
+      if (user && user.emailVerified) {
+        $('unverifiedEmailBox').hidden = true;
+        hideAlert($('authAlert'));
         unlockDashboard(user.email || 'Admin');
-      } else if (!isMasterSession && !existingToken) {
+      } else if (user && !user.emailVerified) {
         $('authSection').hidden = false;
         $('dashboardSection').hidden = true;
         $('authStatus').hidden = true;
+        $('unverifiedEmailSpan').textContent = user.email;
+        $('unverifiedEmailBox').hidden = false;
+        showAlert($('authAlert'), 'Access denied: Admin accounts require email verification.', 'warn');
+      } else {
+        $('authSection').hidden = false;
+        $('dashboardSection').hidden = true;
+        $('authStatus').hidden = true;
+        $('unverifiedEmailBox').hidden = true;
       }
     });
 
@@ -1312,84 +1288,101 @@
     };
 
     // -------------------------------------------------------------
-    // SETTINGS, PRICING & FIVERR ENGINE
+    // MARKETPLACE LINKS & SETTINGS ENGINE
     // -------------------------------------------------------------
-    const paintModeUI = (isOn) => {
-      $('fvToggle').checked = isOn;
-      $('fvToggleLabel').textContent = isOn ? 'Fiverr packages active ($95 / $275 / $600)' : 'Direct mode active (negotiable pricing)';
-      $('fvCurrentBadge').textContent = isOn ? 'Fiverr Packages' : 'Direct Mode';
-      $('fvCurrentBadge').className = isOn ? 'badge warn' : 'badge';
+    function validateFiverrUrl(u) {
+      return typeof u === 'string' && /^https:\/\/(www\.)?fiverr\.com\/\S+$/i.test(u.trim()) && u.indexOf('REPLACE') < 0;
+    }
+    function validateUpworkUrl(u) {
+      return typeof u === 'string' && /^https:\/\/(www\.)?upwork\.com\/(freelancers|agencies)\/\S+$/i.test(u.trim()) && u.indexOf('REPLACE') < 0;
+    }
+
+    const paintMarketplaceBadges = () => {
+      const fv = $('fvToggle').checked;
+      const up = $('upToggle').checked;
+      const badge = $('marketplacesBadge');
+      if (fv && up) {
+        badge.textContent = 'Fiverr & Upwork';
+        badge.className = 'badge warn';
+      } else if (fv) {
+        badge.textContent = 'Fiverr Active';
+        badge.className = 'badge warn';
+      } else if (up) {
+        badge.textContent = 'Upwork Active';
+        badge.className = 'badge warn';
+      } else {
+        badge.textContent = 'Direct Mode';
+        badge.className = 'badge';
+      }
     };
 
-    $('fvToggle').onchange = () => paintModeUI($('fvToggle').checked);
+    $('fvToggle').onchange = paintMarketplaceBadges;
+    $('upToggle').onchange = paintMarketplaceBadges;
 
     async function loadMode() {
       try {
-        const res = await fetch('/api/admin/settings');
-        if (res.ok) {
-          const s = await res.json();
-          paintModeUI(!!s.fiverrMode);
+        const snap = await getDoc(doc(db, 'site_settings', 'main'));
+        if (snap.exists()) {
+          const s = snap.data();
+          $('fvToggle').checked = !!s.fiverrMode;
           $('fvGigUrl').value = s.fiverrUrl || '';
+          $('upToggle').checked = !!s.upworkMode;
+          $('upGigUrl').value = s.upworkUrl || '';
           if (s.prices) {
             $('priceStarter').value = s.prices.starter || 95;
             $('priceGrowth').value = s.prices.growth || 275;
             $('priceSignature').value = s.prices.signature || 600;
           }
-          if (s.studioStatus) $('studioAvailabilitySel').value = s.studioStatus;
-          if (s.announcement) {
+          if (s.studioStatus && $('studioAvailabilitySel')) $('studioAvailabilitySel').value = s.studioStatus;
+          if (s.announcement && $('announcementToggle')) {
             $('announcementToggle').checked = !!s.announcement.enabled;
-            $('announcementText').value = s.announcement.text || '';
-            $('announcementLink').value = s.announcement.link || '';
+            if ($('announcementText')) $('announcementText').value = s.announcement.text || '';
+            if ($('announcementLink')) $('announcementLink').value = s.announcement.link || '';
           }
-          localStorage.setItem('as-mode', s.fiverrMode ? 'fiverr' : 'direct');
-          if (s.fiverrUrl) localStorage.setItem('as-fiverr-url', s.fiverrUrl);
+          paintMarketplaceBadges();
+          return;
         }
       } catch (err) {
-        const localMode = localStorage.getItem('as-mode');
-        paintModeUI(localMode === 'fiverr');
-        $('fvGigUrl').value = localStorage.getItem('as-fiverr-url') || '';
+        console.warn('[Firestore Settings load notice]', err);
       }
+      paintMarketplaceBadges();
     }
 
     $('saveModeBtn').onclick = async () => {
-      const isOn = $('fvToggle').checked;
-      const url = $('fvGigUrl').value.trim();
+      const fvOn = $('fvToggle').checked;
+      const fvUrl = $('fvGigUrl').value.trim();
+      const upOn = $('upToggle').checked;
+      const upUrl = $('upGigUrl').value.trim();
       const starter = Number($('priceStarter').value) || 95;
       const growth = Number($('priceGrowth').value) || 275;
       const signature = Number($('priceSignature').value) || 600;
 
-      if (isOn && (!url || !/^https:\/\/(www\.)?fiverr\.com\/\S+$/i.test(url))) {
-        showAlert($('settingsAlert'), 'To turn Fiverr Mode on, enter a valid Fiverr link starting with https://www.fiverr.com/', 'warn');
+      if (fvOn && !validateFiverrUrl(fvUrl)) {
+        showAlert($('settingsAlert'), 'To turn Fiverr on, enter a valid Fiverr link starting with https://www.fiverr.com/ or https://fiverr.com/', 'warn');
+        return;
+      }
+      if (upOn && !validateUpworkUrl(upUrl)) {
+        showAlert($('settingsAlert'), 'To turn Upwork on, enter a valid Upwork link starting with https://www.upwork.com/freelancers/ or https://www.upwork.com/agencies/', 'warn');
         return;
       }
 
-      showAlert($('settingsAlert'), 'Saving pricing & mode settings...', 'info');
-      localStorage.setItem('as-mode', isOn ? 'fiverr' : 'direct');
-      if (url) localStorage.setItem('as-fiverr-url', url);
+      showAlert($('settingsAlert'), 'Saving marketplace settings directly to Firestore...', 'info');
 
       try {
-        await fetch('/api/admin/settings', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            fiverrMode: isOn,
-            fiverrUrl: url,
-            prices: { starter, growth, signature, currency: 'USD ($)' }
-          })
-        });
+        await setDoc(doc(db, 'site_settings', 'main'), {
+          fiverrMode: fvOn,
+          fiverrUrl: fvUrl,
+          upworkMode: upOn,
+          upworkUrl: upUrl,
+          prices: { starter, growth, signature, currency: 'USD ($)' },
+          updatedAt: serverTimestamp()
+        }, { merge: true });
 
-        // Also save to Firestore if reachable
-        try {
-          await setDoc(doc(db, 'site_settings', 'main'), {
-            fiverrMode: isOn,
-            fiverrUrl: url,
-            updatedAt: serverTimestamp()
-          }, { merge: true });
-        } catch (_) {}
-
-        showAlert($('settingsAlert'), 'Settings saved! All website visitors and demo visitors will see the updated configuration.', 'info');
+        paintMarketplaceBadges();
+        showAlert($('settingsAlert'), 'Marketplace settings saved to Firestore! Visitors will see the updated configuration on next page load.', 'info');
       } catch (err) {
-        showAlert($('settingsAlert'), 'Settings updated in this session.', 'info');
+        console.error('[Firestore Save Error]', err);
+        showAlert($('settingsAlert'), `Failed to save marketplace settings: ${err.message || 'Permission denied or network failure'}. Visitors still see the old setting.`, 'err');
       }
     };
 
@@ -1675,14 +1668,14 @@
         if (['auth/invalid-credential','auth/user-not-found','auth/wrong-password','auth/invalid-email'].includes(c)) {
           log(true, 'Email/Password sign-in is switched on and reachable.');
         } else if (c === 'auth/operation-not-allowed') {
-          log(false, 'Email/Password sign-in is switched OFF in Firebase. Turn it on under Authentication -> Sign-in method, or use Studio Master Passcode.');
+          log(false, 'Email/Password sign-in is switched OFF in Firebase. Turn it on under Authentication -> Sign-in method.');
         } else if (c === 'auth/unauthorized-domain') {
           log(false, 'Domain not in Authorized domains: ' + location.hostname);
         } else {
           log(false, 'Sign-in response: ' + (c || e.message));
         }
       }
-      log(null, 'Note: You do NOT need Firebase enabled to use this admin panel. The Studio Master Passcode tab gives full instant access.');
+      log(null, 'Note: Admin portal requires a verified email account.');
     };
   </script>
   <script type="module" src="./TrafficChart.jsx"></script>
