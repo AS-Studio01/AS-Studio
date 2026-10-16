@@ -655,6 +655,46 @@
         <div id="settingsAlert" class="msg-box" role="status"></div>
       </div>
 
+      <!-- Client sites Card (Builder Mark Licensing & Embeds) -->
+      <div class="card" id="clientSitesCard">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:16px">
+          <div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <h2 style="font-size:19px">Client sites</h2>
+              <span id="clientSitesCountBadge" class="badge">0 Sites</span>
+            </div>
+            <p class="lead">
+              Create and manage client site keys, toggle "Paid in full" status to control the builder mark badge, and copy the embed snippet.
+            </p>
+          </div>
+          <button id="refreshClientSitesBtn" type="button" class="ghost" style="padding:7px 12px;font-size:13px">Refresh sites</button>
+        </div>
+
+        <!-- Create New Client Site Key Box -->
+        <div style="background:#fcfbf8;border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:20px">
+          <h3 style="font-size:14px;margin-bottom:10px">Create new site key</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;align-items:flex-end">
+            <div>
+              <label for="newSiteClientLabel" style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px">Client label (admin-only, never public)</label>
+              <input id="newSiteClientLabel" type="text" placeholder="e.g. Acme Coffee Studio, or Nova Dental" style="padding:8px 12px;font-size:13px">
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding-bottom:10px">
+              <input id="newSitePaidToggle" type="checkbox" style="width:18px;height:18px;cursor:pointer">
+              <label for="newSitePaidToggle" style="font-size:13px;font-weight:600;cursor:pointer">Mark as Paid in full</label>
+            </div>
+            <div>
+              <button id="createSiteKeyBtn" type="button" style="width:100%;padding:9px 14px;font-size:13.5px">+ Create site key</button>
+            </div>
+          </div>
+          <div id="newSiteAlert" class="msg-box" role="status"></div>
+        </div>
+
+        <!-- Site Keys List Container -->
+        <div id="clientSitesContainer">
+          <p style="color:var(--muted);font-style:italic">Loading client sites...</p>
+        </div>
+      </div>
+
       <!-- Broadcast Announcement Banner -->
       <div class="card">
         <h2 style="font-size:19px;margin-bottom:4px">Top Announcement Broadcast Banner</h2>
@@ -792,6 +832,7 @@
       getDoc,
       setDoc,
       getDocs,
+      deleteDoc,
       query,
       orderBy,
       limit,
@@ -942,6 +983,7 @@
       loadInquiries();
       loadAnalytics();
       loadSettings();
+      loadClientSites();
     }
 
     // Firebase Auth State Observer: strictly enforce email_verified == true
@@ -1385,6 +1427,228 @@
         showAlert($('settingsAlert'), `Failed to save marketplace settings: ${err.message || 'Permission denied or network failure'}. Visitors still see the old setting.`, 'err');
       }
     };
+
+    // -------------------------------------------------------------
+    // CLIENT SITES & BUILDER MARK LICENSING
+    // -------------------------------------------------------------
+    let clientSitesList = [];
+
+    function generateRandomSiteKey() {
+      // Random string with no client name in it
+      const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+      let res = 'cs_';
+      const rand = new Uint8Array(12);
+      crypto.getRandomValues(rand);
+      for (let i = 0; i < rand.length; i++) {
+        res += chars[rand[i] % chars.length];
+      }
+      return res;
+    }
+
+    async function loadClientSites() {
+      const container = $('clientSitesContainer');
+      if (!container) return;
+      container.innerHTML = '<p style="color:var(--muted);font-style:italic">Loading client sites...</p>';
+
+      try {
+        const pubSnap = await getDocs(collection(db, 'client_sites'));
+
+        // Client label is stored ONLY in a separate admin-only collection
+        let adminLabels = {};
+        try {
+          const adminSnap = await getDocs(collection(db, 'client_sites_admin'));
+          adminSnap.forEach(d => {
+            adminLabels[d.id] = d.data()?.label || '';
+          });
+        } catch (adminErr) {
+          console.warn('[Admin labels notice]', adminErr);
+        }
+
+        clientSitesList = [];
+        pubSnap.forEach(d => {
+          const data = d.data() || {};
+          clientSitesList.push({
+            key: d.id,
+            paid: Boolean(data.paid),
+            updatedAt: data.updatedAt,
+            label: adminLabels[d.id] || ''
+          });
+        });
+
+        clientSitesList.sort((a, b) => (b.key > a.key ? 1 : -1));
+        renderClientSites();
+      } catch (err) {
+        console.error('[Load client sites error]', err);
+        container.innerHTML = `<div class="msg-box show err">Failed to load client sites: ${err.message || err.code || 'Permission denied'}.</div>`;
+      }
+    }
+
+    function renderClientSites() {
+      const container = $('clientSitesContainer');
+      const badgeCount = $('clientSitesCountBadge');
+      if (badgeCount) {
+        badgeCount.textContent = `${clientSitesList.length} Site${clientSitesList.length === 1 ? '' : 's'}`;
+      }
+
+      if (!clientSitesList || clientSitesList.length === 0) {
+        container.innerHTML = '<p style="color:var(--muted);padding:14px;background:#f9f7f2;border-radius:8px">No client site keys created yet. Generate a new key above to license a client site.</p>';
+        return;
+      }
+
+      container.innerHTML = '';
+      const origin = window.location.origin;
+
+      clientSitesList.forEach(site => {
+        const item = document.createElement('div');
+        item.className = 'inq-card';
+        item.style.marginTop = '12px';
+
+        const embedSnippet = `<script src="${origin}/builder-mark/builder-mark.js" data-site-key="${site.key}" defer><\/script>`;
+        const isPaid = Boolean(site.paid);
+        const statusBadge = isPaid
+          ? '<span class="badge live">Paid in full (Badge removed)</span>'
+          : '<span class="badge warn">Unpaid (Badge active)</span>';
+
+        item.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px">
+            <div>
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                <code style="font-family:var(--mono);font-size:13.5px;font-weight:700;color:var(--accent);background:#f6f3ea;padding:3px 8px;border-radius:5px">${site.key}</code>
+                ${statusBadge}
+              </div>
+              <div style="font-size:13px;color:var(--ink);margin-top:5px">
+                <strong>Client label:</strong> <span style="color:${site.label ? 'var(--ink)' : 'var(--muted)'};font-style:${site.label ? 'normal' : 'italic'}">${site.label || '(No private label set)'}</span>
+                <span style="font-size:11px;color:var(--muted);margin-left:6px">(stored in admin-only collection)</span>
+              </div>
+            </div>
+            <div class="row" style="gap:8px">
+              <button class="danger delete-site-btn" type="button" style="padding:5px 10px;font-size:12px">Delete key</button>
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:10px;background:#fcfbf8;padding:8px 12px;border-radius:6px;border:1px solid var(--line);margin:4px 0">
+            <input type="checkbox" id="toggle_paid_${site.key}" class="site-paid-toggle" ${isPaid ? 'checked' : ''} style="width:18px;height:18px;cursor:pointer">
+            <label for="toggle_paid_${site.key}" style="font-weight:600;font-size:13px;cursor:pointer">
+              Paid in full
+            </label>
+            <span style="font-size:12px;color:var(--muted)">— ${isPaid ? 'Builder mark is removed from client site' : 'Builder mark remains visible on client site'}</span>
+          </div>
+
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <label style="font-size:12px;font-weight:600;color:var(--muted)">Exact one-line embed snippet to copy:</label>
+              <button type="button" class="ghost copy-snippet-btn" style="padding:3px 9px;font-size:11.5px">Copy snippet</button>
+            </div>
+            <input type="text" readonly value="${embedSnippet.replace(/"/g, '&quot;')}" style="font-family:var(--mono);font-size:12px;padding:7px 10px;background:#f9f7f2;color:var(--ink);cursor:text">
+          </div>
+
+          <div class="msg-box" id="site_alert_${site.key}"></div>
+        `;
+
+        const rowAlert = item.querySelector(`#site_alert_${site.key}`);
+        const toggleEl = item.querySelector('.site-paid-toggle');
+        const copyBtn = item.querySelector('.copy-snippet-btn');
+        const deleteBtn = item.querySelector('.delete-site-btn');
+
+        toggleEl.onchange = async (e) => {
+          const targetPaid = e.target.checked;
+          hideAlert(rowAlert);
+
+          try {
+            // Write only paid and updatedAt to client_sites/<key>
+            await setDoc(doc(db, 'client_sites', site.key), {
+              paid: Boolean(targetPaid),
+              updatedAt: serverTimestamp()
+            });
+            site.paid = targetPaid;
+            renderClientSites();
+          } catch (err) {
+            console.error('[Toggle Paid Error]', err);
+            // Revert state in UI: never pretend it saved
+            e.target.checked = !targetPaid;
+            site.paid = !targetPaid;
+            showAlert(rowAlert, `Save failed: ${err.message || err.code || 'Permission denied'}. Setting was not saved.`, 'err');
+          }
+        };
+
+        copyBtn.onclick = async () => {
+          try {
+            await navigator.clipboard.writeText(embedSnippet);
+            copyBtn.textContent = 'Copied!';
+            setTimeout(() => { copyBtn.textContent = 'Copy snippet'; }, 2000);
+          } catch (_) {
+            const input = item.querySelector('input[readonly]');
+            input.select();
+            document.execCommand('copy');
+            copyBtn.textContent = 'Copied!';
+            setTimeout(() => { copyBtn.textContent = 'Copy snippet'; }, 2000);
+          }
+        };
+
+        deleteBtn.onclick = async () => {
+          if (!confirm(`Are you sure you want to delete site key ${site.key}?`)) return;
+          hideAlert(rowAlert);
+          try {
+            await deleteDoc(doc(db, 'client_sites', site.key));
+            try {
+              await deleteDoc(doc(db, 'client_sites_admin', site.key));
+            } catch (_) {}
+            clientSitesList = clientSitesList.filter(s => s.key !== site.key);
+            renderClientSites();
+          } catch (err) {
+            console.error('[Delete Site Key Error]', err);
+            showAlert(rowAlert, `Delete failed: ${err.message || err.code || 'Permission denied'}.`, 'err');
+          }
+        };
+
+        container.appendChild(item);
+      });
+    }
+
+    $('createSiteKeyBtn').onclick = async () => {
+      const label = $('newSiteClientLabel').value.trim();
+      const paid = $('newSitePaidToggle').checked;
+      const alertEl = $('newSiteAlert');
+      hideAlert(alertEl);
+
+      const key = generateRandomSiteKey();
+      showAlert(alertEl, `Creating site key ${key}...`, 'info');
+
+      try {
+        // 1. Write public document client_sites/<key> with ONLY paid and updatedAt
+        await setDoc(doc(db, 'client_sites', key), {
+          paid: Boolean(paid),
+          updatedAt: serverTimestamp()
+        });
+
+        // 2. Write client label ONLY to separate admin-only collection client_sites_admin/<key>
+        if (label) {
+          try {
+            await setDoc(doc(db, 'client_sites_admin', key), {
+              label: label,
+              siteKey: key,
+              updatedAt: serverTimestamp()
+            });
+          } catch (adminErr) {
+            console.error('[Admin Label Save Error]', adminErr);
+            showAlert(alertEl, `Warning: Key created, but client label failed to save: ${adminErr.message || adminErr.code}`, 'warn');
+          }
+        }
+
+        $('newSiteClientLabel').value = '';
+        $('newSitePaidToggle').checked = false;
+        showAlert(alertEl, `Site key ${key} created successfully!`, 'info');
+        setTimeout(() => hideAlert(alertEl), 3000);
+
+        await loadClientSites();
+      } catch (err) {
+        console.error('[Create Site Key Error]', err);
+        // Show real reason and never pretend it saved
+        showAlert(alertEl, `Save failed: ${err.message || err.code || 'Permission denied or network failure'}. Key was not created.`, 'err');
+      }
+    };
+
+    $('refreshClientSitesBtn').onclick = loadClientSites;
 
     $('studioAvailabilitySel').onchange = async e => {
       const val = e.target.value;

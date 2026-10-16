@@ -1,0 +1,68 @@
+/* Builder Mark badge stylesheet for client websites */
+.as-builder-mark {
+  position: fixed;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  right: calc(12px + env(safe-area-inset-right, 0px));
+  z-index: 2147483647;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 11px;
+  background: rgba(20, 48, 45, 0.94);
+  color: #f5f2eb !important;
+  text-decoration: none !important;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 11.5px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  border-radius: 999px;
+  border: 1px solid rgba(222, 215, 200, 0.28);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: transform 0.15s ease, background 0.15s ease, opacity 0.2s ease;
+  user-select: none;
+  -webkit-user-select: none;
+  box-sizing: border-box;
+}
+
+.as-builder-mark:hover {
+  background: #14302d;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+}
+
+.as-builder-mark:focus-visible {
+  outline: 2px solid #b98a50 !important;
+  outline-offset: 2px !important;
+}
+
+.as-builder-mark__logo {
+  width: 15px;
+  height: 15px;
+  display: block;
+  flex: none;
+  object-fit: contain;
+}
+
+.as-builder-mark__text {
+  white-space: nowrap;
+}
+
+/* Mobile responsive constraints: never covers phone content and respects safe areas */
+@media (max-width: 600px) {
+  .as-builder-mark {
+    bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+    right: calc(8px + env(safe-area-inset-right, 0px));
+    padding: 5px 9px;
+    font-size: 10.5px;
+    gap: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  .as-builder-mark__logo {
+    width: 13px;
+    height: 13px;
+  }
+}

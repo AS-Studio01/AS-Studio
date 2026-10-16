@@ -20,6 +20,7 @@
     var doc = document.documentElement;
     doc.setAttribute('data-fiverr', fv ? 'on' : 'off');
     doc.setAttribute('data-upwork', up ? 'on' : 'off');
+    doc.setAttribute('data-marketplace', (fv || up) ? 'on' : 'off');
     doc.setAttribute('data-pricing', fv ? 'fixed' : 'direct');
     doc.setAttribute('data-mode', fv ? 'fiverr' : 'direct');
 
