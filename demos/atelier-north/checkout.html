@@ -1,5 +1,546 @@
-<!doctype html><html lang="en" data-mode="direct" data-fiverr="off" data-upwork="off"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Checkout | Atelier North (demo)</title><meta name="description" content="Demo checkout."><meta name="robots" content="index,follow"><link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="../../assets/brand/favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../../assets/brand/apple-touch-icon.png"><link rel="canonical" href="https://REPLACE-WITH-YOUR-DOMAIN/demos/atelier-north/checkout.html"><meta property="og:type" content="website"><meta property="og:title" content="Checkout | Atelier North (demo)"><meta property="og:description" content="Demo checkout."><meta property="og:image" content="https://REPLACE-WITH-YOUR-DOMAIN/assets/og/demo-atelier-north.jpg"><meta name="twitter:card" content="summary_large_image"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@300;400;500&amp;family=Work+Sans:wght@400;500;600&amp;display=swap"><link rel="stylesheet" href="../demo.css"><style>:root{--bg:#eeeae2;--fg:#201d19;--muted:#6d675d;--acc:#7a5c3c;--acc-fg:#fff;--card:#f8f5ee;--dark:#1d1a16;--fd:'Fraunces',Georgia,serif;--fb:'Work Sans',system-ui,sans-serif}</style><script>window.PRODUCTS=[{"id": "sofa", "name": "Haldi Linen Sofa", "cat": "Seating", "price": 980, "bg": "background:url(../../assets/img/an-sofa.webp) center/cover no-repeat", "d": "Deep three-seat sofa in washed linen with a solid oak frame."}, {"id": "chair", "name": "Teak Lounge Chair", "cat": "Seating", "price": 420, "bg": "background:url(../../assets/img/an-chair.webp) center/cover no-repeat", "d": "A low, wide chair in oiled teak with a cord seat."}, {"id": "lamp", "name": "Brass Arc Lamp", "cat": "Lighting", "price": 220, "bg": "background:url(../../assets/img/an-lamp.webp) center/cover no-repeat", "d": "A slim brass arc that throws warm, even light over a reading chair."}, {"id": "rug", "name": "Wool Field Rug", "cat": "Rugs", "price": 320, "bg": "background:url(../../assets/img/an-rug.webp) center/cover no-repeat", "d": "Hand-knotted undyed wool in a soft field of oatmeal tones."}, {"id": "frame", "name": "Oak Gallery Frame", "cat": "Objects", "price": 75, "bg": "background:url(../../assets/img/an-frame.webp) center/cover no-repeat", "d": "Solid oak frame with museum glass, made to order in three sizes."}, {"id": "bowl", "name": "Stoneware Bowl", "cat": "Objects", "price": 40, "bg": "background:url(../../assets/img/an-bowl.webp) center/cover no-repeat", "d": "Wheel-thrown stoneware with a matte glaze. Each one is slightly different."}];</script><script defer src="../../js/mode.js"></script></head><body><a class="dskip" href="#dmain">Skip to content</a><div class="demobar"><span>AS Studio demo · <b>Signature package</b><span data-mode="fiverr"> · $600</span> · 6 pages</span><span style="display:flex;gap:14px;align-items:center;flex-wrap:wrap"><details><summary>What is included</summary><ul class="inc" style="list-style:none;margin:0"><li>6 pages, custom layouts</li><li>Unlimited revisions within scope</li><li>Payment integration</li><li>Online store (up to 10 products)</li><li>Opt-in form + autoresponder</li><li>Speed optimization + hosting setup</li></ul></details><a href="../../work.html">All demos</a><a href="../../work/atelier-north.html">Read the case study</a><a data-mode="fiverr" class="pill" data-fiverr-link href="https://www.fiverr.com/REPLACE_WITH_YOUR_FIVERR_USERNAME" target="_blank" rel="noopener">Order this on Fiverr</a><a data-mode="direct" class="pill" href="../../contact.html?package=signature">Get a quote like this</a></span></div>
-<header class="dnav"><div class="dnav-in"><a class="dlogo" href="index.html">Atelier North</a><nav class="dlinks" aria-label="Main"><a href="index.html">Home</a><a href="collection.html">Collection</a><a href="about.html">About</a><a href="cart.html" class="cur" aria-current="page">Cart <span class="cartcount" data-cart-count>0</span></a></nav><a class="dbtn" href="collection.html">Shop now</a><button class="dmenu" type="button" aria-expanded="false">Menu</button></div></header>
-<main id="dmain" tabindex="-1"><section class="sec"><div class="wrap split" style="align-items:start"><div><span class="kick">Checkout</span><h1 class="t" style="font-size:clamp(40px,6vw,76px)">Delivery details.</h1><p class="badge-note">Demo checkout. No real payment is taken.</p><form class="form" id="checkout" style="margin-top:24px"><input required placeholder="Full name" autocomplete="name" aria-label="Full name"><input required type="email" placeholder="Email" autocomplete="email" aria-label="Email"><input required placeholder="Delivery address" autocomplete="street-address" aria-label="Address"><input required placeholder="PIN code" inputmode="numeric" pattern="[0-9]{6}" aria-label="PIN code"><select aria-label="Payment method"><option>UPI</option><option>Card</option><option>Net banking</option></select></form></div><aside class="sum"><div class="ln tot"><span>Total to pay</span><span id="coTotal">$0</span></div><button class="dbtn" id="payBtn" type="button">Pay now</button><a class="fine" href="cart.html">Back to cart</a></aside></div></section>
-<div class="modal" id="payModal" role="dialog" aria-modal="true" aria-label="Payment demo"><div class="box"><h3 style="font-size:26px">Payment gateway goes here</h3><p>On a live Signature site this opens Razorpay or Stripe with your keys and sends an order confirmation. Nothing was charged.</p><button class="dbtn" data-close type="button">Close demo</button></div></div><div id="toast" role="status" style="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#201d19;color:#fff;border-radius:999px;padding:10px 20px;font-size:14px;opacity:0;transition:opacity .3s;z-index:150"></div></main>
-<footer class="dfoot"><div class="wrap"><div>Atelier North · Fictional concept demo by <a href="../../index.html" style="text-decoration:underline">AS Studio</a>. Images are AI generated.</div><div class="soc"><a href="#" aria-label="Instagram">Instagram</a><a href="#" aria-label="Facebook">Facebook</a><a href="#" aria-label="X">X</a></div></div></footer><script src="../demo.js" defer></script></body></html>
+<!doctype html>
+<html lang="en" data-mode="direct" data-fiverr="off" data-upwork="off">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Checkout | Atelier North (Demo Store)</title>
+  <meta name="description" content="Single-page demonstration checkout with contact, delivery and payment steps.">
+  <meta name="robots" content="index,follow">
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../assets/brand/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../../assets/brand/apple-touch-icon.png">
+  <link rel="canonical" href="https://REPLACE-WITH-YOUR-DOMAIN/demos/atelier-north/checkout.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Checkout | Atelier North (Demo)">
+  <meta property="og:description" content="Demonstration checkout: complete your order with zero payment.">
+  <meta property="og:image" content="https://REPLACE-WITH-YOUR-DOMAIN/assets/og/demo-atelier-north.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@300;400;500;600&family=Work+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="../demo.css">
+  <link rel="stylesheet" href="store.css">
+  <style>
+    :root {
+      --bg: #eeeae2;
+      --fg: #201d19;
+      --muted: #6d675d;
+      --acc: #7a5c3c;
+      --acc-fg: #fff;
+      --card: #f8f5ee;
+      --dark: #1d1a16;
+      --line: rgba(0,0,0,.12);
+      --fd: 'Fraunces', Georgia, serif;
+      --fb: 'Work Sans', system-ui, -apple-system, sans-serif;
+    }
+  </style>
+  <script src="products.js" defer></script>
+  <script defer src="../../js/mode.js"></script>
+</head>
+<body>
+  <a class="dskip" href="#dmain">Skip to content</a>
+
+  <!-- Demo Bar -->
+  <div class="demobar">
+    <span>AS Studio demo · <b>Signature package</b><span data-mode="fiverr"> · $600</span> · 6 pages</span>
+    <span style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+      <details>
+        <summary>What is included</summary>
+        <ul class="inc" style="list-style:none;margin:0">
+          <li>6 pages, custom layouts</li>
+          <li>Unlimited revisions within scope</li>
+          <li>Payment integration</li>
+          <li>Online store (up to 10 products)</li>
+          <li>Opt-in form + autoresponder</li>
+          <li>Speed optimization + hosting setup</li>
+        </ul>
+      </details>
+      <a href="../../work.html">All demos</a>
+      <a href="../../work/atelier-north.html">Read the case study</a>
+      <a data-mode="fiverr" class="pill" data-fiverr-link href="https://www.fiverr.com/REPLACE_WITH_YOUR_FIVERR_USERNAME" target="_blank" rel="noopener">Order this on Fiverr</a>
+      <a data-mode="direct" class="pill" href="../../contact.html?package=signature">Get a quote like this</a>
+    </span>
+  </div>
+
+  <!-- Store Navigation -->
+  <header class="dnav">
+    <div class="dnav-in">
+      <a class="dlogo" href="index.html">Atelier North</a>
+      <nav class="dlinks" id="anNavLinks" aria-label="Store Navigation">
+        <a href="index.html">Home</a>
+        <a href="collection.html">Collection</a>
+        <a href="about.html">About</a>
+        <a href="cart.html">Cart <span class="cartcount" data-cart-count>0</span></a>
+      </nav>
+      <div style="display:flex;gap:10px;align-items:center">
+        <span style="font-size:13px;color:#787063;font-weight:500">Demo Checkout</span>
+        <button class="dmenu" type="button" aria-expanded="false" aria-controls="anNavLinks" aria-label="Toggle navigation menu">Menu</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="dmain" tabindex="-1">
+    <section class="sec" style="padding-top:50px">
+      <div class="wrap">
+        <!-- Order Confirmed View (hidden until placed) -->
+        <div id="orderConfirmedState" style="display:none;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:48px 32px;max-width:760px;margin:20px auto;text-align:center">
+          <div style="width:64px;height:64px;border-radius:50%;background:#e4ede0;color:#2c6322;display:flex;align-items:center;justify-content:center;margin:0 auto 20px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:32px;height:32px" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="kick" style="color:#2c6322">Demonstration Order Successful</span>
+          <h1 class="t" style="font-size:clamp(32px,5vw,52px);margin:10px 0 14px">Thank you, <span id="confCustomerName">Patron</span>!</h1>
+          <p class="lead" style="margin:0 auto 24px;max-width:54ch">Your sample order has been registered in this browser. In a production store, you would receive an automated tax invoice and scheduled tracking link.</p>
+
+          <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px;text-align:left;margin-bottom:28px">
+            <div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:14px;font-size:14px;flex-wrap:wrap;gap:8px">
+              <div>Order Reference: <strong id="confOrderNumber">AN-IND-00000</strong></div>
+              <div>Estimated Delivery: <strong id="confDeliveryEstimate">3–5 Business Days</strong></div>
+            </div>
+            <div id="confItemsList" style="display:flex;flex-direction:column;gap:10px">
+              <!-- Filled by JS -->
+            </div>
+            <div style="border-top:1px solid var(--line);margin-top:16px;padding-top:14px;display:flex;justify-content:space-between;align-items:baseline">
+              <span>Amount Paid (Demo):</span>
+              <strong style="font-size:22px;color:var(--acc)" id="confTotalPaid">₹0</strong>
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap">
+            <a href="collection.html" class="dbtn">Continue Shopping</a>
+            <a href="index.html" class="dbtn ghost">Back to Store Home</a>
+          </div>
+        </div>
+
+        <!-- Checkout Form & Sticky Summary -->
+        <div id="checkoutMainLayout">
+          <div style="margin-bottom:28px">
+            <span class="kick">Fast & Secure</span>
+            <h1 class="t" style="font-size:clamp(34px,4.5vw,56px)">Checkout.</h1>
+            <p class="fine" style="font-size:13.5px;color:#787063;margin-top:6px">
+              ⚠️ <strong>Demonstration Notice:</strong> No real payment is ever taken. Do not enter real credit card numbers or banking secrets.
+            </p>
+          </div>
+
+          <!-- 3-Step Wizard Indicators -->
+          <div class="an-checkout-steps" role="navigation" aria-label="Checkout Progress">
+            <div class="an-step-indicator active" id="stepBadge1">
+              <span class="an-step-num">1</span>
+              <span>1. Contact</span>
+            </div>
+            <div class="an-step-indicator" id="stepBadge2">
+              <span class="an-step-num">2</span>
+              <span>2. Delivery</span>
+            </div>
+            <div class="an-step-indicator" id="stepBadge3">
+              <span class="an-step-num">3</span>
+              <span>3. Payment</span>
+            </div>
+          </div>
+
+          <div class="split" style="grid-template-columns:1.25fr .75fr;gap:48px;align-items:start">
+            <!-- Left Side: Interactive Wizard Form -->
+            <form id="checkoutWizardForm" class="form" style="max-width:none" novalidate>
+              <!-- Step 1: Contact Details -->
+              <div class="an-checkout-panel active" id="panelStep1">
+                <div class="card" style="padding:28px">
+                  <h3 style="font-size:22px;margin:0 0 8px">Contact Information</h3>
+                  <p class="fine" style="margin-bottom:20px">Where should we send your order confirmation and dispatch notices?</p>
+
+                  <div style="display:grid;gap:14px">
+                    <div>
+                      <label for="coEmail" style="display:block;font-size:13.5px;font-weight:600;margin-bottom:6px">Email Address *</label>
+                      <input id="coEmail" type="email" required placeholder="name@domain.com" aria-required="true">
+                      <div class="fine" id="errEmail" style="color:#b33927;display:none;margin-top:4px">Please enter a valid email address.</div>
+                    </div>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                      <div>
+                        <label for="coFirstName" style="display:block;font-size:13.5px;font-weight:600;margin-bottom:6px">First Name *</label>
+                        <input id="coFirstName" type="text" required placeholder="Aarav" aria-required="true">
+                        <div class="fine" id="errFirstName" style="color:#b33927;display:none;margin-top:4px">First name is required.</div>
+                      </div>
+                      <div>
+                        <label for="coLastName" style="display:block;font-size:13.5px;font-weight:600;margin-bottom:6px">Last Name *</label>
+                        <input id="coLastName" type="text" required placeholder="Sharma" aria-required="true">
+                        <div class="fine" id="errLastName" style="color:#b33927;display:none;margin-top:4px">Last name is required.</div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label for="coPhone" style="display:block;font-size:13.5px;font-weight:600;margin-bottom:6px">Mobile Number (for delivery scheduling) *</label>
+                      <input id="coPhone" type="tel" required placeholder="+91 98765 43210" aria-required="true">
+                      <div class="fine" id="errPhone" style="color:#b33927;display:none;margin-top:4px">Please provide a 10-digit phone number.</div>
+                    </div>
+                  </div>
+
+                  <div style="margin-top:24px;display:flex;justify-content:flex-end">
+                    <button type="button" id="btnToStep2" class="dbtn" style="min-height:46px">Proceed to Delivery →</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 2: Delivery Address -->
+              <div class="an-checkout-panel" id="panelStep2">
+                <div class="card" style="padding:28px">
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                    <h3 style="font-size:22px;margin:0">Delivery Address</h3>
+                    <button type="button" id="btnBackTo1" style="background:none;border:0;color:var(--acc);font-size:13px;text-decoration:underline;cursor:pointer">Edit Contact</button>
+                  </div>
+                  <p class="fine" style="margin-bottom:20px">Insured two-person delivery right to your room of choice.</p>
+
+                  <div style="display:grid;gap:14px">
+                    <div>
+                      <label for="coAddress" style="display:block;font-size:13.5px;font-weight:600;margin-bottom:6px">Street Address & Apartment *</label>
+                      <input id="coAddress" type="text" required placeholder="Flat 402, Oakwood Court, Prabhat Road" aria-required="true">
+                      <div class="fine" id="errAddress" style="color:#b33927;display:none;margin-top:4px">Address is required.</div>
+                    </div>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                      <div>
+                        <label for="coCity" style="display:block;font-size:13.5px;font-weight:600;margin-bottom:6px">City *</label>
+                        <input id="coCity" type="text" required placeholder="Pune" aria-required="true">
+                        <div class="fine" id="errCity" style="color:#b33927;display:none;margin-top:4px">City is required.</div>
+                      </div>
+                      <div>
+                        <label for="coPin" style="display:block;font-size:13.5px;font-weight:600;margin-bottom:6px">6-Digit PIN Code *</label>
+                        <input id="coPin" type="text" maxlength="6" pattern="[0-9]{6}" required placeholder="411004" aria-required="true">
+                        <div class="fine" id="errPin" style="color:#b33927;display:none;margin-top:4px">Please enter a valid 6-digit PIN code.</div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label for="coState" style="display:block;font-size:13.5px;font-weight:600;margin-bottom:6px">State *</label>
+                      <select id="coState" required aria-required="true">
+                        <option value="Maharashtra" selected>Maharashtra</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Delhi">Delhi NCR</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Telangana">Telangana</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="Other">Other State</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div style="margin-top:24px;display:flex;justify-content:space-between;align-items:center">
+                    <button type="button" id="btnBackTo1Alt" class="dbtn ghost">← Back</button>
+                    <button type="button" id="btnToStep3" class="dbtn" style="min-height:46px">Proceed to Payment →</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 3: Demonstration Payment -->
+              <div class="an-checkout-panel" id="panelStep3">
+                <div class="card" style="padding:28px">
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                    <h3 style="font-size:22px;margin:0">Payment Method</h3>
+                    <button type="button" id="btnBackTo2" style="background:none;border:0;color:var(--acc);font-size:13px;text-decoration:underline;cursor:pointer">Edit Address</button>
+                  </div>
+                  <p class="fine" style="margin-bottom:18px">Select a demo payment method to simulate the transaction.</p>
+
+                  <div class="an-payment-methods">
+                    <!-- UPI Option -->
+                    <label class="an-pay-option">
+                      <input type="radio" name="payMethod" value="upi" checked>
+                      <div class="an-pay-label">
+                        <strong>Instant UPI (GPay / PhonePe / Paytm / BHIM)</strong>
+                        <span>Zero transaction fee. Simulation with sample VPA.</span>
+                      </div>
+                    </label>
+
+                    <!-- Card Option -->
+                    <label class="an-pay-option">
+                      <input type="radio" name="payMethod" value="card">
+                      <div class="an-pay-label">
+                        <strong>Credit / Debit Card (Demo Mock)</strong>
+                        <span>Simulated test gateway. No card numbers requested.</span>
+                      </div>
+                    </label>
+
+                    <!-- COD Option -->
+                    <label class="an-pay-option">
+                      <input type="radio" name="payMethod" value="cod">
+                      <div class="an-pay-label">
+                        <strong>Cash on White-Glove Delivery</strong>
+                        <span>Pay via cash or UPI upon room placement.</span>
+                      </div>
+                    </label>
+                  </div>
+
+                  <!-- UPI sub-box -->
+                  <div id="upiBox" style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:18px">
+                    <label for="demoUpiId" style="font-size:13px;display:block;font-weight:600;margin-bottom:4px">Test UPI ID (Mock)</label>
+                    <input type="text" id="demoUpiId" value="customer@okhdfcbank" style="width:100%;padding:8px 12px;border:1px solid var(--line);border-radius:6px;font:inherit;font-size:13.5px">
+                    <span class="fine" style="font-size:11.5px;color:#787063">Simulates instant bank verification upon placing order.</span>
+                  </div>
+
+                  <!-- Card sub-box -->
+                  <div id="cardBox" style="display:none;background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:18px">
+                    <p style="font-size:13px;color:#5c5448;margin:0">
+                      🔒 <strong>Demo mode:</strong> In accordance with security guidelines, real card fields are completely disabled. Clicking "Place Demo Order" simulates authorization.
+                    </p>
+                  </div>
+
+                  <div style="margin-top:24px;display:flex;justify-content:space-between;align-items:center">
+                    <button type="button" id="btnBackTo2Alt" class="dbtn ghost">← Back</button>
+                    <button type="submit" id="placeOrderBtn" class="dbtn" style="min-height:50px;font-size:16px;padding:12px 28px">
+                      Place Demo Order (<span id="btnPayAmount">₹0</span>)
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <!-- Right Side: Sticky Order Summary -->
+            <aside class="sum" style="position:sticky;top:90px;background:var(--card);border-radius:16px;padding:26px">
+              <h3 style="font-size:20px;margin:0 0 14px">Order Summary</h3>
+
+              <div id="coItemList" style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px;max-height:260px;overflow-y:auto">
+                <!-- Populated by JS -->
+              </div>
+
+              <div class="ln">
+                <span>Subtotal</span>
+                <strong id="coSubtotalVal">₹0</strong>
+              </div>
+
+              <div class="ln" id="coDiscountRow" style="display:none;color:#2e6324">
+                <span>Promotional Discount (10%)</span>
+                <strong id="coDiscountVal">-₹0</strong>
+              </div>
+
+              <div class="ln">
+                <span>Insured Delivery</span>
+                <span id="coShippingVal">Free</span>
+              </div>
+
+              <div class="tot ln" style="margin-top:10px;font-size:20px">
+                <span>Total to Pay</span>
+                <strong id="coGrandTotalVal" style="color:var(--acc)">₹0</strong>
+              </div>
+
+              <div style="margin-top:20px;padding:12px;background:#f1ede3;border-radius:10px;font-size:12px;line-height:1.45;color:#6b6255">
+                <strong>Peace of mind:</strong> Every Atelier North piece includes 30-day returns and white-glove packaging.
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="dfoot">
+    <div class="wrap">
+      <div>
+        Atelier North · Fictional concept demo by <a href="../../index.html" style="text-decoration:underline">AS Studio</a>. Images are AI generated.
+      </div>
+      <div class="soc">
+        <a href="../../work/atelier-north.html">Case Study</a>
+        <a href="about.html">About</a>
+        <a href="collection.html">Collection</a>
+        <a href="cart.html">Cart</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../demo.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var store = window.AN_STORE;
+      if (!store) return;
+
+      var cart = store.getCart();
+      var subtotal = store.getCartSubtotal();
+
+      // If cart empty, redirect to cart page
+      if (cart.length === 0) {
+        window.location.href = 'cart.html';
+        return;
+      }
+
+      // Check for promo
+      var promo = sessionStorage.getItem('an_promo_code');
+      var discount = (promo === store.DEMO_PROMO_CODE) ? Math.round(subtotal * (store.PROMO_DISCOUNT_PERCENT / 100)) : 0;
+      var shipping = subtotal >= store.FREE_SHIPPING_THRESHOLD ? 0 : store.STANDARD_SHIPPING_FEE;
+      var grandTotal = subtotal - discount + shipping;
+
+      // Populate sticky summary
+      var coItemList = document.getElementById('coItemList');
+      coItemList.innerHTML = cart.map(function(item) {
+        return (
+          '<div style="display:flex;justify-content:space-between;gap:12px;font-size:13.5px">' +
+            '<div>' +
+              '<strong>' + item.name + ' × ' + item.qty + '</strong>' +
+              '<div style="color:#787063;font-size:12px">' + item.optionName + '</div>' +
+            '</div>' +
+            '<span>' + store.formatINR(item.price * item.qty) + '</span>' +
+          '</div>'
+        );
+      }).join('');
+
+      document.getElementById('coSubtotalVal').textContent = store.formatINR(subtotal);
+      if (discount > 0) {
+        document.getElementById('coDiscountRow').style.display = 'flex';
+        document.getElementById('coDiscountVal').textContent = '-' + store.formatINR(discount);
+      }
+      document.getElementById('coShippingVal').textContent = shipping === 0 ? 'Free' : store.formatINR(shipping);
+      document.getElementById('coGrandTotalVal').textContent = store.formatINR(grandTotal);
+      document.getElementById('btnPayAmount').textContent = store.formatINR(grandTotal);
+
+      // Wizard Steps Logic
+      var badge1 = document.getElementById('stepBadge1');
+      var badge2 = document.getElementById('stepBadge2');
+      var badge3 = document.getElementById('stepBadge3');
+
+      var panel1 = document.getElementById('panelStep1');
+      var panel2 = document.getElementById('panelStep2');
+      var panel3 = document.getElementById('panelStep3');
+
+      function showStep(n) {
+        badge1.classList.toggle('active', n === 1);
+        badge1.classList.toggle('completed', n > 1);
+
+        badge2.classList.toggle('active', n === 2);
+        badge2.classList.toggle('completed', n > 2);
+
+        badge3.classList.toggle('active', n === 3);
+
+        panel1.classList.toggle('active', n === 1);
+        panel2.classList.toggle('active', n === 2);
+        panel3.classList.toggle('active', n === 3);
+
+        window.scrollTo({ top: 120, behavior: 'smooth' });
+      }
+
+      // Step 1 validation
+      var emailInp = document.getElementById('coEmail');
+      var firstInp = document.getElementById('coFirstName');
+      var lastInp = document.getElementById('coLastName');
+      var phoneInp = document.getElementById('coPhone');
+
+      document.getElementById('btnToStep2').addEventListener('click', function() {
+        var valid = true;
+
+        if (!emailInp.value || !emailInp.value.includes('@')) {
+          document.getElementById('errEmail').style.display = 'block';
+          valid = false;
+        } else {
+          document.getElementById('errEmail').style.display = 'none';
+        }
+
+        if (!firstInp.value.trim()) {
+          document.getElementById('errFirstName').style.display = 'block';
+          valid = false;
+        } else {
+          document.getElementById('errFirstName').style.display = 'none';
+        }
+
+        if (!lastInp.value.trim()) {
+          document.getElementById('errLastName').style.display = 'block';
+          valid = false;
+        } else {
+          document.getElementById('errLastName').style.display = 'none';
+        }
+
+        if (!phoneInp.value.trim() || phoneInp.value.trim().length < 8) {
+          document.getElementById('errPhone').style.display = 'block';
+          valid = false;
+        } else {
+          document.getElementById('errPhone').style.display = 'none';
+        }
+
+        if (valid) showStep(2);
+      });
+
+      // Step 2 validation
+      var addrInp = document.getElementById('coAddress');
+      var cityInp = document.getElementById('coCity');
+      var pinInp = document.getElementById('coPin');
+
+      document.getElementById('btnBackTo1').addEventListener('click', function() { showStep(1); });
+      document.getElementById('btnBackTo1Alt').addEventListener('click', function() { showStep(1); });
+
+      document.getElementById('btnToStep3').addEventListener('click', function() {
+        var valid = true;
+
+        if (!addrInp.value.trim()) {
+          document.getElementById('errAddress').style.display = 'block';
+          valid = false;
+        } else {
+          document.getElementById('errAddress').style.display = 'none';
+        }
+
+        if (!cityInp.value.trim()) {
+          document.getElementById('errCity').style.display = 'block';
+          valid = false;
+        } else {
+          document.getElementById('errCity').style.display = 'none';
+        }
+
+        if (!/^[1-9][0-9]{5}$/.test(pinInp.value.trim())) {
+          document.getElementById('errPin').style.display = 'block';
+          valid = false;
+        } else {
+          document.getElementById('errPin').style.display = 'none';
+        }
+
+        if (valid) showStep(3);
+      });
+
+      document.getElementById('btnBackTo2').addEventListener('click', function() { showStep(2); });
+      document.getElementById('btnBackTo2Alt').addEventListener('click', function() { showStep(2); });
+
+      // Payment radio toggle
+      var radios = document.querySelectorAll('input[name="payMethod"]');
+      var upiBox = document.getElementById('upiBox');
+      var cardBox = document.getElementById('cardBox');
+
+      radios.forEach(function(r) {
+        r.addEventListener('change', function() {
+          upiBox.style.display = r.value === 'upi' ? 'block' : 'none';
+          cardBox.style.display = r.value === 'card' ? 'block' : 'none';
+        });
+      });
+
+      // Place Demo Order
+      var form = document.getElementById('checkoutWizardForm');
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        var randomNum = Math.floor(10000 + Math.random() * 90000);
+        var orderNumber = 'AN-IND-' + randomNum;
+        var customerName = firstInp.value.trim() || 'Valued Patron';
+        var pin = pinInp.value.trim() || '411001';
+
+        document.getElementById('confOrderNumber').textContent = orderNumber;
+        document.getElementById('confCustomerName').textContent = customerName;
+        document.getElementById('confTotalPaid').textContent = store.formatINR(grandTotal);
+
+        var firstDigit = pin[0];
+        var days = (firstDigit === '4' || firstDigit === '1') ? '3–4' : '5–7';
+        document.getElementById('confDeliveryEstimate').textContent = days + ' Business Days (to PIN ' + pin + ')';
+
+        var confList = document.getElementById('confItemsList');
+        confList.innerHTML = cart.map(function(item) {
+          return (
+            '<div style="display:flex;justify-content:space-between;font-size:13.5px">' +
+              '<span>' + item.name + ' (' + item.optionName + ') × ' + item.qty + '</span>' +
+              '<strong>' + store.formatINR(item.price * item.qty) + '</strong>' +
+            '</div>'
+          );
+        }).join('');
+
+        // Clear cart
+        store.clearCart();
+        sessionStorage.removeItem('an_promo_code');
+
+        // Swap view
+        document.getElementById('checkoutMainLayout').style.display = 'none';
+        var confState = document.getElementById('orderConfirmedState');
+        confState.style.display = 'block';
+        window.scrollTo({ top: 60, behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>

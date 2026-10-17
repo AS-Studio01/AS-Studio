@@ -1,4 +1,329 @@
-<!doctype html><html lang="en" data-mode="direct" data-fiverr="off" data-upwork="off"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Cart | Atelier North (demo)</title><meta name="description" content="Your cart."><meta name="robots" content="index,follow"><link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="../../assets/brand/favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../../assets/brand/apple-touch-icon.png"><link rel="canonical" href="https://REPLACE-WITH-YOUR-DOMAIN/demos/atelier-north/cart.html"><meta property="og:type" content="website"><meta property="og:title" content="Cart | Atelier North (demo)"><meta property="og:description" content="Your cart."><meta property="og:image" content="https://REPLACE-WITH-YOUR-DOMAIN/assets/og/demo-atelier-north.jpg"><meta name="twitter:card" content="summary_large_image"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@300;400;500&amp;family=Work+Sans:wght@400;500;600&amp;display=swap"><link rel="stylesheet" href="../demo.css"><style>:root{--bg:#eeeae2;--fg:#201d19;--muted:#6d675d;--acc:#7a5c3c;--acc-fg:#fff;--card:#f8f5ee;--dark:#1d1a16;--fd:'Fraunces',Georgia,serif;--fb:'Work Sans',system-ui,sans-serif}</style><script>window.PRODUCTS=[{"id": "sofa", "name": "Haldi Linen Sofa", "cat": "Seating", "price": 980, "bg": "background:url(../../assets/img/an-sofa.webp) center/cover no-repeat", "d": "Deep three-seat sofa in washed linen with a solid oak frame."}, {"id": "chair", "name": "Teak Lounge Chair", "cat": "Seating", "price": 420, "bg": "background:url(../../assets/img/an-chair.webp) center/cover no-repeat", "d": "A low, wide chair in oiled teak with a cord seat."}, {"id": "lamp", "name": "Brass Arc Lamp", "cat": "Lighting", "price": 220, "bg": "background:url(../../assets/img/an-lamp.webp) center/cover no-repeat", "d": "A slim brass arc that throws warm, even light over a reading chair."}, {"id": "rug", "name": "Wool Field Rug", "cat": "Rugs", "price": 320, "bg": "background:url(../../assets/img/an-rug.webp) center/cover no-repeat", "d": "Hand-knotted undyed wool in a soft field of oatmeal tones."}, {"id": "frame", "name": "Oak Gallery Frame", "cat": "Objects", "price": 75, "bg": "background:url(../../assets/img/an-frame.webp) center/cover no-repeat", "d": "Solid oak frame with museum glass, made to order in three sizes."}, {"id": "bowl", "name": "Stoneware Bowl", "cat": "Objects", "price": 40, "bg": "background:url(../../assets/img/an-bowl.webp) center/cover no-repeat", "d": "Wheel-thrown stoneware with a matte glaze. Each one is slightly different."}];</script><script defer src="../../js/mode.js"></script></head><body><a class="dskip" href="#dmain">Skip to content</a><div class="demobar"><span>AS Studio demo · <b>Signature package</b><span data-mode="fiverr"> · $600</span> · 6 pages</span><span style="display:flex;gap:14px;align-items:center;flex-wrap:wrap"><details><summary>What is included</summary><ul class="inc" style="list-style:none;margin:0"><li>6 pages, custom layouts</li><li>Unlimited revisions within scope</li><li>Payment integration</li><li>Online store (up to 10 products)</li><li>Opt-in form + autoresponder</li><li>Speed optimization + hosting setup</li></ul></details><a href="../../work.html">All demos</a><a href="../../work/atelier-north.html">Read the case study</a><a data-mode="fiverr" class="pill" data-fiverr-link href="https://www.fiverr.com/REPLACE_WITH_YOUR_FIVERR_USERNAME" target="_blank" rel="noopener">Order this on Fiverr</a><a data-mode="direct" class="pill" href="../../contact.html?package=signature">Get a quote like this</a></span></div>
-<header class="dnav"><div class="dnav-in"><a class="dlogo" href="index.html">Atelier North</a><nav class="dlinks" aria-label="Main"><a href="index.html">Home</a><a href="collection.html">Collection</a><a href="about.html">About</a><a href="cart.html" class="cur" aria-current="page">Cart <span class="cartcount" data-cart-count>0</span></a></nav><a class="dbtn" href="collection.html">Shop now</a><button class="dmenu" type="button" aria-expanded="false">Menu</button></div></header>
-<main id="dmain" tabindex="-1"><section class="sec"><div class="wrap"><h1 class="t" style="font-size:clamp(40px,6vw,76px)">Your cart</h1><div class="split" style="align-items:start;margin-top:30px"><div id="cartItems"></div><aside class="sum" id="cartSum"><div class="ln"><span>Subtotal</span><span id="subTotal"></span></div><div class="ln"><span>Delivery</span><span id="shipTotal"></span></div><div class="ln tot"><span>Total</span><span id="grandTotal"></span></div><a class="dbtn" href="checkout.html">Go to checkout</a></aside></div></div></section><div id="toast" role="status" style="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#201d19;color:#fff;border-radius:999px;padding:10px 20px;font-size:14px;opacity:0;transition:opacity .3s;z-index:150"></div></main>
-<footer class="dfoot"><div class="wrap"><div>Atelier North · Fictional concept demo by <a href="../../index.html" style="text-decoration:underline">AS Studio</a>. Images are AI generated.</div><div class="soc"><a href="#" aria-label="Instagram">Instagram</a><a href="#" aria-label="Facebook">Facebook</a><a href="#" aria-label="X">X</a></div></div></footer><script src="../demo.js" defer></script></body></html>
+<!doctype html>
+<html lang="en" data-mode="direct" data-fiverr="off" data-upwork="off">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Shopping Cart | Atelier North (Demo Store)</title>
+  <meta name="description" content="Review your selected furniture, apply demo promo codes and proceed to checkout.">
+  <meta name="robots" content="index,follow">
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../assets/brand/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../../assets/brand/apple-touch-icon.png">
+  <link rel="canonical" href="https://REPLACE-WITH-YOUR-DOMAIN/demos/atelier-north/cart.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Shopping Cart | Atelier North (Demo)">
+  <meta property="og:description" content="Review your selected furniture and homeware pieces.">
+  <meta property="og:image" content="https://REPLACE-WITH-YOUR-DOMAIN/assets/og/demo-atelier-north.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@300;400;500;600&family=Work+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="../demo.css">
+  <link rel="stylesheet" href="store.css">
+  <style>
+    :root {
+      --bg: #eeeae2;
+      --fg: #201d19;
+      --muted: #6d675d;
+      --acc: #7a5c3c;
+      --acc-fg: #fff;
+      --card: #f8f5ee;
+      --dark: #1d1a16;
+      --line: rgba(0,0,0,.12);
+      --fd: 'Fraunces', Georgia, serif;
+      --fb: 'Work Sans', system-ui, -apple-system, sans-serif;
+    }
+  </style>
+  <script src="products.js" defer></script>
+  <script defer src="../../js/mode.js"></script>
+</head>
+<body>
+  <a class="dskip" href="#dmain">Skip to content</a>
+
+  <!-- Demo Bar -->
+  <div class="demobar">
+    <span>AS Studio demo · <b>Signature package</b><span data-mode="fiverr"> · $600</span> · 6 pages</span>
+    <span style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+      <details>
+        <summary>What is included</summary>
+        <ul class="inc" style="list-style:none;margin:0">
+          <li>6 pages, custom layouts</li>
+          <li>Unlimited revisions within scope</li>
+          <li>Payment integration</li>
+          <li>Online store (up to 10 products)</li>
+          <li>Opt-in form + autoresponder</li>
+          <li>Speed optimization + hosting setup</li>
+        </ul>
+      </details>
+      <a href="../../work.html">All demos</a>
+      <a href="../../work/atelier-north.html">Read the case study</a>
+      <a data-mode="fiverr" class="pill" data-fiverr-link href="https://www.fiverr.com/REPLACE_WITH_YOUR_FIVERR_USERNAME" target="_blank" rel="noopener">Order this on Fiverr</a>
+      <a data-mode="direct" class="pill" href="../../contact.html?package=signature">Get a quote like this</a>
+    </span>
+  </div>
+
+  <!-- Store Navigation -->
+  <header class="dnav">
+    <div class="dnav-in">
+      <a class="dlogo" href="index.html">Atelier North</a>
+      <nav class="dlinks" id="anNavLinks" aria-label="Store Navigation">
+        <a href="index.html">Home</a>
+        <a href="collection.html">Collection</a>
+        <a href="about.html">About</a>
+        <a href="collection.html?wishlist=1" class="an-wish-link" aria-label="Saved Items">
+          Wishlist <span class="cartcount" data-wishlist-count style="display:none">0</span>
+        </a>
+        <a href="cart.html" class="cur" aria-current="page">
+          Cart <span class="cartcount" data-cart-count>0</span>
+        </a>
+      </nav>
+      <div style="display:flex;gap:10px;align-items:center">
+        <a class="dbtn" href="collection.html">Continue shopping</a>
+        <button class="dmenu" type="button" aria-expanded="false" aria-controls="anNavLinks" aria-label="Toggle navigation menu">Menu</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="dmain" tabindex="-1">
+    <section class="sec" style="padding-top:60px">
+      <div class="wrap">
+        <span class="kick">Order Summary</span>
+        <h1 class="t" style="font-size:clamp(36px,5vw,68px);margin-bottom:28px">Your Shopping Cart.</h1>
+
+        <!-- Free Delivery Progress Meter -->
+        <div class="an-shipping-banner" style="border-radius:14px;border:1px solid var(--line);margin-bottom:34px;background:var(--card)">
+          <div class="an-shipping-bar"><div id="fullCartProgressBar" class="an-shipping-progress" style="width:0%"></div></div>
+          <div id="fullCartProgressText" class="an-shipping-text" style="font-size:13.5px">Add items to calculate shipping</div>
+        </div>
+
+        <!-- Empty State Container -->
+        <div id="fullCartEmpty" style="display:none;text-align:center;padding:80px 20px;background:var(--card);border:1px solid var(--line);border-radius:18px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:54px;height:54px;margin:0 auto 16px;color:#8c8273" aria-hidden="true"><path d="M6 6h15l-1.5 9h-13z"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M6 6L4 2H1"/></svg>
+          <h2 style="font-size:28px;margin:0 0 10px">Your cart is currently empty</h2>
+          <p style="color:var(--muted);max-width:44ch;margin:0 auto 24px">Explore timeless furniture, natural lighting and textiles made to order in our studio.</p>
+          <a href="collection.html" class="dbtn">Browse the collection</a>
+        </div>
+
+        <!-- Full Cart Layout -->
+        <div id="fullCartLayout" class="split" style="grid-template-columns:1.2fr .8fr;gap:48px;align-items:start">
+          <!-- Line Items List -->
+          <div>
+            <div id="fullCartItemList" style="display:flex;flex-direction:column;gap:18px">
+              <!-- Populated by JS -->
+            </div>
+            <div style="margin-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+              <a href="collection.html" style="font-size:14px;color:var(--acc);text-decoration:underline">← Continue browsing pieces</a>
+              <button type="button" id="clearCartBtn" style="background:none;border:0;color:#9c3826;font-size:13.5px;text-decoration:underline;cursor:pointer">Empty cart</button>
+            </div>
+          </div>
+
+          <!-- Summary & Promo Card -->
+          <div class="sum" style="background:var(--card);border-radius:16px;padding:28px">
+            <h3 style="font-size:22px;margin:0 0 14px">Order Breakdown</h3>
+
+            <div class="ln">
+              <span>Items Subtotal</span>
+              <strong id="cartSubtotalVal">₹0</strong>
+            </div>
+
+            <!-- Discount Line -->
+            <div class="ln" id="discountLine" style="display:none;color:#2e6324">
+              <span>Demo Discount (10%)</span>
+              <strong id="cartDiscountVal">-₹0</strong>
+            </div>
+
+            <div class="ln">
+              <span>Insured Delivery</span>
+              <span id="cartShippingVal">Calculated at checkout</span>
+            </div>
+
+            <div class="tot ln" style="margin-top:12px;font-size:20px">
+              <span>Grand Total</span>
+              <strong id="cartGrandTotalVal" style="color:var(--acc)">₹0</strong>
+            </div>
+
+            <!-- Promo Code Input -->
+            <div style="margin-top:18px;padding-top:18px;border-top:1px dashed var(--line)">
+              <label for="promoCodeInput" style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">
+                Promotional Code
+              </label>
+              <div style="display:flex;gap:8px">
+                <input type="text" id="promoCodeInput" placeholder="Try code: STUDIO10" style="flex:1;padding:10px 12px;border:1px solid rgba(0,0,0,.15);border-radius:8px;font:inherit;font-size:13.5px;text-transform:uppercase" aria-label="Promo code">
+                <button type="button" id="applyPromoBtn" class="dbtn ghost" style="padding:8px 16px;min-height:40px">Apply</button>
+              </div>
+              <div id="promoMsg" style="font-size:12.5px;margin-top:6px" role="status"></div>
+              <p class="fine" style="margin-top:6px;font-size:11.5px">
+                <strong>Demo hint:</strong> Use coupon code <code>STUDIO10</code> for 10% demo discount. This is for demonstration purposes.
+              </p>
+            </div>
+
+            <div style="margin-top:24px">
+              <a href="checkout.html" class="dbtn" style="width:100%;text-align:center;min-height:48px;font-size:15.5px">Proceed to Checkout</a>
+              <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-top:14px;color:#787063;font-size:12.5px">
+                <span>🔒 Demonstration checkout</span>
+                <span>•</span>
+                <span>No real payment taken</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="dfoot">
+    <div class="wrap">
+      <div>
+        Atelier North · Fictional concept demo by <a href="../../index.html" style="text-decoration:underline">AS Studio</a>. Images are AI generated.
+      </div>
+      <div class="soc">
+        <a href="../../work/atelier-north.html">Case Study</a>
+        <a href="about.html">About</a>
+        <a href="collection.html">Collection</a>
+        <a href="checkout.html">Checkout</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../demo.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var store = window.AN_STORE;
+      if (!store) return;
+
+      var emptyBox = document.getElementById('fullCartEmpty');
+      var layoutBox = document.getElementById('fullCartLayout');
+      var itemList = document.getElementById('fullCartItemList');
+      var subtotalVal = document.getElementById('cartSubtotalVal');
+      var discountLine = document.getElementById('discountLine');
+      var discountVal = document.getElementById('cartDiscountVal');
+      var shippingVal = document.getElementById('cartShippingVal');
+      var grandTotalVal = document.getElementById('cartGrandTotalVal');
+      var progressBar = document.getElementById('fullCartProgressBar');
+      var progressText = document.getElementById('fullCartProgressText');
+      var promoInput = document.getElementById('promoCodeInput');
+      var promoBtn = document.getElementById('applyPromoBtn');
+      var promoMsg = document.getElementById('promoMsg');
+      var clearBtn = document.getElementById('clearCartBtn');
+
+      var appliedPromo = null;
+
+      function renderFullCart() {
+        var cart = store.getCart();
+        var subtotal = store.getCartSubtotal();
+
+        if (cart.length === 0) {
+          emptyBox.style.display = 'block';
+          layoutBox.style.display = 'none';
+          progressBar.style.width = '0%';
+          progressText.textContent = 'Your cart is empty.';
+          return;
+        }
+
+        emptyBox.style.display = 'none';
+        layoutBox.style.display = 'grid';
+
+        // Progress meter
+        if (subtotal >= store.FREE_SHIPPING_THRESHOLD) {
+          progressBar.style.width = '100%';
+          progressText.innerHTML = '<strong>Unlocked!</strong> You qualify for Free Insured White-Glove Delivery.';
+        } else {
+          var pct = Math.min(100, Math.round((subtotal / store.FREE_SHIPPING_THRESHOLD) * 100));
+          var rem = store.FREE_SHIPPING_THRESHOLD - subtotal;
+          progressBar.style.width = pct + '%';
+          progressText.innerHTML = 'Add <b>' + store.formatINR(rem) + '</b> more to unlock free white-glove delivery across India.';
+        }
+
+        // Render items
+        itemList.innerHTML = cart.map(function(item) {
+          return (
+            '<div class="card" style="padding:18px;display:grid;grid-template-columns:90px 1fr auto;gap:18px;align-items:center">' +
+              '<img src="' + item.image + '" alt="' + item.name + '" width="90" height="90" style="border-radius:10px;object-fit:cover;background:#e5ded3">' +
+              '<div>' +
+                '<h3 style="font-size:18px;margin:0 0 4px"><a href="product.html?p=' + item.id + '">' + item.name + '</a></h3>' +
+                '<div style="font-size:13.5px;color:#787063;margin-bottom:8px">Finish: ' + item.optionName + '</div>' +
+                '<span class="price">' + store.formatINR(item.price) + ' each</span>' +
+              '</div>' +
+              '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:12px">' +
+                '<div class="an-stepper">' +
+                  '<button type="button" class="an-step-btn" data-step="-1" data-key="' + item.key + '" aria-label="Decrease quantity">−</button>' +
+                  '<span class="an-step-val">' + item.qty + '</span>' +
+                  '<button type="button" class="an-step-btn" data-step="1" data-key="' + item.key + '" aria-label="Increase quantity">+</button>' +
+                '</div>' +
+                '<strong style="font-size:16px;color:var(--acc)">' + store.formatINR(item.price * item.qty) + '</strong>' +
+                '<button type="button" class="an-item-remove" data-remove="' + item.key + '" style="font-size:13px;text-decoration:underline;color:#8c8273">Remove</button>' +
+              '</div>' +
+            '</div>'
+          );
+        }).join('');
+
+        // Calculation
+        var discount = 0;
+        if (appliedPromo === store.DEMO_PROMO_CODE) {
+          discount = Math.round(subtotal * (store.PROMO_DISCOUNT_PERCENT / 100));
+          discountLine.style.display = 'flex';
+          discountVal.textContent = '-' + store.formatINR(discount);
+        } else {
+          discountLine.style.display = 'none';
+        }
+
+        var shipping = (subtotal >= store.FREE_SHIPPING_THRESHOLD || subtotal === 0) ? 0 : store.STANDARD_SHIPPING_FEE;
+        subtotalVal.textContent = store.formatINR(subtotal);
+        shippingVal.textContent = shipping === 0 ? 'Free' : store.formatINR(shipping);
+        grandTotalVal.textContent = store.formatINR(subtotal - discount + shipping);
+      }
+
+      // Steppers & remove inside full cart list
+      itemList.addEventListener('click', function(e) {
+        var stepBtn = e.target.closest('[data-step]');
+        if (stepBtn) {
+          var delta = parseInt(stepBtn.getAttribute('data-step'), 10);
+          var key = stepBtn.getAttribute('data-key');
+          store.updateCartQty(key, delta);
+          renderFullCart();
+          return;
+        }
+        var remBtn = e.target.closest('[data-remove]');
+        if (remBtn) {
+          store.removeFromCart(remBtn.getAttribute('data-remove'));
+          renderFullCart();
+          return;
+        }
+      });
+
+      // Clear cart
+      clearBtn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to empty your cart?')) {
+          store.clearCart();
+          renderFullCart();
+        }
+      });
+
+      // Promo Code
+      promoBtn.addEventListener('click', function() {
+        var code = (promoInput.value || '').trim().toUpperCase();
+        if (code === store.DEMO_PROMO_CODE) {
+          appliedPromo = code;
+          sessionStorage.setItem('an_promo_code', code);
+          promoMsg.innerHTML = '<span style="color:#2e6324">✓ Demo code applied! 10% discount subtracted.</span>';
+          renderFullCart();
+        } else if (!code) {
+          promoMsg.innerHTML = '<span style="color:#b33927">Please enter a promo code.</span>';
+        } else {
+          promoMsg.innerHTML = '<span style="color:#b33927">Invalid code. Try demo code <strong>STUDIO10</strong></span>';
+        }
+      });
+
+      // Restore promo code if in sessionStorage
+      var cachedPromo = sessionStorage.getItem('an_promo_code');
+      if (cachedPromo === store.DEMO_PROMO_CODE) {
+        appliedPromo = cachedPromo;
+        promoInput.value = cachedPromo;
+        promoMsg.innerHTML = '<span style="color:#2e6324">✓ Demo code STUDIO10 active (10% off)</span>';
+      }
+
+      renderFullCart();
+    });
+  </script>
+</body>
+</html>

@@ -1,4 +1,464 @@
-<!doctype html><html lang="en" data-mode="direct" data-fiverr="off" data-upwork="off"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Product | Atelier North (demo)</title><meta name="description" content="Product detail page."><meta name="robots" content="index,follow"><link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="../../assets/brand/favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../../assets/brand/apple-touch-icon.png"><link rel="canonical" href="https://REPLACE-WITH-YOUR-DOMAIN/demos/atelier-north/product.html"><meta property="og:type" content="website"><meta property="og:title" content="Product | Atelier North (demo)"><meta property="og:description" content="Product detail page."><meta property="og:image" content="https://REPLACE-WITH-YOUR-DOMAIN/assets/og/demo-atelier-north.jpg"><meta name="twitter:card" content="summary_large_image"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@300;400;500&amp;family=Work+Sans:wght@400;500;600&amp;display=swap"><link rel="stylesheet" href="../demo.css"><style>:root{--bg:#eeeae2;--fg:#201d19;--muted:#6d675d;--acc:#7a5c3c;--acc-fg:#fff;--card:#f8f5ee;--dark:#1d1a16;--fd:'Fraunces',Georgia,serif;--fb:'Work Sans',system-ui,sans-serif}</style><script>window.PRODUCTS=[{"id": "sofa", "name": "Haldi Linen Sofa", "cat": "Seating", "price": 980, "bg": "background:url(../../assets/img/an-sofa.webp) center/cover no-repeat", "d": "Deep three-seat sofa in washed linen with a solid oak frame."}, {"id": "chair", "name": "Teak Lounge Chair", "cat": "Seating", "price": 420, "bg": "background:url(../../assets/img/an-chair.webp) center/cover no-repeat", "d": "A low, wide chair in oiled teak with a cord seat."}, {"id": "lamp", "name": "Brass Arc Lamp", "cat": "Lighting", "price": 220, "bg": "background:url(../../assets/img/an-lamp.webp) center/cover no-repeat", "d": "A slim brass arc that throws warm, even light over a reading chair."}, {"id": "rug", "name": "Wool Field Rug", "cat": "Rugs", "price": 320, "bg": "background:url(../../assets/img/an-rug.webp) center/cover no-repeat", "d": "Hand-knotted undyed wool in a soft field of oatmeal tones."}, {"id": "frame", "name": "Oak Gallery Frame", "cat": "Objects", "price": 75, "bg": "background:url(../../assets/img/an-frame.webp) center/cover no-repeat", "d": "Solid oak frame with museum glass, made to order in three sizes."}, {"id": "bowl", "name": "Stoneware Bowl", "cat": "Objects", "price": 40, "bg": "background:url(../../assets/img/an-bowl.webp) center/cover no-repeat", "d": "Wheel-thrown stoneware with a matte glaze. Each one is slightly different."}];</script><script defer src="../../js/mode.js"></script></head><body><a class="dskip" href="#dmain">Skip to content</a><div class="demobar"><span>AS Studio demo · <b>Signature package</b><span data-mode="fiverr"> · $600</span> · 6 pages</span><span style="display:flex;gap:14px;align-items:center;flex-wrap:wrap"><details><summary>What is included</summary><ul class="inc" style="list-style:none;margin:0"><li>6 pages, custom layouts</li><li>Unlimited revisions within scope</li><li>Payment integration</li><li>Online store (up to 10 products)</li><li>Opt-in form + autoresponder</li><li>Speed optimization + hosting setup</li></ul></details><a href="../../work.html">All demos</a><a href="../../work/atelier-north.html">Read the case study</a><a data-mode="fiverr" class="pill" data-fiverr-link href="https://www.fiverr.com/REPLACE_WITH_YOUR_FIVERR_USERNAME" target="_blank" rel="noopener">Order this on Fiverr</a><a data-mode="direct" class="pill" href="../../contact.html?package=signature">Get a quote like this</a></span></div>
-<header class="dnav"><div class="dnav-in"><a class="dlogo" href="index.html">Atelier North</a><nav class="dlinks" aria-label="Main"><a href="index.html">Home</a><a href="collection.html" class="cur" aria-current="page">Collection</a><a href="about.html">About</a><a href="cart.html">Cart <span class="cartcount" data-cart-count>0</span></a></nav><a class="dbtn" href="collection.html">Shop now</a><button class="dmenu" type="button" aria-expanded="false">Menu</button></div></header>
-<main id="dmain" tabindex="-1"><section class="sec"><div class="wrap split"><div class="ph" id="pimg" style="border-radius:var(--r);aspect-ratio:1/1"></div><div><a class="fine" href="collection.html">← Collection</a><span class="tag" id="pcat" style="display:block;margin-top:14px"></span><h1 class="t" id="pname" style="font-size:clamp(38px,5vw,64px);margin:10px 0"></h1><p class="price" id="pprice" style="font-size:26px"></p><p class="lead" id="pdesc"></p><div class="row" style="margin-top:26px"><button class="dbtn" id="padd" type="button">Add to cart</button><a class="dbtn ghost" href="cart.html">View cart</a></div><p class="badge-note">Free delivery over $200. 30-day returns.</p></div></div></section><div id="toast" role="status" style="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#201d19;color:#fff;border-radius:999px;padding:10px 20px;font-size:14px;opacity:0;transition:opacity .3s;z-index:150"></div></main>
-<footer class="dfoot"><div class="wrap"><div>Atelier North · Fictional concept demo by <a href="../../index.html" style="text-decoration:underline">AS Studio</a>. Images are AI generated.</div><div class="soc"><a href="#" aria-label="Instagram">Instagram</a><a href="#" aria-label="Facebook">Facebook</a><a href="#" aria-label="X">X</a></div></div></footer><script>addEventListener('DOMContentLoaded',()=>{const P=window.PRODUCTS;const k=new URLSearchParams(location.search).get('p')||'sofa';const p=P.find(x=>x.id===k)||P[0];document.title=p.name+' | Atelier North (demo)';const imgEl=document.getElementById('pimg');imgEl.style.cssText=p.bg+';border-radius:var(--r);aspect-ratio:1/1;';document.getElementById('pcat').textContent=p.cat;document.getElementById('pname').textContent=p.name;document.getElementById('pprice').textContent='$'+p.price.toLocaleString('en-US');document.getElementById('pdesc').textContent=p.d;document.getElementById('padd').onclick=()=>addToCart(p.id)})</script><script src="../demo.js" defer></script></body></html>
+<!doctype html>
+<html lang="en" data-mode="direct" data-fiverr="off" data-upwork="off">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Product Details | Atelier North (Demo Store)</title>
+  <meta name="description" content="View handcrafted dimensions, materials, care guides and custom finish swatches.">
+  <meta name="robots" content="index,follow">
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../assets/brand/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../../assets/brand/apple-touch-icon.png">
+  <link rel="canonical" href="https://REPLACE-WITH-YOUR-DOMAIN/demos/atelier-north/product.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Product Details | Atelier North (Demo)">
+  <meta property="og:description" content="Handcrafted furniture and homeware by Atelier North.">
+  <meta property="og:image" content="https://REPLACE-WITH-YOUR-DOMAIN/assets/og/demo-atelier-north.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@300;400;500;600&family=Work+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="../demo.css">
+  <link rel="stylesheet" href="store.css">
+  <style>
+    :root {
+      --bg: #eeeae2;
+      --fg: #201d19;
+      --muted: #6d675d;
+      --acc: #7a5c3c;
+      --acc-fg: #fff;
+      --card: #f8f5ee;
+      --dark: #1d1a16;
+      --line: rgba(0,0,0,.12);
+      --fd: 'Fraunces', Georgia, serif;
+      --fb: 'Work Sans', system-ui, -apple-system, sans-serif;
+    }
+  </style>
+  <script src="products.js" defer></script>
+  <script defer src="../../js/mode.js"></script>
+</head>
+<body>
+  <a class="dskip" href="#dmain">Skip to content</a>
+
+  <!-- Demo Bar -->
+  <div class="demobar">
+    <span>AS Studio demo · <b>Signature package</b><span data-mode="fiverr"> · $600</span> · 6 pages</span>
+    <span style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+      <details>
+        <summary>What is included</summary>
+        <ul class="inc" style="list-style:none;margin:0">
+          <li>6 pages, custom layouts</li>
+          <li>Unlimited revisions within scope</li>
+          <li>Payment integration</li>
+          <li>Online store (up to 10 products)</li>
+          <li>Opt-in form + autoresponder</li>
+          <li>Speed optimization + hosting setup</li>
+        </ul>
+      </details>
+      <a href="../../work.html">All demos</a>
+      <a href="../../work/atelier-north.html">Read the case study</a>
+      <a data-mode="fiverr" class="pill" data-fiverr-link href="https://www.fiverr.com/REPLACE_WITH_YOUR_FIVERR_USERNAME" target="_blank" rel="noopener">Order this on Fiverr</a>
+      <a data-mode="direct" class="pill" href="../../contact.html?package=signature">Get a quote like this</a>
+    </span>
+  </div>
+
+  <!-- Store Navigation -->
+  <header class="dnav">
+    <div class="dnav-in">
+      <a class="dlogo" href="index.html">Atelier North</a>
+      <nav class="dlinks" id="anNavLinks" aria-label="Store Navigation">
+        <a href="index.html">Home</a>
+        <a href="collection.html">Collection</a>
+        <a href="about.html">About</a>
+        <a href="collection.html?wishlist=1" class="an-wish-link" aria-label="Saved Items">
+          Wishlist <span class="cartcount" data-wishlist-count style="display:none">0</span>
+        </a>
+        <button type="button" class="an-nav-cart" data-cart-drawer-trigger aria-label="Open Cart Drawer" style="background:none;border:0;color:inherit;font:inherit;cursor:pointer;padding:0;display:inline-flex;align-items:center">
+          Cart <span class="cartcount" data-cart-count>0</span>
+        </button>
+      </nav>
+      <div style="display:flex;gap:10px;align-items:center">
+        <button type="button" class="dbtn" data-cart-drawer-trigger>View cart</button>
+        <button class="dmenu" type="button" aria-expanded="false" aria-controls="anNavLinks" aria-label="Toggle navigation menu">Menu</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="dmain" tabindex="-1">
+    <!-- Not Found State -->
+    <div id="productNotFound" style="display:none;padding:120px 24px;text-align:center" class="wrap">
+      <span class="kick">Atelier North Catalogue</span>
+      <h1 class="t" style="margin:12px auto;font-size:clamp(32px,5vw,56px)">Object not found</h1>
+      <p class="lead" style="margin:16px auto 28px">The piece you requested is no longer in this seasonal edition or the address was mistyped.</p>
+      <a href="collection.html" class="dbtn">Return to full collection</a>
+    </div>
+
+    <!-- Product Detail Container -->
+    <article id="productContent" class="sec" style="padding-top:40px;display:none">
+      <div class="wrap">
+        <!-- Breadcrumbs -->
+        <nav aria-label="Breadcrumb" style="font-size:13.5px;color:#787063;margin-bottom:28px">
+          <a href="index.html" style="text-decoration:underline">Home</a> /
+          <a href="collection.html" style="text-decoration:underline">Collection</a> /
+          <span id="crumbCat">Category</span> /
+          <strong id="crumbName" style="color:var(--fg)">Product</strong>
+        </nav>
+
+        <div class="split" style="gap:54px;align-items:start">
+          <!-- Left Column: Zoomable Image Gallery -->
+          <div>
+            <div class="an-gallery-wrap" id="galleryWrap" tabindex="0" role="region" aria-label="Interactive product photo with zoom">
+              <img id="mainProductImg" class="an-main-img" src="" alt="" width="800" height="600" loading="eager">
+              <span class="an-zoom-hint">Hover or tap to zoom</span>
+            </div>
+            <div style="display:flex;gap:12px;margin-top:14px;font-size:13px;color:#787063;align-items:center">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;color:var(--acc)" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span>100% genuine natural materials · Crafted in small workshop runs</span>
+            </div>
+          </div>
+
+          <!-- Right Column: Specs, Swatches, Add-To-Cart -->
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px">
+              <div>
+                <span class="tag" id="prodCatTag">Category</span>
+                <h1 class="t" id="prodTitle" style="font-size:clamp(34px,4.5vw,52px);margin:10px 0 6px">Product Name</h1>
+              </div>
+              <button type="button" class="an-wish-btn" id="prodWishBtn" aria-label="Save to wishlist" style="position:static">
+                <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+              </button>
+            </div>
+
+            <div style="margin:16px 0 20px">
+              <span class="price" id="prodPrice" style="font-size:28px;font-family:var(--fd)">₹0</span>
+              <span style="font-size:13.5px;color:#787063;margin-left:8px">Inclusive of all taxes</span>
+            </div>
+
+            <p id="prodSummary" style="font-size:16px;color:#5c5448;line-height:1.6;margin-bottom:24px">Summary</p>
+
+            <!-- Finish / Swatch Selector -->
+            <div id="swatchGroup" style="margin-bottom:24px">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;margin-bottom:8px">
+                <strong>Finish / Material: <span id="selectedOptionName" style="color:var(--acc);font-weight:600">Standard</span></strong>
+                <span id="optionPriceDelta" style="color:#787063"></span>
+              </div>
+              <div class="an-swatches" id="swatchContainer" role="radiogroup" aria-label="Product color and finish options">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+
+            <!-- Quantity Stepper & Add To Cart Button -->
+            <div style="display:flex;gap:14px;align-items:center;margin-bottom:24px;flex-wrap:wrap">
+              <div class="an-stepper" role="group" aria-label="Quantity" style="padding:4px">
+                <button type="button" id="qtyMinus" class="an-step-btn" aria-label="Decrease quantity" style="width:36px;height:36px">−</button>
+                <span id="qtyVal" class="an-step-val" style="font-size:15px;min-width:32px">1</span>
+                <button type="button" id="qtyPlus" class="an-step-btn" aria-label="Increase quantity" style="width:36px;height:36px">+</button>
+              </div>
+
+              <button type="button" id="addToCartMainBtn" class="dbtn" style="flex:1;min-height:48px;font-size:15px">
+                Add to Cart · <span id="cartBtnPrice">₹0</span>
+              </button>
+            </div>
+
+            <!-- PIN Code Delivery Estimator -->
+            <div class="an-pin-box">
+              <label for="pinInput">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;display:inline-block;vertical-align:-2px;margin-right:4px;color:var(--acc)" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Check Delivery Estimate
+              </label>
+              <div class="an-pin-row">
+                <input type="text" id="pinInput" class="an-pin-input" placeholder="Enter 6-digit PIN code (e.g. 411001)" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" aria-label="Delivery PIN code">
+                <button type="button" id="pinCheckBtn" class="dbtn ghost" style="padding:8px 18px;min-height:42px">Check</button>
+              </div>
+              <div id="pinResult" class="an-pin-res" role="status"></div>
+            </div>
+
+            <!-- Expandable Accordions -->
+            <div class="an-accordion">
+              <details open>
+                <summary>Details & Overview</summary>
+                <div class="an-acc-body" id="accDetails">Description</div>
+              </details>
+
+              <details>
+                <summary>Materials & Provenance</summary>
+                <div class="an-acc-body" id="accMaterials">Materials</div>
+              </details>
+
+              <details>
+                <summary>Dimensions & Specifications</summary>
+                <div class="an-acc-body" id="accDimensions">Dimensions</div>
+              </details>
+
+              <details>
+                <summary>Care & Maintenance</summary>
+                <div class="an-acc-body" id="accCare">Care instructions</div>
+              </details>
+
+              <details>
+                <summary>Delivery & In-Home Returns</summary>
+                <div class="an-acc-body">
+                  <p><strong>Insured Delivery:</strong> Dispatched in reinforced wooden crates or recycled molded pulp containers. White-glove setup available in major metropolitan regions.</p>
+                  <p style="margin-top:8px"><strong>30-Day In-Home Trial:</strong> If the piece doesn't harmonise with your space, schedule an insured return collection for a full refund in your original payment method.</p>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+
+        <!-- You May Also Like Row -->
+        <section style="margin-top:90px;padding-top:40px;border-top:1px solid var(--line)" aria-labelledby="related-heading">
+          <span class="kick">Complements & Pairings</span>
+          <h2 class="t" id="related-heading" style="font-size:clamp(28px,3.8vw,42px);margin-bottom:30px">You may also like</h2>
+          <div class="grid g3" id="relatedGrid">
+            <!-- Populated by JS -->
+          </div>
+        </section>
+      </div>
+    </article>
+
+    <!-- Sticky Mobile Add to Cart Bar -->
+    <div class="an-sticky-bar" id="mobileStickyBar" aria-hidden="true">
+      <div>
+        <div style="font-size:12px;color:#787063;line-height:1.2" id="stickyProdName">Product</div>
+        <div class="an-sticky-price" id="stickyProdPrice">₹0</div>
+      </div>
+      <button type="button" class="dbtn" id="stickyAddBtn">Add to Cart</button>
+    </div>
+  </main>
+
+  <footer class="dfoot">
+    <div class="wrap">
+      <div>
+        Atelier North · Fictional concept demo by <a href="../../index.html" style="text-decoration:underline">AS Studio</a>. Images are AI generated.
+      </div>
+      <div class="soc">
+        <a href="../../work/atelier-north.html">Case Study</a>
+        <a href="about.html">About</a>
+        <a href="collection.html">Collection</a>
+        <a href="cart.html">Cart</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../demo.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var store = window.AN_STORE;
+      if (!store) return;
+
+      var params = new URLSearchParams(window.location.search);
+      var pid = params.get('p') || params.get('id') || 'sofa';
+      var product = store.getProduct(pid);
+
+      var notFoundEl = document.getElementById('productNotFound');
+      var contentEl = document.getElementById('productContent');
+
+      if (!product) {
+        notFoundEl.style.display = 'block';
+        contentEl.style.display = 'none';
+        document.title = 'Product Not Found | Atelier North';
+        return;
+      }
+
+      document.title = product.name + ' | Atelier North (Demo)';
+      notFoundEl.style.display = 'none';
+      contentEl.style.display = 'block';
+
+      // Elements
+      var mainImg = document.getElementById('mainProductImg');
+      var galleryWrap = document.getElementById('galleryWrap');
+      var crumbCat = document.getElementById('crumbCat');
+      var crumbName = document.getElementById('crumbName');
+      var prodCatTag = document.getElementById('prodCatTag');
+      var prodTitle = document.getElementById('prodTitle');
+      var prodPrice = document.getElementById('prodPrice');
+      var prodSummary = document.getElementById('prodSummary');
+      var cartBtnPrice = document.getElementById('cartBtnPrice');
+      var stickyProdName = document.getElementById('stickyProdName');
+      var stickyProdPrice = document.getElementById('stickyProdPrice');
+      var wishBtn = document.getElementById('prodWishBtn');
+
+      var accDetails = document.getElementById('accDetails');
+      var accMaterials = document.getElementById('accMaterials');
+      var accDimensions = document.getElementById('accDimensions');
+      var accCare = document.getElementById('accCare');
+
+      // Fill data
+      crumbCat.textContent = product.cat;
+      crumbName.textContent = product.name;
+      prodCatTag.textContent = product.cat;
+      prodTitle.textContent = product.name;
+      prodSummary.textContent = product.summary;
+      mainImg.src = product.image;
+      mainImg.alt = product.name + ' - ' + product.summary;
+      stickyProdName.textContent = product.name;
+
+      accDetails.textContent = product.description;
+      accMaterials.textContent = product.materials;
+      accDimensions.textContent = product.dimensions;
+      accCare.textContent = product.care;
+
+      // Swatch state
+      var selectedOptionIdx = 0;
+      var selectedQty = 1;
+
+      function updatePricing() {
+        var opt = product.options[selectedOptionIdx] || { name: 'Standard', priceDelta: 0 };
+        var unitPrice = product.price + (opt.priceDelta || 0);
+        var total = unitPrice * selectedQty;
+
+        var formattedUnit = store.formatINR(unitPrice);
+        prodPrice.textContent = formattedUnit;
+        cartBtnPrice.textContent = store.formatINR(total);
+        stickyProdPrice.textContent = formattedUnit;
+
+        var optPriceDeltaEl = document.getElementById('optionPriceDelta');
+        if (opt.priceDelta > 0) {
+          optPriceDeltaEl.textContent = '(+' + store.formatINR(opt.priceDelta) + ')';
+        } else {
+          optPriceDeltaEl.textContent = '';
+        }
+      }
+
+      // Render swatches
+      var swatchContainer = document.getElementById('swatchContainer');
+      var selectedOptionName = document.getElementById('selectedOptionName');
+      if (product.options && product.options.length) {
+        selectedOptionName.textContent = product.options[0].name;
+        swatchContainer.innerHTML = product.options.map(function(opt, idx) {
+          return (
+            '<button type="button" class="an-swatch ' + (idx === 0 ? 'selected' : '') + '" ' +
+              'style="background-color:' + opt.color + '" ' +
+              'data-idx="' + idx + '" ' +
+              'role="radio" ' +
+              'aria-checked="' + (idx === 0 ? 'true' : 'false') + '" ' +
+              'aria-label="Option: ' + opt.name + '" ' +
+              'title="' + opt.name + '">' +
+            '</button>'
+          );
+        }).join('');
+
+        swatchContainer.addEventListener('click', function(e) {
+          var btn = e.target.closest('.an-swatch');
+          if (!btn) return;
+          var idx = parseInt(btn.getAttribute('data-idx'), 10);
+          selectedOptionIdx = idx;
+          selectedOptionName.textContent = product.options[idx].name;
+          swatchContainer.querySelectorAll('.an-swatch').forEach(function(b) {
+            b.classList.remove('selected');
+            b.setAttribute('aria-checked', 'false');
+          });
+          btn.classList.add('selected');
+          btn.setAttribute('aria-checked', 'true');
+          updatePricing();
+        });
+      }
+
+      // Quantity controls
+      var qtyVal = document.getElementById('qtyVal');
+      document.getElementById('qtyMinus').addEventListener('click', function() {
+        if (selectedQty > 1) {
+          selectedQty--;
+          qtyVal.textContent = selectedQty;
+          updatePricing();
+        }
+      });
+      document.getElementById('qtyPlus').addEventListener('click', function() {
+        if (selectedQty < 10) {
+          selectedQty++;
+          qtyVal.textContent = selectedQty;
+          updatePricing();
+        }
+      });
+
+      // Add to Cart
+      function handleAddToCart() {
+        store.addToCart(product.id, selectedOptionIdx, selectedQty);
+      }
+      document.getElementById('addToCartMainBtn').addEventListener('click', handleAddToCart);
+      document.getElementById('stickyAddBtn').addEventListener('click', handleAddToCart);
+
+      // Wishlist toggle
+      function syncWishlist() {
+        var on = store.isWishlisted(product.id);
+        wishBtn.classList.toggle('active', on);
+        wishBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      }
+      wishBtn.addEventListener('click', function() {
+        store.toggleWishlist(product.id);
+        syncWishlist();
+      });
+      syncWishlist();
+
+      // PIN Code Checker
+      var pinInput = document.getElementById('pinInput');
+      var pinBtn = document.getElementById('pinCheckBtn');
+      var pinRes = document.getElementById('pinResult');
+
+      function checkPin() {
+        var pin = (pinInput.value || '').trim();
+        if (!/^[1-9][0-9]{5}$/.test(pin)) {
+          pinRes.innerHTML = '<span style="color:#b33927">Please enter a valid 6-digit Indian PIN code.</span>';
+          return;
+        }
+        var firstDigit = pin[0];
+        var days = (firstDigit === '4' || firstDigit === '1') ? '2–4' : '4–7';
+        pinRes.innerHTML = (
+          '<div style="background:#edf4ea;color:#285223;border:1px solid #c9e0c1;padding:8px 12px;border-radius:8px">' +
+            '<strong>Delivery Available to ' + pin + ':</strong> Estimated delivery within ' + days + ' business days. White-glove placement included.' +
+          '</div>'
+        );
+      }
+      pinBtn.addEventListener('click', checkPin);
+      pinInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          checkPin();
+        }
+      });
+
+      // Hover / Tap Image Zoom
+      galleryWrap.addEventListener('mousemove', function(e) {
+        var rect = galleryWrap.getBoundingClientRect();
+        var x = ((e.clientX - rect.left) / rect.width) * 100;
+        var y = ((e.clientY - rect.top) / rect.height) * 100;
+        mainImg.style.transformOrigin = x + '% ' + y + '%';
+      });
+      galleryWrap.addEventListener('mouseleave', function() {
+        mainImg.style.transformOrigin = 'center center';
+      });
+      galleryWrap.addEventListener('click', function() {
+        galleryWrap.classList.toggle('tapped');
+      });
+
+      // You May Also Like Row (3 other products)
+      var related = store.products.filter(function(p) { return p.id !== product.id; }).slice(0, 3);
+      var relatedGrid = document.getElementById('relatedGrid');
+      relatedGrid.innerHTML = related.map(function(p) {
+        var wished = store.isWishlisted(p.id);
+        return (
+          '<article class="imgcard reveal" style="position:relative">' +
+            '<button type="button" class="an-wish-btn ' + (wished ? 'active' : '') + '" data-wish-btn="' + p.id + '" aria-label="Save ' + p.name + ' to wishlist">' +
+              '<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>' +
+            '</button>' +
+            '<a href="product.html?p=' + p.id + '" style="display:block">' +
+              '<div class="ph" style="background-image:url(' + p.thumb + ');background-position:center;background-size:cover"></div>' +
+            '</a>' +
+            '<div class="bd">' +
+              '<span class="tag">' + p.cat + '</span>' +
+              '<h3><a href="product.html?p=' + p.id + '">' + p.name + '</a></h3>' +
+              '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">' +
+                '<span class="price">' + store.formatINR(p.price) + '</span>' +
+                '<button type="button" class="dbtn" data-quick-add="' + p.id + '" style="padding:6px 14px;font-size:12.5px">Add to cart</button>' +
+              '</div>' +
+            '</div>' +
+          '</article>'
+        );
+      }).join('');
+
+      updatePricing();
+    });
+  </script>
+</body>
+</html>

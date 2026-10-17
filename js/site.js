@@ -76,9 +76,50 @@ if(nav){const light=nav.classList.contains('light');let last=-1;
   if(logo)logo.addEventListener('click',function(e){var same=new URL(logo.href,location.href).pathname.replace(/index\.html$/,'')===location.pathname.replace(/index\.html$/,'');
     if(same){e.preventDefault();if(n===0&&scrollY>40)scrollTo({top:0,behavior:'smooth'})}tap(e,logo)});
   var f=document.querySelector('.fsecret');if(f)f.addEventListener('click',function(e){tap(e,f)})})();
-/* reveals */
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+/* Reveal on Scroll via Intersection Observer API */
+(function setupRevealObserver() {
+  const elements = document.querySelectorAll('.reveal');
+  if (!elements.length) return;
+
+  // Immediate visibility for reduced motion preference or missing IntersectionObserver
+  if (reduce() || !('IntersectionObserver' in window)) {
+    elements.forEach(el => el.classList.add('in'));
+    return;
+  }
+
+  // Pre-check elements already visible or above the viewport on initial page load / refresh
+  const vh = window.innerHeight || document.documentElement.clientHeight;
+  elements.forEach(el => {
+    const r = el.getBoundingClientRect();
+    if (r.top <= vh * 0.9 && r.bottom >= 0) {
+      el.classList.add('in');
+    }
+  });
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, {
+    root: null,
+    rootMargin: '0px 0px -40px 0px',
+    threshold: [0, 0.08, 0.15]
+  });
+
+  elements.forEach(el => {
+    if (!el.classList.contains('in')) {
+      observer.observe(el);
+    }
+  });
+
+  // Re-observe if any new .reveal elements are rendered dynamically
+  window.refreshReveals = () => {
+    document.querySelectorAll('.reveal:not(.in)').forEach(el => observer.observe(el));
+  };
+})();
 /* self-drawing arch */
 const arch=document.querySelector('.arch-draw');
 if(arch){const paths=[...arch.querySelectorAll('path[data-draw]')],glow=arch.querySelector('.fillglow');let lp=-1;

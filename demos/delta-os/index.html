@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Delta.OS | Autonomous AI Telemetry &amp; Analytics Platform (Demo)</title>
+  <meta name="description" content="Autonomous intelligence for high-throughput distributed systems. Fictional product design study by AS Studio.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="delta.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <div class="demobar">
+    <span>AS Studio demo · <b>Delta.OS Concept</b> · AI Analytics Platform</span>
+    <span style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+      <details>
+        <summary>What is included</summary>
+        <ul class="inc" style="list-style:none;margin:0">
+          <li>Dark-mode analytics interface</li>
+          <li>Inline SVG charts &amp; telemetry widgets</li>
+          <li>Interactive query &amp; alert state switching</li>
+          <li>Asymmetric feature matrix with cursor spotlight</li>
+          <li>Tiered pricing toggle with keyboard accessibility</li>
+          <li>Zero external script libraries or image assets</li>
+        </ul>
+      </details>
+      <a href="../../work.html">All demos</a>
+      <a class="pill" href="../../contact.html">Get in touch</a>
+    </span>
+  </div>
+
+  <header class="site-nav">
+    <div class="site-nav-inner">
+      <a class="brand-link" href="#" aria-label="Delta.OS Homepage">
+        <svg class="brand-logo-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <polygon points="16,3 30,28 2,28" stroke="url(#nav-brand-grad)" stroke-width="2.5" stroke-linejoin="round" />
+          <polygon points="16,11 24,25 8,25" fill="rgba(0,242,254,0.15)" stroke="#00f2fe" stroke-width="1.5" stroke-linejoin="round" />
+          <defs>
+            <linearGradient id="nav-brand-grad" x1="2" y1="3" x2="30" y2="28" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#00f2fe" />
+              <stop offset="1" stop-color="#6366f1" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <span>Delta<span style="color:var(--accent-cyan)">.</span>OS</span>
+        <span class="brand-badge">ANALYTICS</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#dashboard">Dashboard</a>
+        <a href="#features">Architecture</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="#pricing" class="btn btn-primary btn-sm">Launch Console</a>
+        <button class="mobile-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu-drawer" aria-label="Toggle navigation menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-drawer" id="mobile-menu-drawer">
+      <a href="#dashboard">Dashboard</a>
+      <a href="#features">Architecture</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="#pricing" class="btn btn-primary" style="margin-top:8px">Launch Console</a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero-section">
+      <div class="grid-bg-overlay" aria-hidden="true"></div>
+
+      <div class="hero-container">
+        <div class="hero-pill-badge">
+          <span class="pulse-indicator" aria-hidden="true"></span>
+          <span>Delta Synthesis Engine v3.4 Active</span>
+        </div>
+
+        <h1 class="hero-headline">Autonomous intelligence for high-throughput systems.</h1>
+        <p class="hero-subline">Stream, correlate, and diagnose telemetry events across distributed fleets with sub-millisecond edge synthesis.</p>
+
+        <div class="hero-actions">
+          <a href="#pricing" class="btn btn-primary">Deploy Cluster</a>
+          <a href="#features" class="btn btn-ghost">Explore Architecture</a>
+        </div>
+      </div>
+
+      <div class="dashboard-wrapper" id="dashboard">
+        <div class="dashboard-tilt">
+          <div class="glass-panel">
+            <div class="dash-topbar">
+              <div class="dash-tabs" role="tablist" aria-label="Telemetry perspectives">
+                <button class="dash-tab active" role="tab" aria-selected="true" id="tab-overview" aria-controls="panel-telemetry" tabindex="0" data-tab="overview">Overview</button>
+                <button class="dash-tab" role="tab" aria-selected="false" id="tab-queries" aria-controls="panel-telemetry" tabindex="-1" data-tab="queries">Queries</button>
+                <button class="dash-tab" role="tab" aria-selected="false" id="tab-alerts" aria-controls="panel-telemetry" tabindex="-1" data-tab="alerts">Alerts</button>
+              </div>
+
+              <div class="dash-meta">
+                <span class="sample-badge">Sample data</span>
+                <span class="status-cluster">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                    <circle cx="5" cy="5" r="4" fill="#10b981" />
+                  </svg>
+                  <span>Global Mesh Synced</span>
+                </span>
+              </div>
+            </div>
+
+            <div class="dash-content" id="panel-telemetry" role="tabpanel" aria-labelledby="tab-overview">
+              <div class="metrics-strip">
+                <div class="metric-card">
+                  <span class="metric-label">Event Ingress</span>
+                  <span class="metric-val" data-count="1.82" data-suffix="M" data-prefix="">1.82M</span>
+                  <span class="metric-change">+14.2% / sec</span>
+                </div>
+                <div class="metric-card">
+                  <span class="metric-label">Mean Latency</span>
+                  <span class="metric-val" data-count="3.8" data-suffix="ms" data-prefix="">3.8ms</span>
+                  <span class="metric-change">-0.6ms p95</span>
+                </div>
+                <div class="metric-card">
+                  <span class="metric-label">Synthesized Graph</span>
+                  <span class="metric-val" data-count="99.98" data-suffix="%" data-prefix="">99.98%</span>
+                  <span class="metric-change">Zero drop</span>
+                </div>
+                <div class="metric-card">
+                  <span class="metric-label">Edge Replicas</span>
+                  <span class="metric-val" data-count="128" data-suffix="" data-prefix="">128</span>
+                  <span class="metric-change">All healthy</span>
+                </div>
+              </div>
+
+              <div class="dash-grid-charts">
+                <div class="chart-card">
+                  <div class="chart-header">
+                    <span class="chart-title">Real-Time Event Synthesis Pipeline</span>
+                    <div class="chart-legend">
+                      <span class="legend-item"><span class="legend-dot" style="background:#00f2fe"></span> Ingress</span>
+                      <span class="legend-item"><span class="legend-dot" style="background:#6366f1"></span> Edge Index</span>
+                    </div>
+                  </div>
+
+                  <svg class="svg-chart" viewBox="0 0 600 160" preserveAspectRatio="none" aria-label="Event synthesis line chart">
+                    <defs>
+                      <linearGradient id="chart-area-grad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#00f2fe" stop-opacity="0.3" />
+                        <stop offset="100%" stop-color="#00f2fe" stop-opacity="0.0" />
+                      </linearGradient>
+                      <linearGradient id="chart-line-grad" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stop-color="#00f2fe" />
+                        <stop offset="70%" stop-color="#6366f1" />
+                        <stop offset="100%" stop-color="#38bdf8" />
+                      </linearGradient>
+                    </defs>
+                    <path class="fill-area" d="M0,130 C40,115 80,140 120,95 C160,50 200,80 240,45 C280,10 320,60 360,25 C400,-10 440,30 480,15 C520,0 560,40 600,10 L600,160 L0,160 Z" fill="url(#chart-area-grad)" />
+                    <path class="line-draw" d="M0,130 C40,115 80,140 120,95 C160,50 200,80 240,45 C280,10 320,60 360,25 C400,-10 440,30 480,15 C520,0 560,40 600,10" fill="none" stroke="url(#chart-line-grad)" stroke-width="2.5" stroke-linecap="round" />
+                    <line x1="0" y1="40" x2="600" y2="40" stroke="rgba(255,255,255,0.05)" stroke-dasharray="4 4" />
+                    <line x1="0" y1="90" x2="600" y2="90" stroke="rgba(255,255,255,0.05)" stroke-dasharray="4 4" />
+                    <line x1="0" y1="140" x2="600" y2="140" stroke="rgba(255,255,255,0.05)" stroke-dasharray="4 4" />
+                  </svg>
+                </div>
+
+                <div class="chart-card">
+                  <div class="chart-header">
+                    <span class="chart-title">Memory Allocation</span>
+                    <span class="sample-badge">78%</span>
+                  </div>
+                  <div style="display:flex;align-items:center;justify-content:center;height:140px">
+                    <svg viewBox="0 0 100 100" width="130" height="130" aria-label="Resource allocation donut chart">
+                      <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="12" />
+                      <circle class="donut-circle-fg" cx="50" cy="50" r="38" fill="none" stroke="url(#donut-grad)" stroke-width="12" stroke-dasharray="188 62" stroke-dashoffset="60" stroke-linecap="round" />
+                      <defs>
+                        <linearGradient id="donut-grad" x1="0" y1="0" x2="1" y2="1">
+                          <stop offset="0%" stop-color="#00f2fe" />
+                          <stop offset="100%" stop-color="#6366f1" />
+                        </linearGradient>
+                      </defs>
+                      <text x="50" y="47" text-anchor="middle" fill="#ffffff" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="600">3.2 TB</text>
+                      <text x="50" y="61" text-anchor="middle" fill="#94a3b8" font-family="'JetBrains Mono',monospace" font-size="8">WARM RAM</text>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dash-bottom-grid">
+                <div class="chart-card">
+                  <div class="chart-header">
+                    <span class="chart-title">Throughput Percentile Distribution</span>
+                    <span style="font-family:var(--font-mono);font-size:11px;color:var(--text-dim)">P99.9 = 5.2ms</span>
+                  </div>
+                  <svg class="svg-bars" viewBox="0 0 360 160" preserveAspectRatio="none" style="width:100%;height:120px" aria-label="Latency percentile bars">
+                    <defs>
+                      <linearGradient id="bar-grad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#00f2fe" />
+                        <stop offset="100%" stop-color="rgba(0,242,254,0.15)" />
+                      </linearGradient>
+                    </defs>
+                    <rect x="10" y="122" width="18" height="38" rx="3" fill="url(#bar-grad)" />
+                    <rect x="40" y="106" width="18" height="54" rx="3" fill="url(#bar-grad)" />
+                    <rect x="70" y="82" width="18" height="78" rx="3" fill="url(#bar-grad)" />
+                    <rect x="100" y="98" width="18" height="62" rx="3" fill="url(#bar-grad)" />
+                    <rect x="130" y="68" width="18" height="92" rx="3" fill="url(#bar-grad)" />
+                    <rect x="160" y="50" width="18" height="110" rx="3" fill="url(#bar-grad)" />
+                    <rect x="190" y="75" width="18" height="85" rx="3" fill="url(#bar-grad)" />
+                    <rect x="220" y="64" width="18" height="96" rx="3" fill="url(#bar-grad)" />
+                    <rect x="250" y="40" width="18" height="120" rx="3" fill="url(#bar-grad)" />
+                    <rect x="280" y="55" width="18" height="105" rx="3" fill="url(#bar-grad)" />
+                    <rect x="310" y="30" width="18" height="130" rx="3" fill="url(#bar-grad)" />
+                    <rect x="335" y="18" width="18" height="142" rx="3" fill="url(#bar-grad)" />
+                  </svg>
+                </div>
+
+                <div class="chart-card">
+                  <div class="chart-header">
+                    <span class="chart-title">Edge Node Health</span>
+                    <span style="font-family:var(--font-mono);font-size:11px;color:var(--accent-emerald)">4 / 4 Zones Up</span>
+                  </div>
+                  <div class="table-wrapper">
+                    <table class="dash-table">
+                      <thead>
+                        <tr>
+                          <th>Identifier</th>
+                          <th>Region</th>
+                          <th>Latency</th>
+                          <th>Load</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><span class="node-status-dot" style="background:#10b981"></span>edge-iad-01</td>
+                          <td>US-East (Virginia)</td>
+                          <td>1.2ms</td>
+                          <td>482k/s</td>
+                        </tr>
+                        <tr>
+                          <td><span class="node-status-dot" style="background:#10b981"></span>edge-fra-04</td>
+                          <td>EU-Central (Frankfurt)</td>
+                          <td>2.4ms</td>
+                          <td>394k/s</td>
+                        </tr>
+                        <tr>
+                          <td><span class="node-status-dot" style="background:#10b981"></span>edge-sin-02</td>
+                          <td>AP-East (Singapore)</td>
+                          <td>3.1ms</td>
+                          <td>512k/s</td>
+                        </tr>
+                        <tr>
+                          <td><span class="node-status-dot" style="background:#10b981"></span>edge-hnd-03</td>
+                          <td>AP-Northeast (Tokyo)</td>
+                          <td>2.9ms</td>
+                          <td>430k/s</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="feature-section" id="features">
+      <div class="grid-bg-overlay" aria-hidden="true"></div>
+
+      <svg class="dataflow-svg-container" viewBox="0 0 1200 800" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="dataflow-gradient" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#00f2fe" />
+            <stop offset="50%" stop-color="#6366f1" />
+            <stop offset="100%" stop-color="#00f2fe" />
+          </linearGradient>
+        </defs>
+        <path class="dataflow-path" d="M120,60 C400,60 550,220 780,220 S1100,380 980,540 S620,700 850,780" />
+      </svg>
+
+      <div class="feat-layout">
+        <div class="feat-sidebar">
+          <span class="kicker">Engine Architecture</span>
+          <h2>Deterministic execution at any concurrency.</h2>
+          <p>Traditional time-series engines crumble under cardinality explosions. Delta.OS maps telemetry into continuous hyper-graphs that evaluate queries ahead of ingress.</p>
+          <a href="#pricing" class="btn btn-ghost btn-sm">Inspect Specifications &rarr;</a>
+        </div>
+
+        <div class="feat-matrix">
+          <div class="feat-card overlap-top">
+            <div class="feat-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+            </div>
+            <h3>Sub-Millisecond Ingress</h3>
+            <p>Direct memory buffer pipelines bypass socket kernel context switches to ingest up to 2 million events per second per core.</p>
+            <div class="feat-card-footer">LATENCY &lt; 0.4ms</div>
+          </div>
+
+          <div class="feat-card span-two-rows">
+            <div class="feat-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+            </div>
+            <h3>Autonomous Heuristic Graph</h3>
+            <p>Dynamic correlation algorithms continuously detect anomalies, topological root causes, and cascading degradation before customer impact occurs.</p>
+            <p style="margin-top:14px">Self-optimizing indexes adapt memory footprint dynamically as workload patterns mutate across availability zones.</p>
+            <div class="feat-card-footer">CARDINALITY UNBOUNDED</div>
+          </div>
+
+          <div class="feat-card">
+            <div class="feat-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+              </svg>
+            </div>
+            <h3>Zero-Copy Compression</h3>
+            <p>Lossless columnar compression reduces memory pressure by 12x while maintaining direct SIMD query execution.</p>
+            <div class="feat-card-footer">RATIO 12.4:1</div>
+          </div>
+
+          <div class="feat-card">
+            <div class="feat-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                <line x1="6" y1="18" x2="6.01" y2="18"></line>
+              </svg>
+            </div>
+            <h3>Edge Replicated Mesh</h3>
+            <p>Multi-master synchronization over encrypted QUIC tunnels delivers local read consistency globally.</p>
+            <div class="feat-card-footer">TLS 1.3 · QUIC</div>
+          </div>
+
+          <div class="feat-card">
+            <div class="feat-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+            <h3>Cryptographic Integrity</h3>
+            <p>Every telemetry block is signed with hardware TPM keys for verifiable audit trails and tamper-proof log pipelines.</p>
+            <div class="feat-card-footer">ED25519 VERIFIED</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pricing-section" id="pricing">
+      <div class="pricing-header">
+        <span class="kicker">Fictional Tiers</span>
+        <h2>Transparent deployment models.</h2>
+        <p>Pick the compute footprint tailored to your streaming throughput. All numbers shown are conceptual demonstration figures.</p>
+
+        <div class="billing-toggle-container">
+          <span>Monthly</span>
+          <button class="toggle-switch" type="button" role="switch" aria-checked="false" aria-label="Toggle annual billing discount">
+            <span class="toggle-slider"></span>
+          </button>
+          <span>Yearly</span>
+          <span class="discount-tag">Save 20%</span>
+        </div>
+      </div>
+
+      <div class="pricing-grid">
+        <div class="pricing-card dev-tier">
+          <span class="tier-name">Developer</span>
+          <div class="tier-price-box">
+            <span class="tier-price dev-price-num">$49</span>
+            <span class="tier-period">/ month</span>
+          </div>
+          <p class="tier-desc">Designed for single teams instrumenting microservices, development pipelines, and staging environments.</p>
+
+          <ul class="feature-list">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Up to 10M events per month</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>3 edge replication nodes</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>14-day telemetry retention</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Vectorized query interface</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Community Discord &amp; docs</span>
+            </li>
+          </ul>
+
+          <a href="#faq" class="btn btn-pricing">Get Started</a>
+        </div>
+
+        <div class="pricing-card ent-tier">
+          <span class="tier-name">Enterprise Mesh</span>
+          <div class="tier-price-box">
+            <span class="tier-price ent-price-num">$349</span>
+            <span class="tier-period">/ month</span>
+          </div>
+          <p class="tier-desc">High-concurrency streaming clusters with dedicated availability zones, custom topology, and automated remediation.</p>
+
+          <ul class="feature-list">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Uncapped event throughput</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Unlimited edge nodes</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>1-year continuous retention</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Dedicated quarantine clusters</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Hardware TPM verification</span>
+            </li>
+          </ul>
+
+          <a href="#faq" class="btn btn-pricing">Contact Sales</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section" id="faq">
+      <div class="faq-header">
+        <span class="kicker">Answers</span>
+        <h2>Frequently asked questions.</h2>
+        <p>Technical details regarding the Delta.OS conceptual platform architecture.</p>
+      </div>
+
+      <div class="faq-accordion">
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span>What makes Delta.OS different from traditional monitoring systems?</span>
+            <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </summary>
+          <div class="faq-content">
+            Traditional systems rely on post-hoc aggregation and periodic polling loops. Delta.OS maps raw telemetry straight into a continuous in-memory hyper-graph, allowing anomaly detection to run at wire speed without disk serialization penalties.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span>Can Delta.OS be deployed on private bare-metal infrastructure?</span>
+            <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </summary>
+          <div class="faq-content">
+            Yes. The engine is compiled as a static, zero-dependency binary that runs directly on Linux kernels, ARM64 appliances, and major hyperscale cloud environments.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span>How does the system handle massive cardinality spikes?</span>
+            <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </summary>
+          <div class="faq-content">
+            Dynamic bitmap indexing and SIMD vector lanes parallelize field scanning. Spikes in unique tag dimensions are quarantined into isolated memory segments so core query latency remains unaffected.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span>Is this an operational service or a design concept?</span>
+            <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </summary>
+          <div class="faq-content">
+            Delta.OS is a fictional design concept created by AS Studio to demonstrate high-performance dark-mode interface architecture, inline SVG visualization, and interaction engineering. No real service exists and nothing is for sale.
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="cta-card">
+        <h2>Start synthesizing telemetry in minutes.</h2>
+        <p>Deploy a standalone edge node on your local cluster and evaluate the synthesis pipeline with zero configuration.</p>
+        <div class="cta-actions">
+          <a href="#pricing" class="btn btn-primary">Deploy Standalone Binary</a>
+          <a href="../../work.html" class="btn btn-ghost">Return to Studio Work</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a class="brand-link" href="#" aria-label="Delta.OS Homepage">
+            <svg class="brand-logo-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <polygon points="16,3 30,28 2,28" stroke="url(#foot-brand-grad)" stroke-width="2.5" stroke-linejoin="round" />
+              <polygon points="16,11 24,25 8,25" fill="rgba(0,242,254,0.15)" stroke="#00f2fe" stroke-width="1.5" stroke-linejoin="round" />
+              <defs>
+                <linearGradient id="foot-brand-grad" x1="2" y1="3" x2="30" y2="28" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#00f2fe" />
+                  <stop offset="1" stop-color="#6366f1" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <span>Delta<span style="color:var(--accent-cyan)">.</span>OS</span>
+          </a>
+          <p>Autonomous AI analytics platform and distributed edge telemetry synthesis.</p>
+        </div>
+
+        <div class="footer-nav">
+          <div class="footer-col">
+            <b>Product</b>
+            <a href="#dashboard">Live Dashboard</a>
+            <a href="#features">Architecture</a>
+            <a href="#pricing">Pricing Models</a>
+            <a href="#faq">Questions</a>
+          </div>
+          <div class="footer-col">
+            <b>Design Concept</b>
+            <a href="../../index.html">AS Studio Home</a>
+            <a href="../../work.html">Portfolio Studies</a>
+            <a href="../../about.html">Studio Philosophy</a>
+            <a href="../../contact.html">Direct Contact</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-honesty-note">
+        Delta.OS is a fictional design concept made by AS Studio to demonstrate high-performance dark-mode interface architecture, SVG telemetry visualization, and interaction engineering. Nothing is for sale. No real customer data, live services, or transactions are processed.
+      </div>
+    </div>
+  </footer>
+
+  <script src="delta.js" defer></script>
+</body>
+</html>

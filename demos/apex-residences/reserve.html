@@ -1,6 +1,543 @@
-<!doctype html><html lang="en" data-mode="direct" data-fiverr="off" data-upwork="off"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Reserve | Apex Residences (demo)</title><meta name="description" content="Reserve a residence with a refundable deposit (demo checkout)."><meta name="robots" content="index,follow"><link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="../../assets/brand/favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../../assets/brand/apple-touch-icon.png"><link rel="canonical" href="https://REPLACE-WITH-YOUR-DOMAIN/demos/apex-residences/reserve.html"><meta property="og:type" content="website"><meta property="og:title" content="Reserve | Apex Residences (demo)"><meta property="og:description" content="Reserve a residence with a refundable deposit (demo checkout)."><meta property="og:image" content="https://REPLACE-WITH-YOUR-DOMAIN/assets/og/demo-apex-residences.jpg"><meta name="twitter:card" content="summary_large_image"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&amp;family=DM+Sans:wght@400;500;600&amp;display=swap"><link rel="stylesheet" href="../demo.css"><style>:root{--bg:#efebe4;--fg:#1a1916;--muted:#6a665e;--acc:#8f6a3f;--acc-fg:#fff;--card:#f9f6f0;--dark:#171612;--fd:'Manrope',system-ui,sans-serif;--fb:'DM Sans',system-ui,sans-serif}</style><script defer src="../../js/mode.js"></script></head><body><a class="dskip" href="#dmain">Skip to content</a><div class="demobar"><span>AS Studio demo · <b>Signature package</b><span data-mode="fiverr"> · $600</span> · 6 pages</span><span style="display:flex;gap:14px;align-items:center;flex-wrap:wrap"><details><summary>What is included</summary><ul class="inc" style="list-style:none;margin:0"><li>6 pages, custom layouts</li><li>Unlimited revisions within scope</li><li>Payment integration</li><li>Online store (up to 10 products)</li><li>Opt-in form + autoresponder</li><li>Speed optimization + hosting setup</li></ul></details><a href="../../work.html">All demos</a><a href="../../work/apex-residences.html">Read the case study</a><a data-mode="fiverr" class="pill" data-fiverr-link href="https://www.fiverr.com/REPLACE_WITH_YOUR_FIVERR_USERNAME" target="_blank" rel="noopener">Order this on Fiverr</a><a data-mode="direct" class="pill" href="../../contact.html?package=signature">Get a quote like this</a></span></div>
-<header class="dnav"><div class="dnav-in"><a class="dlogo" href="index.html">Apex Residences</a><nav class="dlinks" aria-label="Main"><a href="index.html">Home</a><a href="residences.html">Residences</a><a href="journal.html">Journal</a><a href="about.html">About</a><a href="reserve.html" class="cur" aria-current="page">Reserve</a></nav><a class="dbtn" href="reserve.html">Reserve a viewing</a><button class="dmenu" type="button" aria-expanded="false">Menu</button></div></header>
-<main id="dmain" tabindex="-1"><section class="sec"><div class="wrap split"><div><span class="kick">Reserve</span><h1 class="t" style="font-size:clamp(40px,6vw,76px)">Hold your residence.</h1><p class="lead">A refundable deposit takes the home off the market for 14 days while you complete your checks.</p><p class="badge-note">Demo checkout. No real payment is taken.</p></div>
-<form class="form reveal" id="reserve"><select id="resSel" required aria-label="Residence"><option value="courtyard" data-dep="$5,000">The Courtyard House</option><option value="ridge" data-dep="$7,500">Ridge Villa</option><option value="garden" data-dep="$3,500">Garden Apartment</option><option value="arcade" data-dep="$3,000">The Arcade Residence</option><option value="terrace" data-dep="$10,000">Terrace Penthouse</option><option value="loft" data-dep="$4,500">Stone Loft</option></select><input required placeholder="Full name" aria-label="Full name"><input required type="email" placeholder="Email" aria-label="Email"><div class="sum"><div class="ln"><span>Refundable deposit</span><b id="depAmt"></b></div><span class="fine">Held for 14 days. Fully refundable until your checks are complete.</span></div><button class="dbtn" id="depositBtn" type="button">Pay deposit</button></form></div></section>
-<div class="modal" id="payModal" role="dialog" aria-modal="true" aria-label="Payment demo"><div class="box"><h3 style="font-size:26px">Payment gateway goes here</h3><p>On a live Signature site this opens Razorpay or Stripe, with your keys, and confirms by email. Nothing was charged.</p><button class="dbtn" data-close type="button">Close demo</button></div></div></main>
-<footer class="dfoot"><div class="wrap"><div>Apex Residences · Fictional concept demo by <a href="../../index.html" style="text-decoration:underline">AS Studio</a>. Images are AI generated.</div><div class="soc"><a href="#" aria-label="Instagram">Instagram</a><a href="#" aria-label="Facebook">Facebook</a><a href="#" aria-label="X">X</a></div></div></footer><script src="../demo.js" defer></script></body></html>
+<!doctype html>
+<html lang="en" data-mode="direct" data-fiverr="off" data-upwork="off">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Reserve & Financing Calculator | Apex Residences (Demo)</title>
+  <meta name="description" content="Hold your residence with a refundable deposit demonstration and calculate estimated monthly payments with our interactive mortgage slider calculator.">
+  <meta name="robots" content="index,follow">
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../assets/brand/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../../assets/brand/apple-touch-icon.png">
+  <link rel="canonical" href="https://REPLACE-WITH-YOUR-DOMAIN/demos/apex-residences/reserve.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Reserve & Financing Calculator | Apex Residences (Demo)">
+  <meta property="og:description" content="Reserve a residence with a demo deposit and calculate estimated monthly payments.">
+  <meta property="og:image" content="https://REPLACE-WITH-YOUR-DOMAIN/assets/og/demo-apex-residences.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=DM+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="../demo.css">
+  <style>
+    :root {
+      --bg: #efebe4;
+      --fg: #1a1916;
+      --muted: #6a665e;
+      --acc: #8f6a3f;
+      --acc-fg: #ffffff;
+      --card: #f9f6f0;
+      --dark: #171612;
+      --line: rgba(0,0,0,.12);
+      --fd: 'Manrope', system-ui, -apple-system, sans-serif;
+      --fb: 'DM Sans', system-ui, -apple-system, sans-serif;
+    }
+    a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible, summary:focus-visible {
+      outline: 2px solid var(--acc);
+      outline-offset: 2px;
+    }
+    
+    /* Calculator Box */
+    .apex-calc-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      padding: 34px 30px;
+    }
+    @media (max-width: 680px) {
+      .apex-calc-card {
+        padding: 24px 18px;
+      }
+    }
+    .apex-calc-row {
+      margin-bottom: 24px;
+    }
+    .apex-calc-labels {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .apex-calc-val {
+      font-family: var(--fd);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--acc);
+    }
+    .apex-slider {
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: #ded7c9;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+    }
+    .apex-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--acc);
+      border: 2px solid #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    .apex-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+    .apex-calc-summary {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 24px 20px;
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .apex-monthly-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 8px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 14px;
+    }
+    .apex-monthly-amt {
+      font-family: var(--fd);
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--acc);
+    }
+    .apex-breakdown-bar {
+      height: 10px;
+      border-radius: 5px;
+      background: #ded7c9;
+      overflow: hidden;
+      display: flex;
+    }
+    .apex-bar-principal {
+      background: var(--acc);
+      height: 100%;
+    }
+    .apex-bar-interest {
+      background: #4a5c68;
+      height: 100%;
+    }
+    .apex-calc-disclaimer {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+      padding: 10px 14px;
+      background: rgba(0,0,0,0.03);
+      border-radius: 4px;
+      border-left: 2px solid var(--acc);
+      margin-top: 10px;
+    }
+
+    /* Deposit Form */
+    .apex-reserve-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      padding: 34px 28px;
+    }
+    @media (max-width: 680px) {
+      .apex-reserve-card {
+        padding: 24px 18px;
+      }
+    }
+    .apex-demo-callout {
+      background: #fdfaf4;
+      border: 1px solid #ebd9be;
+      border-radius: 6px;
+      padding: 14px 16px;
+      margin: 16px 0 20px;
+      font-size: 13px;
+      color: #634d28;
+      line-height: 1.5;
+    }
+    .apex-demo-callout b {
+      color: #3b2c12;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    /* Modal override */
+    .modal .box {
+      max-width: 540px;
+      text-align: left;
+    }
+  </style>
+  <script defer src="../../js/mode.js"></script>
+</head>
+<body>
+  <a class="dskip" href="#dmain">Skip to content</a>
+
+  <div class="demobar">
+    <span>AS Studio demo · <b>Signature package</b><span data-mode="fiverr"> · $600</span> · 6 pages</span>
+    <span style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+      <details>
+        <summary>What is included</summary>
+        <ul class="inc" style="list-style:none;margin:0">
+          <li>6 pages, custom layouts</li>
+          <li>Unlimited revisions within scope</li>
+          <li>Payment integration</li>
+          <li>Online store (up to 10 products)</li>
+          <li>Opt-in form + autoresponder</li>
+          <li>Speed optimization + hosting setup</li>
+        </ul>
+      </details>
+      <a href="../../work.html">All demos</a>
+      <a href="../../work/apex-residences.html">Read the case study</a>
+      <a data-mode="fiverr" class="pill" data-fiverr-link href="https://www.fiverr.com/REPLACE_WITH_YOUR_FIVERR_USERNAME" target="_blank" rel="noopener">Order this on Fiverr</a>
+      <a data-mode="direct" class="pill" href="../../contact.html?package=signature">Get a quote like this</a>
+    </span>
+  </div>
+
+  <header class="dnav">
+    <div class="dnav-in">
+      <a class="dlogo" href="index.html" aria-label="Apex Residences Homepage">Apex Residences</a>
+      <nav class="dlinks" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="residences.html">Residences</a>
+        <a href="journal.html">Journal</a>
+        <a href="about.html">About</a>
+        <a href="reserve.html" class="cur" aria-current="page">Reserve</a>
+      </nav>
+      <a class="dbtn" href="reserve.html">Reserve a viewing</a>
+      <button class="dmenu" type="button" aria-expanded="false" aria-label="Toggle navigation menu">Menu</button>
+    </div>
+  </header>
+
+  <main id="dmain" tabindex="-1">
+    
+    <!-- Intro Hero -->
+    <section class="sec" style="padding-bottom:16px">
+      <div class="wrap">
+        <span class="kick">Reserve & Plan</span>
+        <h1 class="t" style="font-size:clamp(40px,6vw,76px)">Hold your residence.</h1>
+        <p class="lead">A fully refundable 14-day deposit takes the property off the market while legal, structural and title verifications are concluded. Use our interactive estimator below to project monthly financing.</p>
+      </div>
+    </section>
+
+    <!-- Two-column: Reservation Form & Financing Calculator -->
+    <section class="sec" style="padding-top:10px">
+      <div class="wrap split">
+        
+        <!-- Column 1: Deposit Reservation Demo Form -->
+        <div class="apex-reserve-card reveal">
+          <span class="kick">Step 1 of 1 · Demonstration</span>
+          <h2 style="font-family:var(--fd);font-size:26px;margin:6px 0 12px">Refundable Reservation Hold</h2>
+          
+          <div class="apex-demo-callout">
+            <b>Demonstration Notice:</b>
+            No payment is processed or accepted on this website. This checkout demonstration allows you to test the reservation workflow without entering real card details.
+          </div>
+
+          <form class="form" id="reserveForm">
+            <div>
+              <label for="resSel" style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">Select Residence</label>
+              <select id="resSel" required aria-label="Residence selection" style="width:100%">
+                <option value="courtyard" data-price="1100000" data-dep="$5,000">The Courtyard House (Pune) — Deposit: $5,000</option>
+                <option value="ridge" data-price="1450000" data-dep="$7,500">Ridge Villa (Lonavala) — Deposit: $7,500</option>
+                <option value="garden" data-price="780000" data-dep="$3,500">Garden Apartment (Mumbai) — Deposit: $3,500</option>
+                <option value="arcade" data-price="620000" data-dep="$3,000">The Arcade Residence (Bengaluru) — Deposit: $3,000</option>
+                <option value="terrace" data-price="1900000" data-dep="$10,000">Terrace Penthouse (Mumbai) — Deposit: $10,000</option>
+                <option value="loft" data-price="950000" data-dep="$4,500">Stone Loft (Pune) — Deposit: $4,500</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="resName" style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">Primary Purchaser Name</label>
+              <input id="resName" required placeholder="Full legal name" aria-label="Full legal name" style="width:100%">
+            </div>
+
+            <div>
+              <label for="resEmail" style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">Email Address</label>
+              <input id="resEmail" required type="email" placeholder="name@domain.com" aria-label="Email address" style="width:100%">
+            </div>
+
+            <div>
+              <label for="resPhone" style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">Phone Number (Optional)</label>
+              <input id="resPhone" type="tel" placeholder="+91 or country code" aria-label="Phone number" style="width:100%">
+            </div>
+
+            <div class="sum" style="margin-top:10px">
+              <div class="ln">
+                <span>Refundable 14-Day Holding Deposit</span>
+                <b id="depAmt" style="font-size:18px;color:var(--acc)">$5,000</b>
+              </div>
+              <span class="fine">Held in escrow for 14 calendar days. Unconditionally refundable upon written request.</span>
+            </div>
+
+            <button class="dbtn" id="depositBtn" type="submit" style="width:100%;min-height:50px;font-size:15px;margin-top:14px">
+              Place Demonstration Deposit
+            </button>
+            <div id="resFormStatus" role="status" style="margin-top:8px;font-size:13.5px;color:var(--acc);font-weight:600"></div>
+          </form>
+        </div>
+
+        <!-- Column 2: Interactive Monthly Payment Calculator -->
+        <div class="apex-calc-card reveal">
+          <span class="kick">Interactive Estimator</span>
+          <h2 style="font-family:var(--fd);font-size:26px;margin:6px 0 6px">Monthly Payment Calculator</h2>
+          <p style="color:var(--muted);font-size:14px;margin-bottom:24px">Adjust purchase price, down payment, interest rate and loan duration to preview your monthly financing outlay.</p>
+
+          <!-- Slider 1: Property Amount -->
+          <div class="apex-calc-row">
+            <div class="apex-calc-labels">
+              <span>Property Price</span>
+              <span class="apex-calc-val" id="calcPriceLabel">$1,100,000</span>
+            </div>
+            <input type="range" class="apex-slider" id="calcPriceSlider" min="300000" max="2500000" step="25000" value="1100000" aria-label="Property price slider">
+          </div>
+
+          <!-- Slider 2: Down Payment -->
+          <div class="apex-calc-row">
+            <div class="apex-calc-labels">
+              <span>Down Payment (<span id="calcDownPct">20%</span>)</span>
+              <span class="apex-calc-val" id="calcDownLabel">$220,000</span>
+            </div>
+            <input type="range" class="apex-slider" id="calcDownSlider" min="10" max="60" step="5" value="20" aria-label="Down payment percentage slider">
+          </div>
+
+          <!-- Slider 3: Interest Rate -->
+          <div class="apex-calc-row">
+            <div class="apex-calc-labels">
+              <span>Annual Interest Rate</span>
+              <span class="apex-calc-val" id="calcRateLabel">7.2%</span>
+            </div>
+            <input type="range" class="apex-slider" id="calcRateSlider" min="4.0" max="12.0" step="0.1" value="7.2" aria-label="Interest rate slider">
+          </div>
+
+          <!-- Slider 4: Loan Term -->
+          <div class="apex-calc-row">
+            <div class="apex-calc-labels">
+              <span>Loan Duration</span>
+              <span class="apex-calc-val" id="calcYearsLabel">20 Years</span>
+            </div>
+            <input type="range" class="apex-slider" id="calcYearsSlider" min="5" max="30" step="1" value="20" aria-label="Loan duration slider">
+          </div>
+
+          <!-- Live Calculator Outputs -->
+          <div class="apex-calc-summary">
+            <div class="apex-monthly-box">
+              <div>
+                <span style="font-size:13px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);font-weight:600;display:block">Estimated Monthly Outlay</span>
+                <span style="font-size:12px;color:var(--muted)">Principal & Interest</span>
+              </div>
+              <div class="apex-monthly-amt" id="calcMonthlyAmt">$6,929<span style="font-size:16px;font-weight:500;color:var(--muted)">/mo</span></div>
+            </div>
+
+            <!-- Visual Bar -->
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:6px">
+                <span>■ Principal: <strong id="calcBarPrincipal">$880,000</strong></span>
+                <span>■ Total Interest: <strong id="calcBarInterest">$782,960</strong></span>
+              </div>
+              <div class="apex-breakdown-bar">
+                <div class="apex-bar-principal" id="barPrincipalSeg" style="width:53%"></div>
+                <div class="apex-bar-interest" id="barInterestSeg" style="width:47%"></div>
+              </div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;font-size:13px;border-top:1px dashed var(--line);padding-top:10px">
+              <span>Total Repayment Over Term</span>
+              <strong id="calcTotalPayment">$1,662,960</strong>
+            </div>
+
+            <div class="apex-calc-disclaimer">
+              <strong>FINANCING ESTIMATE ONLY:</strong> Figures calculated above are for demonstration and budgeting evaluation. Actual mortgage rates, loan approvals, taxes, and loan underwriting fees depend on your financial institution.
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Deposit Confirmation Modal -->
+    <div class="modal" id="payModal" role="dialog" aria-modal="true" aria-labelledby="payModalTitle">
+      <div class="box">
+        <span class="kick" style="color:var(--acc)">Reservation Demonstration</span>
+        <h3 id="payModalTitle" style="font-size:26px;margin:8px 0 12px">Deposit Received (Demo Mode)</h3>
+        
+        <p style="font-size:15px;line-height:1.5;color:var(--fg);margin-bottom:14px">
+          Thank you, <strong id="modalUserName">Purchaser</strong>. A demonstration hold has been placed on <strong id="modalResName">The Courtyard House</strong>.
+        </p>
+
+        <div style="background:#f4efe5;border:1px solid var(--line);border-radius:6px;padding:14px 16px;font-size:13.5px;margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+            <span style="color:var(--muted)">Simulated Holding Receipt:</span>
+            <strong>#APX-DEMO-8291</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+            <span style="color:var(--muted)">Refundable Deposit:</span>
+            <strong id="modalDepAmt">$5,000</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between">
+            <span style="color:var(--muted)">Hold Expiry:</span>
+            <strong>14 Calendar Days</strong>
+          </div>
+        </div>
+
+        <p style="font-size:13px;color:var(--muted);line-height:1.45;margin-bottom:20px">
+          On a live client website, this step integrates with Razorpay or Stripe to capture authenticated escrow deposits and automatically issues PDF verification. No payment was charged.
+        </p>
+
+        <button class="dbtn" data-close type="button" style="width:100%;min-height:46px">Close Demonstration</button>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="dfoot">
+    <div class="wrap">
+      <div>Apex Residences · Fictional concept demo by <a href="../../index.html" style="text-decoration:underline">AS Studio</a>. Images are AI generated.</div>
+      <div class="soc">
+        <a href="../../work/apex-residences.html">Case Study</a>
+        <a href="residences.html">All Residences</a>
+        <a href="about.html">About Studio</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../demo.js" defer></script>
+  <script>
+    (function(){
+      // Sync Query Parameter with Residence Select
+      const params = new URLSearchParams(location.search);
+      const initialR = params.get('r');
+      const sel = document.getElementById('resSel');
+      const amt = document.getElementById('depAmt');
+
+      if (sel && initialR) {
+        for (let i = 0; i < sel.options.length; i++) {
+          if (sel.options[i].value === initialR) {
+            sel.selectedIndex = i;
+            break;
+          }
+        }
+      }
+
+      function updateDepositAmt() {
+        if (!sel || !amt) return;
+        const opt = sel.selectedOptions[0];
+        if (opt) {
+          amt.textContent = opt.dataset.dep || '$5,000';
+          // Also sync calculator price slider if desired
+          const propPrice = parseInt(opt.dataset.price, 10);
+          if (propPrice && !window._sliderManuallyTouched) {
+            priceSlider.value = propPrice;
+            updateCalc();
+          }
+        }
+      }
+      sel && sel.addEventListener('change', () => {
+        window._sliderManuallyTouched = false;
+        updateDepositAmt();
+      });
+      updateDepositAmt();
+
+      // Reservation Form Handling
+      const reserveForm = document.getElementById('reserveForm');
+      const payModal = document.getElementById('payModal');
+
+      reserveForm && reserveForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('resName').value.trim() || 'Purchaser';
+        const opt = sel.selectedOptions[0];
+        const resTitle = opt ? opt.text.split('(')[0].trim() : 'Residence';
+        const deposit = opt ? opt.dataset.dep : '$5,000';
+
+        document.getElementById('modalUserName').textContent = name;
+        document.getElementById('modalResName').textContent = resTitle;
+        document.getElementById('modalDepAmt').textContent = deposit;
+
+        if (payModal) payModal.classList.add('on');
+      });
+
+      // Interactive Mortgage Calculator
+      const priceSlider = document.getElementById('calcPriceSlider');
+      const downSlider = document.getElementById('calcDownSlider');
+      const rateSlider = document.getElementById('calcRateSlider');
+      const yearsSlider = document.getElementById('calcYearsSlider');
+
+      const priceLabel = document.getElementById('calcPriceLabel');
+      const downLabel = document.getElementById('calcDownLabel');
+      const downPct = document.getElementById('calcDownPct');
+      const rateLabel = document.getElementById('calcRateLabel');
+      const yearsLabel = document.getElementById('calcYearsLabel');
+
+      const monthlyAmt = document.getElementById('calcMonthlyAmt');
+      const barPrincipal = document.getElementById('calcBarPrincipal');
+      const barInterest = document.getElementById('calcBarInterest');
+      const barPrincipalSeg = document.getElementById('barPrincipalSeg');
+      const barInterestSeg = document.getElementById('barInterestSeg');
+      const totalPayment = document.getElementById('calcTotalPayment');
+
+      function formatMoney(num) {
+        return '$' + Math.round(num).toLocaleString('en-US');
+      }
+
+      function updateCalc() {
+        const price = parseFloat(priceSlider.value);
+        const downPercent = parseFloat(downSlider.value);
+        const ratePercent = parseFloat(rateSlider.value);
+        const years = parseInt(yearsSlider.value, 10);
+
+        const downVal = price * (downPercent / 100);
+        const principal = price - downVal;
+
+        // Labels
+        priceLabel.textContent = formatMoney(price);
+        downPct.textContent = downPercent + '%';
+        downLabel.textContent = formatMoney(downVal);
+        rateLabel.textContent = ratePercent.toFixed(1) + '%';
+        yearsLabel.textContent = years + (years === 1 ? ' Year' : ' Years');
+
+        // Mortgage Formula: M = P * [r(1+r)^n] / [(1+r)^n - 1]
+        const monthlyRate = (ratePercent / 100) / 12;
+        const numPayments = years * 12;
+
+        let monthly = 0;
+        if (monthlyRate === 0) {
+          monthly = principal / numPayments;
+        } else {
+          const factor = Math.pow(1 + monthlyRate, numPayments);
+          monthly = principal * (monthlyRate * factor) / (factor - 1);
+        }
+
+        const totalPay = monthly * numPayments;
+        const totalInt = totalPay - principal;
+
+        monthlyAmt.innerHTML = formatMoney(monthly) + '<span style="font-size:16px;font-weight:500;color:var(--muted)">/mo</span>';
+        barPrincipal.textContent = formatMoney(principal);
+        barInterest.textContent = formatMoney(totalInt);
+        totalPayment.textContent = formatMoney(totalPay);
+
+        const principalPct = Math.max(10, Math.min(90, (principal / totalPay) * 100));
+        barPrincipalSeg.style.width = principalPct + '%';
+        barInterestSeg.style.width = (100 - principalPct) + '%';
+      }
+
+      [priceSlider, downSlider, rateSlider, yearsSlider].forEach(slider => {
+        slider && slider.addEventListener('input', () => {
+          window._sliderManuallyTouched = true;
+          updateCalc();
+        });
+      });
+
+      updateCalc();
+    })();
+  </script>
+</body>
+</html>
