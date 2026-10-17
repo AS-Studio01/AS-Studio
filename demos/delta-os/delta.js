@@ -296,4 +296,43 @@
       countElements.forEach(el => observer.observe(el));
     }
   }
+
+  const termTabs = document.querySelectorAll('.term-tab');
+  const termOutput = document.getElementById('term-output');
+  const termCommands = {
+    stream: [
+      { prompt: '$ delta stream --cluster=edge-global --p99 < 2ms' },
+      { time: '[01:14:02.108]', tag: 'INGRESS', type: 'term-ok', text: '2,410,290 ev/s via eBPF ring_buffer on core#7 [ZERO_DROP]' },
+      { time: '[01:14:02.109]', tag: 'SYNTH', type: 'term-synth', text: 'Hypergraph causality resolved in 0.38ms across 128 edge nodes' },
+      { time: '[01:14:02.110]', tag: 'QUORUM', type: 'term-ok', text: 'Raft commit term=4219 idx=8091819 latency=0.72ms' }
+    ],
+    trace: [
+      { prompt: '$ delta trace --span=ingest-p99 --sample=100k' },
+      { time: '[01:14:02.214]', tag: 'SPAN', type: 'term-synth', text: 'Trace ID: 7a8f9021b8c14e00 · 8 hops mapped' },
+      { time: '[01:14:02.215]', tag: 'PROFILE', type: 'term-ok', text: 'SIMD AVX-512 vector scan: 48.2 GB/s memory bandwidth' },
+      { time: '[01:14:02.216]', tag: 'CASCADE', type: 'term-ok', text: 'Zero lock contention on memory partition A [PASSED]' }
+    ],
+    quorum: [
+      { prompt: '$ delta mesh health --nodes=128 --status=synced' },
+      { time: '[01:14:02.341]', tag: 'MESH', type: 'term-ok', text: '128 / 128 edge nodes healthy · QUIC TLS 1.3 verified' },
+      { time: '[01:14:02.342]', tag: 'TPM', type: 'term-synth', text: 'Hardware TPM 2.0 signatures valid on all ingress blocks' },
+      { time: '[01:14:02.343]', tag: 'LATENCY', type: 'term-ok', text: 'Mean inter-region sync: 1.8ms (IAD-FRA-SIN-HND)' }
+    ]
+  };
+
+  if (termTabs.length && termOutput) {
+    termTabs.forEach(t => {
+      t.addEventListener('click', function() {
+        termTabs.forEach(tb => tb.classList.remove('active'));
+        t.classList.add('active');
+        const cmdKey = t.getAttribute('data-cmd');
+        const lines = termCommands[cmdKey] || termCommands.stream;
+        let html = '<div class="term-line"><span class="term-dim">$</span> <span>' + lines[0].prompt.slice(2) + '</span></div>';
+        for (let i = 1; i < lines.length; i++) {
+          html += '<div class="term-line"><span class="term-time">' + lines[i].time + '</span> <span class="' + lines[i].type + '">' + lines[i].tag + '</span> <span>' + lines[i].text + '</span></div>';
+        }
+        termOutput.innerHTML = html;
+      });
+    });
+  }
 })();

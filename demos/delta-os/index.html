@@ -59,7 +59,8 @@
       <div class="nav-actions">
         <a href="#pricing" class="btn btn-primary btn-sm">Launch Console</a>
         <button class="mobile-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu-drawer" aria-label="Toggle navigation menu">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <span>Menu</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -69,11 +70,11 @@
     </div>
 
     <div class="mobile-drawer" id="mobile-menu-drawer">
-      <a href="#dashboard">Dashboard</a>
-      <a href="#features">Architecture</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#faq">FAQ</a>
-      <a href="#pricing" class="btn btn-primary" style="margin-top:8px">Launch Console</a>
+      <a href="#dashboard"><span>01 · Dashboard</span><span>&rarr;</span></a>
+      <a href="#features"><span>02 · Architecture</span><span>&rarr;</span></a>
+      <a href="#pricing"><span>03 · Pricing</span><span>&rarr;</span></a>
+      <a href="#faq"><span>04 · FAQ</span><span>&rarr;</span></a>
+      <a href="#pricing" class="btn btn-primary" style="margin-top:12px;width:100%">Launch Console</a>
     </div>
   </header>
 
@@ -94,11 +95,35 @@
           <a href="#pricing" class="btn btn-primary">Deploy Cluster</a>
           <a href="#features" class="btn btn-ghost">Explore Architecture</a>
         </div>
+
+        <div class="terminal-block">
+          <div class="terminal-head">
+            <div class="terminal-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="terminal-tabs" role="tablist" aria-label="Live telemetry feeds">
+              <button class="term-tab active" type="button" data-cmd="stream">stream</button>
+              <button class="term-tab" type="button" data-cmd="trace">trace</button>
+              <button class="term-tab" type="button" data-cmd="quorum">quorum</button>
+            </div>
+            <span style="font-family:var(--font-mono);font-size:11px;color:var(--accent-cyan)">eBPF · AVX-512</span>
+          </div>
+          <div class="terminal-body" id="term-output">
+            <div class="term-line"><span class="term-dim">$</span> <span>delta stream --cluster=edge-global --p99 &lt; 2ms</span></div>
+            <div class="term-line"><span class="term-time">[01:14:02.108]</span> <span class="term-ok">INGRESS</span> <span>2,410,290 ev/s via eBPF ring_buffer on core#7 [ZERO_DROP]</span></div>
+            <div class="term-line"><span class="term-time">[01:14:02.109]</span> <span class="term-synth">SYNTH</span> <span>Hypergraph causality resolved in 0.38ms across 128 edge nodes</span></div>
+            <div class="term-line"><span class="term-time">[01:14:02.110]</span> <span class="term-ok">QUORUM</span> <span>Raft commit term=4219 idx=8091819 latency=0.72ms</span></div>
+          </div>
+        </div>
       </div>
 
       <div class="dashboard-wrapper" id="dashboard">
         <div class="dashboard-tilt">
-          <div class="glass-panel">
+          <div class="glass-panel" style="position:relative">
+            <span class="crosshair-corner tl">+</span>
+            <span class="crosshair-corner tr">+</span>
+            <span class="crosshair-corner bl">+</span>
+            <span class="crosshair-corner br">+</span>
             <div class="dash-topbar">
               <div class="dash-tabs" role="tablist" aria-label="Telemetry perspectives">
                 <button class="dash-tab active" role="tab" aria-selected="true" id="tab-overview" aria-controls="panel-telemetry" tabindex="0" data-tab="overview">Overview</button>
