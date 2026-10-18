@@ -65,6 +65,24 @@
         { node: 'edge-hnd-03', loc: 'AP-Northeast (Tokyo)', stat: 'healthy', lat: '2.9ms', tps: '430k/s' }
       ]
     },
+    humanoid: {
+      metrics: [
+        { label: 'Cognitive Latency', val: '0.28ms', change: 'Zero perceptual lag' },
+        { label: 'Reasoning Bandwidth', val: '4.82B', change: 'Tokens/s synthesis' },
+        { label: 'Human Oversight', val: '100%', change: 'Continuous HITL verified' },
+        { label: 'Empathic Alignment', val: '99.9%', change: 'Humane guardrails active' }
+      ],
+      chartPath: 'M0,120 C50,90 100,130 150,70 C200,30 250,95 300,50 C350,15 400,60 450,30 C500,10 550,45 600,18',
+      fillPath: 'M0,120 C50,90 100,130 150,70 C200,30 250,95 300,50 C350,15 400,60 450,30 C500,10 550,45 600,18 L600,160 L0,160 Z',
+      barHeights: [45, 60, 88, 110, 135, 120, 95, 140, 130, 150, 125, 145],
+      donutDash: '235 15',
+      tableRows: [
+        { node: 'cortex-hitl-01', loc: 'Empathic Alignment Core', stat: 'healthy', lat: '0.18ms', tps: '1.2M/s' },
+        { node: 'cortex-synapse-02', loc: 'Frontal Hypergraph Mesh', stat: 'healthy', lat: '0.22ms', tps: '980k/s' },
+        { node: 'cortex-ocular-03', loc: 'Visual Vector Spatializer', stat: 'healthy', lat: '0.29ms', tps: '1.4M/s' },
+        { node: 'cortex-ethics-04', loc: 'Humane Safety Invariants', stat: 'healthy', lat: '0.12ms', tps: '640k/s' }
+      ]
+    },
     queries: {
       metrics: [
         { label: 'Active Streams', val: '84.6K', change: '+8.1% vs 1h' },
@@ -335,4 +353,83 @@
       });
     });
   }
+
+  /* Humanoid Neural Operator: Interactive Gaze Tracking */
+  const cockpit = document.getElementById('humanoidCockpit');
+  const leftPupil = document.getElementById('leftPupil');
+  const rightPupil = document.getElementById('rightPupil');
+
+  if (cockpit && leftPupil && rightPupil) {
+    cockpit.addEventListener('mousemove', function(e) {
+      if (isReduced()) return;
+      const rect = cockpit.getBoundingClientRect();
+      const nx = (e.clientX - rect.left) / rect.width - 0.5;
+      const ny = (e.clientY - rect.top) / rect.height - 0.5;
+      const offsetX = Math.max(-5, Math.min(5, nx * 10));
+      const offsetY = Math.max(-4, Math.min(4, ny * 8));
+
+      leftPupil.setAttribute('cx', String(90 + offsetX));
+      leftPupil.setAttribute('cy', String(116 + offsetY));
+      rightPupil.setAttribute('cx', String(150 + offsetX));
+      rightPupil.setAttribute('cy', String(116 + offsetY));
+    });
+
+    cockpit.addEventListener('mouseleave', function() {
+      leftPupil.setAttribute('cx', '90');
+      leftPupil.setAttribute('cy', '116');
+      rightPupil.setAttribute('cx', '150');
+      rightPupil.setAttribute('cy', '116');
+    });
+  }
+
+  /* Humanoid Operator: HITL Oversight Switch */
+  const hitlBtn = document.getElementById('hitlToggle');
+  const hitlTxt = document.getElementById('hitlTxt');
+  const imLat = document.getElementById('imCognitiveLat');
+  const imGuard = document.getElementById('imGuardrail');
+
+  if (hitlBtn && hitlTxt) {
+    let isHitlActive = true;
+    hitlBtn.addEventListener('click', function() {
+      isHitlActive = !isHitlActive;
+      hitlBtn.setAttribute('aria-pressed', String(isHitlActive));
+      hitlBtn.classList.toggle('autonomous', !isHitlActive);
+      if (isHitlActive) {
+        hitlTxt.textContent = '100% Synced (HITL)';
+        if (imLat) imLat.textContent = '0.28 ms';
+        if (imGuard) { imGuard.textContent = 'Active'; imGuard.style.color = '#10b981'; }
+      } else {
+        hitlTxt.textContent = 'Autonomous Turbo (HITL Standby)';
+        if (imLat) imLat.textContent = '0.14 ms';
+        if (imGuard) { imGuard.textContent = 'Continuous'; imGuard.style.color = '#00f2fe'; }
+      }
+    });
+  }
+
+  /* Humanoid Thought Stream: Ambient Log Pulses */
+  const thoughtStream = document.getElementById('humanoidThoughtStream');
+  if (thoughtStream && !isReduced()) {
+    const thoughts = [
+      { tag: 'SYNTH', type: 'tag-synth', text: 'Analyzing ingress telemetry vector across Singapore & Tokyo clusters: zero jitter detected.' },
+      { tag: 'HITL', type: 'tag-hitl', text: 'Human oversight invariant satisfied: automated node failover cleared for cluster:fra-04.' },
+      { tag: 'ETHICS', type: 'tag-safe', text: 'Differential privacy noise injected into outbound metric aggregates; telemetry payload clean.' },
+      { tag: 'CORTEX', type: 'tag-synth', text: 'Frontal neural graph synchronized 128 replicas in 0.38ms [Consensus Reached].' },
+      { tag: 'REASON', type: 'tag-hitl', text: 'Synthesizing root-cause prediction for upstream BGP flap; alternate paths armed.' }
+    ];
+    let thoughtIdx = 0;
+    setInterval(() => {
+      const t = thoughts[thoughtIdx % thoughts.length];
+      thoughtIdx++;
+      const now = new Date();
+      const timeStr = '[' + [now.getHours(), now.getMinutes(), now.getSeconds()].map(v => String(v).padStart(2, '0')).join(':') + '.' + String(now.getMilliseconds()).padStart(3, '0') + ']';
+      const row = document.createElement('div');
+      row.className = 'log-entry';
+      row.innerHTML = '<span class="log-time">' + timeStr + '</span> <span class="log-tag ' + t.type + '">' + t.tag + '</span> <span>' + t.text + '</span>';
+      thoughtStream.appendChild(row);
+      if (thoughtStream.children.length > 5) {
+        thoughtStream.removeChild(thoughtStream.firstElementChild);
+      }
+    }, 7000);
+  }
 })();
+

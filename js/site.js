@@ -24,6 +24,143 @@ setTimeout(()=>document.body&&document.body.classList.add('ready'),1200);
     }).catch(function(){});
   }catch(_){}
 })();
+/* Visual Theme Switcher (Louis Obsidian Dark Glass & Louis Luxury Light) */
+(function setupThemeSwitcher() {
+  const getStoredTheme = () => {
+    try { return localStorage.getItem('as-theme'); } catch (_) { return null; }
+  };
+  const setStoredTheme = (theme) => {
+    try { localStorage.setItem('as-theme', theme); } catch (_) {}
+  };
+
+  const applyTheme = (theme, updateStorage) => {
+    const isLight = theme === 'light' || theme === 'louis-light';
+    const targetTheme = isLight ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', targetTheme);
+    if (document.body) {
+      document.body.setAttribute('data-theme', targetTheme);
+    }
+    if (updateStorage) {
+      setStoredTheme(targetTheme);
+    }
+    document.querySelectorAll('.theme-toggle').forEach(btn => {
+      const icon = btn.querySelector('.theme-icon');
+      const text = btn.querySelector('.theme-text');
+      if (isLight) {
+        if (icon) icon.textContent = '✦';
+        if (text) text.textContent = 'Louis Dark';
+        btn.setAttribute('aria-label', 'Switch to Louis Obsidian Dark Glass theme');
+        btn.title = 'Switch to Louis Obsidian Dark Glass theme';
+      } else {
+        if (icon) icon.textContent = '✧';
+        if (text) text.textContent = 'Louis Light';
+        btn.setAttribute('aria-label', 'Switch to Louis Luxury Light theme');
+        btn.title = 'Switch to Louis Luxury Light theme';
+      }
+    });
+  };
+
+  const saved = getStoredTheme();
+  if (saved) {
+    applyTheme(saved, false);
+  } else {
+    applyTheme('dark', false);
+  }
+
+  const initToggleInNav = () => {
+    const navIn = document.querySelector('.nav-in');
+    if (navIn && !navIn.querySelector('.theme-toggle')) {
+      const toggleBtn = document.createElement('button');
+      toggleBtn.className = 'theme-toggle';
+      toggleBtn.type = 'button';
+      toggleBtn.setAttribute('aria-label', 'Switch visual theme');
+      toggleBtn.innerHTML = '<span class="theme-icon">✧</span><span class="theme-text">Louis Light</span>';
+      const menuBtn = navIn.querySelector('.menu');
+      if (menuBtn) {
+        navIn.insertBefore(toggleBtn, menuBtn);
+      } else {
+        navIn.appendChild(toggleBtn);
+      }
+    }
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    applyTheme(current, false);
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initToggleInNav);
+  } else {
+    initToggleInNav();
+  }
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.theme-toggle');
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    const next = current === 'light' ? 'dark' : 'light';
+    applyTheme(next, true);
+  });
+})();
+
+/* Floating Frosted Glass Legal Policy Compliance Banner */
+(function setupPolicyComplianceBanner() {
+  const CONSENT_KEY = 'as-policy-accepted-v1';
+  try {
+    if (localStorage.getItem(CONSENT_KEY) === 'true') {
+      return;
+    }
+  } catch (_) {}
+
+  const initBanner = () => {
+    if (document.querySelector('.policy-banner')) return;
+
+    const isSubdir = location.pathname.includes('/legal/') || location.pathname.includes('/work/') || location.pathname.includes('/demos/');
+    const prefix = isSubdir ? '../' : '';
+
+    const banner = document.createElement('div');
+    banner.className = 'policy-banner';
+    banner.setAttribute('role', 'region');
+    banner.setAttribute('aria-label', 'Legal Policy Compliance Notice');
+    banner.innerHTML = `
+      <div class="policy-banner-text">
+        <strong>Site Policies &amp; Compliance:</strong> By continuing to use our website, you accept and agree to our
+        <span class="policy-banner-links">
+          <a href="${prefix}legal/privacy.html">Privacy Policy</a>,
+          <a href="${prefix}legal/terms.html">Terms of Service</a>,
+          <a href="${prefix}legal/disclaimer.html">Disclaimer</a>, and
+          <a href="${prefix}legal/cancellation-refund.html">Cancellation &amp; Refund Policy</a>.
+        </span>
+      </div>
+      <div class="policy-banner-acts">
+        <button type="button" class="policy-banner-btn" id="acceptPolicyBtn">Accept &amp; Continue</button>
+      </div>
+    `;
+
+    document.body.appendChild(banner);
+
+    const btn = banner.querySelector('#acceptPolicyBtn');
+    if (btn) {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        try {
+          localStorage.setItem(CONSENT_KEY, 'true');
+        } catch (_) {}
+        banner.classList.add('dismissed');
+        setTimeout(() => {
+          if (banner.parentNode) banner.parentNode.removeChild(banner);
+        }, 400);
+      });
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBanner);
+  } else {
+    initBanner();
+  }
+})();
+
 /* nav */
 const nav=document.querySelector('.nav');
 if(nav){const light=nav.classList.contains('light');let last=-1;
@@ -76,48 +213,32 @@ if(nav){const light=nav.classList.contains('light');let last=-1;
   if(logo)logo.addEventListener('click',function(e){var same=new URL(logo.href,location.href).pathname.replace(/index\.html$/,'')===location.pathname.replace(/index\.html$/,'');
     if(same){e.preventDefault();if(n===0&&scrollY>40)scrollTo({top:0,behavior:'smooth'})}tap(e,logo)});
   var f=document.querySelector('.fsecret');if(f)f.addEventListener('click',function(e){tap(e,f)})})();
-/* Reveal on Scroll via Intersection Observer API */
+/* Fail-Safe Resilient Reveal */
 (function setupRevealObserver() {
   const elements = document.querySelectorAll('.reveal');
   if (!elements.length) return;
 
-  // Immediate visibility for reduced motion preference or missing IntersectionObserver
-  if (reduce() || !('IntersectionObserver' in window)) {
-    elements.forEach(el => el.classList.add('in'));
-    return;
-  }
+  // Immediately make all elements visible so zero content disappears or hides
+  elements.forEach(el => el.classList.add('in'));
 
-  // Pre-check elements already visible or above the viewport on initial page load / refresh
-  const vh = window.innerHeight || document.documentElement.clientHeight;
-  elements.forEach(el => {
-    const r = el.getBoundingClientRect();
-    if (r.top <= vh * 0.9 && r.bottom >= 0) {
-      el.classList.add('in');
-    }
-  });
+  if (reduce() || !('IntersectionObserver' in window)) return;
 
-  const observer = new IntersectionObserver((entries, obs) => {
+  const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('in');
-        obs.unobserve(entry.target);
       }
     });
   }, {
     root: null,
-    rootMargin: '0px 0px -40px 0px',
-    threshold: [0, 0.08, 0.15]
+    rootMargin: '40px 0px 40px 0px',
+    threshold: 0
   });
 
-  elements.forEach(el => {
-    if (!el.classList.contains('in')) {
-      observer.observe(el);
-    }
-  });
+  elements.forEach(el => observer.observe(el));
 
-  // Re-observe if any new .reveal elements are rendered dynamically
   window.refreshReveals = () => {
-    document.querySelectorAll('.reveal:not(.in)').forEach(el => observer.observe(el));
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
   };
 })();
 /* self-drawing arch */

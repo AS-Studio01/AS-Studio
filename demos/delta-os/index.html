@@ -127,6 +127,7 @@
             <div class="dash-topbar">
               <div class="dash-tabs" role="tablist" aria-label="Telemetry perspectives">
                 <button class="dash-tab active" role="tab" aria-selected="true" id="tab-overview" aria-controls="panel-telemetry" tabindex="0" data-tab="overview">Overview</button>
+                <button class="dash-tab" role="tab" aria-selected="false" id="tab-humanoid" aria-controls="panel-telemetry" tabindex="-1" data-tab="humanoid">Humanoid AI</button>
                 <button class="dash-tab" role="tab" aria-selected="false" id="tab-queries" aria-controls="panel-telemetry" tabindex="-1" data-tab="queries">Queries</button>
                 <button class="dash-tab" role="tab" aria-selected="false" id="tab-alerts" aria-controls="panel-telemetry" tabindex="-1" data-tab="alerts">Alerts</button>
               </div>
@@ -143,6 +144,97 @@
             </div>
 
             <div class="dash-content" id="panel-telemetry" role="tabpanel" aria-labelledby="tab-overview">
+              <!-- Humanoid Neural Operator HUD Module -->
+              <div class="humanoid-hud-card" id="humanoidCockpit">
+                <div class="chart-header" style="flex-wrap:wrap;gap:12px">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span class="humanoid-beacon"></span>
+                    <span class="chart-title" style="color:#ffffff;font-size:14px;letter-spacing:-0.02em">Humanoid Neural Cognitive Operator · Telemetry HUD</span>
+                  </div>
+                  <div class="hitl-pill-switch">
+                    <span style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted)">Human Oversight:</span>
+                    <button class="hitl-toggle-btn active" type="button" id="hitlToggle" aria-pressed="true" title="Toggle Human-in-the-Loop Oversight Verification">
+                      <span class="hitl-dot"></span>
+                      <span class="hitl-state-txt" id="hitlTxt">100% Synced (HITL)</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="humanoid-hud-grid">
+                  <div class="humanoid-avatar-wrap">
+                    <svg class="humanoid-svg" viewBox="0 0 240 250" width="200" height="210" aria-label="Humanoid synthetic operator facial wireframe">
+                      <defs>
+                        <linearGradient id="humanoid-glow" x1="0" y1="0" x2="1" y2="1">
+                          <stop offset="0%" stop-color="#00f2fe" />
+                          <stop offset="60%" stop-color="#00d29d" />
+                          <stop offset="100%" stop-color="#6366f1" />
+                        </linearGradient>
+                        <radialGradient id="cortex-radial" cx="50%" cy="40%" r="50%">
+                          <stop offset="0%" stop-color="rgba(0,242,254,0.3)" />
+                          <stop offset="100%" stop-color="rgba(0,242,254,0)" />
+                        </radialGradient>
+                      </defs>
+                      <ellipse cx="120" cy="115" rx="72" ry="92" fill="url(#cortex-radial)" />
+                      <path class="humanoid-contour" d="M120,28 C78,28 48,68 48,118 C48,162 76,206 112,230 L120,235 L128,230 C164,206 192,162 192,118 C192,68 162,28 120,28 Z" fill="none" stroke="url(#humanoid-glow)" stroke-width="1.8" stroke-dasharray="4 2" />
+                      <path d="M68,135 Q120,172 172,135" fill="none" stroke="rgba(0,242,254,0.4)" stroke-width="1.2" />
+                      <path d="M82,178 Q120,212 158,178" fill="none" stroke="rgba(0,242,254,0.3)" stroke-width="1.2" />
+                      <circle cx="120" cy="52" r="4" fill="#00f2fe" class="synapse-node n1" />
+                      <circle cx="95" cy="68" r="3" fill="#10b981" class="synapse-node n2" />
+                      <circle cx="145" cy="68" r="3" fill="#10b981" class="synapse-node n3" />
+                      <circle cx="76" cy="88" r="2.5" fill="#00f2fe" class="synapse-node n4" />
+                      <circle cx="164" cy="88" r="2.5" fill="#00f2fe" class="synapse-node n5" />
+                      <line x1="120" y1="52" x2="95" y2="68" stroke="rgba(0,242,254,0.5)" stroke-width="1" />
+                      <line x1="120" y1="52" x2="145" y2="68" stroke="rgba(0,242,254,0.5)" stroke-width="1" />
+                      <line x1="95" y1="68" x2="76" y2="88" stroke="rgba(16,185,129,0.45)" stroke-width="1" />
+                      <line x1="145" y1="68" x2="164" y2="88" stroke="rgba(16,185,129,0.45)" stroke-width="1" />
+                      <g id="humanoidEyes">
+                        <ellipse cx="90" cy="116" rx="15" ry="9" fill="none" stroke="rgba(0,242,254,0.6)" stroke-width="1.2" />
+                        <circle id="leftPupil" cx="90" cy="116" r="4" fill="#00f2fe" />
+                        <ellipse cx="150" cy="116" rx="15" ry="9" fill="none" stroke="rgba(0,242,254,0.6)" stroke-width="1.2" />
+                        <circle id="rightPupil" cx="150" cy="116" r="4" fill="#00f2fe" />
+                      </g>
+                      <path d="M120,106 L120,146 L126,150" fill="none" stroke="rgba(0,242,254,0.5)" stroke-width="1.2" />
+                      <path d="M104,172 Q120,180 136,172" fill="none" stroke="#10b981" stroke-width="1.5" />
+                      <line x1="120" y1="20" x2="120" y2="240" stroke="rgba(255,255,255,0.06)" stroke-width="1" stroke-dasharray="2 3" />
+                      <line x1="35" y1="116" x2="205" y2="116" stroke="rgba(255,255,255,0.06)" stroke-width="1" stroke-dasharray="2 3" />
+                    </svg>
+                    <div class="avatar-hud-caption">
+                      <span class="mono-badge">SYNTHETIC OPERATOR · #DELTA-01</span>
+                      <small id="cortexResonance" style="display:block;font-size:10.5px;color:#94a3b8;font-family:var(--font-mono);margin-top:2px">Neural Resonance: 99.4% (Alpha Band)</small>
+                    </div>
+                  </div>
+                  <div class="humanoid-intel-feed">
+                    <div class="intel-metrics-row">
+                      <div class="intel-metric">
+                        <span class="im-label">Cognitive Latency</span>
+                        <b class="im-val" id="imCognitiveLat">0.28 ms</b>
+                        <small class="im-sub">Zero perceptual lag</small>
+                      </div>
+                      <div class="intel-metric">
+                        <span class="im-label">Reasoning Bandwidth</span>
+                        <b class="im-val" id="imBandwidth">4.82B <small style="font-size:11px;color:#94a3b8">tok/s</small></b>
+                        <small class="im-sub">Multi-layer hypergraph</small>
+                      </div>
+                      <div class="intel-metric">
+                        <span class="im-label">Humane Guardrails</span>
+                        <b class="im-val" style="color:#10b981" id="imGuardrail">Active</b>
+                        <small class="im-sub">Continuous invariant check</small>
+                      </div>
+                    </div>
+                    <div class="intel-stream-box">
+                      <div class="stream-title-bar">
+                        <span>Live Cognitive Introspection Feed</span>
+                        <span class="pulse-indicator-sm"></span>
+                      </div>
+                      <div class="stream-log-lines" id="humanoidThoughtStream">
+                        <div class="log-entry"><span class="log-time">[01:14:02.312]</span> <span class="log-tag tag-hitl">HITL</span> <span>Operator verified autonomous edge route re-indexing for cluster:iad-01.</span></div>
+                        <div class="log-entry"><span class="log-time">[01:14:02.314]</span> <span class="log-tag tag-synth">SYNTH</span> <span>Predictive model preempted 420Gbps micro-burst across Frankfurt gateway.</span></div>
+                        <div class="log-entry"><span class="log-time">[01:14:02.316]</span> <span class="log-tag tag-safe">ETHICS</span> <span>Humane privacy filters validated: zero customer PII exposed to inference tensor.</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div class="metrics-strip">
                 <div class="metric-card">
                   <span class="metric-label">Event Ingress</span>
