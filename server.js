@@ -958,8 +958,14 @@ async function startServer() {
       }
     }
   }));
-  app.use(["/admin", "/login", "/dashboard", "/inbox", "/signin"], (_req, res) => {
+  app.get(["/admin", "/login", "/dashboard", "/inbox", "/signin"], (_req, res) => {
     res.redirect("/x7q2m9r4v8k1p6z3/");
+  });
+  app.get("/x7q2m9r4v8k1p6z3", (_req, res) => {
+    res.redirect("/x7q2m9r4v8k1p6z3/");
+  });
+  app.get("/x7q2m9r4v8k1p6z3/", (_req, res) => {
+    res.sendFile(path.join(__dirname, "x7q2m9r4v8k1p6z3", "index.html"));
   });
   app.use("/x7q2m9r4v8k1p6z3", express.static(path.join(__dirname, "x7q2m9r4v8k1p6z3")));
 

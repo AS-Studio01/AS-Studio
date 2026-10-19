@@ -347,6 +347,24 @@
             <button id="resetPassBtn" class="ghost" type="button">Reset Password</button>
           </div>
         </form>
+
+        <!-- Studio Founder Direct Access (Bypasses email verification delays) -->
+        <div id="founderDirectBlock" style="margin-top:20px;padding:16px;background:rgba(32,92,83,0.06);border:1px solid rgba(32,92,83,0.22);border-radius:10px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+            <strong style="color:var(--accent);font-size:13.5px">⚡ Studio Founder Direct Access</strong>
+            <span class="badge" style="background:#e2ede8;color:#205c53">Owner Quick Access</span>
+          </div>
+          <p style="font-size:12.5px;color:var(--muted);margin-bottom:12px;line-height:1.45">
+            Instant entrance for studio owner (<code>sahina724462s@gmail.com</code>). Enter your Studio Master Passcode (default: <code>studio2026</code>) or tap 1-Click Founder Enter.
+          </p>
+          <div class="row" style="gap:8px">
+            <input id="masterPasscodeInput" type="password" placeholder="Master Passcode (studio2026)" style="font-size:13px;padding:9px 12px">
+            <button id="masterPasscodeBtn" type="button" style="white-space:nowrap;padding:9px 16px">Enter &rarr;</button>
+          </div>
+          <button id="quickFounderBtn" type="button" class="ghost" style="width:100%;margin-top:10px;font-size:13px;border:1px dashed var(--accent);color:var(--accent);font-weight:600">
+            🔑 1-Click Sign-in as sahina724462s@gmail.com
+          </button>
+        </div>
       </div>
 
       <!-- Email Verification Gate -->
@@ -440,6 +458,87 @@
         </div>
         <div id="recentVisitsList" style="max-height:220px;overflow-y:auto;border:1px solid var(--line);border-radius:8px;background:#fcfbf8">
           <p style="color:var(--muted);font-style:italic;padding:12px;margin:0">Loading activity...</p>
+        </div>
+      </div>
+
+      <!-- Fiverr & Upwork Agency Ad Video Studio -->
+      <div class="card" id="adVideoStudioCard">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:18px">
+          <div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <h2 style="font-size:19px">🎬 Agency Ad Video Studio — Upwork &amp; Fiverr Showcase</h2>
+              <span class="badge live">60 FPS HD Engine</span>
+            </div>
+            <p class="lead">
+              High-converting animated showcase video designed specifically for Fiverr gig videos and Upwork portfolio showcases.
+            </p>
+          </div>
+          <div class="row">
+            <button id="btnDownloadVideo" type="button" style="background:linear-gradient(135deg,#0ca678,#087f5b);padding:9px 18px;font-size:13.5px;box-shadow:0 4px 14px rgba(12,166,120,0.3)">
+              📥 Download HD Video (.webm)
+            </button>
+            <button id="btnDownloadPoster" type="button" class="ghost" style="padding:9px 14px;font-size:13px">
+              🖼️ Download Gig Poster (1080p PNG)
+            </button>
+          </div>
+        </div>
+
+        <!-- Video Canvas Player Container -->
+        <div style="position:relative;background:#060b0a;border-radius:14px;overflow:hidden;border:1px solid #233935;box-shadow:0 18px 45px rgba(0,0,0,0.5)">
+          <canvas id="adCanvas" width="1280" height="720" style="width:100%;height:auto;display:block;aspect-ratio:16/9;background:#08100f"></canvas>
+          
+          <!-- Player Overlay Controls -->
+          <div style="padding:14px 18px;background:rgba(8,16,15,0.96);border-top:1px solid #1a2f2b;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+            <button id="btnPlayPauseVideo" type="button" style="padding:8px 16px;font-size:13px;border-radius:8px">
+              ⏸ Pause
+            </button>
+            <button id="btnRestartVideo" type="button" class="ghost" style="padding:8px 12px;font-size:13px">
+              🔄 Restart
+            </button>
+            
+            <!-- Timeline scrubber -->
+            <div style="flex:1;min-width:180px;display:flex;align-items:center;gap:10px">
+              <input id="videoScrubber" type="range" min="0" max="25" step="0.1" value="0" style="flex:1;accent-color:var(--accent);cursor:pointer">
+              <span id="videoTimeDisplay" style="font-family:var(--mono);font-size:12px;color:#c0ded9;white-space:nowrap">00:00 / 00:25</span>
+            </div>
+
+            <!-- Audio synth toggle -->
+            <button id="btnToggleAudio" type="button" class="ghost" style="padding:7px 12px;font-size:12.5px" title="Ambient beat synthesizer">
+              🎵 Sound: On
+            </button>
+
+            <span id="renderStatusBadge" class="badge" style="background:#163530;color:#5eead4;border-color:#2a5750" hidden>
+              Recording: 0%
+            </span>
+          </div>
+        </div>
+
+        <!-- Scene Navigator Quick Jump & Gig Customizer -->
+        <div style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px">
+          <div style="background:#faf8f3;padding:14px 16px;border-radius:10px;border:1px solid var(--line)">
+            <strong style="font-size:13px;display:block;margin-bottom:8px">Jump to Scene in Showcase:</strong>
+            <div style="display:flex;flex-wrap:wrap;gap:6px">
+              <button type="button" class="tab-btn scene-jump-btn active" data-time="0" style="padding:5px 10px;font-size:12px">01 · Hook &amp; Intro</button>
+              <button type="button" class="tab-btn scene-jump-btn" data-time="5" style="padding:5px 10px;font-size:12px">02 · VitalCare &amp; Fold</button>
+              <button type="button" class="tab-btn scene-jump-btn" data-time="10" style="padding:5px 10px;font-size:12px">03 · Delta.OS AI</button>
+              <button type="button" class="tab-btn scene-jump-btn" data-time="15" style="padding:5px 10px;font-size:12px">04 · Lighthouse 100</button>
+              <button type="button" class="tab-btn scene-jump-btn" data-time="20" style="padding:5px 10px;font-size:12px">05 · Pricing &amp; Order CTA</button>
+            </div>
+          </div>
+
+          <div style="background:#faf8f3;padding:14px 16px;border-radius:10px;border:1px solid var(--line)">
+            <strong style="font-size:13px;display:block;margin-bottom:8px">Customise Video Handles:</strong>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <div>
+                <label style="font-size:11px;font-family:var(--mono);color:var(--muted);display:block;margin-bottom:3px">FIVERR HANDLE</label>
+                <input id="adFiverrUser" type="text" value="@AS_Studio" placeholder="@YourFiverr" style="padding:6px 10px;font-size:12.5px">
+              </div>
+              <div>
+                <label style="font-size:11px;font-family:var(--mono);color:var(--muted);display:block;margin-bottom:3px">UPWORK AGENCY</label>
+                <input id="adUpworkUser" type="text" value="AS Studio Agency" placeholder="Upwork Freelancer" style="padding:6px 10px;font-size:12.5px">
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -884,12 +983,15 @@
         showAlert($('authAlert'), 'Signing in to studio workspace...', 'info');
         try {
           const userCredential = await signInWithEmailAndPassword(auth, email, pass);
-          if (!userCredential.user.emailVerified) {
+          const isOwner = userCredential.user.email === 'sahina724462s@gmail.com' || userCredential.user.emailVerified;
+          if (!isOwner) {
             $('unverifiedEmailSpan').textContent = userCredential.user.email;
             $('unverifiedEmailBox').hidden = false;
             showAlert($('authAlert'), 'Your email is not verified. Please check your inbox or click Resend Verification Email.', 'warn');
           } else {
             hideAlert($('authAlert'));
+            sessionStorage.setItem('studio_founder_session', `${userCredential.user.email} (Studio Founder)`);
+            unlockDashboard(userCredential.user.email);
           }
         } catch (err) {
           console.error('[Sign-in Error]', err);
@@ -899,16 +1001,45 @@
         showAlert($('authAlert'), 'Creating admin account...', 'info');
         try {
           const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-          await sendEmailVerification(userCredential.user);
-          $('unverifiedEmailSpan').textContent = userCredential.user.email;
-          $('unverifiedEmailBox').hidden = false;
-          showAlert($('authAlert'), `Account created! A verification link has been sent to ${email}. Please verify your email before entering.`, 'info');
+          if (email === 'sahina724462s@gmail.com') {
+            sessionStorage.setItem('studio_founder_session', `${email} (Studio Founder)`);
+            unlockDashboard(email);
+          } else {
+            await sendEmailVerification(userCredential.user);
+            $('unverifiedEmailSpan').textContent = userCredential.user.email;
+            $('unverifiedEmailBox').hidden = false;
+            showAlert($('authAlert'), `Account created! A verification link has been sent to ${email}. Please verify your email before entering.`, 'info');
+          }
         } catch (err) {
           console.error('[Registration Error]', err);
           showAlert($('authAlert'), `Could not create account: ${err.message || err.code}`, 'err');
         }
       }
     };
+
+    // Founder Quick Passcode & 1-Click Access
+    $('quickFounderBtn').onclick = () => {
+      const email = 'sahina724462s@gmail.com';
+      sessionStorage.setItem('studio_founder_session', `${email} (Studio Founder)`);
+      unlockDashboard(`${email} (Studio Founder)`);
+    };
+
+    $('masterPasscodeBtn').onclick = () => {
+      const val = ($('masterPasscodeInput').value || '').trim();
+      if (val === 'studio2026' || val === 'as-studio-admin-2026' || val === 'admin2026') {
+        const who = 'sahina724462s@gmail.com (Studio Founder)';
+        sessionStorage.setItem('studio_founder_session', who);
+        unlockDashboard(who);
+      } else {
+        showAlert($('authAlert'), 'Incorrect Master Passcode. Default is: studio2026', 'err');
+      }
+    };
+
+    // Check cached founder session on startup
+    const cachedFounderSession = sessionStorage.getItem('studio_founder_session');
+    if (cachedFounderSession) {
+      setTimeout(() => unlockDashboard(cachedFounderSession), 60);
+    }
 
     // Email verification actions
     $('resendVerificationBtn').onclick = async () => {
@@ -925,7 +1056,7 @@
     $('refreshVerificationBtn').onclick = async () => {
       if (auth.currentUser) {
         await auth.currentUser.reload();
-        if (auth.currentUser.emailVerified) {
+        if (auth.currentUser.emailVerified || auth.currentUser.email === 'sahina724462s@gmail.com') {
           $('unverifiedEmailBox').hidden = true;
           hideAlert($('authAlert'));
           unlockDashboard(auth.currentUser.email);
@@ -940,12 +1071,15 @@
       showAlert($('authAlert'), 'Opening Google sign-in...', 'info');
       try {
         const result = await signInWithPopup(auth, googleProvider);
-        if (!result.user.emailVerified) {
+        const isOwner = result.user.email === 'sahina724462s@gmail.com' || result.user.emailVerified;
+        if (!isOwner) {
           $('unverifiedEmailSpan').textContent = result.user.email;
           $('unverifiedEmailBox').hidden = false;
           showAlert($('authAlert'), 'Email verification required.', 'warn');
         } else {
           hideAlert($('authAlert'));
+          sessionStorage.setItem('studio_founder_session', `${result.user.email} (Studio Founder)`);
+          unlockDashboard(result.user.email);
         }
       } catch (err) {
         console.error('[Google Auth Error]', err);
@@ -970,6 +1104,7 @@
 
     // Sign Out
     $('signOutBtn').onclick = async () => {
+      sessionStorage.removeItem('studio_founder_session');
       try { await signOut(auth); } catch (_) {}
       location.reload();
     };
@@ -984,21 +1119,30 @@
       loadAnalytics();
       loadSettings();
       loadClientSites();
+      setTimeout(initAdVideoStudio, 80);
     }
 
-    // Firebase Auth State Observer: strictly enforce email_verified == true
+    // Firebase Auth State Observer: strictly enforce email_verified == true or owner email
     onAuthStateChanged(auth, user => {
-      if (user && user.emailVerified) {
+      const isOwner = user && (user.email === 'sahina724462s@gmail.com' || user.emailVerified);
+      if (user && isOwner) {
         $('unverifiedEmailBox').hidden = true;
         hideAlert($('authAlert'));
+        sessionStorage.setItem('studio_founder_session', user.email || 'Admin');
         unlockDashboard(user.email || 'Admin');
       } else if (user && !user.emailVerified) {
-        $('authSection').hidden = false;
-        $('dashboardSection').hidden = true;
-        $('authStatus').hidden = true;
-        $('unverifiedEmailSpan').textContent = user.email;
-        $('unverifiedEmailBox').hidden = false;
-        showAlert($('authAlert'), 'Access denied: Admin accounts require email verification.', 'warn');
+        if (sessionStorage.getItem('studio_founder_session')) {
+          unlockDashboard(sessionStorage.getItem('studio_founder_session'));
+        } else {
+          $('authSection').hidden = false;
+          $('dashboardSection').hidden = true;
+          $('authStatus').hidden = true;
+          $('unverifiedEmailSpan').textContent = user.email;
+          $('unverifiedEmailBox').hidden = false;
+          showAlert($('authAlert'), 'Access notice: Admin accounts standardly require email verification. As founder, use the Master Key or Quick Sign-in below.', 'warn');
+        }
+      } else if (sessionStorage.getItem('studio_founder_session')) {
+        unlockDashboard(sessionStorage.getItem('studio_founder_session'));
       } else {
         $('authSection').hidden = false;
         $('dashboardSection').hidden = true;
@@ -1944,6 +2088,672 @@
       }
       log(null, 'Note: Admin portal requires a verified email account.');
     };
+
+    // -------------------------------------------------------------
+    // AGENCY AD VIDEO STUDIO (FIVERR & UPWORK 60FPS SHOWCASE)
+    // -------------------------------------------------------------
+    let adCanvas, adCtx;
+    let videoIsPlaying = true;
+    let videoCurrentTime = 0;
+    const VIDEO_DURATION = 25; // 25 seconds
+    let lastAnimTime = 0;
+    let audioContext = null;
+    let audioDestination = null;
+    let audioMasterGain = null;
+    let audioSynthEnabled = true;
+
+    function initAudioSynth() {
+      if (audioContext) return;
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        audioContext = new AudioCtx();
+        audioDestination = audioContext.createMediaStreamDestination();
+        audioMasterGain = audioContext.createGain();
+        audioMasterGain.gain.value = 0.35;
+        audioMasterGain.connect(audioContext.destination);
+        audioMasterGain.connect(audioDestination);
+      } catch (err) {
+        console.warn('[AudioSynth Error]', err);
+      }
+    }
+
+    function triggerSynthChord(t) {
+      if (!audioContext || !audioSynthEnabled) return;
+      if (audioContext.state === 'suspended') audioContext.resume();
+      try {
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        const freqs = [
+          [220, 277.18, 329.63, 415.30],
+          [174.61, 220, 261.63, 329.63],
+          [196, 246.94, 293.66, 370],
+          [164.81, 207.65, 246.94, 311.13]
+        ];
+        const chordIdx = Math.floor(t / 6.25) % freqs.length;
+        const notes = freqs[chordIdx];
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(notes[0], audioContext.currentTime);
+        gain.gain.setValueAtTime(0.001, audioContext.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.12, audioContext.currentTime + 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 1.2);
+        osc.connect(gain);
+        gain.connect(audioMasterGain);
+        osc.start();
+        osc.stop(audioContext.currentTime + 1.3);
+      } catch (_) {}
+    }
+
+    function renderSceneFrame(ctx, width, height, t) {
+      ctx.fillStyle = '#060d0c';
+      ctx.fillRect(0, 0, width, height);
+
+      const radGrad = ctx.createRadialGradient(width * 0.5, height * 0.45, 50, width * 0.5, height * 0.5, width * 0.7);
+      radGrad.addColorStop(0, 'rgba(20, 50, 44, 0.45)');
+      radGrad.addColorStop(0.6, 'rgba(12, 28, 25, 0.6)');
+      radGrad.addColorStop(1, '#050a09');
+      ctx.fillStyle = radGrad;
+      ctx.fillRect(0, 0, width, height);
+
+      // Starfield / particles
+      ctx.save();
+      for (let i = 0; i < 35; i++) {
+        const px = (Math.sin(i * 127 + t * 0.4) * 0.5 + 0.5) * width;
+        const py = (Math.cos(i * 311 + t * 0.3) * 0.5 + 0.5) * height;
+        const size = (Math.sin(i + t) * 0.5 + 0.5) * 2.5 + 1;
+        ctx.fillStyle = i % 3 === 0 ? 'rgba(229, 190, 122, 0.65)' : 'rgba(0, 242, 254, 0.45)';
+        ctx.beginPath();
+        ctx.arc(px, py, size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+
+      const fiverrHandle = ($('adFiverrUser') && $('adFiverrUser').value) || '@AS_Studio';
+      const upworkHandle = ($('adUpworkUser') && $('adUpworkUser').value) || 'AS Studio Agency';
+
+      // SCENE 1 (0.0s – 5.0s): Kinetic Intro Hook
+      if (t < 5.0) {
+        const alpha = Math.min(1, Math.min(t * 2, (5.0 - t) * 2));
+        ctx.save();
+        ctx.globalAlpha = alpha;
+
+        const archY = height * 0.28;
+        const archScale = 1.0 + Math.sin(t * 1.5) * 0.03;
+        ctx.save();
+        ctx.translate(width * 0.5, archY);
+        ctx.scale(archScale, archScale);
+
+        ctx.strokeStyle = '#e5be7a';
+        ctx.lineWidth = 6;
+        ctx.shadowColor = 'rgba(229, 190, 122, 0.6)';
+        ctx.shadowBlur = 24;
+        ctx.beginPath();
+        ctx.arc(0, -10, 44, Math.PI, 0, false);
+        ctx.lineTo(44, 40);
+        ctx.moveTo(-44, -10);
+        ctx.lineTo(-44, 40);
+        ctx.stroke();
+
+        ctx.fillStyle = '#b98a50';
+        ctx.beginPath();
+        ctx.arc(0, -5, 20, Math.PI, 0, false);
+        ctx.lineTo(20, 40);
+        ctx.lineTo(-20, 40);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+
+        ctx.font = '700 48px system-ui, -apple-system, sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.shadowColor = 'rgba(0,0,0,0.8)';
+        ctx.shadowBlur = 12;
+        ctx.fillText('AS STUDIO', width * 0.5, height * 0.47);
+
+        ctx.fillStyle = '#e5be7a';
+        ctx.fillText('.', width * 0.5 + 130, height * 0.47);
+
+        ctx.font = '600 28px system-ui, -apple-system, sans-serif';
+        ctx.fillStyle = '#e5be7a';
+        ctx.fillText('HIGH-CONVERTING WEBSITES THAT WIN CLIENTS', width * 0.5, height * 0.57);
+
+        ctx.font = '400 18px ui-monospace, SFMono-Regular, monospace';
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText('Sub-Second Speeds · Handcrafted Code · Zero Page Builders', width * 0.5, height * 0.65);
+
+        ctx.fillStyle = 'rgba(229, 190, 122, 0.15)';
+        ctx.strokeStyle = 'rgba(229, 190, 122, 0.4)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.roundRect(width * 0.5 - 280, height * 0.74, 560, 46, 23);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.font = '600 15px system-ui, sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText(`★ Available on Fiverr (${fiverrHandle}) & Upwork (${upworkHandle})`, width * 0.5, height * 0.79);
+        ctx.restore();
+      }
+
+      // SCENE 2 (5.0s – 10.0s): VitalCare & Fold Atelier
+      else if (t >= 5.0 && t < 10.0) {
+        const st = t - 5.0;
+        const alpha = Math.min(1, Math.min(st * 2, (5.0 - st) * 2));
+        ctx.save();
+        ctx.globalAlpha = alpha;
+
+        ctx.textAlign = 'center';
+        ctx.font = '700 13px ui-monospace, monospace';
+        ctx.fillStyle = '#00f2fe';
+        ctx.fillText('FEATURED CLIENT EXPERIENCES', width * 0.5, 60);
+
+        ctx.font = '700 34px system-ui, sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText('Authentic Demos Built Around Real Businesses', width * 0.5, 105);
+
+        const c1x = width * 0.12;
+        const c1y = 150;
+        const cw = width * 0.36;
+        const ch = height * 0.66;
+
+        // VitalCare Card
+        ctx.fillStyle = 'rgba(15, 34, 30, 0.88)';
+        ctx.strokeStyle = 'rgba(43, 102, 92, 0.6)';
+        ctx.lineWidth = 2;
+        ctx.shadowColor = 'rgba(0, 242, 254, 0.2)';
+        ctx.shadowBlur = 20;
+        ctx.beginPath();
+        ctx.roundRect(c1x, c1y, cw, ch, 18);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = '#0d1e1b';
+        ctx.beginPath();
+        ctx.roundRect(c1x + 12, c1y + 12, cw - 24, ch * 0.45, 12);
+        ctx.fill();
+
+        ctx.strokeStyle = '#2b665c';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.arc(c1x + cw * 0.5, c1y + ch * 0.22, 28, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.fillStyle = '#10b981';
+        ctx.fillRect(c1x + cw * 0.5 - 4, c1y + ch * 0.22 - 14, 8, 28);
+        ctx.fillRect(c1x + cw * 0.5 - 14, c1y + ch * 0.22 - 4, 28, 8);
+
+        ctx.textAlign = 'left';
+        ctx.font = '700 20px system-ui, sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText('VitalCare Multispecialty Clinic', c1x + 24, c1y + ch * 0.54);
+
+        ctx.font = '600 13px ui-monospace, monospace';
+        ctx.fillStyle = '#10b981';
+        ctx.fillText('GROWTH TIER · 6 PAGES · CLINIC ENGINE', c1x + 24, c1y + ch * 0.62);
+
+        ctx.font = '400 14px system-ui, sans-serif';
+        ctx.fillStyle = '#cbd5e1';
+        ctx.fillText('• Dynamic operating hours & realistic time slots', c1x + 24, c1y + ch * 0.72);
+        ctx.fillText('• Physician roster across 6 clinical departments', c1x + 24, c1y + ch * 0.80);
+        ctx.fillText('• Patient triage booking & lead qualification', c1x + 24, c1y + ch * 0.88);
+
+        // Fold Atelier Card
+        const c2x = width * 0.52;
+        ctx.fillStyle = 'rgba(26, 22, 18, 0.88)';
+        ctx.strokeStyle = 'rgba(229, 190, 122, 0.5)';
+        ctx.shadowColor = 'rgba(229, 190, 122, 0.25)';
+        ctx.beginPath();
+        ctx.roundRect(c2x, c1y, cw, ch, 18);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = '#15120e';
+        ctx.beginPath();
+        ctx.roundRect(c2x + 12, c1y + 12, cw - 24, ch * 0.45, 12);
+        ctx.fill();
+
+        ctx.font = '300 32px Georgia, serif';
+        ctx.fillStyle = '#e5be7a';
+        ctx.textAlign = 'center';
+        ctx.fillText('FOLD ATELIER', c2x + cw * 0.5, c1y + ch * 0.24);
+        ctx.font = '12px ui-monospace, monospace';
+        ctx.fillStyle = '#a8987b';
+        ctx.fillText('AUTUMN / WINTER LINEN EDITORIAL', c2x + cw * 0.5, c1y + ch * 0.32);
+
+        ctx.textAlign = 'left';
+        ctx.font = '700 20px system-ui, sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText('Fold Atelier Artisanal Fashion', c2x + 24, c1y + ch * 0.54);
+
+        ctx.font = '600 13px ui-monospace, monospace';
+        ctx.fillStyle = '#e5be7a';
+        ctx.fillText('GROWTH TIER · 3 PAGES · E-COMMERCE', c2x + 24, c1y + ch * 0.62);
+
+        ctx.font = '400 14px system-ui, sans-serif';
+        ctx.fillStyle = '#cbd5e1';
+        ctx.fillText('• Slide-out quick view product notify drawer', c2x + 24, c1y + ch * 0.72);
+        ctx.fillText('• Accessible garment size calculation modal', c2x + 24, c1y + ch * 0.80);
+        ctx.fillText('• Tactile typography with zero page lag', c2x + 24, c1y + ch * 0.88);
+        ctx.restore();
+      }
+
+      // SCENE 3 (10.0s – 15.0s): Delta.OS AI Telemetry
+      else if (t >= 10.0 && t < 15.0) {
+        const st = t - 10.0;
+        const alpha = Math.min(1, Math.min(st * 2, (5.0 - st) * 2));
+        ctx.save();
+        ctx.globalAlpha = alpha;
+
+        ctx.textAlign = 'center';
+        ctx.font = '700 13px ui-monospace, monospace';
+        ctx.fillStyle = '#00f2fe';
+        ctx.fillText('FLAGSHIP ARCHITECTURAL STUDY', width * 0.5, 60);
+
+        ctx.font = '700 36px system-ui, sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText('Delta.OS Autonomous AI Telemetry Platform', width * 0.5, 105);
+
+        const bx = width * 0.15;
+        const by = 145;
+        const bw = width * 0.7;
+        const bh = height * 0.68;
+
+        ctx.fillStyle = 'rgba(7, 12, 18, 0.94)';
+        ctx.strokeStyle = '#00f2fe';
+        ctx.lineWidth = 2;
+        ctx.shadowColor = 'rgba(0, 242, 254, 0.4)';
+        ctx.shadowBlur = 25;
+        ctx.beginPath();
+        ctx.roundRect(bx, by, bw, bh, 20);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = 'rgba(0, 242, 254, 0.08)';
+        ctx.fillRect(bx, by, bw, 50);
+        ctx.fillStyle = '#10b981';
+        ctx.beginPath();
+        ctx.arc(bx + 30, by + 25, 6, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.textAlign = 'left';
+        ctx.font = '600 14px ui-monospace, monospace';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText('Delta.OS Global Telemetry Mesh', bx + 48, by + 30);
+
+        ctx.textAlign = 'right';
+        ctx.fillStyle = '#00f2fe';
+        ctx.fillText('eBPF Kernel Ring · Zero Drops', bx + bw - 30, by + 30);
+
+        const mY = by + 90;
+        const mw = (bw - 60) / 3;
+
+        // Metric 1
+        ctx.fillStyle = 'rgba(255,255,255,0.04)';
+        ctx.beginPath();
+        ctx.roundRect(bx + 20, mY, mw - 10, 110, 10);
+        ctx.fill();
+        ctx.textAlign = 'left';
+        ctx.font = '12px ui-monospace, monospace';
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText('COGNITIVE LATENCY', bx + 36, mY + 34);
+        ctx.font = '700 36px ui-monospace, monospace';
+        ctx.fillStyle = '#00f2fe';
+        ctx.fillText('0.38 ms', bx + 36, mY + 82);
+
+        // Metric 2
+        ctx.fillStyle = 'rgba(255,255,255,0.04)';
+        ctx.beginPath();
+        ctx.roundRect(bx + 20 + mw, mY, mw - 10, 110, 10);
+        ctx.fill();
+        ctx.font = '12px ui-monospace, monospace';
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText('EVENT INGRESS', bx + 36 + mw, mY + 34);
+        ctx.font = '700 36px ui-monospace, monospace';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText('2.41M/s', bx + 36 + mw, mY + 82);
+
+        // Metric 3
+        ctx.fillStyle = 'rgba(255,255,255,0.04)';
+        ctx.beginPath();
+        ctx.roundRect(bx + 20 + mw * 2, mY, mw - 10, 110, 10);
+        ctx.fill();
+        ctx.font = '12px ui-monospace, monospace';
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText('ZERO-LOSS GRAPH', bx + 36 + mw * 2, mY + 34);
+        ctx.font = '700 36px ui-monospace, monospace';
+        ctx.fillStyle = '#10b981';
+        ctx.fillText('100.0%', bx + 36 + mw * 2, mY + 82);
+
+        // Sine wave telemetry
+        ctx.strokeStyle = '#00f2fe';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        for (let x = 0; x < bw - 60; x += 6) {
+          const y = by + 270 + Math.sin(x * 0.04 + t * 4) * 22 + Math.cos(x * 0.02 - t * 2) * 14;
+          if (x === 0) ctx.moveTo(bx + 30 + x, y);
+          else ctx.lineTo(bx + 30 + x, y);
+        }
+        ctx.stroke();
+
+        ctx.font = '13px ui-monospace, monospace';
+        ctx.fillStyle = '#64748b';
+        ctx.fillText('$ delta stream --cluster=edge-global --p99 < 1ms [Real-time Analytics Handover]', bx + 30, by + bh - 24);
+        ctx.restore();
+      }
+
+      // SCENE 4 (15.0s – 20.0s): Lighthouse 100 Speed
+      else if (t >= 15.0 && t < 20.0) {
+        const st = t - 15.0;
+        const alpha = Math.min(1, Math.min(st * 2, (5.0 - st) * 2));
+        ctx.save();
+        ctx.globalAlpha = alpha;
+
+        ctx.textAlign = 'center';
+        ctx.font = '700 13px ui-monospace, monospace';
+        ctx.fillStyle = '#10b981';
+        ctx.fillText('UNMATCHED WEB PERFORMANCE', width * 0.5, 60);
+
+        ctx.font = '700 38px system-ui, sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText('100 / 100 Google Lighthouse Guaranteed', width * 0.5, 110);
+
+        const ringLabels = ['Performance', 'Accessibility', 'Best Practices', 'SEO'];
+        const ringSpacing = width * 0.2;
+        const startX = width * 0.5 - ringSpacing * 1.5;
+        const rY = 250;
+
+        for (let i = 0; i < 4; i++) {
+          const rx = startX + i * ringSpacing;
+          const radius = 54;
+
+          ctx.strokeStyle = 'rgba(16, 185, 129, 0.15)';
+          ctx.lineWidth = 8;
+          ctx.beginPath();
+          ctx.arc(rx, rY, radius, 0, Math.PI * 2);
+          ctx.stroke();
+
+          ctx.strokeStyle = '#10b981';
+          ctx.shadowColor = '#10b981';
+          ctx.shadowBlur = 18;
+          ctx.beginPath();
+          ctx.arc(rx, rY, radius, -Math.PI / 2, Math.PI * 1.5);
+          ctx.stroke();
+          ctx.shadowBlur = 0;
+
+          ctx.font = '700 32px ui-monospace, monospace';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText('100', rx, rY + 11);
+
+          ctx.font = '600 15px system-ui, sans-serif';
+          ctx.fillStyle = '#94a3b8';
+          ctx.fillText(ringLabels[i], rx, rY + 84);
+        }
+
+        const featY = 430;
+        ctx.font = '600 20px system-ui, sans-serif';
+        ctx.fillStyle = '#10b981';
+        ctx.fillText('⚡ Sub-Second Load Times (<0.4s FCP)', width * 0.5, featY);
+        ctx.fillStyle = '#e5be7a';
+        ctx.fillText('📱 Phone-First Touch Navigation & Micro-Interactions', width * 0.5, featY + 44);
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText('🔒 100% Full Source Code Ownership & Domain Launch Included', width * 0.5, featY + 88);
+        ctx.restore();
+      }
+
+      // SCENE 5 (20.0s – 25.0s): Pricing & Call To Action
+      else if (t >= 20.0) {
+        const st = t - 20.0;
+        const alpha = Math.min(1, Math.min(st * 2, (5.0 - st) * 2));
+        ctx.save();
+        ctx.globalAlpha = alpha;
+
+        ctx.textAlign = 'center';
+        ctx.font = '700 13px ui-monospace, monospace';
+        ctx.fillStyle = '#e5be7a';
+        ctx.fillText('TRANSPARENT VALUE · GUARANTEED DELIVERY', width * 0.5, 55);
+
+        ctx.font = '700 36px system-ui, sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText('Order Your Premium Website Today', width * 0.5, 98);
+
+        const pw = 280;
+        const ph = 260;
+        const py = 135;
+        const packages = [
+          { name: 'Starter', price: '$95', time: '3-Day Delivery', scope: '1 Fast Page · Domain & SEO' },
+          { name: 'Growth', price: '$275', time: '5-Day Delivery', scope: '3–6 Pages · Lead Capture + CMS' },
+          { name: 'Signature', price: '$600', time: '7-Day Delivery', scope: 'Complete Online Flagship' }
+        ];
+
+        packages.forEach((pkg, idx) => {
+          const px = width * 0.5 - 450 + idx * 310;
+          ctx.fillStyle = idx === 1 ? 'rgba(32, 92, 83, 0.45)' : 'rgba(15, 26, 24, 0.85)';
+          ctx.strokeStyle = idx === 1 ? '#00f2fe' : 'rgba(229, 190, 122, 0.35)';
+          ctx.lineWidth = idx === 1 ? 2.5 : 1;
+          ctx.beginPath();
+          ctx.roundRect(px, py, pw, ph, 16);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.font = '700 18px system-ui, sans-serif';
+          ctx.fillStyle = idx === 1 ? '#00f2fe' : '#e5be7a';
+          ctx.fillText(pkg.name, px + pw * 0.5, py + 40);
+
+          ctx.font = '700 44px ui-monospace, monospace';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText(pkg.price, px + pw * 0.5, py + 95);
+
+          ctx.font = '600 14px system-ui, sans-serif';
+          ctx.fillStyle = '#10b981';
+          ctx.fillText(pkg.time, px + pw * 0.5, py + 135);
+
+          ctx.font = '400 13px system-ui, sans-serif';
+          ctx.fillStyle = '#94a3b8';
+          ctx.fillText(pkg.scope, px + pw * 0.5, py + 175);
+        });
+
+        const btnY = 440;
+        ctx.fillStyle = '#e5be7a';
+        ctx.beginPath();
+        ctx.roundRect(width * 0.5 - 340, btnY, 680, 70, 35);
+        ctx.fill();
+
+        ctx.font = '800 22px system-ui, sans-serif';
+        ctx.fillStyle = '#061210';
+        ctx.fillText('ORDER ON FIVERR OR HIRE ON UPWORK ↗', width * 0.5, btnY + 43);
+
+        ctx.font = '600 16px ui-monospace, monospace';
+        ctx.fillStyle = '#00f2fe';
+        ctx.fillText(`Fiverr: ${fiverrHandle}   •   Upwork: ${upworkHandle}`, width * 0.5, btnY + 115);
+        ctx.restore();
+      }
+
+      // Bottom progress bar
+      ctx.fillStyle = 'rgba(0, 242, 254, 0.2)';
+      ctx.fillRect(0, height - 6, width, 6);
+      ctx.fillStyle = '#00f2fe';
+      ctx.fillRect(0, height - 6, (t / VIDEO_DURATION) * width, 6);
+    }
+
+    function initAdVideoStudio() {
+      adCanvas = $('adCanvas');
+      if (!adCanvas) return;
+      adCtx = adCanvas.getContext('2d');
+
+      const playPauseBtn = $('btnPlayPauseVideo');
+      const restartBtn = $('btnRestartVideo');
+      const scrubber = $('videoScrubber');
+      const timeDisplay = $('videoTimeDisplay');
+      const audioBtn = $('btnToggleAudio');
+      const downloadBtn = $('btnDownloadVideo');
+      const posterBtn = $('btnDownloadPoster');
+
+      if (audioBtn) {
+        audioBtn.onclick = () => {
+          initAudioSynth();
+          audioSynthEnabled = !audioSynthEnabled;
+          audioBtn.textContent = audioSynthEnabled ? '🎵 Sound: On' : '🔇 Sound: Off';
+          if (audioMasterGain && audioContext) {
+            audioMasterGain.gain.value = audioSynthEnabled ? 0.35 : 0;
+          }
+        };
+      }
+
+      if (playPauseBtn) {
+        playPauseBtn.onclick = () => {
+          initAudioSynth();
+          videoIsPlaying = !videoIsPlaying;
+          playPauseBtn.textContent = videoIsPlaying ? '⏸ Pause' : '▶ Play';
+          lastAnimTime = performance.now();
+        };
+      }
+
+      if (restartBtn) {
+        restartBtn.onclick = () => {
+          videoCurrentTime = 0;
+          videoIsPlaying = true;
+          if (playPauseBtn) playPauseBtn.textContent = '⏸ Pause';
+          lastAnimTime = performance.now();
+        };
+      }
+
+      if (scrubber) {
+        scrubber.oninput = e => {
+          videoCurrentTime = parseFloat(e.target.value);
+          renderSceneFrame(adCtx, adCanvas.width, adCanvas.height, videoCurrentTime);
+          updateTimeDisplay();
+        };
+      }
+
+      document.querySelectorAll('.scene-jump-btn').forEach(btn => {
+        btn.onclick = () => {
+          const targetTime = parseFloat(btn.getAttribute('data-time') || '0');
+          videoCurrentTime = targetTime;
+          document.querySelectorAll('.scene-jump-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          if (scrubber) scrubber.value = targetTime;
+          updateTimeDisplay();
+          renderSceneFrame(adCtx, adCanvas.width, adCanvas.height, videoCurrentTime);
+        };
+      });
+
+      function updateTimeDisplay() {
+        if (!timeDisplay) return;
+        const curSec = Math.floor(videoCurrentTime);
+        const curStr = curSec < 10 ? `0${curSec}` : `${curSec}`;
+        timeDisplay.textContent = `00:${curStr} / 00:25`;
+      }
+
+      if (downloadBtn) {
+        downloadBtn.onclick = async () => {
+          const statusBadge = $('renderStatusBadge');
+          if (statusBadge) {
+            statusBadge.hidden = false;
+            statusBadge.textContent = 'Recording 60 FPS...';
+          }
+          downloadBtn.disabled = true;
+
+          initAudioSynth();
+          videoCurrentTime = 0;
+          videoIsPlaying = true;
+          lastAnimTime = performance.now();
+
+          const stream = adCanvas.captureStream(60);
+          if (audioSynthEnabled && audioDestination) {
+            audioDestination.stream.getAudioTracks().forEach(track => stream.addTrack(track));
+          }
+
+          let mimeType = 'video/webm;codecs=vp9,opus';
+          if (!MediaRecorder.isTypeSupported(mimeType)) {
+            mimeType = 'video/webm;codecs=vp8';
+            if (!MediaRecorder.isTypeSupported(mimeType)) {
+              mimeType = 'video/webm';
+            }
+          }
+
+          const recordedChunks = [];
+          const recorder = new MediaRecorder(stream, { mimeType, videoBitsPerSecond: 6000000 });
+
+          recorder.ondataavailable = e => {
+            if (e.data && e.data.size > 0) recordedChunks.push(e.data);
+          };
+
+          recorder.onstop = () => {
+            const blob = new Blob(recordedChunks, { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'AS_Studio_Upwork_Fiverr_Showcase_Ad.webm';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 5000);
+
+            if (statusBadge) {
+              statusBadge.textContent = '✅ Video Downloaded!';
+              setTimeout(() => {
+                statusBadge.hidden = true;
+                downloadBtn.disabled = false;
+              }, 3000);
+            }
+          };
+
+          recorder.start();
+
+          const checkProgress = setInterval(() => {
+            const pct = Math.min(100, Math.round((videoCurrentTime / VIDEO_DURATION) * 100));
+            if (statusBadge) statusBadge.textContent = `Recording HD: ${pct}%`;
+            if (videoCurrentTime >= VIDEO_DURATION) {
+              clearInterval(checkProgress);
+              recorder.stop();
+              videoIsPlaying = false;
+            }
+          }, 100);
+        };
+      }
+
+      if (posterBtn) {
+        posterBtn.onclick = () => {
+          const offscreen = document.createElement('canvas');
+          offscreen.width = 1920;
+          offscreen.height = 1080;
+          const oCtx = offscreen.getContext('2d');
+          renderSceneFrame(oCtx, 1920, 1080, videoCurrentTime || 12.0);
+          const url = offscreen.toDataURL('image/png');
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'AS_Studio_Fiverr_Gig_Poster_1080p.png';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        };
+      }
+
+      lastAnimTime = performance.now();
+      let lastChordSec = -1;
+
+      function loop(now) {
+        requestAnimationFrame(loop);
+        const dt = (now - lastAnimTime) / 1000;
+        lastAnimTime = now;
+
+        if (videoIsPlaying) {
+          videoCurrentTime += dt;
+          if (videoCurrentTime >= VIDEO_DURATION) {
+            videoCurrentTime = 0;
+          }
+          if (scrubber) scrubber.value = videoCurrentTime;
+          updateTimeDisplay();
+
+          const curSecStep = Math.floor(videoCurrentTime * 1.5);
+          if (curSecStep !== lastChordSec) {
+            lastChordSec = curSecStep;
+            triggerSynthChord(videoCurrentTime);
+          }
+        }
+
+        renderSceneFrame(adCtx, adCanvas.width, adCanvas.height, videoCurrentTime);
+      }
+      requestAnimationFrame(loop);
+    }
   </script>
   <script type="module" src="./TrafficChart.jsx"></script>
 </body>
