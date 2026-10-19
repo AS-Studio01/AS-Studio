@@ -16,10 +16,11 @@ import {
 const DEMO_META = {
   'mitti-cafe': { name: 'Mitti Café', pkg: 'Starter ($95)', color: '#b98a50' },
   'rao-law': { name: 'Rao & Partners', pkg: 'Starter ($95)', color: '#2a6159' },
-  'nova-dental': { name: 'Nova Dental', pkg: 'Growth ($275)', color: '#0d9488' },
+  'vitalcare': { name: 'VitalCare Clinic', pkg: 'Growth ($275)', color: '#0d9488' },
   'fold-atelier': { name: 'Fold Atelier', pkg: 'Growth ($275)', color: '#8b5cf6' },
   'apex-residences': { name: 'Apex Residences', pkg: 'Signature ($600)', color: '#d97706' },
   'atelier-north': { name: 'Atelier North', pkg: 'Signature ($600)', color: '#16a34a' },
+  'delta-os': { name: 'Delta.OS AI', pkg: 'Flagship Platform', color: '#00f2fe' },
   'studio': { name: 'Studio Home', pkg: 'Direct Brief', color: '#6366f1' }
 };
 
@@ -99,7 +100,7 @@ export function TrafficChartApp() {
     },
     {
       name: 'Growth ($275)',
-      value: (demoViews['nova-dental'] || 0) + (demoViews['fold-atelier'] || 0),
+      value: (demoViews['vitalcare'] || demoViews['nova-dental'] || 0) + (demoViews['fold-atelier'] || 0),
       color: '#0d9488'
     },
     {

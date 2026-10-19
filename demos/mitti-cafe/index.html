@@ -76,10 +76,25 @@
     .mc-menu-row {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
+      align-items: center;
       padding: 14px 0;
       border-bottom: 1px dashed var(--line);
       gap: 16px;
+    }
+    .mc-menu-lead {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .mc-menu-thumb {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      object-fit: cover;
+      flex: none;
+      background: #ebdcc9;
+      border: 1px solid var(--line);
+      box-shadow: 0 4px 10px rgba(42, 28, 19, 0.08);
     }
     .mc-menu-title {
       font-weight: 600;
@@ -97,6 +112,31 @@
       font-weight: 600;
       color: var(--acc);
       white-space: nowrap;
+    }
+    .hero-full {
+      position: relative;
+      min-height: 82vh;
+      display: grid;
+      align-items: end;
+      color: #fff;
+      background-color: #23160e;
+      overflow: hidden;
+    }
+    .hero-full .hero-bg-media {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 40%;
+      z-index: 0;
+    }
+    .hero-full::before {
+      z-index: 1;
+    }
+    .hero-full .in {
+      position: relative;
+      z-index: 2;
     }
 
     /* Sticky Mobile Bottom Bar */
@@ -201,19 +241,20 @@
 
   <main id="dmain" tabindex="-1">
     <!-- Hero Section -->
-    <section class="hero-full" id="top" style="background-image:url(../../assets/img/mitti-hero.webp);background-position:center 40%" aria-label="Mitti Café Introduction">
+    <section class="hero-full" id="top" style="background-image:url(/assets/img/mitti-hero.webp),url(../../assets/img/mitti-hero.webp);background-position:center 40%" aria-label="Mitti Café Introduction">
+      <img src="/assets/img/mitti-hero.webp" alt="Mitti Café interior and roastery" class="hero-bg-media" loading="eager" onerror="this.onerror=null;this.src='../../assets/img/mitti-hero.webp';">
       <div class="in">
-        <span class="kick" style="color:#f0d9b5">Specialty Coffee & Micro-Roastery · Koregaon Park, Pune</span>
+        <span class="kick" style="color:#f0d9b5">Specialty Coffee &amp; Micro-Roastery · Craft Roasting Collective</span>
         <h1>Slow coffee for a fast city.</h1>
         <p>Single-estate arabicas roasted fresh every Tuesday and Friday. Brewed with care, poured unhurriedly. Come in, find a bench, and breathe.</p>
         <div class="row">
           <a class="dbtn" href="#menu">View seasonal menu</a>
-          <a class="dbtn light" href="#visit">Directions & hours</a>
+          <a class="dbtn light" href="#visit">Directions &amp; hours</a>
         </div>
       </div>
     </section>
 
-    <!-- Menu Section with Tidy INR Prices -->
+    <!-- Menu Section with Tidy INR Prices & Item Visuals -->
     <section class="sec" id="menu" aria-labelledby="menu-heading">
       <div class="wrap">
         <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:12px">
@@ -226,7 +267,7 @@
 
         <div class="tabs" data-tabs role="tablist" aria-label="Menu categories">
           <button class="on" data-tab="Coffee" role="tab" aria-selected="true">Handcrafted Coffee</button>
-          <button class="" data-tab="Kitchen" role="tab" aria-selected="false">Kitchen & Bakes</button>
+          <button class="" data-tab="Kitchen" role="tab" aria-selected="false">Kitchen &amp; Bakes</button>
           <button class="" data-tab="Beans" role="tab" aria-selected="false">Whole Beans (250g)</button>
         </div>
 
@@ -234,49 +275,67 @@
         <div class="pane on" data-pane="Coffee">
           <div class="mc-menu-grid">
             <div class="mc-menu-row">
-              <div>
-                <div class="mc-menu-title">South Indian Style Filter Coffee</div>
-                <div class="mc-menu-desc">Chikmagalur washed peaberry, slow brass drip, warm full cream milk</div>
+              <div class="mc-menu-lead">
+                <img src="/assets/img/mitti-pour-sm.webp" onerror="this.onerror=null;this.src='../../assets/img/mitti-pour-sm.webp';" alt="South Indian Filter Coffee" class="mc-menu-thumb" width="52" height="52" loading="lazy">
+                <div>
+                  <div class="mc-menu-title">South Indian Style Filter Coffee</div>
+                  <div class="mc-menu-desc">Chikmagalur washed peaberry, slow brass drip, warm full cream milk</div>
+                </div>
               </div>
               <div class="mc-menu-price">₹160</div>
             </div>
 
             <div class="mc-menu-row">
-              <div>
-                <div class="mc-menu-title">Double Ristretto Flat White</div>
-                <div class="mc-menu-desc">Double espresso, textured silky microfoam, light hazelnut profile</div>
+              <div class="mc-menu-lead">
+                <img src="/assets/img/mitti-pour.webp" onerror="this.onerror=null;this.src='../../assets/img/mitti-pour.webp';" alt="Double Ristretto Flat White" class="mc-menu-thumb" width="52" height="52" loading="lazy">
+                <div>
+                  <div class="mc-menu-title">Double Ristretto Flat White</div>
+                  <div class="mc-menu-desc">Double espresso, textured silky microfoam, light hazelnut profile</div>
+                </div>
               </div>
               <div class="mc-menu-price">₹220</div>
             </div>
 
             <div class="mc-menu-row">
-              <div>
-                <div class="mc-menu-title">18-Hour Kyoto Cold Brew</div>
-                <div class="mc-menu-desc">Slow cold drip over ice, chocolate notes, citrus finish, zero bitterness</div>
+              <div class="mc-menu-lead">
+                <img src="/assets/img/mitti-hero-sm.webp" onerror="this.onerror=null;this.src='../../assets/img/mitti-hero-sm.webp';" alt="18-Hour Kyoto Cold Brew" class="mc-menu-thumb" width="52" height="52" loading="lazy">
+                <div>
+                  <div class="mc-menu-title">18-Hour Kyoto Cold Brew</div>
+                  <div class="mc-menu-desc">Slow cold drip over ice, chocolate notes, citrus finish, zero bitterness</div>
+                </div>
               </div>
               <div class="mc-menu-price">₹240</div>
             </div>
 
             <div class="mc-menu-row">
-              <div>
-                <div class="mc-menu-title">Cardamom & Jaggery Latte</div>
-                <div class="mc-menu-desc">Freshly crushed green cardamom, organic Kolhapur palm jaggery</div>
+              <div class="mc-menu-lead">
+                <img src="/assets/img/mitti-pour-sm.webp" onerror="this.onerror=null;this.src='../../assets/img/mitti-pour-sm.webp';" alt="Cardamom & Jaggery Latte" class="mc-menu-thumb" width="52" height="52" loading="lazy">
+                <div>
+                  <div class="mc-menu-title">Cardamom &amp; Jaggery Latte</div>
+                  <div class="mc-menu-desc">Freshly crushed green cardamom, organic palm jaggery</div>
+                </div>
               </div>
               <div class="mc-menu-price">₹250</div>
             </div>
 
             <div class="mc-menu-row">
-              <div>
-                <div class="mc-menu-title">Aeropress Single Estate</div>
-                <div class="mc-menu-desc">Rotational single origin, clean cup, served with tasting card</div>
+              <div class="mc-menu-lead">
+                <img src="/assets/img/mitti-roast-sm.webp" onerror="this.onerror=null;this.src='../../assets/img/mitti-roast-sm.webp';" alt="Aeropress Single Estate" class="mc-menu-thumb" width="52" height="52" loading="lazy">
+                <div>
+                  <div class="mc-menu-title">Aeropress Single Estate</div>
+                  <div class="mc-menu-desc">Rotational single origin, clean cup, served with tasting card</div>
+                </div>
               </div>
               <div class="mc-menu-price">₹230</div>
             </div>
 
             <div class="mc-menu-row">
-              <div>
-                <div class="mc-menu-title">Iced Cascara Sparkling Tea</div>
-                <div class="mc-menu-desc">Sun-dried coffee cherry husk, botanical spritz, dried orange slice</div>
+              <div class="mc-menu-lead">
+                <img src="/assets/img/mitti-hero.webp" onerror="this.onerror=null;this.src='../../assets/img/mitti-hero.webp';" alt="Iced Cascara Sparkling Tea" class="mc-menu-thumb" width="52" height="52" loading="lazy">
+                <div>
+                  <div class="mc-menu-title">Iced Cascara Sparkling Tea</div>
+                  <div class="mc-menu-desc">Sun-dried coffee cherry husk, botanical spritz, dried orange slice</div>
+                </div>
               </div>
               <div class="mc-menu-price">₹210</div>
             </div>
@@ -287,33 +346,45 @@
         <div class="pane" data-pane="Kitchen">
           <div class="mc-menu-grid">
             <div class="mc-menu-row">
-              <div>
-                <div class="mc-menu-title">Cultured Butter Sourdough Toast</div>
-                <div class="mc-menu-desc">Country sourdough, hand-churned salted butter, seasonal fig jam</div>
+              <div class="mc-menu-lead">
+                <img src="/assets/img/mitti-hero-sm.webp" onerror="this.onerror=null;this.src='../../assets/img/mitti-hero-sm.webp';" alt="Cultured Butter Sourdough Toast" class="mc-menu-thumb" width="52" height="52" loading="lazy">
+                <div>
+                  <div class="mc-menu-title">Cultured Butter Sourdough Toast</div>
+                  <div class="mc-menu-desc">Country sourdough, hand-churned salted butter, seasonal fig jam</div>
+                </div>
               </div>
               <div class="mc-menu-price">₹220</div>
             </div>
 
             <div class="mc-menu-row">
-              <div>
-                <div class="mc-menu-title">Desi Masala Omelette & Sourdough</div>
-                <div class="mc-menu-desc">Two pasture-raised eggs, green chilies, coriander, warm buttered pav</div>
+              <div class="mc-menu-lead">
+                <img src="/assets/img/mitti-hero.webp" onerror="this.onerror=null;this.src='../../assets/img/mitti-hero.webp';" alt="Desi Masala Omelette" class="mc-menu-thumb" width="52" height="52" loading="lazy">
+                <div>
+                  <div class="mc-menu-title">Desi Masala Omelette &amp; Sourdough</div>
+                  <div class="mc-menu-desc">Two pasture-raised eggs, green chilies, coriander, warm buttered pav</div>
+                </div>
               </div>
               <div class="mc-menu-price">₹290</div>
             </div>
 
             <div class="mc-menu-row">
-              <div>
-                <div class="mc-menu-title">Ancient Grain Millet Porridge</div>
-                <div class="mc-menu-desc">Ragi and foxtail millet, almond butter, roasted walnuts, date honey</div>
+              <div class="mc-menu-lead">
+                <img src="/assets/img/mitti-pour-sm.webp" onerror="this.onerror=null;this.src='../../assets/img/mitti-pour-sm.webp';" alt="Ancient Grain Millet Porridge" class="mc-menu-thumb" width="52" height="52" loading="lazy">
+                <div>
+                  <div class="mc-menu-title">Ancient Grain Millet Porridge</div>
+                  <div class="mc-menu-desc">Ragi and foxtail millet, almond butter, roasted walnuts, date honey</div>
+                </div>
               </div>
               <div class="mc-menu-price">₹280</div>
             </div>
 
             <div class="mc-menu-row">
-              <div>
-                <div class="mc-menu-title">Aged Cheddar & Pickled Chili Melt</div>
-                <div class="mc-menu-desc">Sharp Indian cheddar, local Bhavnagri chili relish, sourdough press</div>
+              <div class="mc-menu-lead">
+                <img src="/assets/img/mitti-hero-sm.webp" onerror="this.onerror=null;this.src='../../assets/img/mitti-hero-sm.webp';" alt="Aged Cheddar & Pickled Chili Melt" class="mc-menu-thumb" width="52" height="52" loading="lazy">
+                <div>
+                  <div class="mc-menu-title">Aged Cheddar &amp; Pickled Chili Melt</div>
+                  <div class="mc-menu-desc">Sharp Indian cheddar, local Bhavnagri chili relish, sourdough press</div>
+                </div>
               </div>
               <div class="mc-menu-price">₹340</div>
             </div>
@@ -324,20 +395,28 @@
         <div class="pane" data-pane="Beans">
           <div class="mc-menu-grid">
             <div class="mc-menu-row">
-              <div>
-                <div class="mc-menu-title">Kalledevarapura Estate (250g)</div>
-                <div class="mc-menu-desc">Washed Arabica · Notes of dark chocolate, candied orange & brown sugar</div>
+              <div class="mc-menu-lead">
+                <img src="/assets/img/mitti-roast-sm.webp" onerror="this.onerror=null;this.src='../../assets/img/mitti-roast-sm.webp';" alt="Kalledevarapura Estate Beans" class="mc-menu-thumb" width="52" height="52" loading="lazy">
+                <div>
+                  <div class="mc-menu-title">Kalledevarapura Estate (250g)</div>
+                  <div class="mc-menu-desc">Washed Arabica · Notes of dark chocolate, candied orange &amp; brown sugar</div>
+                </div>
               </div>
               <div class="mc-menu-price">₹550</div>
             </div>
 
             <div class="mc-menu-row">
-              <div>
-                <div class="mc-menu-title">Monsooned Malabar AA (250g)</div>
-                <div class="mc-menu-desc">Monsoon exposed · Exceptionally low acid, tobacco, heavy earthy body</div>
+              <div class="mc-menu-lead">
+                <img src="/assets/img/mitti-roast.webp" onerror="this.onerror=null;this.src='../../assets/img/mitti-roast.webp';" alt="Monsooned Malabar AA Beans" class="mc-menu-thumb" width="52" height="52" loading="lazy">
+                <div>
+                  <div class="mc-menu-title">Monsooned Malabar AA (250g)</div>
+                  <div class="mc-menu-desc">Monsoon exposed · Exceptionally low acid, tobacco, heavy earthy body</div>
+                </div>
               </div>
               <div class="mc-menu-price">₹520</div>
             </div>
+          </div>
+        </div>
 
             <div class="mc-menu-row">
               <div>
@@ -374,7 +453,9 @@
             <div><b>2x</b><span>weekly micro-roasts</span></div>
           </div>
         </div>
-        <div class="ph reveal" style="border-radius:18px;background-image:url(../../assets/img/mitti-pour.webp);background-position:60% 50%;aspect-ratio:4/3;background-size:cover"></div>
+        <div class="ph reveal" style="border-radius:18px;overflow:hidden;position:relative;aspect-ratio:4/3;background:#382417">
+          <img src="/assets/img/mitti-pour.webp" srcset="/assets/img/mitti-pour-sm.webp 800w, /assets/img/mitti-pour.webp 1600w" alt="Pour over coffee extraction" style="width:100%;height:100%;object-fit:cover" loading="lazy" onerror="this.onerror=null;this.src='../../assets/img/mitti-pour.webp';">
+        </div>
       </div>
     </section>
 
@@ -385,7 +466,8 @@
         <h2 class="t" id="gallery-heading">Roasts, brews and quiet corners.</h2>
         <div class="grid g3" style="margin-top:34px">
           <div class="imgcard reveal">
-            <div class="ph" style="background-image:url(../../assets/img/mitti-roast.webp);background-position:center;background-size:cover">
+            <div class="ph" style="position:relative;overflow:hidden;background:#382417">
+              <img src="/assets/img/mitti-roast.webp" srcset="/assets/img/mitti-roast-sm.webp 800w, /assets/img/mitti-roast.webp 1600w" alt="Drum coffee roaster" style="width:100%;height:100%;object-fit:cover" loading="lazy" onerror="this.onerror=null;this.src='../../assets/img/mitti-roast.webp';">
               <span class="tag" style="position:absolute;bottom:12px;left:12px">The Roaster</span>
             </div>
             <div class="bd">
@@ -395,7 +477,8 @@
           </div>
 
           <div class="imgcard reveal">
-            <div class="ph" style="background-image:url(../../assets/img/mitti-hero.webp);background-position:78% 75%;background-size:cover">
+            <div class="ph" style="position:relative;overflow:hidden;background:#382417">
+              <img src="/assets/img/mitti-hero.webp" srcset="/assets/img/mitti-hero-sm.webp 800w, /assets/img/mitti-hero.webp 1600w" alt="Mitti café long communal tables" style="width:100%;height:100%;object-fit:cover" loading="lazy" onerror="this.onerror=null;this.src='../../assets/img/mitti-hero.webp';">
               <span class="tag" style="position:absolute;bottom:12px;left:12px">The Long Table</span>
             </div>
             <div class="bd">
@@ -405,7 +488,8 @@
           </div>
 
           <div class="imgcard reveal">
-            <div class="ph" style="background-image:url(../../assets/img/mitti-pour.webp);background-position:25% 60%;background-size:cover">
+            <div class="ph" style="position:relative;overflow:hidden;background:#382417">
+              <img src="/assets/img/mitti-pour.webp" srcset="/assets/img/mitti-pour-sm.webp 800w, /assets/img/mitti-pour.webp 1600w" alt="Manual coffee brew bar" style="width:100%;height:100%;object-fit:cover" loading="lazy" onerror="this.onerror=null;this.src='../../assets/img/mitti-pour.webp';">
               <span class="tag" style="position:absolute;bottom:12px;left:12px">Manual Brew Bar</span>
             </div>
             <div class="bd">
@@ -432,20 +516,20 @@
 
           <div class="card" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#f4ece1;padding:24px;border-radius:16px;margin-bottom:24px">
             <div style="font-size:15px;line-height:1.7">
-              <strong style="color:#fff;display:block;font-size:17px;margin-bottom:4px">Mitti Café & Roasters</strong>
-              Lane 7, South Main Road, Koregaon Park, Pune, Maharashtra 411001<br>
+              <strong style="color:#fff;display:block;font-size:17px;margin-bottom:4px">Mitti Café &amp; Roasters</strong>
+              Lane 7, South Main Road · Roastery &amp; Pour Bar<br>
               Landmark: Opposite the Old Banyan Garden
             </div>
             <div style="border-top:1px solid rgba(255,255,255,0.1);margin-top:14px;padding-top:14px;display:grid;gap:6px;font-size:14px;color:#d8cbbd">
               <div><strong>Monday – Friday:</strong> 07:30 – 21:00</div>
-              <div><strong>Saturday & Sunday:</strong> 08:00 – 22:00</div>
+              <div><strong>Saturday &amp; Sunday:</strong> 08:00 – 22:00</div>
               <div><strong>Fresh Roasts Dispatched:</strong> Tuesdays & Fridays</div>
             </div>
           </div>
 
           <div class="row">
             <a class="dbtn" href="tel:+912026123456" style="background:#a8481f;color:#fff">Call the café (+91 20 2612 3456)</a>
-            <a class="dbtn light" href="https://maps.google.com/?q=Koregaon+Park+Pune" target="_blank" rel="noopener">Open in Maps</a>
+            <a class="dbtn light" href="https://maps.google.com/?q=Specialty+Coffee+Roasters" target="_blank" rel="noopener">Open in Maps</a>
           </div>
         </div>
 
@@ -493,7 +577,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
       <span>Call Café</span>
     </a>
-    <a href="https://maps.google.com/?q=Koregaon+Park+Pune" target="_blank" rel="noopener" class="mc-mobile-btn dir" aria-label="Get directions to Mitti Café">
+    <a href="https://maps.google.com/?q=Specialty+Coffee+Roasters" target="_blank" rel="noopener" class="mc-mobile-btn dir" aria-label="Get directions to Mitti Café">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;color:var(--acc)" aria-hidden="true"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
       <span>Directions</span>
     </a>

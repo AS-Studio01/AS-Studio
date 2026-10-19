@@ -69,33 +69,33 @@ var PROJECTS = [
     }
   },
   {
-    id: "nova-dental",
-    name: "Nova Dental Care",
-    category: "Clinic Website Redesign",
+    id: "vitalcare",
+    name: "VitalCare Multispecialty Clinic",
+    category: "Multispecialty Healthcare Clinic",
     badge: "Independent Concept",
     isConcept: true,
-    description: "A mobile-first clinic concept that makes services, doctor credibility, location and appointment enquiries easier to find.",
+    description: "An unhurried, multi-page healthcare website featuring 6 clinical departments, clinician credentials, and streamlined appointment enquiry.",
     buttonText: "View demo preview",
-    tags: ["Healthcare Triage", "Local SEO Ready", "Appointment Priority", "Doctor Credibility"],
-    turnaround: "Design Exploration",
+    tags: ["Healthcare Triage", "6 Clinical Areas", "Doctor Credentials", "Low-Friction Booking"],
+    turnaround: "Growth Package",
     conceptDetails: {
-      overview: "An independent design exploration created by AS Studio to demonstrate how local healthcare practices can replace cluttered medical portals with clean, trust-building mobile experiences.",
+      overview: "An independent design exploration created by AS Studio demonstrating how private medical clinics can replace anxiety with reassuring, accessible digital care.",
       keyDeliverables: [
-        "Prominent appointment request and direct Telegram triage",
+        "Six specialty departments (General, Paediatrics, Dermatology, Physio, Diagnostics, Dental)",
         "Clinician qualification and credential highlight cards",
-        "Clear treatment category navigation without dense medical jargon",
-        "Integrated clinic hours, directions, and emergency contact notice"
+        "Deep-linking appointment enquiry form with real-time feedback",
+        "Integrated emergency casualty lines and opening hours"
       ],
       focusAreas: [
-        "Patients on mobile devices needing immediate booking or location information",
-        "Reassuring nervous first-time visitors with understated professionalism",
-        "Accessible color contrast and large legible typography"
+        "Patients on mobile devices needing calm booking or emergency triage",
+        "Reassuring first-time patients with unhurried clinical clarity",
+        "WCAG AAA contrast and accessible keyboard navigation"
       ],
       structureBreakdown: [
-        "Header with direct emergency line and address indicator",
-        "Hero with single primary action: Book Consultation",
-        "3 core specializations: Preventive, Orthodontics, Restorative",
-        "Verified Google Maps directions link & clinic consultation hours"
+        "24/7 emergency casualty & consultation alert banner",
+        "Hero with practice highlights, clinical metrics, and appointment CTA",
+        "6 departmental care areas with procedure explanations",
+        "Consultant roster with qualifications and OPD timings"
       ]
     }
   },
@@ -533,10 +533,12 @@ const ANALYTICS_CACHE = {
   demoViews: {
     "mitti-cafe": 0,
     "rao-law": 0,
+    "vitalcare": 0,
     "nova-dental": 0,
     "fold-atelier": 0,
     "apex-residences": 0,
     "atelier-north": 0,
+    "delta-os": 0,
     "studio": 0
   },
   recentViews: []
@@ -940,6 +942,11 @@ async function startServer() {
   }));
 
   // Serve static assets, demos, legal, work, js and inbox
+  app.get(["/demos/vitalcare", "/demos/vitalcare-multispeciality-clinic", "/demos/vitalcare%20multispeciality%20clinic", "/demos/vitalcare multispeciality clinic"], (_req, res) => {
+    res.redirect("/demos/vitalcare-multispeciality-clinic/");
+  });
+  app.use("/demos/vitalcare", express.static(path.join(__dirname, "demos", "vitalcare-multispeciality-clinic")));
+  app.use("/demos/vitalcare multispeciality clinic", express.static(path.join(__dirname, "demos", "vitalcare-multispeciality-clinic")));
   app.use("/assets", express.static(path.join(__dirname, "assets")));
   app.use("/demos", express.static(path.join(__dirname, "demos")));
   app.use("/work", express.static(path.join(__dirname, "work")));
