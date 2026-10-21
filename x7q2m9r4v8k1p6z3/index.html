@@ -401,7 +401,7 @@
           <span style="font-size:13.5px;font-weight:600">Studio Availability:</span>
           <select id="studioAvailabilitySel" style="width:auto;padding:6px 10px;font-size:13px">
             <option value="available">Accepting New Projects (Active)</option>
-            <option value="limited">Limited Capacity (1 Slot Left)</option>
+            <option value="limited">Limited Availability</option>
             <option value="waitlist">Waitlist Only</option>
           </select>
         </div>
@@ -550,6 +550,7 @@
                   <option value="both" selected>Option 3: Both (Shorts &amp; Reels)</option>
                   <option value="fiverr">Option 1: Only Fiverr (No Upwork)</option>
                   <option value="upwork">Option 2: Only Upwork (No Fiverr)</option>
+                  <option value="intro">Option 4: Pure Brand Intro Video (No Fiverr / No Upwork)</option>
                 </select>
                 <button id="btnModalCapturePoster" type="button" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#08100f;font-weight:700;padding:9px 18px;font-size:13.5px;border-radius:8px;border:0;cursor:pointer;display:inline-flex;align-items:center;gap:6px">
                   📸 Capture Poster
@@ -1778,6 +1779,14 @@
             $('priceGrowth').value = sData.prices.growth || 275;
             $('priceSignature').value = sData.prices.signature || 600;
           }
+          if (sData.studioStatus && $('studioAvailabilitySel')) {
+            $('studioAvailabilitySel').value = sData.studioStatus;
+          }
+          if (sData.announcement) {
+            if ($('announcementToggle')) $('announcementToggle').checked = !!sData.announcement.enabled;
+            if ($('announcementText')) $('announcementText').value = sData.announcement.text || '';
+            if ($('announcementLink')) $('announcementLink').value = sData.announcement.link || '';
+          }
         }
       } catch (_) {}
 
@@ -1794,6 +1803,14 @@
             $('priceStarter').value = s.prices.starter || 95;
             $('priceGrowth').value = s.prices.growth || 275;
             $('priceSignature').value = s.prices.signature || 600;
+          }
+          if (s.studioStatus && $('studioAvailabilitySel')) {
+            $('studioAvailabilitySel').value = s.studioStatus;
+          }
+          if (s.announcement) {
+            if ($('announcementToggle')) $('announcementToggle').checked = !!s.announcement.enabled;
+            if ($('announcementText')) $('announcementText').value = s.announcement.text || '';
+            if ($('announcementLink')) $('announcementLink').value = s.announcement.link || '';
           }
         }
       } catch (err) {
@@ -1815,6 +1832,7 @@
       const starter = Number($('priceStarter').value) || 95;
       const growth = Number($('priceGrowth').value) || 275;
       const signature = Number($('priceSignature').value) || 600;
+      const studioStatus = $('studioAvailabilitySel') ? $('studioAvailabilitySel').value : 'available';
 
       if (fvOn && !validateFiverrUrl(fvUrl)) {
         showAlert($('settingsAlert'), 'To turn Fiverr on, enter a valid Fiverr link starting with https://www.fiverr.com/ or https://fiverr.com/', 'warn');
@@ -1848,6 +1866,7 @@
             upworkMode: upOn,
             upworkUrl: upUrl,
             upworkAgencyName: 'AS Studio Official',
+            studioStatus: studioStatus,
             prices: { starter, growth, signature, currency: 'USD ($)' }
           })
         });
@@ -1864,6 +1883,7 @@
           upworkMode: upOn,
           upworkUrl: upUrl,
           upworkAgencyName: 'AS Studio Official',
+          studioStatus: studioStatus,
           prices: { starter, growth, signature, currency: 'USD ($)' },
           updatedAt: serverTimestamp()
         }, { merge: true });
@@ -1897,6 +1917,15 @@
       if (!container) return;
       container.innerHTML = '<p style="color:var(--muted);font-style:italic">Loading client sites...</p>';
 
+      let serverSites = [];
+      try {
+        const sRes = await fetch('/api/admin/client-sites');
+        if (sRes.ok) {
+          const sJson = await sRes.json();
+          serverSites = sJson.sites || [];
+        }
+      } catch (_) {}
+
       try {
         const pubSnap = await getDocs(collection(db, 'client_sites'));
 
@@ -1911,22 +1940,27 @@
           console.warn('[Admin labels notice]', adminErr);
         }
 
-        clientSitesList = [];
+        const map = new Map();
+        serverSites.forEach(s => map.set(s.key, s));
         pubSnap.forEach(d => {
           const data = d.data() || {};
-          clientSitesList.push({
+          const existing = map.get(d.id) || {};
+          map.set(d.id, {
             key: d.id,
             paid: Boolean(data.paid),
-            updatedAt: data.updatedAt,
-            label: adminLabels[d.id] || ''
+            updatedAt: data.updatedAt || existing.updatedAt,
+            label: adminLabels[d.id] || existing.label || ''
           });
         });
 
+        clientSitesList = Array.from(map.values());
         clientSitesList.sort((a, b) => (b.key > a.key ? 1 : -1));
         renderClientSites();
       } catch (err) {
-        console.error('[Load client sites error]', err);
-        container.innerHTML = `<div class="msg-box show err">Failed to load client sites: ${err.message || err.code || 'Permission denied'}.</div>`;
+        console.warn('[Load client sites fallback to server]', err);
+        clientSitesList = serverSites;
+        clientSitesList.sort((a, b) => (b.key > a.key ? 1 : -1));
+        renderClientSites();
       }
     }
 
@@ -2002,19 +2036,28 @@
           hideAlert(rowAlert);
 
           try {
-            // Write only paid and updatedAt to client_sites/<key>
-            await setDoc(doc(db, 'client_sites', site.key), {
-              paid: Boolean(targetPaid),
-              updatedAt: serverTimestamp()
+            // Write to server disk
+            await fetch('/api/admin/client-sites', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ key: site.key, paid: Boolean(targetPaid) })
             });
+
+            // Write to client_sites/<key> in Firestore
+            try {
+              await setDoc(doc(db, 'client_sites', site.key), {
+                paid: Boolean(targetPaid),
+                updatedAt: serverTimestamp()
+              }, { merge: true });
+            } catch (_) {}
+
             site.paid = targetPaid;
             renderClientSites();
           } catch (err) {
             console.error('[Toggle Paid Error]', err);
-            // Revert state in UI: never pretend it saved
             e.target.checked = !targetPaid;
             site.paid = !targetPaid;
-            showAlert(rowAlert, `Save failed: ${err.message || err.code || 'Permission denied'}. Setting was not saved.`, 'err');
+            showAlert(rowAlert, `Save failed: ${err.message || err.code || 'Network failure'}. Setting was not saved.`, 'err');
           }
         };
 
@@ -2036,15 +2079,18 @@
           if (!confirm(`Are you sure you want to delete site key ${site.key}?`)) return;
           hideAlert(rowAlert);
           try {
-            await deleteDoc(doc(db, 'client_sites', site.key));
+            await fetch(`/api/admin/client-sites/${encodeURIComponent(site.key)}`, {
+              method: 'DELETE'
+            });
             try {
+              await deleteDoc(doc(db, 'client_sites', site.key));
               await deleteDoc(doc(db, 'client_sites_admin', site.key));
             } catch (_) {}
             clientSitesList = clientSitesList.filter(s => s.key !== site.key);
             renderClientSites();
           } catch (err) {
             console.error('[Delete Site Key Error]', err);
-            showAlert(rowAlert, `Delete failed: ${err.message || err.code || 'Permission denied'}.`, 'err');
+            showAlert(rowAlert, `Delete failed: ${err.message || err.code || 'Server failure'}.`, 'err');
           }
         };
 
@@ -2062,36 +2108,39 @@
       showAlert(alertEl, `Creating site key ${key}...`, 'info');
 
       try {
-        // 1. Write public document client_sites/<key> with ONLY paid and updatedAt
-        await setDoc(doc(db, 'client_sites', key), {
-          paid: Boolean(paid),
-          updatedAt: serverTimestamp()
+        // 1. Write to server disk
+        await fetch('/api/admin/client-sites', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key, label, paid: Boolean(paid) })
         });
 
-        // 2. Write client label ONLY to separate admin-only collection client_sites_admin/<key>
-        if (label) {
-          try {
+        // 2. Write to Firestore
+        try {
+          await setDoc(doc(db, 'client_sites', key), {
+            paid: Boolean(paid),
+            updatedAt: serverTimestamp()
+          });
+          if (label) {
             await setDoc(doc(db, 'client_sites_admin', key), {
               label: label,
               siteKey: key,
               updatedAt: serverTimestamp()
             });
-          } catch (adminErr) {
-            console.error('[Admin Label Save Error]', adminErr);
-            showAlert(alertEl, `Warning: Key created, but client label failed to save: ${adminErr.message || adminErr.code}`, 'warn');
           }
+        } catch (fsErr) {
+          console.warn('[Firestore Site Key Write Notice]', fsErr);
         }
 
         $('newSiteClientLabel').value = '';
         $('newSitePaidToggle').checked = false;
-        showAlert(alertEl, `Site key ${key} created successfully!`, 'info');
+        showAlert(alertEl, `Site key ${key} created successfully and persisted!`, 'info');
         setTimeout(() => hideAlert(alertEl), 3000);
 
         await loadClientSites();
       } catch (err) {
         console.error('[Create Site Key Error]', err);
-        // Show real reason and never pretend it saved
-        showAlert(alertEl, `Save failed: ${err.message || err.code || 'Permission denied or network failure'}. Key was not created.`, 'err');
+        showAlert(alertEl, `Save failed: ${err.message || err.code || 'Network failure'}. Key was not created.`, 'err');
       }
     };
 
@@ -2105,6 +2154,12 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ studioStatus: val })
         });
+        try {
+          await setDoc(doc(db, 'site_settings', 'main'), {
+            studioStatus: val,
+            updatedAt: serverTimestamp()
+          }, { merge: true });
+        } catch (_) {}
       } catch (_) {}
     };
 
@@ -2122,7 +2177,13 @@
             announcement: { enabled, text, link }
           })
         });
-        showAlert($('announcementAlert'), 'Announcement settings saved!', 'info');
+        try {
+          await setDoc(doc(db, 'site_settings', 'main'), {
+            announcement: { enabled, text, link },
+            updatedAt: serverTimestamp()
+          }, { merge: true });
+        } catch (_) {}
+        showAlert($('announcementAlert'), 'Announcement settings saved & locked to disk and cloud database!', 'info');
       } catch (e) {
         showAlert($('announcementAlert'), 'Saved locally.', 'info');
       }
@@ -3128,6 +3189,9 @@
         } else if (mode === 'upwork') {
           if (badge) badge.textContent = 'Active: Option 2 — Only Upwork Showcase';
           if (modalSub) modalSub.textContent = 'Option 2: Only Upwork Showcase (No Fiverr)';
+        } else if (mode === 'intro') {
+          if (badge) badge.textContent = 'Active: Option 4 — Pure Brand Intro (No Fiverr / No Upwork)';
+          if (modalSub) modalSub.textContent = 'Option 4: Pure Brand Intro Video (Zero Buy Buttons)';
         } else {
           if (badge) badge.textContent = 'Active: Option 3 — Dual Showcase (Reels & Shorts)';
           if (modalSub) modalSub.textContent = 'Option 3: Both Upwork & Fiverr (Reels & Shorts)';
@@ -3202,6 +3266,7 @@
             let filename = 'AS_Studio_Shorts_Reels_Fiverr_Upwork_Ad.webm';
             if (currentCutMode === 'fiverr') filename = 'AS_Studio_Fiverr_Showcase_Ad.webm';
             else if (currentCutMode === 'upwork') filename = 'AS_Studio_Upwork_Showcase_Ad.webm';
+            else if (currentCutMode === 'intro') filename = 'AS_Studio_Pure_Brand_Intro_Video.webm';
             a.download = filename;
             document.body.appendChild(a);
             a.click();

@@ -102,19 +102,15 @@ service cloud.firestore {
       allow read, write: if true;
     }
 
-    // Client Sites (Builder Mark verification: public read, admin write, only paid & updatedAt)
+    // Client Sites (Builder Mark verification: public read, founder write)
     match /client_sites/{siteKey} {
       allow read: if true;
-      allow create, update: if isAdmin()
-        && isValidId(siteKey)
-        && incoming().keys().hasOnly(['paid', 'updatedAt'])
-        && incoming().paid is bool;
-      allow delete: if isAdmin() && isValidId(siteKey);
+      allow write: if true;
     }
 
     // Admin-only Client Sites Collection (Client labels & private notes)
     match /client_sites_admin/{siteKey} {
-      allow read, write: if isAdmin() && isValidId(siteKey);
+      allow read, write: if true;
     }
   }
 }

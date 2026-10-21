@@ -80,7 +80,7 @@
   if (!siteKey) return;
 
   // Read public Firestore document client_sites/<key>
-  var P = 'profound-handbook-z3skh', DB = '(default)', K = 'AIzaSyA1km1IvXjyPTkO0grVOunMorlOoARLd2w';
+  var P = 'profound-handbook-z3skh', DB = 'ai-studio-asstudio-bc59d6e2-7ac2-415f-a1f3-6095feae2fe1', K = 'AIzaSyA1km1IvXjyPTkO0grVOunMorlOoARLd2w';
   var URL_ = 'https://firestore.googleapis.com/v1/projects/' + P + '/databases/' + DB + '/documents/client_sites/' + encodeURIComponent(siteKey) + '?key=' + K;
 
   var ctrl = window.AbortController ? new AbortController() : null;

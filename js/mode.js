@@ -5,7 +5,7 @@
   var DEFAULT_FIVERR = 'https://www.fiverr.com/s/GPPQm9q';
   var DEFAULT_UPWORK = 'https://www.upwork.com/freelancers/~01db1175182843f13a?mp_source=share';
 
-  var P = 'profound-handbook-z3skh', DB = '(default)', K = 'AIzaSyA1km1IvXjyPTkO0grVOunMorlOoARLd2w';
+  var P = 'profound-handbook-z3skh', DB = 'ai-studio-asstudio-bc59d6e2-7ac2-415f-a1f3-6095feae2fe1', K = 'AIzaSyA1km1IvXjyPTkO0grVOunMorlOoARLd2w';
   var FIRESTORE_URL = 'https://firestore.googleapis.com/v1/projects/' + P + '/databases/' + DB + '/documents/site_settings/main?key=' + K;
 
   function validFiverr(u) {
@@ -54,7 +54,7 @@
     } catch (_) {}
   }
 
-  // 1. Instant Synchronous Layer: Fiverr Active, Upwork Inactive (connects over)
+  // 1. Instant Synchronous Layer: Fiverr Active, Upwork Inactive (account not active / connects over)
   var cachedFvUrl = DEFAULT_FIVERR;
   var cachedUpUrl = DEFAULT_UPWORK;
   var cachedFvOn = true;
@@ -72,7 +72,7 @@
     else cachedUpOn = false;
   } catch (_) {}
 
-  applyMarketplaces(true, cachedFvUrl, cachedUpOn, cachedUpUrl);
+  applyMarketplaces(cachedFvOn, cachedFvUrl, cachedUpOn, cachedUpUrl);
 
   // 2. Real-Time Storage Listener: update immediately if changed in admin panel tab
   window.addEventListener('storage', function(e) {
@@ -81,7 +81,7 @@
         var sf = localStorage.getItem('as-fiverr-url') || DEFAULT_FIVERR;
         var su = localStorage.getItem('as-upwork-url') || DEFAULT_UPWORK;
         var sfo = localStorage.getItem('as-fiverr-on') !== 'false';
-        var suo = localStorage.getItem('as-upwork-on') !== 'false';
+        var suo = localStorage.getItem('as-upwork-on') === 'true';
         applyMarketplaces(sfo, sf, suo, su);
       } catch (_) {}
     }

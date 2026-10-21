@@ -833,6 +833,56 @@ app.post("/api/admin/settings", (req, res) => {
   return res.json({ success: true, settings: SETTINGS_CACHE });
 });
 
+// Client Sites & Builder Mark Licensing Persistence
+const CLIENT_SITES_FILE = path.join(__dirname, "client-sites.json");
+let CLIENT_SITES_CACHE = [];
+try {
+  if (fs.existsSync(CLIENT_SITES_FILE)) {
+    CLIENT_SITES_CACHE = JSON.parse(fs.readFileSync(CLIENT_SITES_FILE, "utf-8"));
+  }
+} catch (_) {}
+
+function saveClientSitesToDisk() {
+  try {
+    fs.writeFileSync(CLIENT_SITES_FILE, JSON.stringify(CLIENT_SITES_CACHE, null, 2), "utf-8");
+  } catch (err) {
+    console.warn("[Client Sites Disk Notice]:", err.message);
+  }
+}
+
+app.get("/api/admin/client-sites", (_req, res) => {
+  return res.json({ success: true, sites: CLIENT_SITES_CACHE });
+});
+
+app.post("/api/admin/client-sites", (req, res) => {
+  const { key, label, paid } = req.body || {};
+  if (!key) return res.status(400).json({ error: "Site key is required." });
+  const existingIndex = CLIENT_SITES_CACHE.findIndex(s => s.key === key);
+  const now = new Date().toISOString();
+  if (existingIndex >= 0) {
+    if (typeof paid === "boolean") CLIENT_SITES_CACHE[existingIndex].paid = paid;
+    if (label !== undefined) CLIENT_SITES_CACHE[existingIndex].label = label;
+    CLIENT_SITES_CACHE[existingIndex].updatedAt = now;
+  } else {
+    CLIENT_SITES_CACHE.push({
+      key,
+      label: label || "",
+      paid: Boolean(paid),
+      createdAt: now,
+      updatedAt: now
+    });
+  }
+  saveClientSitesToDisk();
+  return res.json({ success: true, sites: CLIENT_SITES_CACHE });
+});
+
+app.delete("/api/admin/client-sites/:key", (req, res) => {
+  const { key } = req.params;
+  CLIENT_SITES_CACHE = CLIENT_SITES_CACHE.filter(s => s.key !== key);
+  saveClientSitesToDisk();
+  return res.json({ success: true, sites: CLIENT_SITES_CACHE });
+});
+
 // Autoresponder Templates & Gmail Dispatcher Management
 app.get("/api/admin/autoresponder", (_req, res) => {
   return res.json(AUTORESPONDER_CONFIG);
