@@ -959,7 +959,7 @@ async function startServer() {
     }
   }));
   app.get(["/admin", "/login", "/dashboard", "/inbox", "/signin"], (_req, res) => {
-    res.redirect("/x7q2m9r4v8k1p6z3/?bypass=1");
+    res.redirect("/x7q2m9r4v8k1p6z3/");
   });
   app.get("/x7q2m9r4v8k1p6z3", (_req, res) => {
     res.redirect("/x7q2m9r4v8k1p6z3/");

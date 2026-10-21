@@ -56,17 +56,87 @@ p{margin:0}
 .fx-drift .w{--kc:clamp(0,(var(--k,0) - var(--th,0))*2.8,1);opacity:var(--kc);transform:translateY(calc((1 - var(--kc))*-26px))}
 .fx-scatter .c{--kc:clamp(0,(var(--k,0) - var(--th,0))*2.6,1);opacity:var(--kc);transform:translate(calc((1 - var(--kc))*var(--jx,0px)),calc((1 - var(--kc))*var(--jy,0px))) rotate(calc((1 - var(--kc))*var(--jr,0deg)))}
 .fx-rise .w{--kc:clamp(0,(var(--k,0) - var(--th,0))*3,1);opacity:var(--kc);transform:translateY(calc((1 - var(--kc))*30px))}
-.hero-static{display:none;min-height:clamp(320px,45vh,420px);place-items:center start;align-items:center;position:relative;background:radial-gradient(ellipse at 76% 26%,rgba(196,154,91,.18),transparent 45%),linear-gradient(180deg,rgba(12,20,19,.48),rgba(12,20,19,.9)),url('../assets/video/hero-poster.webp') center/cover no-repeat,#0c1413;color:#f7f4ec}
-.hero-static::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,18,17,.32),rgba(10,18,17,.12) 40%,rgba(10,18,17,.72));pointer-events:none}
-.hero-static .in{position:relative;padding:26px 24px;max-width:640px;text-shadow:var(--tshadow)}
-.hero-static h1{font-size:clamp(30px,7.2vw,46px);font-weight:400;letter-spacing:-.035em;line-height:1.1;margin:0 0 10px}.hero-static p{margin:10px 0 20px;font-size:15.5px;line-height:1.48;max-width:35ch}
-.hero-static .acts{display:flex;gap:12px;flex-wrap:wrap}.hero-static .btn{text-shadow:none}
+.band[data-first="1"],
+.band.b1 {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+.hero-static{
+  display:none;
+  min-height:clamp(380px,52vh,480px);
+  position:relative;
+  padding-top:max(84px, calc(68px + 3vh)) !important;
+  padding-bottom:34px !important;
+  background:radial-gradient(ellipse at 76% 26%,rgba(196,154,91,.18),transparent 45%),linear-gradient(180deg,rgba(12,20,19,.48),rgba(12,20,19,.9)),url('../assets/video/hero-poster.webp') center/cover no-repeat,#0c1413;
+  color:#f7f4ec;
+  box-sizing:border-box;
+}
+.hero-static::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,18,17,.32),rgba(10,18,17,.12) 40%,rgba(10,18,17,.72));pointer-events:none;z-index:1}
+.hero-static .in{
+  position:relative;
+  z-index:2;
+  padding:12px 20px 24px !important;
+  max-width:620px;
+  width:100%;
+  box-sizing:border-box;
+  text-shadow:var(--tshadow);
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  text-align:left !important;
+}
+.hero-static .studio-status-pill{
+  margin:0 0 12px 0 !important;
+  align-self:flex-start !important;
+}
+.hero-static .kick{
+  font:500 11.5px/1.3 var(--mono) !important;
+  letter-spacing:0.18em !important;
+  text-transform:uppercase !important;
+  color:var(--sun,#e5be7a) !important;
+  margin:0 0 10px 0 !important;
+  display:block !important;
+  text-align:left !important;
+  align-self:flex-start !important;
+}
+.hero-static h1{
+  font-size:clamp(30px,7.5vw,44px) !important;
+  font-weight:500 !important;
+  letter-spacing:-.035em !important;
+  line-height:1.12 !important;
+  margin:0 0 12px 0 !important;
+  text-align:left !important;
+  align-self:flex-start !important;
+}
+.hero-static p{
+  margin:0 0 22px 0 !important;
+  font-size:15.5px !important;
+  line-height:1.5 !important;
+  max-width:36ch !important;
+  text-align:left !important;
+  align-self:flex-start !important;
+}
+.hero-static .acts{
+  display:flex !important;
+  flex-direction:row !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  gap:10px !important;
+  flex-wrap:wrap !important;
+  width:100% !important;
+  margin:0 !important;
+}
+.hero-static .acts .btn{
+  text-shadow:none;
+  margin:0 !important;
+  flex:0 0 auto !important;
+}
 @media (max-height:560px){.cue{display:none}}
-@media (max-width: 720px){.hero{display:none}.hero-static{display:grid}}
-@media (orientation: portrait) and (max-width: 1024px){.hero{display:none}.hero-static{display:grid}}
-@media (orientation: portrait) and (pointer: coarse){.hero{display:none}.hero-static{display:grid}}
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 560px){.hero{display:none}.hero-static{display:grid}}
-@media (prefers-reduced-motion: reduce){.hero{display:none}.hero-static{display:grid}}
+@media (max-width: 768px){.hero{display:none !important}.hero-static{display:flex !important;flex-direction:column !important;justify-content:center !important}}
+@media (orientation: portrait) and (max-width: 1024px){.hero{display:none !important}.hero-static{display:flex !important;flex-direction:column !important;justify-content:center !important}}
+@media (orientation: portrait) and (pointer: coarse){.hero{display:none !important}.hero-static{display:flex !important;flex-direction:column !important;justify-content:center !important}}
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 560px){.hero{display:none !important}.hero-static{display:flex !important;flex-direction:column !important;justify-content:center !important}}
+@media (prefers-reduced-motion: reduce){.hero{display:none !important}.hero-static{display:flex !important;flex-direction:column !important;justify-content:center !important}}
 
 /* sections */
 main{position:relative}
@@ -693,6 +763,67 @@ header:nth-of-type(1) > div:nth-of-type(1) .links a[aria-current="page"]::after,
     display: inline-flex !important;
     visibility: visible !important;
     opacity: 1 !important;
+  }
+}
+
+/* Strict mobile viewport constraints: Eliminates horizontal overflow and menu clipping */
+@media(max-width: 768px) {
+  header:nth-of-type(1),
+  .nav {
+    padding: 10px 14px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow-x: clip !important;
+  }
+  header:nth-of-type(1) > div:nth-of-type(1),
+  .nav-in {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    gap: 8px !important;
+    justify-content: space-between !important;
+  }
+  /* Hide the wide desktop CTA inside the sticky header on mobile so it doesn't push the menu off-screen */
+  .nav-in > div[style*="display:flex"],
+  .nav-in .nav-cta-wrap {
+    display: none !important;
+  }
+  /* Center theme toggle in the exact middle with ample space, never touching AS Studio logo or Menu button */
+  .nav .logo {
+    flex: 0 0 auto !important;
+    z-index: 2 !important;
+  }
+  .theme-toggle {
+    margin: 0 auto !important;
+    padding: 0 12px !important;
+    min-height: 36px !important;
+    height: 36px !important;
+    border-radius: 999px !important;
+    flex-shrink: 0 !important;
+    z-index: 2 !important;
+  }
+  .theme-toggle .theme-text {
+    display: none !important;
+  }
+  /* Menu button pinned cleanly on the right, never clipped */
+  .nav .menu {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    flex: 0 0 auto !important;
+    margin-left: 0 !important;
+    min-width: 74px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    padding: 0 12px !important;
+    box-sizing: border-box !important;
+    z-index: 2 !important;
+  }
+  .nav .menu .menu-label {
+    display: inline-block !important;
+    visibility: visible !important;
+    font-size: 11px !important;
   }
 }
 
@@ -2016,22 +2147,117 @@ body[data-theme="light"] {
   color: #a17436 !important;
 }
 
+/* Light mode mobile hero: clean, tactile architectural cream */
 [data-theme="light"] .hero-static {
-  background: #f8f7f2 !important;
+  background: radial-gradient(ellipse at 76% 26%, rgba(196, 154, 91, 0.18), transparent 45%), linear-gradient(180deg, #f7f4ec, #ede7db) !important;
+  color: #14302d !important;
 }
 
-[data-theme="light"] .hero-static h1 {
-  color: #0e1816 !important;
+[data-theme="light"] .hero-static::before {
+  display: none !important;
 }
 
-[data-theme="light"] .hero-static p {
-  color: #485c57 !important;
+[data-theme="light"] .hero-static .in {
+  text-shadow: none !important;
 }
 
-[data-theme="light"] .studio-status-pill {
-  background: rgba(255, 255, 255, 0.92) !important;
-  border: 1px solid rgba(20, 36, 32, 0.12) !important;
-  color: #2a403b !important;
+[data-theme="light"] .hero-static h1,
+[data-theme="louis-light"] .hero-static h1 {
+  color: #14302d !important;
+}
+
+[data-theme="light"] .hero-static p,
+[data-theme="louis-light"] .hero-static p {
+  color: #2c423d !important;
+}
+
+[data-theme="light"] .hero-static .kick,
+[data-theme="louis-light"] .hero-static .kick {
+  color: #9e6b28 !important;
+  font-weight: 600 !important;
+}
+
+[data-theme="light"] .hero-static .acts .btn.onvideo,
+[data-theme="louis-light"] .hero-static .acts .btn.onvideo {
+  background: rgba(20, 48, 45, 0.08) !important;
+  border: 1px solid rgba(20, 48, 45, 0.28) !important;
+  color: #14302d !important;
+}
+
+[data-theme="light"] .studio-status-pill,
+[data-theme="louis-light"] .studio-status-pill {
+  background: #ffffff !important;
+  border: 1px solid rgba(20, 48, 45, 0.22) !important;
+  color: #14302d !important;
+  box-shadow: 0 4px 14px rgba(20, 48, 45, 0.08) !important;
+}
+
+[data-theme="light"] .studio-status-pill span,
+[data-theme="louis-light"] .studio-status-pill span {
+  color: #14302d !important;
+  font-weight: 600 !important;
+}
+
+/* Video hero on desktop has dark video background in ALL themes: Keep text pure crisp white with drop shadow */
+.hero .band,
+.hero .band h1,
+.hero .band h2,
+.hero .band p,
+.hero .band .kick,
+.hero .band .split,
+.hero .band .w,
+.hero .band .c,
+[data-theme="light"] .hero .band,
+[data-theme="light"] .hero .band h1,
+[data-theme="light"] .hero .band h2,
+[data-theme="light"] .hero .band p,
+[data-theme="light"] .hero .band .kick,
+[data-theme="light"] .hero .band .split,
+[data-theme="light"] .hero .band .w,
+[data-theme="light"] .hero .band .c,
+[data-theme="louis-light"] .hero .band,
+[data-theme="louis-light"] .hero .band h1,
+[data-theme="louis-light"] .hero .band h2,
+[data-theme="louis-light"] .hero .band p,
+[data-theme="louis-light"] .hero .band .kick,
+[data-theme="louis-light"] .hero .band .split,
+[data-theme="louis-light"] .hero .band .w,
+[data-theme="louis-light"] .hero .band .c {
+  color: #ffffff !important;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85), 0 1px 3px rgba(0, 0, 0, 0.95) !important;
+}
+
+.hero .band .studio-status-pill,
+[data-theme="light"] .hero .band .studio-status-pill,
+[data-theme="louis-light"] .hero .band .studio-status-pill {
+  background: rgba(14, 25, 23, 0.92) !important;
+  border: 1px solid rgba(229, 190, 122, 0.45) !important;
+  color: #f0f7f5 !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45) !important;
+}
+
+.hero .band .studio-status-pill span,
+[data-theme="light"] .hero .band .studio-status-pill span,
+[data-theme="louis-light"] .hero .band .studio-status-pill span {
+  color: #f0f7f5 !important;
+}
+
+/* Dark contrast preservation for dark sections in light mode */
+[data-theme="light"] .doorsec h2,
+[data-theme="light"] .doorsec p,
+[data-theme="light"] .doorsec .kicker,
+[data-theme="light"] .band-sec h2,
+[data-theme="light"] .band-sec p,
+[data-theme="light"] .band-sec .kicker,
+[data-theme="light"] .band-sec h3,
+[data-theme="louis-light"] .doorsec h2,
+[data-theme="louis-light"] .doorsec p,
+[data-theme="louis-light"] .doorsec .kicker,
+[data-theme="louis-light"] .band-sec h2,
+[data-theme="louis-light"] .band-sec p,
+[data-theme="louis-light"] .band-sec .kicker,
+[data-theme="louis-light"] .band-sec h3 {
+  color: #f3efe6 !important;
 }
 
 [data-theme="light"] .btn:not(.ghost):not(.onvideo) {
@@ -2170,6 +2396,101 @@ body[data-theme="light"] {
   }
 }
 
+/* ==========================================================================
+   SCROLL TO TOP BUTTON (Mobile & Desktop)
+   ========================================================================== */
+.scroll-top-btn {
+  position: fixed;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(14, 25, 23, 0.88);
+  border: 1px solid rgba(229, 190, 122, 0.35);
+  color: #e5edea;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 990;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.2s, border-color 0.2s;
+}
 
+.scroll-top-btn.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
 
+.scroll-top-btn:hover {
+  background: rgba(22, 42, 38, 0.96);
+  border-color: rgba(229, 190, 122, 0.7);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
+}
 
+[data-theme="light"] .scroll-top-btn,
+[data-theme="louis-light"] .scroll-top-btn {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border: 1px solid rgba(20, 48, 45, 0.18) !important;
+  color: #14302d !important;
+  box-shadow: 0 6px 20px rgba(20, 48, 45, 0.12) !important;
+}
+
+[data-theme="light"] .scroll-top-btn:hover,
+[data-theme="louis-light"] .scroll-top-btn:hover {
+  background: #ffffff !important;
+  border-color: rgba(161, 116, 54, 0.5) !important;
+  color: #784e1b !important;
+}
+
+/* ==========================================================================
+   STAGGERED ENTRANCE ANIMATIONS (Service Cards & Hero)
+   ========================================================================== */
+@keyframes serviceCardEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.service-card.reveal.in {
+  animation: serviceCardEnter 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.service-grid .service-card:nth-child(1) { animation-delay: 0.05s; }
+.service-grid .service-card:nth-child(2) { animation-delay: 0.15s; }
+.service-grid .service-card:nth-child(3) { animation-delay: 0.25s; }
+.service-grid .service-card:nth-child(4) { animation-delay: 0.35s; }
+
+/* Gentle headline presence fade */
+@keyframes quietPresenceFade {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.hero-static h1,
+.hero .band.b1 h1 {
+  animation: quietPresenceFade 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}

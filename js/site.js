@@ -414,4 +414,44 @@ document.addEventListener('visibilitychange',()=>document.body.classList.toggle(
   upd();
 })();
 
+/* Subtle Scroll-to-Top Button (appears after scrolling down) */
+(function setupScrollToTop() {
+  function initBtn() {
+    if (document.querySelector('.scroll-top-btn')) return;
+    const btn = document.createElement('button');
+    btn.className = 'scroll-top-btn';
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'Scroll back to top');
+    btn.setAttribute('title', 'Scroll to top');
+    btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 15l-6-6-6 6"/></svg>';
+    document.body.appendChild(btn);
+
+    let scrollTicking = false;
+    function checkScroll() {
+      scrollTicking = false;
+      const shouldShow = window.scrollY > 380;
+      btn.classList.toggle('visible', shouldShow);
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!scrollTicking) {
+        scrollTicking = true;
+        requestAnimationFrame(checkScroll);
+      }
+    }, { passive: true });
+    checkScroll();
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBtn);
+  } else {
+    initBtn();
+  }
+})();
+
 
