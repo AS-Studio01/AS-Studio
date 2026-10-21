@@ -106,10 +106,11 @@ async function loadBlob(){
 }
 function failVideo(){stage.classList.add('video-failed');if(ring&&ring.parentNode){const c=document.createElement('span');c.className='cue';c.textContent='Scroll';ring.replaceWith(c)}}
 
-/* live gates, character-for-character identical to the CSS */
-const GATES=['(max-width: 720px)','(orientation: portrait) and (max-width: 1024px)','(orientation: portrait) and (pointer: coarse)','(orientation: landscape) and (pointer: coarse) and (max-height: 560px)','(prefers-reduced-motion: reduce)'];
+/* live gates: Phones and touch devices instantly skip heavy video decoding */
+const GATES=['(max-width: 900px)','(pointer: coarse)','(orientation: portrait) and (max-width: 1024px)','(orientation: landscape) and (pointer: coarse) and (max-height: 560px)','(prefers-reduced-motion: reduce)'];
 let scrubOn=false;
 function enableScrub(){
+  if(GATES.some(q=>matchMedia(q).matches)) return;
   if(scrubOn)return;scrubOn=true;loadStart=performance.now();
   initHeroOnce();addEventListener('scroll',onScroll,{passive:true});
   bands.forEach(b=>{b.op=-1;b.k=-1;b.ks=-1;b.kb=-1});

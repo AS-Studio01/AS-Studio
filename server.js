@@ -409,8 +409,12 @@ app.post("/api/inquiries/notify", handleInquiryNotify);
 // Studio in-memory store & caches for robust admin functionality
 const INQUIRIES_CACHE = [];
 const SETTINGS_CACHE = {
-  fiverrMode: false,
-  fiverrUrl: "",
+  fiverrMode: true,
+  fiverrUrl: "https://www.fiverr.com/s/GPPQm9q",
+  fiverrUsername: "@as_studio01",
+  upworkMode: false,
+  upworkUrl: "https://www.upwork.com/freelancers/~01db1175182843f13a?mp_source=share",
+  upworkAgencyName: "AS Studio Official",
   studioStatus: "available", // 'available' | 'limited' | 'waitlist'
   announcement: {
     enabled: false,
@@ -428,6 +432,18 @@ const SETTINGS_CACHE = {
     telegram: "@AS_Studio_official01"
   }
 };
+
+const SETTINGS_FILE_PATH = path.join(__dirname, "site-settings.json");
+try {
+  if (fs.existsSync(SETTINGS_FILE_PATH)) {
+    const rawSaved = fs.readFileSync(SETTINGS_FILE_PATH, "utf-8");
+    const parsedSaved = JSON.parse(rawSaved);
+    Object.assign(SETTINGS_CACHE, parsedSaved);
+  }
+} catch (err) {
+  console.warn("[Settings Disk Notice] Could not read saved settings:", err.message);
+}
+
 const ADMIN_SESSIONS = new Set();
 
 // Autoresponder templates & configuration for Gmail Dispatcher
@@ -608,6 +624,64 @@ app.get("/api/analytics", (_req, res) => {
   });
 });
 
+// Automated Daily Visitor Statistics CSV Export for Studio Reporting
+app.get("/api/admin/analytics/export-csv", (_req, res) => {
+  const dateStr = new Date().toISOString().slice(0, 10);
+  const nowStr = new Date().toISOString();
+  
+  const DEMO_NAMES = {
+    'studio': 'AS Studio Home Page',
+    'mitti-cafe': 'Mitti Café (Starter $95)',
+    'rao-law': 'Rao & Partners Law (Starter $95)',
+    'vitalcare': 'VitalCare Clinic (Growth $275)',
+    'fold-atelier': 'Fold Atelier (Growth $275)',
+    'apex-residences': 'Apex Residences (Signature $600)',
+    'atelier-north': 'Atelier North (Signature $600)',
+    'delta-os': 'Delta.OS AI Platform (Flagship)'
+  };
+
+  const lines = [
+    `# ===============================================================`,
+    `# AS STUDIO — AUTOMATED DAILY VISITOR & TRAFFIC REPORT`,
+    `# Generated At: ${nowStr}`,
+    `# Date: ${dateStr}`,
+    `# ===============================================================`,
+    ``,
+    `[SUMMARY KPIS]`,
+    `Metric,Value`,
+    `Total Page Views,${ANALYTICS_CACHE.totalViews}`,
+    `Studio Home Views,${ANALYTICS_CACHE.demoViews.studio || 0}`,
+    `Demo Prototype Views,${Object.keys(ANALYTICS_CACHE.demoViews).filter(k => k !== 'studio').reduce((acc, k) => acc + (ANALYTICS_CACHE.demoViews[k] || 0), 0)}`,
+    ``,
+    `[PAGE & DEMO BREAKDOWN]`,
+    `Identifier,Demo / Page Name,Total Views,Traffic Share %`
+  ];
+
+  const total = Math.max(1, ANALYTICS_CACHE.totalViews);
+  Object.keys(ANALYTICS_CACHE.demoViews).forEach(key => {
+    const count = ANALYTICS_CACHE.demoViews[key] || 0;
+    const name = DEMO_NAMES[key] || key;
+    const share = ((count / total) * 100).toFixed(1);
+    lines.push(`"${key}","${name}",${count},"${share}%"`);
+  });
+
+  lines.push(``);
+  lines.push(`[RECENT VISITOR ACTIVITY STREAM]`);
+  lines.push(`Timestamp,Time,Page Path,Demo Key,Page Title,Referrer`);
+
+  ANALYTICS_CACHE.recentViews.forEach(v => {
+    const cleanTime = v.createdAt || nowStr;
+    let timeFormatted = 'Recent';
+    try { timeFormatted = new Date(cleanTime).toLocaleTimeString(); } catch (_) {}
+    lines.push(`"${cleanTime}","${timeFormatted}","${(v.path || '/').replace(/"/g, '""')}","${v.demo || 'studio'}","${(v.title || '').replace(/"/g, '""')}","${(v.referrer || 'direct').replace(/"/g, '""')}"`);
+  });
+
+  const csv = lines.join("\n");
+  res.setHeader("Content-Type", "text/csv; charset=utf-8");
+  res.setHeader("Content-Disposition", `attachment; filename="as_studio_daily_visitor_report_${dateStr}.csv"`);
+  return res.send(csv);
+});
+
 // Admin session is handled directly via Firebase Auth verified email
 app.get("/api/admin/session", (_req, res) => {
   return res.json({ valid: false });
@@ -690,7 +764,11 @@ app.get("/api/admin/inquiries/export", (_req, res) => {
 app.get("/api/site-settings", (_req, res) => {
   return res.json({
     fiverrMode: !!SETTINGS_CACHE.fiverrMode,
-    fiverrUrl: SETTINGS_CACHE.fiverrUrl || "",
+    fiverrUrl: SETTINGS_CACHE.fiverrUrl || "https://www.fiverr.com/s/GPPQm9q",
+    fiverrUsername: SETTINGS_CACHE.fiverrUsername || "@as_studio01",
+    upworkMode: !!SETTINGS_CACHE.upworkMode,
+    upworkUrl: SETTINGS_CACHE.upworkUrl || "https://www.upwork.com/freelancers/~01db1175182843f13a?mp_source=share",
+    upworkAgencyName: SETTINGS_CACHE.upworkAgencyName || "AS Studio Official",
     studioStatus: SETTINGS_CACHE.studioStatus || "available",
     announcement: SETTINGS_CACHE.announcement || { enabled: false, text: "", link: "" }
   });
@@ -702,10 +780,27 @@ app.get("/api/admin/settings", (_req, res) => {
 });
 
 app.post("/api/admin/settings", (req, res) => {
-  const { fiverrMode, fiverrUrl, studioStatus, announcement, prices, contact } = req.body || {};
+  const {
+    fiverrMode,
+    fiverrUrl,
+    fiverrUsername,
+    upworkMode,
+    upworkUrl,
+    upworkAgencyName,
+    studioStatus,
+    announcement,
+    prices,
+    contact
+  } = req.body || {};
+
   if (typeof fiverrMode === "boolean") SETTINGS_CACHE.fiverrMode = fiverrMode;
   if (typeof fiverrUrl === "string") SETTINGS_CACHE.fiverrUrl = fiverrUrl.trim();
+  if (typeof fiverrUsername === "string") SETTINGS_CACHE.fiverrUsername = fiverrUsername.trim();
+  if (typeof upworkMode === "boolean") SETTINGS_CACHE.upworkMode = upworkMode;
+  if (typeof upworkUrl === "string") SETTINGS_CACHE.upworkUrl = upworkUrl.trim();
+  if (typeof upworkAgencyName === "string") SETTINGS_CACHE.upworkAgencyName = upworkAgencyName.trim();
   if (typeof studioStatus === "string") SETTINGS_CACHE.studioStatus = studioStatus;
+
   if (announcement && typeof announcement === "object") {
     SETTINGS_CACHE.announcement = {
       enabled: !!announcement.enabled,
@@ -727,6 +822,14 @@ app.post("/api/admin/settings", (req, res) => {
       telegram: contact.telegram || "@AS_Studio_official01"
     };
   }
+
+  // Persist to local disk so settings never revert on reboot or refresh
+  try {
+    fs.writeFileSync(SETTINGS_FILE_PATH, JSON.stringify(SETTINGS_CACHE, null, 2), "utf-8");
+  } catch (err) {
+    console.warn("[Settings Disk Notice] Could not persist to disk:", err.message);
+  }
+
   return res.json({ success: true, settings: SETTINGS_CACHE });
 });
 

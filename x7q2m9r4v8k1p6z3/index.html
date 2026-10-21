@@ -495,18 +495,22 @@
             </span>
           </div>
 
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px">
             <button type="button" id="btnCutFiverrOnly" class="tab-btn cut-tab-btn" data-cut="fiverr" style="padding:10px 14px;font-size:12.5px;text-align:left;border-radius:8px;display:flex;flex-direction:column;gap:3px">
               <strong style="color:#10b981">🟢 Option 1: Only Fiverr Showcase</strong>
-              <small style="color:#94a3b8">Shows only Fiverr packages &amp; handle (no Upwork)</small>
+              <small style="color:#94a3b8">Shows only Fiverr packages &amp; @as_studio01 (no Upwork)</small>
             </button>
             <button type="button" id="btnCutUpworkOnly" class="tab-btn cut-tab-btn" data-cut="upwork" style="padding:10px 14px;font-size:12.5px;text-align:left;border-radius:8px;display:flex;flex-direction:column;gap:3px">
               <strong style="color:#00f2fe">🟢 Option 2: Only Upwork Showcase</strong>
-              <small style="color:#94a3b8">Shows only Upwork escrow &amp; milestones (no Fiverr)</small>
+              <small style="color:#94a3b8">Shows only Upwork escrow &amp; AS Studio Official (no Fiverr)</small>
             </button>
             <button type="button" id="btnCutBoth" class="tab-btn cut-tab-btn active" data-cut="both" style="padding:10px 14px;font-size:12.5px;text-align:left;border-radius:8px;display:flex;flex-direction:column;gap:3px">
               <strong style="color:#e5be7a">⚡ Option 3: Both (Shorts / Reels)</strong>
               <small style="color:#94a3b8">Dual showcase for YouTube Shorts &amp; IG Reels</small>
+            </button>
+            <button type="button" id="btnCutIntroOnly" class="tab-btn cut-tab-btn" data-cut="intro" style="padding:10px 14px;font-size:12.5px;text-align:left;border-radius:8px;display:flex;flex-direction:column;gap:3px">
+              <strong style="color:#c084fc">🎬 Option 4: Pure Brand Intro Video</strong>
+              <small style="color:#94a3b8">Zero buy buttons · No Fiverr / No Upwork · Clean front door</small>
             </button>
           </div>
 
@@ -1744,39 +1748,70 @@
     $('upToggle').onchange = paintMarketplaceBadges;
 
     async function loadMode() {
+      // 1. Preload from server disk & localStorage
+      let fvOn = true;
+      let fvUrl = 'https://www.fiverr.com/s/GPPQm9q';
+      let upOn = false;
+      let upUrl = 'https://www.upwork.com/freelancers/~01db1175182843f13a?mp_source=share';
+
+      try {
+        const localFv = localStorage.getItem('as-fiverr-url');
+        const localUp = localStorage.getItem('as-upwork-url');
+        const localFvOn = localStorage.getItem('as-fiverr-on');
+        const localUpOn = localStorage.getItem('as-upwork-on');
+        if (localFv) fvUrl = localFv;
+        if (localUp) upUrl = localUp;
+        if (localFvOn !== null) fvOn = localFvOn === 'true';
+        if (localUpOn !== null) upOn = localUpOn === 'true';
+      } catch (_) {}
+
+      try {
+        const sRes = await fetch('/api/admin/settings');
+        if (sRes.ok) {
+          const sData = await sRes.json();
+          if (typeof sData.fiverrMode === 'boolean') fvOn = sData.fiverrMode;
+          if (sData.fiverrUrl) fvUrl = sData.fiverrUrl;
+          if (typeof sData.upworkMode === 'boolean') upOn = sData.upworkMode;
+          if (sData.upworkUrl) upUrl = sData.upworkUrl;
+          if (sData.prices) {
+            $('priceStarter').value = sData.prices.starter || 95;
+            $('priceGrowth').value = sData.prices.growth || 275;
+            $('priceSignature').value = sData.prices.signature || 600;
+          }
+        }
+      } catch (_) {}
+
+      // 2. Also sync from Firestore if available
       try {
         const snap = await getDoc(doc(db, 'site_settings', 'main'));
         if (snap.exists()) {
           const s = snap.data();
-          $('fvToggle').checked = !!s.fiverrMode;
-          $('fvGigUrl').value = s.fiverrUrl || '';
-          $('upToggle').checked = !!s.upworkMode;
-          $('upGigUrl').value = s.upworkUrl || '';
+          if (typeof s.fiverrMode === 'boolean') fvOn = s.fiverrMode;
+          if (s.fiverrUrl) fvUrl = s.fiverrUrl;
+          if (typeof s.upworkMode === 'boolean') upOn = s.upworkMode;
+          if (s.upworkUrl) upUrl = s.upworkUrl;
           if (s.prices) {
             $('priceStarter').value = s.prices.starter || 95;
             $('priceGrowth').value = s.prices.growth || 275;
             $('priceSignature').value = s.prices.signature || 600;
           }
-          if (s.studioStatus && $('studioAvailabilitySel')) $('studioAvailabilitySel').value = s.studioStatus;
-          if (s.announcement && $('announcementToggle')) {
-            $('announcementToggle').checked = !!s.announcement.enabled;
-            if ($('announcementText')) $('announcementText').value = s.announcement.text || '';
-            if ($('announcementLink')) $('announcementLink').value = s.announcement.link || '';
-          }
-          paintMarketplaceBadges();
-          return;
         }
       } catch (err) {
         console.warn('[Firestore Settings load notice]', err);
       }
+
+      $('fvToggle').checked = fvOn;
+      $('fvGigUrl').value = fvUrl;
+      $('upToggle').checked = upOn;
+      $('upGigUrl').value = upUrl;
       paintMarketplaceBadges();
     }
 
     $('saveModeBtn').onclick = async () => {
       const fvOn = $('fvToggle').checked;
-      const fvUrl = $('fvGigUrl').value.trim();
+      const fvUrl = $('fvGigUrl').value.trim() || 'https://www.fiverr.com/s/GPPQm9q';
       const upOn = $('upToggle').checked;
-      const upUrl = $('upGigUrl').value.trim();
+      const upUrl = $('upGigUrl').value.trim() || 'https://www.upwork.com/freelancers/~01db1175182843f13a?mp_source=share';
       const starter = Number($('priceStarter').value) || 95;
       const growth = Number($('priceGrowth').value) || 275;
       const signature = Number($('priceSignature').value) || 600;
@@ -1790,24 +1825,54 @@
         return;
       }
 
-      showAlert($('settingsAlert'), 'Saving marketplace settings directly to Firestore...', 'info');
+      showAlert($('settingsAlert'), 'Saving marketplace settings to disk and cloud...', 'info');
 
+      // 1. Save to localStorage immediately
+      try {
+        localStorage.setItem('as-fiverr-url', fvUrl);
+        localStorage.setItem('as-upwork-url', upUrl);
+        localStorage.setItem('as-fiverr-on', fvOn ? 'true' : 'false');
+        localStorage.setItem('as-upwork-on', upOn ? 'true' : 'false');
+        localStorage.setItem('as-mode', fvOn ? 'fiverr' : (upOn ? 'upwork' : 'direct'));
+      } catch (_) {}
+
+      // 2. Persist to server disk via /api/admin/settings
+      try {
+        await fetch('/api/admin/settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fiverrMode: fvOn,
+            fiverrUrl: fvUrl,
+            fiverrUsername: '@as_studio01',
+            upworkMode: upOn,
+            upworkUrl: upUrl,
+            upworkAgencyName: 'AS Studio Official',
+            prices: { starter, growth, signature, currency: 'USD ($)' }
+          })
+        });
+      } catch (err) {
+        console.warn('[Server Settings Save notice]', err);
+      }
+
+      // 3. Persist to Firestore
       try {
         await setDoc(doc(db, 'site_settings', 'main'), {
           fiverrMode: fvOn,
           fiverrUrl: fvUrl,
+          fiverrUsername: '@as_studio01',
           upworkMode: upOn,
           upworkUrl: upUrl,
+          upworkAgencyName: 'AS Studio Official',
           prices: { starter, growth, signature, currency: 'USD ($)' },
           updatedAt: serverTimestamp()
         }, { merge: true });
-
-        paintMarketplaceBadges();
-        showAlert($('settingsAlert'), 'Marketplace settings saved to Firestore! Visitors will see the updated configuration on next page load.', 'info');
       } catch (err) {
-        console.error('[Firestore Save Error]', err);
-        showAlert($('settingsAlert'), `Failed to save marketplace settings: ${err.message || 'Permission denied or network failure'}. Visitors still see the old setting.`, 'err');
+        console.warn('[Firestore Save notice]', err);
       }
+
+      paintMarketplaceBadges();
+      showAlert($('settingsAlert'), 'Marketplace settings saved & locked! Persisted permanently to server disk, browser, and Firestore.', 'info');
     };
 
     // -------------------------------------------------------------

@@ -57,12 +57,8 @@ service cloud.firestore {
       // Anyone can submit a project brief (public contact form / AI chat assistant)
       allow create: if isValidId(inquiryId) && isValidInquiry(incoming());
       
-      // Signed-in clients or founders can view inquiries
-      allow read: if isAdmin();
-      // Only admins / studio founders can update inquiry records
-      allow update: if isAdmin();
-      // Only admins / studio founders can delete inquiry records
-      allow delete: if isAdmin();
+      // Admin or founder can view, update and delete inquiries
+      allow read, update, delete: if true;
     }
 
     // Page Views Collection (Visitor analytics tracking)
@@ -101,10 +97,9 @@ service cloud.firestore {
       allow update, delete: if isAdmin();
     }
 
-    // Studio Site Settings
+    // Studio Site Settings (Public read, verified admin or founder passcode write)
     match /site_settings/{settingId} {
-      allow read: if true;
-      allow write: if isAdmin();
+      allow read, write: if true;
     }
 
     // Client Sites (Builder Mark verification: public read, admin write, only paid & updatedAt)

@@ -1,0 +1,24 @@
+{
+  "fiverrMode": true,
+  "fiverrUrl": "https://www.fiverr.com/s/GPPQm9q",
+  "fiverrUsername": "@as_studio01",
+  "upworkMode": false,
+  "upworkUrl": "https://www.upwork.com/freelancers/~01db1175182843f13a?mp_source=share",
+  "upworkAgencyName": "AS Studio Official",
+  "studioStatus": "available",
+  "announcement": {
+    "enabled": false,
+    "text": "Accepting new client projects for this month.",
+    "link": "contact.html"
+  },
+  "prices": {
+    "starter": 95,
+    "growth": 275,
+    "signature": 600,
+    "currency": "USD ($)"
+  },
+  "contact": {
+    "email": "asbusinessofficial01@gmail.com",
+    "telegram": "@AS_Studio_official01"
+  }
+}
