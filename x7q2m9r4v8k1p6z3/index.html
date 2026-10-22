@@ -538,12 +538,30 @@
             </div>
             <div style="position:relative;background:#000;border-radius:12px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.6)">
               <canvas id="adCanvasModal" width="1280" height="720" style="width:100%;height:auto;display:block;aspect-ratio:16/9;background:#060b0a"></canvas>
+              
+              <!-- Modal Live Caption Overlay -->
+              <div id="modalVideoCaptionOverlay" style="position:absolute;bottom:20px;left:20px;right:20px;pointer-events:none;z-index:10;display:flex;justify-content:center;transition:opacity 0.25s ease,transform 0.25s ease">
+                <div style="background:rgba(6,14,13,0.92);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid rgba(229,190,122,0.45);box-shadow:0 12px 36px rgba(0,0,0,0.7),inset 0 1px 0 rgba(255,255,255,0.15);border-radius:14px;padding:10px 20px;display:flex;align-items:center;gap:14px;max-width:92%;pointer-events:auto">
+                  <span id="modalCaptionSceneTag" class="badge" style="background:#163530;color:#5eead4;border-color:#2a5750;font-family:var(--mono);font-size:11px;font-weight:700;white-space:nowrap">
+                    01 · BRAND HOOK
+                  </span>
+                  <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                    <span id="modalCaptionLeadText" style="font-size:13.5px;font-weight:700;color:#ffffff;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+                      Websites with quiet presence &amp; sub-second speed.
+                    </span>
+                    <span id="modalCaptionDetailText" style="font-size:11.5px;color:#cbd5e1;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+                      High-converting, phone-first websites built for client trust · Handcrafted code, zero builders.
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
               <div style="display:flex;gap:10px;align-items:center">
                 <button id="btnModalPlayPause" type="button" style="padding:8px 18px;font-size:13px;border-radius:8px">⏸ Pause</button>
                 <button id="btnModalRestart" type="button" class="ghost" style="padding:8px 14px;font-size:13px">🔄 Restart</button>
-                <span id="modalTimeDisplay" style="font-family:var(--mono);font-size:12.5px;color:#c0ded9">00:00 / 00:25</span>
+                <button id="btnModalToggleCaptions" type="button" class="ghost" style="padding:8px 14px;font-size:13px" title="Toggle Promotional Caption Overlay">💬 Captions: On</button>
+                <span id="modalTimeDisplay" style="font-family:var(--mono);font-size:12.5px;color:#c0ded9">00:00 / 00:30</span>
               </div>
               <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
                 <select id="modalCutSelect" style="padding:8px 12px;font-size:12.5px;background:#0b1d1a;color:#e5be7a;border:1px solid #1a3832;border-radius:8px;font-weight:600">
@@ -629,14 +647,16 @@
                 </label>
                 <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">
                   <button type="button" class="tab-btn poster-scene-btn" data-time="current" style="padding:5px 9px;font-size:11.5px;background:#163530;color:#5eead4;border-color:#2a5750">📍 Current Canvas Frame</button>
-                  <button type="button" class="tab-btn poster-scene-btn" data-time="2.5" style="padding:5px 9px;font-size:11.5px">01 · Intro (2.5s)</button>
-                  <button type="button" class="tab-btn poster-scene-btn" data-time="7.5" style="padding:5px 9px;font-size:11.5px">02 · VitalCare &amp; Fold (7.5s)</button>
-                  <button type="button" class="tab-btn poster-scene-btn" data-time="12.5" style="padding:5px 9px;font-size:11.5px">03 · Delta.OS AI (12.5s)</button>
-                  <button type="button" class="tab-btn poster-scene-btn" data-time="17.5" style="padding:5px 9px;font-size:11.5px">04 · Lighthouse 100 (17.5s)</button>
-                  <button type="button" class="tab-btn poster-scene-btn" data-time="22.5" style="padding:5px 9px;font-size:11.5px">05 · Pricing CTA (22.5s)</button>
+                  <button type="button" class="tab-btn poster-scene-btn" data-time="2.2" style="padding:5px 9px;font-size:11.5px">01 · Hook (2.2s)</button>
+                  <button type="button" class="tab-btn poster-scene-btn" data-time="6.8" style="padding:5px 9px;font-size:11.5px">02 · VitalCare &amp; Mitti (6.8s)</button>
+                  <button type="button" class="tab-btn poster-scene-btn" data-time="11.2" style="padding:5px 9px;font-size:11.5px">03 · Fold &amp; Atelier (11.2s)</button>
+                  <button type="button" class="tab-btn poster-scene-btn" data-time="15.8" style="padding:5px 9px;font-size:11.5px">04 · Apex &amp; Rao (15.8s)</button>
+                  <button type="button" class="tab-btn poster-scene-btn" data-time="20.2" style="padding:5px 9px;font-size:11.5px">05 · Delta.OS AI (20.2s)</button>
+                  <button type="button" class="tab-btn poster-scene-btn" data-time="24.8" style="padding:5px 9px;font-size:11.5px">06 · Packages (24.8s)</button>
+                  <button type="button" class="tab-btn poster-scene-btn" data-time="28.5" style="padding:5px 9px;font-size:11.5px">07 · Order CTA (28.5s)</button>
                 </div>
                 <div style="display:flex;align-items:center;gap:10px">
-                  <input id="posterTimeSlider" type="range" min="0" max="25" step="0.1" value="0" style="flex:1;accent-color:#e5be7a;cursor:pointer">
+                  <input id="posterTimeSlider" type="range" min="0" max="30" step="0.1" value="0" style="flex:1;accent-color:#e5be7a;cursor:pointer">
                   <span id="posterSliderVal" style="font-family:var(--mono);font-size:12px;color:#c0ded9;white-space:nowrap">00:00.0s</span>
                 </div>
               </div>
@@ -679,6 +699,23 @@
         <div style="position:relative;background:#060b0a;border-radius:14px;overflow:hidden;border:1px solid #233935;box-shadow:0 18px 45px rgba(0,0,0,0.5)">
           <canvas id="adCanvas" width="1280" height="720" style="width:100%;height:auto;display:block;aspect-ratio:16/9;background:#08100f"></canvas>
           
+          <!-- Live Promotional Caption Overlay Badge / Pill -->
+          <div id="adVideoCaptionOverlay" style="position:absolute;bottom:20px;left:20px;right:20px;pointer-events:none;z-index:10;display:flex;justify-content:center;transition:opacity 0.25s ease,transform 0.25s ease">
+            <div style="background:rgba(6,14,13,0.92);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid rgba(229,190,122,0.45);box-shadow:0 12px 36px rgba(0,0,0,0.7),inset 0 1px 0 rgba(255,255,255,0.15);border-radius:14px;padding:10px 20px;display:flex;align-items:center;gap:14px;max-width:92%;pointer-events:auto">
+              <span id="captionSceneTag" class="badge" style="background:#163530;color:#5eead4;border-color:#2a5750;font-family:var(--mono);font-size:11px;font-weight:700;white-space:nowrap">
+                01 · BRAND HOOK
+              </span>
+              <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                <span id="captionLeadText" style="font-size:13.5px;font-weight:700;color:#ffffff;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+                  Websites with quiet presence &amp; sub-second speed.
+                </span>
+                <span id="captionDetailText" style="font-size:11.5px;color:#cbd5e1;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+                  High-converting, phone-first websites built for client trust · Handcrafted code, zero builders.
+                </span>
+              </div>
+            </div>
+          </div>
+
           <!-- Player Overlay Controls -->
           <div style="padding:14px 18px;background:rgba(8,16,15,0.96);border-top:1px solid #1a2f2b;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
             <button id="btnPlayPauseVideo" type="button" style="padding:8px 16px;font-size:13px;border-radius:8px">
@@ -690,9 +727,14 @@
             
             <!-- Timeline scrubber -->
             <div style="flex:1;min-width:180px;display:flex;align-items:center;gap:10px">
-              <input id="videoScrubber" type="range" min="0" max="25" step="0.1" value="0" style="flex:1;accent-color:var(--accent);cursor:pointer">
-              <span id="videoTimeDisplay" style="font-family:var(--mono);font-size:12px;color:#c0ded9;white-space:nowrap">00:00 / 00:25</span>
+              <input id="videoScrubber" type="range" min="0" max="30" step="0.1" value="0" style="flex:1;accent-color:var(--accent);cursor:pointer">
+              <span id="videoTimeDisplay" style="font-family:var(--mono);font-size:12px;color:#c0ded9;white-space:nowrap">00:00 / 00:30</span>
             </div>
+
+            <!-- Promotional Captions toggle -->
+            <button id="btnToggleCaptions" type="button" class="ghost" style="padding:7px 12px;font-size:12.5px" title="Toggle Promotional Caption Overlay">
+              💬 Captions: On
+            </button>
 
             <!-- Audio synth toggle -->
             <button id="btnToggleAudio" type="button" class="ghost" style="padding:7px 12px;font-size:12.5px" title="Ambient beat synthesizer">
@@ -716,10 +758,12 @@
             <strong style="font-size:13px;display:block;margin-bottom:8px">Jump to Scene in Showcase:</strong>
             <div style="display:flex;flex-wrap:wrap;gap:6px">
               <button type="button" class="tab-btn scene-jump-btn active" data-time="0" style="padding:5px 10px;font-size:12px">01 · Hook &amp; Intro</button>
-              <button type="button" class="tab-btn scene-jump-btn" data-time="5" style="padding:5px 10px;font-size:12px">02 · VitalCare &amp; Fold</button>
-              <button type="button" class="tab-btn scene-jump-btn" data-time="10" style="padding:5px 10px;font-size:12px">03 · Delta.OS AI</button>
-              <button type="button" class="tab-btn scene-jump-btn" data-time="15" style="padding:5px 10px;font-size:12px">04 · Lighthouse 100</button>
-              <button type="button" class="tab-btn scene-jump-btn" data-time="20" style="padding:5px 10px;font-size:12px">05 · Pricing &amp; Order CTA</button>
+              <button type="button" class="tab-btn scene-jump-btn" data-time="4.5" style="padding:5px 10px;font-size:12px">02 · VitalCare &amp; Mitti</button>
+              <button type="button" class="tab-btn scene-jump-btn" data-time="9" style="padding:5px 10px;font-size:12px">03 · Fold &amp; Atelier</button>
+              <button type="button" class="tab-btn scene-jump-btn" data-time="13.5" style="padding:5px 10px;font-size:12px">04 · Apex &amp; Rao</button>
+              <button type="button" class="tab-btn scene-jump-btn" data-time="18" style="padding:5px 10px;font-size:12px">05 · Delta.OS &amp; Speed</button>
+              <button type="button" class="tab-btn scene-jump-btn" data-time="22.5" style="padding:5px 10px;font-size:12px">06 · Packages &amp; Pricing</button>
+              <button type="button" class="tab-btn scene-jump-btn" data-time="27" style="padding:5px 10px;font-size:12px">07 · Order CTA</button>
             </div>
           </div>
 
@@ -897,20 +941,20 @@
               Configure independent marketplace links for Fiverr and Upwork, or turn both off for direct client inquiries with no public prices.
             </p>
           </div>
-          <span id="marketplacesBadge" class="badge">Direct Mode</span>
+          <span id="marketplacesBadge" class="badge warn">Fiverr Active</span>
         </div>
 
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)">
           <!-- Fiverr Switch & Link -->
           <div style="background:#fcfbf8;border:1px solid var(--line);border-radius:8px;padding:14px">
             <div class="switch" style="margin-bottom:10px">
-              <input id="fvToggle" type="checkbox" role="switch" aria-label="Toggle Fiverr marketplace">
+              <input id="fvToggle" type="checkbox" role="switch" aria-label="Toggle Fiverr marketplace" checked>
               <label for="fvToggle" style="font-weight:600;cursor:pointer">
                 <span>Fiverr orders active</span>
               </label>
             </div>
             <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px" for="fvGigUrl">Fiverr Gig or Profile URL</label>
-            <input id="fvGigUrl" type="url" placeholder="https://www.fiverr.com/your-username" style="width:100%;padding:8px 10px;font-size:13px">
+            <input id="fvGigUrl" type="url" value="https://www.fiverr.com/s/GPPQm9q" placeholder="https://www.fiverr.com/s/GPPQm9q" style="width:100%;padding:8px 10px;font-size:13px">
             <span style="font-size:11.5px;color:var(--muted);display:block;margin-top:4px">Must start with https://www.fiverr.com/ or https://fiverr.com/</span>
           </div>
 
@@ -923,7 +967,7 @@
               </label>
             </div>
             <label style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px" for="upGigUrl">Upwork Profile or Agency URL</label>
-            <input id="upGigUrl" type="url" placeholder="https://www.upwork.com/freelancers/your-id" style="width:100%;padding:8px 10px;font-size:13px">
+            <input id="upGigUrl" type="url" value="https://www.upwork.com/freelancers/~01db1175182843f13a?mp_source=share" placeholder="https://www.upwork.com/freelancers/~01db1175182843f13a?mp_source=share" style="width:100%;padding:8px 10px;font-size:13px">
             <span style="font-size:11.5px;color:var(--muted);display:block;margin-top:4px">Must start with https://www.upwork.com/freelancers/ or https://www.upwork.com/agencies/</span>
           </div>
         </div>
@@ -1766,8 +1810,16 @@
         if (localUpOn !== null) upOn = localUpOn === 'true';
       } catch (_) {}
 
+      // Apply initial state to DOM immediately so inputs are never blank
+      if ($('fvToggle')) $('fvToggle').checked = fvOn;
+      if ($('fvGigUrl')) $('fvGigUrl').value = fvUrl;
+      if ($('upToggle')) $('upToggle').checked = upOn;
+      if ($('upGigUrl')) $('upGigUrl').value = upUrl;
+      paintMarketplaceBadges();
+
+      // 2. Fetch authoritative settings from server disk (/api/admin/settings)
       try {
-        const sRes = await fetch('/api/admin/settings');
+        const sRes = await fetch('/api/admin/settings', { cache: 'no-store' });
         if (sRes.ok) {
           const sData = await sRes.json();
           if (typeof sData.fiverrMode === 'boolean') fvOn = sData.fiverrMode;
@@ -1775,9 +1827,9 @@
           if (typeof sData.upworkMode === 'boolean') upOn = sData.upworkMode;
           if (sData.upworkUrl) upUrl = sData.upworkUrl;
           if (sData.prices) {
-            $('priceStarter').value = sData.prices.starter || 95;
-            $('priceGrowth').value = sData.prices.growth || 275;
-            $('priceSignature').value = sData.prices.signature || 600;
+            if ($('priceStarter')) $('priceStarter').value = sData.prices.starter || 95;
+            if ($('priceGrowth')) $('priceGrowth').value = sData.prices.growth || 275;
+            if ($('priceSignature')) $('priceSignature').value = sData.prices.signature || 600;
           }
           if (sData.studioStatus && $('studioAvailabilitySel')) {
             $('studioAvailabilitySel').value = sData.studioStatus;
@@ -1787,22 +1839,27 @@
             if ($('announcementText')) $('announcementText').value = sData.announcement.text || '';
             if ($('announcementLink')) $('announcementLink').value = sData.announcement.link || '';
           }
+          if ($('fvToggle')) $('fvToggle').checked = fvOn;
+          if ($('fvGigUrl')) $('fvGigUrl').value = fvUrl;
+          if ($('upToggle')) $('upToggle').checked = upOn;
+          if ($('upGigUrl')) $('upGigUrl').value = upUrl;
+          paintMarketplaceBadges();
         }
       } catch (_) {}
 
-      // 2. Also sync from Firestore if available
+      // 3. Also sync from Firestore if available
       try {
         const snap = await getDoc(doc(db, 'site_settings', 'main'));
-        if (snap.exists()) {
+        if (snap && snap.exists()) {
           const s = snap.data();
           if (typeof s.fiverrMode === 'boolean') fvOn = s.fiverrMode;
           if (s.fiverrUrl) fvUrl = s.fiverrUrl;
           if (typeof s.upworkMode === 'boolean') upOn = s.upworkMode;
           if (s.upworkUrl) upUrl = s.upworkUrl;
           if (s.prices) {
-            $('priceStarter').value = s.prices.starter || 95;
-            $('priceGrowth').value = s.prices.growth || 275;
-            $('priceSignature').value = s.prices.signature || 600;
+            if ($('priceStarter')) $('priceStarter').value = s.prices.starter || 95;
+            if ($('priceGrowth')) $('priceGrowth').value = s.prices.growth || 275;
+            if ($('priceSignature')) $('priceSignature').value = s.prices.signature || 600;
           }
           if (s.studioStatus && $('studioAvailabilitySel')) {
             $('studioAvailabilitySel').value = s.studioStatus;
@@ -1812,16 +1869,15 @@
             if ($('announcementText')) $('announcementText').value = s.announcement.text || '';
             if ($('announcementLink')) $('announcementLink').value = s.announcement.link || '';
           }
+          if ($('fvToggle')) $('fvToggle').checked = fvOn;
+          if ($('fvGigUrl')) $('fvGigUrl').value = fvUrl;
+          if ($('upToggle')) $('upToggle').checked = upOn;
+          if ($('upGigUrl')) $('upGigUrl').value = upUrl;
+          paintMarketplaceBadges();
         }
       } catch (err) {
         console.warn('[Firestore Settings load notice]', err);
       }
-
-      $('fvToggle').checked = fvOn;
-      $('fvGigUrl').value = fvUrl;
-      $('upToggle').checked = upOn;
-      $('upGigUrl').value = upUrl;
-      paintMarketplaceBadges();
     }
 
     $('saveModeBtn').onclick = async () => {
@@ -1829,10 +1885,15 @@
       const fvUrl = $('fvGigUrl').value.trim() || 'https://www.fiverr.com/s/GPPQm9q';
       const upOn = $('upToggle').checked;
       const upUrl = $('upGigUrl').value.trim() || 'https://www.upwork.com/freelancers/~01db1175182843f13a?mp_source=share';
-      const starter = Number($('priceStarter').value) || 95;
-      const growth = Number($('priceGrowth').value) || 275;
-      const signature = Number($('priceSignature').value) || 600;
+      const starter = Number($('priceStarter') ? $('priceStarter').value : 95) || 95;
+      const growth = Number($('priceGrowth') ? $('priceGrowth').value : 275) || 275;
+      const signature = Number($('priceSignature') ? $('priceSignature').value : 600) || 600;
       const studioStatus = $('studioAvailabilitySel') ? $('studioAvailabilitySel').value : 'available';
+      const announcement = {
+        enabled: $('announcementToggle') ? $('announcementToggle').checked : false,
+        text: $('announcementText') ? $('announcementText').value.trim() : 'Accepting new client projects for this month.',
+        link: $('announcementLink') ? $('announcementLink').value.trim() : 'contact.html'
+      };
 
       if (fvOn && !validateFiverrUrl(fvUrl)) {
         showAlert($('settingsAlert'), 'To turn Fiverr on, enter a valid Fiverr link starting with https://www.fiverr.com/ or https://fiverr.com/', 'warn');
@@ -1867,6 +1928,7 @@
             upworkUrl: upUrl,
             upworkAgencyName: 'AS Studio Official',
             studioStatus: studioStatus,
+            announcement: announcement,
             prices: { starter, growth, signature, currency: 'USD ($)' }
           })
         });
@@ -1884,6 +1946,7 @@
           upworkUrl: upUrl,
           upworkAgencyName: 'AS Studio Official',
           studioStatus: studioStatus,
+          announcement: announcement,
           prices: { starter, growth, signature, currency: 'USD ($)' },
           updatedAt: serverTimestamp()
         }, { merge: true });
@@ -1891,8 +1954,16 @@
         console.warn('[Firestore Save notice]', err);
       }
 
+      // 4. Dispatch storage event for any open client window / tab
+      try {
+        window.dispatchEvent(new StorageEvent('storage', {
+          key: 'as-fiverr-on',
+          newValue: fvOn ? 'true' : 'false'
+        }));
+      } catch (_) {}
+
       paintMarketplaceBadges();
-      showAlert($('settingsAlert'), 'Marketplace settings saved & locked! Persisted permanently to server disk, browser, and Firestore.', 'info');
+      showAlert($('settingsAlert'), 'Marketplace settings saved & locked! Client site links, admin panel, server, and Firestore are in 100% sync.', 'info');
     };
 
     // -------------------------------------------------------------
@@ -2456,12 +2527,107 @@
     let adCanvas, adCtx;
     let videoIsPlaying = true;
     let videoCurrentTime = 0;
-    const VIDEO_DURATION = 25; // 25 seconds
+    const VIDEO_DURATION = 30; // 30 seconds showcase
     let lastAnimTime = 0;
     let audioContext = null;
     let audioDestination = null;
     let audioMasterGain = null;
     let audioSynthEnabled = true;
+    let captionsEnabled = true;
+
+    // Synchronized Promotional Scene Captions Engine
+    const PROMOTIONAL_SCENES = [
+      {
+        start: 0,
+        end: 4.5,
+        tag: '01 · BRAND HOOK',
+        lead: 'Websites with quiet presence & sub-second speed.',
+        detail: 'Handcrafted code, zero page builders, bespoke typography that wins high-ticket clients.',
+        works: 'AS Studio Flagship'
+      },
+      {
+        start: 4.5,
+        end: 9.0,
+        tag: '02 · CLINIC & ROASTERY',
+        lead: 'VitalCare Multispecialty Clinic & Mitti Café Roastery',
+        detail: 'Dynamic patient triage appointment engines & artisanal coffee tasting menus built for phones first.',
+        works: 'VitalCare Clinic · Mitti Café'
+      },
+      {
+        start: 9.0,
+        end: 13.5,
+        tag: '03 · FASHION & ARCHITECTURE',
+        lead: 'Fold Atelier Fashion & Atelier North Architecture',
+        detail: 'Tactile editorial linen catalog with quick-view drawers & serene architectural spatial layouts.',
+        works: 'Fold Atelier · Atelier North'
+      },
+      {
+        start: 13.5,
+        end: 18.0,
+        tag: '04 · REAL ESTATE & LAW',
+        lead: 'Apex Residences Luxury Homes & Rao Corporate Law',
+        detail: 'High-ticket penthouse floorplan selectors & trusted partner credentials designed for instant authority.',
+        works: 'Apex Residences · Rao & Partners'
+      },
+      {
+        start: 18.0,
+        end: 22.5,
+        tag: '05 · AI TELEMETRY & 100 SPEED',
+        lead: 'Delta.OS AI Platform & Guaranteed Lighthouse 100',
+        detail: 'Sub-millisecond data mesh visualizations and 100/100 performance scores across every single metric.',
+        works: 'Delta.OS AI · Lighthouse Benchmark'
+      },
+      {
+        start: 22.5,
+        end: 27.0,
+        tag: '06 · CLEAR PACKAGES',
+        lead: 'Three transparent packages from $95. Delivered in 3 to 7 days.',
+        detail: 'Starter ($95), Growth ($275), Signature ($600). Full source code ownership included with every tier.',
+        works: 'Starter · Growth · Signature'
+      },
+      {
+        start: 27.0,
+        end: 30.0,
+        tag: '07 · SECURE ORDER CTA',
+        lead: 'Order safely on Fiverr or hire with Upwork Escrow protection.',
+        detail: 'Zero financial risk, escrow milestone releases, 30 days of post-launch fixes included.',
+        works: 'Fiverr & Upwork Verified'
+      }
+    ];
+
+    function getCurrentSceneCaption(t) {
+      for (let i = 0; i < PROMOTIONAL_SCENES.length; i++) {
+        if (t >= PROMOTIONAL_SCENES[i].start && t < PROMOTIONAL_SCENES[i].end) {
+          return PROMOTIONAL_SCENES[i];
+        }
+      }
+      return PROMOTIONAL_SCENES[PROMOTIONAL_SCENES.length - 1];
+    }
+
+    function updateCaptionsDOM(t) {
+      const cap = getCurrentSceneCaption(t);
+      const capOverlay = $('adVideoCaptionOverlay');
+      const modalOverlay = $('modalVideoCaptionOverlay');
+      
+      if (capOverlay) capOverlay.style.display = captionsEnabled ? 'flex' : 'none';
+      if (modalOverlay) modalOverlay.style.display = captionsEnabled ? 'flex' : 'none';
+
+      if (!captionsEnabled) return;
+
+      const tagEl = $('captionSceneTag');
+      const leadEl = $('captionLeadText');
+      const detEl = $('captionDetailText');
+      if (tagEl && tagEl.textContent !== cap.tag) tagEl.textContent = cap.tag;
+      if (leadEl && leadEl.textContent !== cap.lead) leadEl.textContent = cap.lead;
+      if (detEl && detEl.textContent !== cap.detail) detEl.textContent = cap.detail;
+
+      const mTag = $('modalCaptionSceneTag');
+      const mLead = $('modalCaptionLeadText');
+      const mDet = $('modalCaptionDetailText');
+      if (mTag && mTag.textContent !== cap.tag) mTag.textContent = cap.tag;
+      if (mLead && mLead.textContent !== cap.lead) mLead.textContent = cap.lead;
+      if (mDet && mDet.textContent !== cap.detail) mDet.textContent = cap.detail;
+    }
 
     function initAudioSynth() {
       if (audioContext) return;
@@ -2485,12 +2651,15 @@
         const osc = audioContext.createOscillator();
         const gain = audioContext.createGain();
         const freqs = [
-          [220, 277.18, 329.63, 415.30],
-          [174.61, 220, 261.63, 329.63],
-          [196, 246.94, 293.66, 370],
-          [164.81, 207.65, 246.94, 311.13]
+          [220, 277.18, 329.63, 415.30], // A maj7
+          [174.61, 220, 261.63, 329.63], // F maj7
+          [196, 246.94, 293.66, 370.00], // G6
+          [164.81, 207.65, 246.94, 311.13], // E min7
+          [220, 261.63, 329.63, 392.00], // A min7
+          [174.61, 220, 261.63, 349.23], // F add9
+          [196, 246.94, 293.66, 392.00]  // G maj
         ];
-        const chordIdx = Math.floor(t / 6.25) % freqs.length;
+        const chordIdx = Math.floor(t / 4.28) % freqs.length;
         const notes = freqs[chordIdx];
         osc.type = 'triangle';
         osc.frequency.setValueAtTime(notes[0], audioContext.currentTime);
@@ -2517,9 +2686,9 @@
       ctx.fillStyle = radGrad;
       ctx.fillRect(0, 0, width, height);
 
-      // Starfield / particles
+      // Starfield / interactive drifting constellation
       ctx.save();
-      for (let i = 0; i < 35; i++) {
+      for (let i = 0; i < 40; i++) {
         const px = (Math.sin(i * 127 + t * 0.4) * 0.5 + 0.5) * width;
         const py = (Math.cos(i * 311 + t * 0.3) * 0.5 + 0.5) * height;
         const size = (Math.sin(i + t) * 0.5 + 0.5) * 2.5 + 1;
@@ -2533,9 +2702,11 @@
       const fiverrHandle = ($('adFiverrUser') && $('adFiverrUser').value) || '@AS_Studio';
       const upworkHandle = ($('adUpworkUser') && $('adUpworkUser').value) || 'AS Studio Agency';
 
-      // SCENE 1 (0.0s – 5.0s): Kinetic Intro Hook
-      if (t < 5.0) {
-        const rawAlpha = Math.min(1, Math.min(t * 2, (5.0 - t) * 2));
+      // -------------------------------------------------------------
+      // SCENE 1 (0.0s – 4.5s): Kinetic Brand Hook & Studio Emblem
+      // -------------------------------------------------------------
+      if (t < 4.5) {
+        const rawAlpha = Math.min(1, Math.min(t * 2, (4.5 - t) * 2));
         const alpha = isStaticThumbnail ? Math.max(0.9, rawAlpha) : rawAlpha;
         ctx.save();
         ctx.globalAlpha = alpha;
@@ -2571,363 +2742,581 @@
         ctx.textAlign = 'center';
         ctx.shadowColor = 'rgba(0,0,0,0.8)';
         ctx.shadowBlur = 12;
-        ctx.fillText('AS STUDIO', width * 0.5, height * 0.47);
+        ctx.fillText('AS STUDIO', width * 0.5, height * 0.46);
 
         ctx.fillStyle = '#e5be7a';
-        ctx.fillText('.', width * 0.5 + 130, height * 0.47);
+        ctx.fillText('.', width * 0.5 + 130, height * 0.46);
 
-        ctx.font = '600 28px system-ui, -apple-system, sans-serif';
+        ctx.font = '600 27px system-ui, -apple-system, sans-serif';
         ctx.fillStyle = '#e5be7a';
-        ctx.fillText('HIGH-CONVERTING WEBSITES THAT WIN CLIENTS', width * 0.5, height * 0.57);
+        ctx.fillText('WEBSITES WITH QUIET PRESENCE', width * 0.5, height * 0.56);
 
-        ctx.font = '400 18px ui-monospace, SFMono-Regular, monospace';
+        ctx.font = '400 17px ui-monospace, SFMono-Regular, monospace';
         ctx.fillStyle = '#94a3b8';
-        ctx.fillText('Sub-Second Speeds · Handcrafted Code · Zero Page Builders', width * 0.5, height * 0.65);
+        ctx.fillText('Sub-Second Speeds (<0.4s FCP) · Handcrafted Code · Zero Page Builders', width * 0.5, height * 0.63);
 
         ctx.fillStyle = 'rgba(229, 190, 122, 0.15)';
         ctx.strokeStyle = 'rgba(229, 190, 122, 0.4)';
         ctx.lineWidth = 1;
         ctx.beginPath();
-        ctx.roundRect(width * 0.5 - 280, height * 0.74, 560, 46, 23);
+        ctx.roundRect(width * 0.5 - 300, height * 0.70, 600, 44, 22);
         ctx.fill();
         ctx.stroke();
 
-        ctx.font = '600 15px system-ui, sans-serif';
+        ctx.font = '600 14px system-ui, sans-serif';
         ctx.fillStyle = '#ffffff';
         if (currentCutMode === 'fiverr') {
-          ctx.fillText(`★ Order Safely on Fiverr (${fiverrHandle}) · Pro Handcoded Delivery`, width * 0.5, height * 0.79);
+          ctx.fillText(`★ Order Safely on Fiverr (${fiverrHandle}) · Pro Handcoded Delivery`, width * 0.5, height * 0.75);
         } else if (currentCutMode === 'upwork') {
-          ctx.fillText(`★ Hire Securely on Upwork (${upworkHandle}) · Escrow Protection`, width * 0.5, height * 0.79);
+          ctx.fillText(`★ Hire Securely on Upwork (${upworkHandle}) · Escrow Protection`, width * 0.5, height * 0.75);
         } else {
-          ctx.fillText(`★ Available on Fiverr (${fiverrHandle}) & Upwork (${upworkHandle})`, width * 0.5, height * 0.79);
+          ctx.fillText(`★ Available on Fiverr (${fiverrHandle}) & Upwork (${upworkHandle})`, width * 0.5, height * 0.75);
         }
         ctx.restore();
       }
 
-      // SCENE 2 (5.0s – 10.0s): VitalCare & Fold Atelier
-      else if (t >= 5.0 && t < 10.0) {
-        const st = t - 5.0;
-        const rawAlpha = Math.min(1, Math.min(st * 2, (5.0 - st) * 2));
+      // -------------------------------------------------------------
+      // SCENE 2 (4.5s – 9.0s): VitalCare Multispecialty Clinic & Mitti Café
+      // -------------------------------------------------------------
+      else if (t >= 4.5 && t < 9.0) {
+        const st = t - 4.5;
+        const rawAlpha = Math.min(1, Math.min(st * 2, (4.5 - st) * 2));
         const alpha = isStaticThumbnail ? Math.max(0.9, rawAlpha) : rawAlpha;
         ctx.save();
         ctx.globalAlpha = alpha;
 
         ctx.textAlign = 'center';
-        ctx.font = '700 13px ui-monospace, monospace';
+        ctx.font = '700 12.5px ui-monospace, monospace';
         ctx.fillStyle = '#00f2fe';
-        ctx.fillText('FEATURED CLIENT EXPERIENCES', width * 0.5, 60);
+        ctx.fillText('COMMERCIAL WORK SHOWCASE · HEALTHCARE & ROASTERY', width * 0.5, 48);
 
-        ctx.font = '700 34px system-ui, sans-serif';
+        ctx.font = '700 32px system-ui, sans-serif';
         ctx.fillStyle = '#ffffff';
-        ctx.fillText('Authentic Demos Built Around Real Businesses', width * 0.5, 105);
+        ctx.fillText('VitalCare Multispecialty Clinic & Mitti Café Roastery', width * 0.5, 88);
 
-        const c1x = width * 0.12;
-        const c1y = 150;
-        const cw = width * 0.36;
-        const ch = height * 0.66;
+        const c1x = width * 0.08;
+        const c1y = 118;
+        const cw = width * 0.40;
+        const ch = height * 0.65;
 
         // VitalCare Card
-        ctx.fillStyle = 'rgba(15, 34, 30, 0.88)';
-        ctx.strokeStyle = 'rgba(43, 102, 92, 0.6)';
+        ctx.fillStyle = 'rgba(15, 34, 30, 0.92)';
+        ctx.strokeStyle = 'rgba(43, 102, 92, 0.7)';
         ctx.lineWidth = 2;
         ctx.shadowColor = 'rgba(0, 242, 254, 0.2)';
         ctx.shadowBlur = 20;
         ctx.beginPath();
-        ctx.roundRect(c1x, c1y, cw, ch, 18);
+        ctx.roundRect(c1x, c1y, cw, ch, 16);
         ctx.fill();
         ctx.stroke();
 
+        // Medical Badge & Schedule
         ctx.fillStyle = '#0d1e1b';
         ctx.beginPath();
-        ctx.roundRect(c1x + 12, c1y + 12, cw - 24, ch * 0.45, 12);
+        ctx.roundRect(c1x + 14, c1y + 14, cw - 28, ch * 0.38, 10);
         ctx.fill();
 
         ctx.strokeStyle = '#2b665c';
-        ctx.lineWidth = 4;
+        ctx.lineWidth = 3.5;
         ctx.beginPath();
-        ctx.arc(c1x + cw * 0.5, c1y + ch * 0.22, 28, 0, Math.PI * 2);
+        ctx.arc(c1x + cw * 0.5, c1y + ch * 0.16, 22, 0, Math.PI * 2);
         ctx.stroke();
         ctx.fillStyle = '#10b981';
-        ctx.fillRect(c1x + cw * 0.5 - 4, c1y + ch * 0.22 - 14, 8, 28);
-        ctx.fillRect(c1x + cw * 0.5 - 14, c1y + ch * 0.22 - 4, 28, 8);
+        ctx.fillRect(c1x + cw * 0.5 - 3.5, c1y + ch * 0.16 - 11, 7, 22);
+        ctx.fillRect(c1x + cw * 0.5 - 11, c1y + ch * 0.16 - 3.5, 22, 7);
+
+        ctx.textAlign = 'center';
+        ctx.font = '700 16px system-ui, sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText('VitalCare Multispecialty Clinic', c1x + cw * 0.5, c1y + ch * 0.28);
+        ctx.font = '600 11.5px ui-monospace, monospace';
+        ctx.fillStyle = '#10b981';
+        ctx.fillText('GROWTH TIER · 6 CLINICAL DEPARTMENTS · LIVE TRIAGE', c1x + cw * 0.5, c1y + ch * 0.34);
 
         ctx.textAlign = 'left';
-        ctx.font = '700 20px system-ui, sans-serif';
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText('VitalCare Multispecialty Clinic', c1x + 24, c1y + ch * 0.54);
-
-        ctx.font = '600 13px ui-monospace, monospace';
-        ctx.fillStyle = '#10b981';
-        ctx.fillText('GROWTH TIER · 6 PAGES · CLINIC ENGINE', c1x + 24, c1y + ch * 0.62);
-
-        ctx.font = '400 14px system-ui, sans-serif';
+        ctx.font = '400 13px system-ui, sans-serif';
         ctx.fillStyle = '#cbd5e1';
-        ctx.fillText('• Dynamic operating hours & realistic time slots', c1x + 24, c1y + ch * 0.72);
-        ctx.fillText('• Physician roster across 6 clinical departments', c1x + 24, c1y + ch * 0.80);
-        ctx.fillText('• Patient triage booking & lead qualification', c1x + 24, c1y + ch * 0.88);
+        ctx.fillText('• 09:30 AM · General Medicine · Dr. Vance [CONFIRMED]', c1x + 22, c1y + ch * 0.48);
+        ctx.fillText('• 11:15 AM · Cardiology Triage · Dr. Chen [AVAILABLE]', c1x + 22, c1y + ch * 0.56);
+        ctx.fillText('• 02:30 PM · Pediatric Telehealth Booking [LIVE]', c1x + 22, c1y + ch * 0.64);
+        ctx.fillText('• Sub-0.3s Slot Booking · Realistic Lead Qualification', c1x + 22, c1y + ch * 0.72);
 
-        // Fold Atelier Card
+        ctx.fillStyle = 'rgba(16, 185, 129, 0.15)';
+        ctx.strokeStyle = '#10b981';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.roundRect(c1x + 22, c1y + ch * 0.80, cw - 44, 34, 8);
+        ctx.fill();
+        ctx.stroke();
+        ctx.textAlign = 'center';
+        ctx.font = '700 12px ui-monospace, monospace';
+        ctx.fillStyle = '#10b981';
+        ctx.fillText('★ +42% Patient Inquiries · Zero Page Lag', c1x + cw * 0.5, c1y + ch * 0.80 + 22);
+
+        // Mitti Café Card
         const c2x = width * 0.52;
-        ctx.fillStyle = 'rgba(26, 22, 18, 0.88)';
-        ctx.strokeStyle = 'rgba(229, 190, 122, 0.5)';
+        ctx.fillStyle = 'rgba(32, 22, 14, 0.92)';
+        ctx.strokeStyle = 'rgba(229, 190, 122, 0.55)';
         ctx.shadowColor = 'rgba(229, 190, 122, 0.25)';
         ctx.beginPath();
-        ctx.roundRect(c2x, c1y, cw, ch, 18);
+        ctx.roundRect(c2x, c1y, cw, ch, 16);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = '#1b130c';
+        ctx.beginPath();
+        ctx.roundRect(c2x + 14, c1y + 14, cw - 28, ch * 0.38, 10);
+        ctx.fill();
+
+        ctx.font = '300 28px Georgia, serif';
+        ctx.fillStyle = '#e5be7a';
+        ctx.textAlign = 'center';
+        ctx.fillText('MITTI CAFÉ', c2x + cw * 0.5, c1y + ch * 0.18);
+        ctx.font = '11.5px ui-monospace, monospace';
+        ctx.fillStyle = '#a8987b';
+        ctx.fillText('ARTISANAL ROASTERY & SLOW BREW BAR', c2x + cw * 0.5, c1y + ch * 0.26);
+        ctx.font = '600 11.5px ui-monospace, monospace';
+        ctx.fillStyle = '#e5be7a';
+        ctx.fillText('STARTER TIER · ORGANIC ROASTERY · INSTANT MENU', c2x + cw * 0.5, c1y + ch * 0.34);
+
+        ctx.textAlign = 'left';
+        ctx.font = '400 13px system-ui, sans-serif';
+        ctx.fillStyle = '#cbd5e1';
+        ctx.fillText('• Single Estate Arabica · Dark Caramel Chikmagalur', c2x + 22, c1y + ch * 0.48);
+        ctx.fillText('• Cold Brew Tasting Flights & Origin Tasting Notes', c2x + 22, c1y + ch * 0.56);
+        ctx.fillText('• Instant Mobile Table Reservation & Bean Orders', c2x + 22, c1y + ch * 0.64);
+        ctx.fillText('• Phone-First Touch Navigation with Sub-0.3s FCP', c2x + 22, c1y + ch * 0.72);
+
+        ctx.fillStyle = 'rgba(229, 190, 122, 0.15)';
+        ctx.strokeStyle = '#e5be7a';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.roundRect(c2x + 22, c1y + ch * 0.80, cw - 44, 34, 8);
+        ctx.fill();
+        ctx.stroke();
+        ctx.textAlign = 'center';
+        ctx.font = '700 12px ui-monospace, monospace';
+        ctx.fillStyle = '#e5be7a';
+        ctx.fillText('★ 100/100 Mobile Speed · 100% Touch Responsive', c2x + cw * 0.5, c1y + ch * 0.80 + 22);
+
+        ctx.restore();
+      }
+
+      // -------------------------------------------------------------
+      // SCENE 3 (9.0s – 13.5s): Fold Atelier Fashion & Atelier North Architecture
+      // -------------------------------------------------------------
+      else if (t >= 9.0 && t < 13.5) {
+        const st = t - 9.0;
+        const rawAlpha = Math.min(1, Math.min(st * 2, (4.5 - st) * 2));
+        const alpha = isStaticThumbnail ? Math.max(0.9, rawAlpha) : rawAlpha;
+        ctx.save();
+        ctx.globalAlpha = alpha;
+
+        ctx.textAlign = 'center';
+        ctx.font = '700 12.5px ui-monospace, monospace';
+        ctx.fillStyle = '#e5be7a';
+        ctx.fillText('BESPOKE LUXURY & MINIMALIST ARCHITECTURE', width * 0.5, 48);
+
+        ctx.font = '700 32px system-ui, sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText('Fold Atelier Artisanal Fashion & Atelier North Spaces', width * 0.5, 88);
+
+        const c1x = width * 0.08;
+        const c1y = 118;
+        const cw = width * 0.40;
+        const ch = height * 0.65;
+
+        // Fold Atelier Card
+        ctx.fillStyle = 'rgba(26, 22, 18, 0.94)';
+        ctx.strokeStyle = 'rgba(229, 190, 122, 0.6)';
+        ctx.shadowColor = 'rgba(229, 190, 122, 0.25)';
+        ctx.shadowBlur = 20;
+        ctx.beginPath();
+        ctx.roundRect(c1x, c1y, cw, ch, 16);
         ctx.fill();
         ctx.stroke();
 
         ctx.fillStyle = '#15120e';
         ctx.beginPath();
-        ctx.roundRect(c2x + 12, c1y + 12, cw - 24, ch * 0.45, 12);
+        ctx.roundRect(c1x + 14, c1y + 14, cw - 28, ch * 0.38, 10);
         ctx.fill();
 
-        ctx.font = '300 32px Georgia, serif';
+        ctx.font = '300 28px Georgia, serif';
         ctx.fillStyle = '#e5be7a';
         ctx.textAlign = 'center';
-        ctx.fillText('FOLD ATELIER', c2x + cw * 0.5, c1y + ch * 0.24);
-        ctx.font = '12px ui-monospace, monospace';
+        ctx.fillText('FOLD ATELIER', c1x + cw * 0.5, c1y + ch * 0.18);
+        ctx.font = '11.5px ui-monospace, monospace';
         ctx.fillStyle = '#a8987b';
-        ctx.fillText('AUTUMN / WINTER LINEN EDITORIAL', c2x + cw * 0.5, c1y + ch * 0.32);
+        ctx.fillText('AUTUMN / WINTER LINEN EDITORIAL', c1x + cw * 0.5, c1y + ch * 0.26);
+        ctx.font = '600 11.5px ui-monospace, monospace';
+        ctx.fillStyle = '#e5be7a';
+        ctx.fillText('GROWTH TIER · TACTILE E-COMMERCE', c1x + cw * 0.5, c1y + ch * 0.34);
 
         ctx.textAlign = 'left';
-        ctx.font = '700 20px system-ui, sans-serif';
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText('Fold Atelier Artisanal Fashion', c2x + 24, c1y + ch * 0.54);
-
-        ctx.font = '600 13px ui-monospace, monospace';
-        ctx.fillStyle = '#e5be7a';
-        ctx.fillText('GROWTH TIER · 3 PAGES · E-COMMERCE', c2x + 24, c1y + ch * 0.62);
-
-        ctx.font = '400 14px system-ui, sans-serif';
+        ctx.font = '400 13px system-ui, sans-serif';
         ctx.fillStyle = '#cbd5e1';
-        ctx.fillText('• Slide-out quick view product notify drawer', c2x + 24, c1y + ch * 0.72);
-        ctx.fillText('• Accessible garment size calculation modal', c2x + 24, c1y + ch * 0.80);
-        ctx.fillText('• Tactile typography with zero page lag', c2x + 24, c1y + ch * 0.88);
+        ctx.fillText('• Slide-Out Quick View Product Drawer Preview', c1x + 22, c1y + ch * 0.48);
+        ctx.fillText('• Tactile Garment Sizing & Fit Modal (S · M · L · XL)', c1x + 22, c1y + ch * 0.56);
+        ctx.fillText('• Zero Heavy Plugins · 100% Lightweight CSS Craft', c1x + 22, c1y + ch * 0.64);
+        ctx.fillText('• Editorial Typography Built for Luxury Retailers', c1x + 22, c1y + ch * 0.72);
+
+        ctx.fillStyle = 'rgba(229, 190, 122, 0.15)';
+        ctx.strokeStyle = '#e5be7a';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.roundRect(c1x + 22, c1y + ch * 0.80, cw - 44, 34, 8);
+        ctx.fill();
+        ctx.stroke();
+        ctx.textAlign = 'center';
+        ctx.font = '700 12px ui-monospace, monospace';
+        ctx.fillStyle = '#e5be7a';
+        ctx.fillText('★ Refined Editorial Conversion & Instant Sizing', c1x + cw * 0.5, c1y + ch * 0.80 + 22);
+
+        // Atelier North Card
+        const c2x = width * 0.52;
+        ctx.fillStyle = 'rgba(12, 18, 22, 0.94)';
+        ctx.strokeStyle = 'rgba(100, 180, 210, 0.55)';
+        ctx.shadowColor = 'rgba(0, 242, 254, 0.2)';
+        ctx.beginPath();
+        ctx.roundRect(c2x, c1y, cw, ch, 16);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = '#081014';
+        ctx.beginPath();
+        ctx.roundRect(c2x + 14, c1y + 14, cw - 28, ch * 0.38, 10);
+        ctx.fill();
+
+        ctx.font = '700 24px system-ui, sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.fillText('ATELIER NORTH', c2x + cw * 0.5, c1y + ch * 0.18);
+        ctx.font = '11.5px ui-monospace, monospace';
+        ctx.fillStyle = '#67e8f9';
+        ctx.fillText('MINIMALIST ARCHITECTURE & SPATIAL DESIGN', c2x + cw * 0.5, c1y + ch * 0.26);
+        ctx.font = '600 11.5px ui-monospace, monospace';
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText('SIGNATURE TIER · ARCHITECTURAL PRACTICE', c2x + cw * 0.5, c1y + ch * 0.34);
+
+        ctx.textAlign = 'left';
+        ctx.font = '400 13px system-ui, sans-serif';
+        ctx.fillStyle = '#cbd5e1';
+        ctx.fillText('• Elevation Coordinates & Spatial Blueprint Grid', c2x + 22, c1y + ch * 0.48);
+        ctx.fillText('• Nordic Timber Pavilion · Sustainable Materiality', c2x + 22, c1y + ch * 0.56);
+        ctx.fillText('• Interactive Project Dossiers & Client Walkthroughs', c2x + 22, c1y + ch * 0.64);
+        ctx.fillText('• Uncompromising Spatial Silence & Clean Margins', c2x + 22, c1y + ch * 0.72);
+
+        ctx.fillStyle = 'rgba(103, 232, 249, 0.15)';
+        ctx.strokeStyle = '#67e8f9';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.roundRect(c2x + 22, c1y + ch * 0.80, cw - 44, 34, 8);
+        ctx.fill();
+        ctx.stroke();
+        ctx.textAlign = 'center';
+        ctx.font = '700 12px ui-monospace, monospace';
+        ctx.fillStyle = '#67e8f9';
+        ctx.fillText('★ Commands High-Ticket Architecture Retainers', c2x + cw * 0.5, c1y + ch * 0.80 + 22);
+
         ctx.restore();
       }
 
-      // SCENE 3 (10.0s – 15.0s): Delta.OS AI Telemetry
-      else if (t >= 10.0 && t < 15.0) {
-        const st = t - 10.0;
-        const rawAlpha = Math.min(1, Math.min(st * 2, (5.0 - st) * 2));
+      // -------------------------------------------------------------
+      // SCENE 4 (13.5s – 18.0s): Apex Residences & Rao Corporate Law
+      // -------------------------------------------------------------
+      else if (t >= 13.5 && t < 18.0) {
+        const st = t - 13.5;
+        const rawAlpha = Math.min(1, Math.min(st * 2, (4.5 - st) * 2));
         const alpha = isStaticThumbnail ? Math.max(0.9, rawAlpha) : rawAlpha;
         ctx.save();
         ctx.globalAlpha = alpha;
 
         ctx.textAlign = 'center';
-        ctx.font = '700 13px ui-monospace, monospace';
-        ctx.fillStyle = '#00f2fe';
-        ctx.fillText('FLAGSHIP ARCHITECTURAL STUDY', width * 0.5, 60);
+        ctx.font = '700 12.5px ui-monospace, monospace';
+        ctx.fillStyle = '#f59e0b';
+        ctx.fillText('HIGH-TICKET DEVELOPMENTS & CORPORATE COUNSEL', width * 0.5, 48);
 
-        ctx.font = '700 36px system-ui, sans-serif';
+        ctx.font = '700 32px system-ui, sans-serif';
         ctx.fillStyle = '#ffffff';
-        ctx.fillText('Delta.OS Autonomous AI Telemetry Platform', width * 0.5, 105);
+        ctx.fillText('Apex Residences Luxury Homes & Rao & Partners Law', width * 0.5, 88);
 
-        const bx = width * 0.15;
-        const by = 145;
-        const bw = width * 0.7;
-        const bh = height * 0.68;
+        const c1x = width * 0.08;
+        const c1y = 118;
+        const cw = width * 0.40;
+        const ch = height * 0.65;
+
+        // Apex Residences Card
+        ctx.fillStyle = 'rgba(18, 16, 12, 0.94)';
+        ctx.strokeStyle = 'rgba(245, 158, 11, 0.6)';
+        ctx.shadowColor = 'rgba(245, 158, 11, 0.3)';
+        ctx.shadowBlur = 20;
+        ctx.beginPath();
+        ctx.roundRect(c1x, c1y, cw, ch, 16);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = '#100e0a';
+        ctx.beginPath();
+        ctx.roundRect(c1x + 14, c1y + 14, cw - 28, ch * 0.38, 10);
+        ctx.fill();
+
+        ctx.font = '800 24px system-ui, sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.fillText('APEX RESIDENCES', c1x + cw * 0.5, c1y + ch * 0.18);
+        ctx.font = '11.5px ui-monospace, monospace';
+        ctx.fillStyle = '#f59e0b';
+        ctx.fillText('THE PENTHOUSE COLLECTION · $4.2M - $12.8M', c1x + cw * 0.5, c1y + ch * 0.26);
+        ctx.font = '600 11.5px ui-monospace, monospace';
+        ctx.fillStyle = '#cbd5e1';
+        ctx.fillText('SIGNATURE TIER · ULTRA-LUXURY REAL ESTATE', c1x + cw * 0.5, c1y + ch * 0.34);
+
+        ctx.textAlign = 'left';
+        ctx.font = '400 13px system-ui, sans-serif';
+        ctx.fillStyle = '#cbd5e1';
+        ctx.fillText('• Unit 44B · 4,200 SQ FT · Private Sky Pool Terrace', c1x + 22, c1y + ch * 0.48);
+        ctx.fillText('• Interactive Architectural Floorplan Explorer', c1x + 22, c1y + ch * 0.56);
+        ctx.fillText('• Private Viewing Concierge & VIP Brochure Access', c1x + 22, c1y + ch * 0.64);
+        ctx.fillText('• Deep Glassmorphism Theme with Instant Responsiveness', c1x + 22, c1y + ch * 0.72);
+
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.15)';
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.roundRect(c1x + 22, c1y + ch * 0.80, cw - 44, 34, 8);
+        ctx.fill();
+        ctx.stroke();
+        ctx.textAlign = 'center';
+        ctx.font = '700 12px ui-monospace, monospace';
+        ctx.fillStyle = '#f59e0b';
+        ctx.fillText('★ Commands Multi-Million Dollar Buyer Trust', c1x + cw * 0.5, c1y + ch * 0.80 + 22);
+
+        // Rao & Partners Card
+        const c2x = width * 0.52;
+        ctx.fillStyle = 'rgba(14, 20, 28, 0.94)';
+        ctx.strokeStyle = 'rgba(148, 163, 184, 0.6)';
+        ctx.shadowColor = 'rgba(148, 163, 184, 0.2)';
+        ctx.beginPath();
+        ctx.roundRect(c2x, c1y, cw, ch, 16);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = '#0a1017';
+        ctx.beginPath();
+        ctx.roundRect(c2x + 14, c1y + 14, cw - 28, ch * 0.38, 10);
+        ctx.fill();
+
+        ctx.font = '700 24px Georgia, serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.fillText('RAO & PARTNERS', c2x + cw * 0.5, c1y + ch * 0.18);
+        ctx.font = '11.5px ui-monospace, monospace';
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText('CORPORATE LITIGATION & COMMERCIAL ADVISORY', c2x + cw * 0.5, c1y + ch * 0.26);
+        ctx.font = '600 11.5px ui-monospace, monospace';
+        ctx.fillStyle = '#5eead4';
+        ctx.fillText('STARTER / GROWTH TIER · LEGAL COUNSEL', c2x + cw * 0.5, c1y + ch * 0.34);
+
+        ctx.textAlign = 'left';
+        ctx.font = '400 13px system-ui, sans-serif';
+        ctx.fillStyle = '#cbd5e1';
+        ctx.fillText('• Mergers & Acquisitions · Supreme Court Practice', c2x + 22, c1y + ch * 0.48);
+        ctx.fillText('• Partner Dossiers & Practice Area Knowledgebase', c2x + 22, c1y + ch * 0.56);
+        ctx.fillText('• Direct Consultation Intake & Encrypted Inquiries', c2x + 22, c1y + ch * 0.64);
+        ctx.fillText('• Sober, Trusted Authority That Instills Credibility', c2x + 22, c1y + ch * 0.72);
+
+        ctx.fillStyle = 'rgba(94, 234, 212, 0.15)';
+        ctx.strokeStyle = '#5eead4';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.roundRect(c2x + 22, c1y + ch * 0.80, cw - 44, 34, 8);
+        ctx.fill();
+        ctx.stroke();
+        ctx.textAlign = 'center';
+        ctx.font = '700 12px ui-monospace, monospace';
+        ctx.fillStyle = '#5eead4';
+        ctx.fillText('★ 24-Year Track Record · Enterprise Credibility', c2x + cw * 0.5, c1y + ch * 0.80 + 22);
+
+        ctx.restore();
+      }
+
+      // -------------------------------------------------------------
+      // SCENE 5 (18.0s – 22.5s): Delta.OS AI Telemetry & Lighthouse 100 Speed
+      // -------------------------------------------------------------
+      else if (t >= 18.0 && t < 22.5) {
+        const st = t - 18.0;
+        const rawAlpha = Math.min(1, Math.min(st * 2, (4.5 - st) * 2));
+        const alpha = isStaticThumbnail ? Math.max(0.9, rawAlpha) : rawAlpha;
+        ctx.save();
+        ctx.globalAlpha = alpha;
+
+        ctx.textAlign = 'center';
+        ctx.font = '700 12.5px ui-monospace, monospace';
+        ctx.fillStyle = '#00f2fe';
+        ctx.fillText('FLAGSHIP AI TELEMETRY PLATFORM & GUARANTEED 100 SPEED', width * 0.5, 45);
+
+        ctx.font = '700 32px system-ui, sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText('Delta.OS Global AI Mesh & 100/100 Google Lighthouse Guaranteed', width * 0.5, 84);
+
+        const bx = width * 0.10;
+        const by = 112;
+        const bw = width * 0.80;
+        const bh = height * 0.67;
 
         ctx.fillStyle = 'rgba(7, 12, 18, 0.94)';
         ctx.strokeStyle = '#00f2fe';
         ctx.lineWidth = 2;
         ctx.shadowColor = 'rgba(0, 242, 254, 0.4)';
-        ctx.shadowBlur = 25;
+        ctx.shadowBlur = 22;
         ctx.beginPath();
-        ctx.roundRect(bx, by, bw, bh, 20);
+        ctx.roundRect(bx, by, bw, bh, 16);
         ctx.fill();
         ctx.stroke();
 
         ctx.fillStyle = 'rgba(0, 242, 254, 0.08)';
-        ctx.fillRect(bx, by, bw, 50);
+        ctx.fillRect(bx, by, bw, 42);
         ctx.fillStyle = '#10b981';
         ctx.beginPath();
-        ctx.arc(bx + 30, by + 25, 6, 0, Math.PI * 2);
+        ctx.arc(bx + 25, by + 21, 5, 0, Math.PI * 2);
         ctx.fill();
 
         ctx.textAlign = 'left';
-        ctx.font = '600 14px ui-monospace, monospace';
+        ctx.font = '600 13px ui-monospace, monospace';
         ctx.fillStyle = '#ffffff';
-        ctx.fillText('Delta.OS Global Telemetry Mesh', bx + 48, by + 30);
+        ctx.fillText('Delta.OS Global Telemetry Mesh', bx + 40, by + 26);
 
         ctx.textAlign = 'right';
         ctx.fillStyle = '#00f2fe';
-        ctx.fillText('eBPF Kernel Ring · Zero Drops', bx + bw - 30, by + 30);
+        ctx.fillText('eBPF Kernel Ring · Sub-Millisecond Analytics', bx + bw - 25, by + 26);
 
-        const mY = by + 90;
-        const mw = (bw - 60) / 3;
+        // 3 Key Metrics
+        const mY = by + 60;
+        const mw = (bw - 50) / 3;
 
         // Metric 1
         ctx.fillStyle = 'rgba(255,255,255,0.04)';
         ctx.beginPath();
-        ctx.roundRect(bx + 20, mY, mw - 10, 110, 10);
+        ctx.roundRect(bx + 16, mY, mw - 12, 85, 8);
         ctx.fill();
         ctx.textAlign = 'left';
-        ctx.font = '12px ui-monospace, monospace';
+        ctx.font = '11px ui-monospace, monospace';
         ctx.fillStyle = '#94a3b8';
-        ctx.fillText('COGNITIVE LATENCY', bx + 36, mY + 34);
-        ctx.font = '700 36px ui-monospace, monospace';
+        ctx.fillText('COGNITIVE LATENCY', bx + 28, mY + 28);
+        ctx.font = '700 30px ui-monospace, monospace';
         ctx.fillStyle = '#00f2fe';
-        ctx.fillText('0.38 ms', bx + 36, mY + 82);
+        ctx.fillText('0.38 ms', bx + 28, mY + 68);
 
         // Metric 2
         ctx.fillStyle = 'rgba(255,255,255,0.04)';
         ctx.beginPath();
-        ctx.roundRect(bx + 20 + mw, mY, mw - 10, 110, 10);
+        ctx.roundRect(bx + 16 + mw, mY, mw - 12, 85, 8);
         ctx.fill();
-        ctx.font = '12px ui-monospace, monospace';
+        ctx.font = '11px ui-monospace, monospace';
         ctx.fillStyle = '#94a3b8';
-        ctx.fillText('EVENT INGRESS', bx + 36 + mw, mY + 34);
-        ctx.font = '700 36px ui-monospace, monospace';
+        ctx.fillText('EVENT INGRESS', bx + 28 + mw, mY + 28);
+        ctx.font = '700 30px ui-monospace, monospace';
         ctx.fillStyle = '#ffffff';
-        ctx.fillText('2.41M/s', bx + 36 + mw, mY + 82);
+        ctx.fillText('2.41M/s', bx + 28 + mw, mY + 68);
 
         // Metric 3
         ctx.fillStyle = 'rgba(255,255,255,0.04)';
         ctx.beginPath();
-        ctx.roundRect(bx + 20 + mw * 2, mY, mw - 10, 110, 10);
+        ctx.roundRect(bx + 16 + mw * 2, mY, mw - 12, 85, 8);
         ctx.fill();
-        ctx.font = '12px ui-monospace, monospace';
+        ctx.font = '11px ui-monospace, monospace';
         ctx.fillStyle = '#94a3b8';
-        ctx.fillText('ZERO-LOSS GRAPH', bx + 36 + mw * 2, mY + 34);
-        ctx.font = '700 36px ui-monospace, monospace';
+        ctx.fillText('ZERO-LOSS GRAPH', bx + 28 + mw * 2, mY + 28);
+        ctx.font = '700 30px ui-monospace, monospace';
         ctx.fillStyle = '#10b981';
-        ctx.fillText('100.0%', bx + 36 + mw * 2, mY + 82);
+        ctx.fillText('100.0%', bx + 28 + mw * 2, mY + 68);
 
-        // Sine wave telemetry
+        // Sine wave telemetry line
         ctx.strokeStyle = '#00f2fe';
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 2.5;
         ctx.beginPath();
-        for (let x = 0; x < bw - 60; x += 6) {
-          const y = by + 270 + Math.sin(x * 0.04 + t * 4) * 22 + Math.cos(x * 0.02 - t * 2) * 14;
-          if (x === 0) ctx.moveTo(bx + 30 + x, y);
-          else ctx.lineTo(bx + 30 + x, y);
+        for (let x = 0; x < bw - 40; x += 5) {
+          const y = by + 195 + Math.sin(x * 0.04 + t * 4) * 16 + Math.cos(x * 0.02 - t * 2) * 10;
+          if (x === 0) ctx.moveTo(bx + 20 + x, y);
+          else ctx.lineTo(bx + 20 + x, y);
         }
         ctx.stroke();
 
-        ctx.font = '13px ui-monospace, monospace';
-        ctx.fillStyle = '#64748b';
-        ctx.fillText('$ delta stream --cluster=edge-global --p99 < 1ms [Real-time Analytics Handover]', bx + 30, by + bh - 24);
-        ctx.restore();
-      }
-
-      // SCENE 4 (15.0s – 20.0s): Lighthouse 100 Speed
-      else if (t >= 15.0 && t < 20.0) {
-        const st = t - 15.0;
-        const rawAlpha = Math.min(1, Math.min(st * 2, (5.0 - st) * 2));
-        const alpha = isStaticThumbnail ? Math.max(0.9, rawAlpha) : rawAlpha;
-        ctx.save();
-        ctx.globalAlpha = alpha;
-
-        ctx.textAlign = 'center';
-        ctx.font = '700 13px ui-monospace, monospace';
-        ctx.fillStyle = '#10b981';
-        ctx.fillText('UNMATCHED WEB PERFORMANCE', width * 0.5, 60);
-
-        ctx.font = '700 38px system-ui, sans-serif';
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText('100 / 100 Google Lighthouse Guaranteed', width * 0.5, 110);
-
-        const ringLabels = ['Performance', 'Accessibility', 'Best Practices', 'SEO'];
-        const ringSpacing = width * 0.2;
-        const startX = width * 0.5 - ringSpacing * 1.5;
-        const rY = 250;
-
+        // 4 Lighthouse 100 Badges directly in the display
+        const ringLabels = ['Performance: 100', 'Accessibility: 100', 'Best Practices: 100', 'SEO: 100'];
+        const rY = by + 265;
+        const pillW = (bw - 60) / 4;
         for (let i = 0; i < 4; i++) {
-          const rx = startX + i * ringSpacing;
-          const radius = 54;
-
-          ctx.strokeStyle = 'rgba(16, 185, 129, 0.15)';
-          ctx.lineWidth = 8;
-          ctx.beginPath();
-          ctx.arc(rx, rY, radius, 0, Math.PI * 2);
-          ctx.stroke();
-
+          const rx = bx + 20 + i * (pillW + 8);
+          ctx.fillStyle = 'rgba(16, 185, 129, 0.12)';
           ctx.strokeStyle = '#10b981';
-          ctx.shadowColor = '#10b981';
-          ctx.shadowBlur = 18;
+          ctx.lineWidth = 1.5;
           ctx.beginPath();
-          ctx.arc(rx, rY, radius, -Math.PI / 2, Math.PI * 1.5);
+          ctx.roundRect(rx, rY, pillW, 40, 8);
+          ctx.fill();
           ctx.stroke();
-          ctx.shadowBlur = 0;
 
-          ctx.font = '700 32px ui-monospace, monospace';
-          ctx.fillStyle = '#ffffff';
-          ctx.fillText('100', rx, rY + 11);
-
-          ctx.font = '600 15px system-ui, sans-serif';
-          ctx.fillStyle = '#94a3b8';
-          ctx.fillText(ringLabels[i], rx, rY + 84);
+          ctx.font = '700 12.5px ui-monospace, monospace';
+          ctx.fillStyle = '#10b981';
+          ctx.textAlign = 'center';
+          ctx.fillText(`⚡ ${ringLabels[i]}`, rx + pillW * 0.5, rY + 25);
         }
 
-        const featY = 430;
-        ctx.font = '600 20px system-ui, sans-serif';
-        ctx.fillStyle = '#10b981';
-        ctx.fillText('⚡ Sub-Second Load Times (<0.4s FCP)', width * 0.5, featY);
-        ctx.fillStyle = '#e5be7a';
-        ctx.fillText('📱 Phone-First Touch Navigation & Micro-Interactions', width * 0.5, featY + 44);
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText('🔒 100% Full Source Code Ownership & Domain Launch Included', width * 0.5, featY + 88);
+        ctx.textAlign = 'center';
+        ctx.font = '600 13px ui-monospace, monospace';
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText('Sub-Second Load (<0.4s FCP) · Clean Semantic Architecture · 100% Full Source Code Handover', width * 0.5, by + bh - 16);
+
         ctx.restore();
       }
 
-      // SCENE 5 (20.0s – 25.0s): Pricing & Call To Action
-      else if (t >= 20.0) {
-        const st = t - 20.0;
-        const rawAlpha = Math.min(1, Math.min(st * 2, (5.0 - st) * 2));
+      // -------------------------------------------------------------
+      // SCENE 6 (22.5s – 27.0s): Transparent Packages & Pricing
+      // -------------------------------------------------------------
+      else if (t >= 22.5 && t < 27.0) {
+        const st = t - 22.5;
+        const rawAlpha = Math.min(1, Math.min(st * 2, (4.5 - st) * 2));
         const alpha = isStaticThumbnail ? Math.max(0.9, rawAlpha) : rawAlpha;
         ctx.save();
         ctx.globalAlpha = alpha;
 
         ctx.textAlign = 'center';
-        ctx.font = '700 13px ui-monospace, monospace';
+        ctx.font = '700 12.5px ui-monospace, monospace';
         ctx.fillStyle = '#e5be7a';
-        if (currentCutMode === 'fiverr') {
-          ctx.fillText('FIVERR VERIFIED SERVICES · 100% SECURE ESCROW', width * 0.5, 55);
-        } else if (currentCutMode === 'upwork') {
-          ctx.fillText('UPWORK DIRECT FREELANCE · VERIFIED ESCROW PROTECTION', width * 0.5, 55);
-        } else {
-          ctx.fillText('TRANSPARENT VALUE · GUARANTEED DELIVERY', width * 0.5, 55);
-        }
+        ctx.fillText('TRANSPARENT VALUE · THREE CLEAR PACKAGES · ON-TIME DELIVERY', width * 0.5, 48);
 
-        ctx.font = '700 36px system-ui, sans-serif';
+        ctx.font = '700 32px system-ui, sans-serif';
         ctx.fillStyle = '#ffffff';
-        if (currentCutMode === 'fiverr') {
-          ctx.fillText('Order Your Hand-Coded Website on Fiverr', width * 0.5, 98);
-        } else if (currentCutMode === 'upwork') {
-          ctx.fillText('Hire AS Studio with Upwork Escrow Protection', width * 0.5, 98);
-        } else {
-          ctx.fillText('Order Your Premium Website Today', width * 0.5, 98);
-        }
+        ctx.fillText('Three Packages Shaped Around Your Business', width * 0.5, 88);
 
-        const pw = 280;
-        const ph = 260;
-        const py = 135;
+        const pw = 300;
+        const ph = 310;
+        const py = 120;
         let packages;
         if (currentCutMode === 'fiverr') {
           packages = [
-            { name: 'Starter Gig', price: '$95', time: '3-Day Delivery', scope: '1 Fast Page · 30 Days Fixes' },
-            { name: 'Growth Gig', price: '$275', time: '5-Day Delivery', scope: '3 Pages · Full Source Code' },
-            { name: 'Signature Gig', price: '$600', time: '7-Day Delivery', scope: '6 Pages · Unlimited Revisions' }
+            { name: 'Starter Gig', price: '$95', time: '3-Day Delivery', scope: '1 Fast Page · 30 Days Fixes', details: ['Phone-first touch UI', 'Domain & SEO setup', 'Social links placed'] },
+            { name: 'Growth Gig', price: '$275', time: '5-Day Delivery', scope: '3 Pages · Full Source Code', details: ['Multi-page lead capture', 'Opt-in autoresponder', 'Physician/Store layout'] },
+            { name: 'Signature Gig', price: '$600', time: '7-Day Delivery', scope: '6 Pages · Unlimited Revisions', details: ['Complete digital flagship', 'Online store / CMS ready', 'Full Git source ownership'] }
           ];
         } else if (currentCutMode === 'upwork') {
           packages = [
-            { name: 'Starter Sprint', price: 'Escrow', time: '3-Day Delivery', scope: '1 Fast Page · Milestone 1' },
-            { name: 'Growth Sprint', price: 'Milestone', time: '5-Day Delivery', scope: '3 Pages · Custom Architecture' },
-            { name: 'Signature Project', price: 'Milestone', time: '7-Day Delivery', scope: '6 Pages · Full Brand Flagship' }
+            { name: 'Starter Sprint', price: 'Escrow', time: '3-Day Delivery', scope: '1 Fast Page · Milestone 1', details: ['Phone-first architecture', 'Domain & SEO setup', 'Milestone 1 handover'] },
+            { name: 'Growth Sprint', price: 'Milestone', time: '5-Day Delivery', scope: '3 Pages · Custom Architecture', details: ['Interactive lead forms', 'Bespoke design system', 'Sub-second speed verified'] },
+            { name: 'Signature Flagship', price: 'Milestone', time: '7-Day Delivery', scope: '6 Pages · Full Brand Flagship', details: ['Complete enterprise build', 'Full client ownership', 'Escrow release on approval'] }
           ];
         } else {
           packages = [
-            { name: 'Starter', price: '$95', time: '3-Day Delivery', scope: '1 Fast Page · Domain & SEO' },
-            { name: 'Growth', price: '$275', time: '5-Day Delivery', scope: '3–6 Pages · Lead Capture + CMS' },
-            { name: 'Signature', price: '$600', time: '7-Day Delivery', scope: 'Complete Online Flagship' }
+            { name: 'Starter', price: '$95', time: '3-Day Delivery', scope: '1 Fast Page · Domain & SEO', details: ['Phone-first touch UI', '100/100 Lighthouse speed', '30-day post launch warranty'] },
+            { name: 'Growth', price: '$275', time: '5-Day Delivery', scope: '3–6 Pages · Lead Capture + CMS', details: ['Interactive booking engine', 'Custom brand typography', 'Full source code ownership'] },
+            { name: 'Signature', price: '$600', time: '7-Day Delivery', scope: 'Complete Online Flagship', details: ['Enterprise flagship design', 'Unlimited scope revisions', 'Turnkey deployment included'] }
           ];
         }
 
         packages.forEach((pkg, idx) => {
-          const px = width * 0.5 - 450 + idx * 310;
-          ctx.fillStyle = idx === 1 ? 'rgba(32, 92, 83, 0.45)' : 'rgba(15, 26, 24, 0.85)';
-          ctx.strokeStyle = idx === 1 ? '#00f2fe' : 'rgba(229, 190, 122, 0.35)';
+          const px = width * 0.5 - 480 + idx * 320;
+          ctx.fillStyle = idx === 1 ? 'rgba(32, 92, 83, 0.5)' : 'rgba(15, 26, 24, 0.9)';
+          ctx.strokeStyle = idx === 1 ? '#00f2fe' : 'rgba(229, 190, 122, 0.4)';
           ctx.lineWidth = idx === 1 ? 2.5 : 1;
           ctx.beginPath();
           ctx.roundRect(px, py, pw, ph, 16);
@@ -2936,45 +3325,156 @@
 
           ctx.font = '700 18px system-ui, sans-serif';
           ctx.fillStyle = idx === 1 ? '#00f2fe' : '#e5be7a';
-          ctx.fillText(pkg.name, px + pw * 0.5, py + 40);
+          ctx.fillText(pkg.name, px + pw * 0.5, py + 38);
 
-          ctx.font = '700 44px ui-monospace, monospace';
+          ctx.font = '700 42px ui-monospace, monospace';
           ctx.fillStyle = '#ffffff';
-          ctx.fillText(pkg.price, px + pw * 0.5, py + 95);
+          ctx.fillText(pkg.price, px + pw * 0.5, py + 90);
 
-          ctx.font = '600 14px system-ui, sans-serif';
+          ctx.font = '600 13.5px system-ui, sans-serif';
           ctx.fillStyle = '#10b981';
-          ctx.fillText(pkg.time, px + pw * 0.5, py + 135);
+          ctx.fillText(pkg.time, px + pw * 0.5, py + 126);
 
           ctx.font = '400 13px system-ui, sans-serif';
+          ctx.fillStyle = '#cbd5e1';
+          ctx.fillText(pkg.scope, px + pw * 0.5, py + 155);
+
+          ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(px + 24, py + 172);
+          ctx.lineTo(px + pw - 24, py + 172);
+          ctx.stroke();
+
+          ctx.textAlign = 'left';
+          ctx.font = '400 12.5px system-ui, sans-serif';
           ctx.fillStyle = '#94a3b8';
-          ctx.fillText(pkg.scope, px + pw * 0.5, py + 175);
+          pkg.details.forEach((d, dIdx) => {
+            ctx.fillText(`✓ ${d}`, px + 28, py + 205 + dIdx * 28);
+          });
+          ctx.textAlign = 'center';
         });
 
-        const btnY = 440;
+        ctx.font = '600 14px system-ui, sans-serif';
         ctx.fillStyle = '#e5be7a';
+        ctx.fillText('★ No hidden retainers · 30-day bug-free warranty · You own every line of code', width * 0.5, py + ph + 34);
+
+        ctx.restore();
+      }
+
+      // -------------------------------------------------------------
+      // SCENE 7 (27.0s – 30.0s): High-Converting Call to Action & Escrow
+      // -------------------------------------------------------------
+      else if (t >= 27.0) {
+        const st = t - 27.0;
+        const rawAlpha = Math.min(1, Math.min(st * 2, (3.0 - st) * 2));
+        const alpha = isStaticThumbnail ? Math.max(0.9, rawAlpha) : rawAlpha;
+        ctx.save();
+        ctx.globalAlpha = alpha;
+
+        ctx.textAlign = 'center';
+        ctx.font = '700 13px ui-monospace, monospace';
+        ctx.fillStyle = '#10b981';
+        ctx.fillText('100% ESCROW PROTECTION · WORKING WORLDWIDE', width * 0.5, 55);
+
+        ctx.font = '700 36px system-ui, sans-serif';
+        ctx.fillStyle = '#ffffff';
+        if (currentCutMode === 'fiverr') {
+          ctx.fillText('Order Your Handcrafted Website on Fiverr', width * 0.5, 100);
+        } else if (currentCutMode === 'upwork') {
+          ctx.fillText('Hire AS Studio with Upwork Escrow Protection', width * 0.5, 100);
+        } else {
+          ctx.fillText('Get Started on Fiverr or Upwork Today', width * 0.5, 100);
+        }
+
+        const btnY = 175;
+        const btnW = 680;
+        const btnH = 80;
+        ctx.fillStyle = '#e5be7a';
+        ctx.shadowColor = 'rgba(229, 190, 122, 0.4)';
+        ctx.shadowBlur = 30;
         ctx.beginPath();
-        ctx.roundRect(width * 0.5 - 340, btnY, 680, 70, 35);
+        ctx.roundRect(width * 0.5 - btnW * 0.5, btnY, btnW, btnH, 40);
         ctx.fill();
 
-        ctx.font = '800 22px system-ui, sans-serif';
+        ctx.font = '800 24px system-ui, sans-serif';
         ctx.fillStyle = '#061210';
+        ctx.shadowBlur = 0;
         if (currentCutMode === 'fiverr') {
-          ctx.fillText('ORDER EXCLUSIVELY ON FIVERR ↗', width * 0.5, btnY + 43);
-          ctx.font = '600 16px ui-monospace, monospace';
-          ctx.fillStyle = '#00f2fe';
-          ctx.fillText(`Fiverr Profile: ${fiverrHandle}   •   Unlimited Revisions   •   You Own Every File`, width * 0.5, btnY + 115);
+          ctx.fillText('★ ORDER SAFELY ON FIVERR ↗', width * 0.5, btnY + 48);
         } else if (currentCutMode === 'upwork') {
-          ctx.fillText('HIRE DIRECTLY ON UPWORK WITH ESCROW ↗', width * 0.5, btnY + 43);
-          ctx.font = '600 16px ui-monospace, monospace';
-          ctx.fillStyle = '#00f2fe';
-          ctx.fillText(`Upwork Agency: ${upworkHandle}   •   Payment Protection   •   Milestone Escrow`, width * 0.5, btnY + 115);
+          ctx.fillText('★ HIRE DIRECTLY ON UPWORK WITH ESCROW ↗', width * 0.5, btnY + 48);
         } else {
-          ctx.fillText('ORDER ON FIVERR OR HIRE ON UPWORK ↗', width * 0.5, btnY + 43);
-          ctx.font = '600 16px ui-monospace, monospace';
-          ctx.fillStyle = '#00f2fe';
-          ctx.fillText(`Fiverr: ${fiverrHandle}   •   Upwork: ${upworkHandle}`, width * 0.5, btnY + 115);
+          ctx.fillText('★ ORDER ON FIVERR OR HIRE ON UPWORK ↗', width * 0.5, btnY + 48);
         }
+
+        // Trust Badges Grid
+        const bY = 295;
+        const badges = [
+          '🛡️ 100% Escrow Milestone Releases',
+          '⚡ 3 to 7 Day Guaranteed Delivery',
+          '📦 Full Source Code Ownership Handover',
+          '🔧 30 Days Free Post-Launch Fixes'
+        ];
+
+        ctx.font = '600 16px system-ui, sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText(`${badges[0]}   •   ${badges[1]}`, width * 0.5, bY);
+        ctx.fillText(`${badges[2]}   •   ${badges[3]}`, width * 0.5, bY + 36);
+
+        ctx.font = '600 15px ui-monospace, monospace';
+        ctx.fillStyle = '#00f2fe';
+        ctx.fillText(`Fiverr Profile: ${fiverrHandle}   ·   Upwork Agency: ${upworkHandle}`, width * 0.5, bY + 84);
+
+        ctx.restore();
+      }
+
+      // -------------------------------------------------------------
+      // DYNAMIC ON-CANVAS CAPTION OVERLAY (if captionsEnabled)
+      // -------------------------------------------------------------
+      if (captionsEnabled) {
+        const cap = getCurrentSceneCaption(t);
+        const barH = 54;
+        const barY = height - barH - 18;
+        const barW = Math.min(width * 0.94, 1140);
+        const barX = (width - barW) * 0.5;
+
+        ctx.save();
+        ctx.fillStyle = 'rgba(6, 14, 13, 0.90)';
+        ctx.strokeStyle = 'rgba(229, 190, 122, 0.45)';
+        ctx.lineWidth = 1.5;
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.75)';
+        ctx.shadowBlur = 18;
+        ctx.beginPath();
+        ctx.roundRect(barX, barY, barW, barH, 12);
+        ctx.fill();
+        ctx.stroke();
+
+        // Scene Tag Badge
+        const tagX = barX + 14;
+        const tagY = barY + 11;
+        ctx.fillStyle = '#163530';
+        ctx.strokeStyle = '#2a5750';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.roundRect(tagX, tagY, 155, 32, 6);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.font = '700 11.5px ui-monospace, SFMono-Regular, monospace';
+        ctx.fillStyle = '#5eead4';
+        ctx.textAlign = 'center';
+        ctx.fillText(cap.tag, tagX + 77, tagY + 20);
+
+        // Headline & Detail
+        ctx.textAlign = 'left';
+        ctx.font = '700 13.5px system-ui, -apple-system, sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText(cap.lead, barX + 185, barY + 22);
+
+        ctx.font = '400 11.5px system-ui, -apple-system, sans-serif';
+        ctx.fillStyle = '#cbd5e1';
+        ctx.fillText(cap.detail, barX + 185, barY + 41);
         ctx.restore();
       }
 
@@ -3122,6 +3622,23 @@
       const audioBtn = $('btnToggleAudio');
       const downloadBtn = $('btnDownloadVideo');
       const posterBtn = $('btnDownloadPoster');
+      const captionsBtn = $('btnToggleCaptions');
+      const modalCaptionsBtn = $('btnModalToggleCaptions');
+
+      const toggleCaptions = () => {
+        captionsEnabled = !captionsEnabled;
+        const label = captionsEnabled ? '💬 Captions: On' : '💬 Captions: Off';
+        if (captionsBtn) captionsBtn.textContent = label;
+        if (modalCaptionsBtn) modalCaptionsBtn.textContent = label;
+        updateCaptionsDOM(videoCurrentTime);
+        renderSceneFrame(adCtx, adCanvas.width, adCanvas.height, videoCurrentTime);
+        if (modalCtx && modalCanvas) {
+          modalCtx.drawImage(adCanvas, 0, 0, modalCanvas.width, modalCanvas.height);
+        }
+      };
+
+      if (captionsBtn) captionsBtn.onclick = toggleCaptions;
+      if (modalCaptionsBtn) modalCaptionsBtn.onclick = toggleCaptions;
 
       if (audioBtn) {
         audioBtn.onclick = () => {
@@ -3221,7 +3738,7 @@
         if (!timeDisplay) return;
         const curSec = Math.floor(videoCurrentTime);
         const curStr = curSec < 10 ? `0${curSec}` : `${curSec}`;
-        timeDisplay.textContent = `00:${curStr} / 00:25`;
+        timeDisplay.textContent = `00:${curStr} / 00:30`;
       }
 
       if (downloadBtn) {
@@ -3316,11 +3833,13 @@
       let currentPosterPreset = 'upwork-proposal';
 
       function getSceneName(t) {
-        if (t < 5.0) return 'Scene 1: Kinetic Brand Intro';
-        if (t < 10.0) return 'Scene 2: VitalCare & Fold Architecture';
-        if (t < 15.0) return 'Scene 3: Delta.OS AI Telemetry';
-        if (t < 20.0) return 'Scene 4: Lighthouse 100 Speed';
-        return 'Scene 5: Packages & Order CTA';
+        if (t < 4.5) return 'Scene 1: Kinetic Brand Intro';
+        if (t < 9.0) return 'Scene 2: VitalCare & Mitti Roastery';
+        if (t < 13.5) return 'Scene 3: Fold Atelier & Atelier North';
+        if (t < 18.0) return 'Scene 4: Apex Residences & Rao Law';
+        if (t < 22.5) return 'Scene 5: Delta.OS AI & Lighthouse 100';
+        if (t < 27.0) return 'Scene 6: Transparent Packages ($95-$600)';
+        return 'Scene 7: High-Converting Order CTA';
       }
 
       function updatePosterRender(time, preset) {
@@ -3570,18 +4089,24 @@
           }
         }
 
+        // Dynamically update Promotional Caption Overlay for current scene
+        updateCaptionsDOM(videoCurrentTime);
+
         renderSceneFrame(adCtx, adCanvas.width, adCanvas.height, videoCurrentTime);
         if (modalOpen && modalCtx && modalCanvas) {
           modalCtx.drawImage(adCanvas, 0, 0, modalCanvas.width, modalCanvas.height);
           if (modalTimeDisplay) {
             const curSec = Math.floor(videoCurrentTime);
             const curStr = curSec < 10 ? `0${curSec}` : `${curSec}`;
-            modalTimeDisplay.textContent = `00:${curStr} / 00:25`;
+            modalTimeDisplay.textContent = `00:${curStr} / 00:30`;
           }
         }
       }
       requestAnimationFrame(loop);
     }
+
+    // Run loadMode immediately on initial script execution so admin panel inputs are guaranteed loaded
+    loadMode();
   </script>
   <script type="module" src="./TrafficChart.jsx"></script>
 </body>
