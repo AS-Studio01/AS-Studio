@@ -7,7 +7,6 @@
 
   // --- Theme Management ---
   const body = document.body;
-  const themeBtn = document.querySelector('.theme-toggle');
   const savedTheme = (() => {
     try { return localStorage.getItem('vitalcare-theme'); } catch (_) { return null; }
   })();
@@ -15,16 +14,19 @@
   if (savedTheme === 'dark') body.classList.add('dark');
 
   function updateThemeUI() {
-    if (!themeBtn) return;
     const isDark = body.classList.contains('dark');
-    themeBtn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
-    themeBtn.title = isDark ? 'Switch to light theme' : 'Switch to dark theme';
-    const icon = themeBtn.querySelector('.theme-icon');
-    if (icon) icon.textContent = isDark ? '☼' : '◐';
+    document.querySelectorAll('.theme-toggle').forEach(btn => {
+      btn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+      btn.title = isDark ? 'Switch to light theme' : 'Switch to dark theme';
+      const icon = btn.querySelector('.theme-icon');
+      if (icon) icon.textContent = isDark ? '☼' : '◐';
+    });
   }
   updateThemeUI();
 
-  themeBtn?.addEventListener('click', () => {
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('.theme-toggle');
+    if (!btn) return;
     body.classList.toggle('dark');
     try {
       localStorage.setItem('vitalcare-theme', body.classList.contains('dark') ? 'dark' : 'light');

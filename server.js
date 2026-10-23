@@ -1094,16 +1094,52 @@ async function startServer() {
     }
   }));
 
-  // Serve static assets, demos, legal, work, js and inbox
-  app.get(["/demos/vitalcare", "/demos/vitalcare-multispeciality-clinic", "/demos/vitalcare%20multispeciality%20clinic", "/demos/vitalcare multispeciality clinic"], (_req, res) => {
-    res.redirect("/demos/vitalcare-multispeciality-clinic/");
+  // -------------------------------------------------------------
+  // CANONICAL CLEAN CUSTOM URLS (NO FILE EXTENSIONS OR FOLDER NAMES)
+  // -------------------------------------------------------------
+  // Clean Core Pages
+  app.get(["/work", "/portfolio"], (_req, res) => res.sendFile(path.join(__dirname, "work.html")));
+  app.get(["/about", "/studio"], (_req, res) => res.sendFile(path.join(__dirname, "about.html")));
+  app.get(["/packages", "/pricing", "/plans"], (_req, res) => res.sendFile(path.join(__dirname, "packages.html")));
+  app.get(["/contact", "/hire", "/brief"], (_req, res) => res.sendFile(path.join(__dirname, "contact.html")));
+  app.get("/work/as-studio", (_req, res) => res.sendFile(path.join(__dirname, "work", "as-studio.html")));
+
+  // Clean Legal Pages
+  app.get("/privacy", (_req, res) => res.sendFile(path.join(__dirname, "legal", "privacy.html")));
+  app.get("/terms", (_req, res) => res.sendFile(path.join(__dirname, "legal", "terms.html")));
+  app.get("/disclaimer", (_req, res) => res.sendFile(path.join(__dirname, "legal", "disclaimer.html")));
+  app.get(["/cancellation-refund", "/refund"], (_req, res) => res.sendFile(path.join(__dirname, "legal", "cancellation-refund.html")));
+
+  // Clean Concept Demos (Direct memorable custom URLs)
+  app.get(["/demos/vitalcare", "/vitalcare"], (_req, res) => res.sendFile(path.join(__dirname, "demos", "vitalcare-multispeciality-clinic", "index.html")));
+  app.get(["/demos/vitalcare/:subpage", "/vitalcare/:subpage"], (req, res, next) => {
+    const sub = req.params.subpage.replace(/\.html$/, "");
+    const file = path.join(__dirname, "demos", "vitalcare-multispeciality-clinic", `${sub}.html`);
+    if (fs.existsSync(file)) return res.sendFile(file);
+    next();
   });
-  app.use("/demos/vitalcare", express.static(path.join(__dirname, "demos", "vitalcare-multispeciality-clinic")));
-  app.use("/demos/vitalcare multispeciality clinic", express.static(path.join(__dirname, "demos", "vitalcare-multispeciality-clinic")));
+
+  app.get(["/demos/mitti", "/demos/mitti-cafe", "/mitti"], (_req, res) => res.sendFile(path.join(__dirname, "demos", "mitti-cafe", "index.html")));
+  app.get(["/demos/fold", "/demos/fold-atelier", "/fold"], (_req, res) => res.sendFile(path.join(__dirname, "demos", "fold-atelier", "index.html")));
+  app.get(["/demos/atelier", "/demos/atelier-north", "/atelier"], (_req, res) => res.sendFile(path.join(__dirname, "demos", "atelier-north", "index.html")));
+  app.get(["/demos/apex", "/demos/apex-residences", "/apex"], (_req, res) => res.sendFile(path.join(__dirname, "demos", "apex-residences", "index.html")));
+  app.get(["/demos/rao", "/demos/rao-law", "/rao"], (_req, res) => res.sendFile(path.join(__dirname, "demos", "rao-law", "index.html")));
+  app.get(["/demos/delta", "/demos/delta-os", "/delta"], (_req, res) => res.sendFile(path.join(__dirname, "demos", "delta-os", "index.html")));
+
+  // Clean Admin Portal URLs (Direct access via /admin or /portal)
+  app.get(["/admin", "/portal", "/dashboard", "/login", "/inbox"], (_req, res) => {
+    res.sendFile(path.join(__dirname, "x7q2m9r4v8k1p6z3", "index.html"));
+  });
+  app.get(["/x7q2m9r4v8k1p6z3", "/x7q2m9r4v8k1p6z3/"], (_req, res) => {
+    res.sendFile(path.join(__dirname, "x7q2m9r4v8k1p6z3", "index.html"));
+  });
+
+  // Serve static assets, demos, legal, work, js
   app.use("/assets", express.static(path.join(__dirname, "assets")));
   app.use("/demos", express.static(path.join(__dirname, "demos")));
   app.use("/work", express.static(path.join(__dirname, "work")));
   app.use("/legal", express.static(path.join(__dirname, "legal")));
+  app.use("/x7q2m9r4v8k1p6z3", express.static(path.join(__dirname, "x7q2m9r4v8k1p6z3")));
   app.use("/js", express.static(path.join(__dirname, "js"), {
     setHeaders: (res, filePath) => {
       if (filePath.endsWith(".js")) {
@@ -1111,16 +1147,27 @@ async function startServer() {
       }
     }
   }));
-  app.get(["/admin", "/login", "/dashboard", "/inbox", "/signin"], (_req, res) => {
-    res.redirect("/x7q2m9r4v8k1p6z3/");
+
+  // Automatic clean-URL resolver middleware for any static HTML page
+  app.use((req, res, next) => {
+    if (req.method !== "GET") return next();
+    const reqPath = req.path.replace(/^\//, "");
+    if (!reqPath || reqPath === "") return next();
+
+    // Check if root .html exists (e.g. /about -> about.html)
+    const directHtml = path.join(__dirname, `${reqPath}.html`);
+    if (fs.existsSync(directHtml) && fs.statSync(directHtml).isFile()) {
+      return res.sendFile(directHtml);
+    }
+
+    // Check if directory index.html exists (e.g. /demos/mitti-cafe -> /demos/mitti-cafe/index.html)
+    const dirIndexHtml = path.join(__dirname, reqPath, "index.html");
+    if (fs.existsSync(dirIndexHtml) && fs.statSync(dirIndexHtml).isFile()) {
+      return res.sendFile(dirIndexHtml);
+    }
+
+    next();
   });
-  app.get("/x7q2m9r4v8k1p6z3", (_req, res) => {
-    res.redirect("/x7q2m9r4v8k1p6z3/");
-  });
-  app.get("/x7q2m9r4v8k1p6z3/", (_req, res) => {
-    res.sendFile(path.join(__dirname, "x7q2m9r4v8k1p6z3", "index.html"));
-  });
-  app.use("/x7q2m9r4v8k1p6z3", express.static(path.join(__dirname, "x7q2m9r4v8k1p6z3")));
 
   if (!isProd) {
     const { createServer: createViteServer } = await import("vite");

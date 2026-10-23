@@ -394,9 +394,9 @@
     <!-- MAIN ADMIN DASHBOARD -->
     <div id="dashboardSection" hidden>
 
-      <!-- Quick Top Control Bar -->
-      <div class="card" style="padding:16px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px">
-        <div class="row">
+      <!-- Quick Top Control Bar & Section Navigation -->
+      <div class="card" style="padding:16px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;background:#ffffff;border:1px solid var(--line);box-shadow:0 2px 10px rgba(0,0,0,0.03)">
+        <div class="row" style="gap:12px">
           <span class="badge live">● Active Session</span>
           <span style="font-size:13.5px;font-weight:600">Studio Availability:</span>
           <select id="studioAvailabilitySel" style="width:auto;padding:6px 10px;font-size:13px">
@@ -405,10 +405,29 @@
             <option value="waitlist">Waitlist Only</option>
           </select>
         </div>
-        <div class="row">
-          <a href="../index.html" target="_blank" style="font-size:13px;color:var(--accent);text-decoration:underline">View Live Website &rarr;</a>
-          <a href="../packages.html" target="_blank" style="font-size:13px;color:var(--accent);text-decoration:underline">Packages &rarr;</a>
-          <a href="../contact.html" target="_blank" style="font-size:13px;color:var(--accent);text-decoration:underline">Contact Brief Form &rarr;</a>
+
+        <!-- Section Navigation Jump Pills -->
+        <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+          <a href="#analyticsCard" class="tab-btn" style="text-decoration:none;padding:6px 12px;font-size:12.5px;font-weight:600">
+            📊 Traffic
+          </a>
+          <a href="#adVideoStudioCard" class="tab-btn" style="text-decoration:none;padding:6px 12px;font-size:12.5px;font-weight:600;color:var(--accent)">
+            🎬 Video Studio (16:9 &amp; 9:16)
+          </a>
+          <a href="#inquiriesCard" class="tab-btn" style="text-decoration:none;padding:6px 12px;font-size:12.5px;font-weight:600">
+            📬 Inquiries &amp; CRM
+          </a>
+          <a href="#autoresponderCard" class="tab-btn" style="text-decoration:none;padding:6px 12px;font-size:12.5px;font-weight:600">
+            ⚡ Autoresponder
+          </a>
+        </div>
+
+        <!-- Clean Canonical URLs -->
+        <div class="row" style="gap:12px">
+          <a href="/" target="_blank" style="font-size:13px;font-weight:600;color:var(--accent);text-decoration:none">🌐 Live Studio &rarr;</a>
+          <a href="/work" target="_blank" style="font-size:13px;color:var(--ink-soft);text-decoration:none">Work</a>
+          <a href="/packages" target="_blank" style="font-size:13px;color:var(--ink-soft);text-decoration:none">Packages</a>
+          <a href="/contact" target="_blank" style="font-size:13px;color:var(--ink-soft);text-decoration:none">Brief Form</a>
         </div>
       </div>
 
@@ -695,8 +714,30 @@
           </div>
         </div>
 
+        <!-- ASPECT RATIO & DISPLAY FORMAT SELECTOR (DUAL 16:9 & 9:16) -->
+        <div style="background:#091614;border:1px solid #1c3c35;border-radius:12px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <span style="font-size:11.5px;font-family:var(--mono);text-transform:uppercase;color:#e5be7a;font-weight:700">
+              📐 Video Aspect Ratio:
+            </span>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <button type="button" id="btnAspect16x9" class="tab-btn active" style="padding:7px 14px;font-size:12.5px;font-weight:600;display:inline-flex;align-items:center;gap:6px">
+                <span>🖥️</span> 16:9 Landscape Desktop (Fiverr &amp; Upwork)
+              </button>
+              <button type="button" id="btnAspect9x16" class="tab-btn" style="padding:7px 14px;font-size:12.5px;font-weight:600;display:inline-flex;align-items:center;gap:6px">
+                <span>📱</span> 9:16 Portrait Mobile (Reels, TikTok &amp; Shorts)
+              </button>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span id="aspectRatioPill" class="badge" style="background:#14302d;color:#5eead4;border-color:#2a5750;font-family:var(--mono);font-size:11.5px">
+              1280 × 720 (16:9 HD Desktop)
+            </span>
+          </div>
+        </div>
+
         <!-- Video Canvas Player Container -->
-        <div style="position:relative;background:#060b0a;border-radius:14px;overflow:hidden;border:1px solid #233935;box-shadow:0 18px 45px rgba(0,0,0,0.5)">
+        <div id="videoCanvasContainer" style="position:relative;background:#060b0a;border-radius:14px;overflow:hidden;border:1px solid #233935;box-shadow:0 18px 45px rgba(0,0,0,0.5);transition:max-width 0.3s ease,margin 0.3s ease;width:100%">
           <canvas id="adCanvas" width="1280" height="720" style="width:100%;height:auto;display:block;aspect-ratio:16/9;background:#08100f"></canvas>
           
           <!-- Live Promotional Caption Overlay Badge / Pill -->
@@ -784,7 +825,7 @@
       </div>
 
       <!-- Client Project Inquiries & CRM -->
-      <div class="card">
+      <div class="card" id="inquiriesCard">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px">
           <div>
             <div style="display:flex;align-items:center;gap:10px">
@@ -2673,7 +2714,259 @@
       } catch (_) {}
     }
 
-    let currentCutMode = 'both'; // 'fiverr' | 'upwork' | 'both'
+    let currentCutMode = 'both'; // 'fiverr' | 'upwork' | 'both' | 'intro'
+
+    // Preloaded high-resolution project images for dual device mockups
+    const projectImages = {
+      vitalCare: new Image(),
+      mittiHero: new Image(),
+      mittiRoast: new Image(),
+      atelierHero: new Image(),
+      atelierSofa: new Image(),
+      faHero: new Image(),
+      faCoat: new Image(),
+      apexHero: new Image(),
+      apexInterior: new Image(),
+      raoLaw: new Image(),
+      courtBloom: new Image()
+    };
+    projectImages.vitalCare.src = '/assets/img/vitalcare.svg';
+    projectImages.mittiHero.src = '/assets/img/mitti-hero.webp';
+    projectImages.mittiRoast.src = '/assets/img/mitti-roast.webp';
+    projectImages.atelierHero.src = '/assets/img/atelier.webp';
+    projectImages.atelierSofa.src = '/assets/img/an-sofa.webp';
+    projectImages.faHero.src = '/assets/img/fa-hero.webp';
+    projectImages.faCoat.src = '/assets/img/fa-coat.webp';
+    projectImages.apexHero.src = '/assets/img/apex.webp';
+    projectImages.apexInterior.src = '/assets/img/apex-interior.webp';
+    projectImages.raoLaw.src = '/assets/img/rao-law.svg';
+    projectImages.courtBloom.src = '/assets/img/court-bloom.webp';
+
+    function drawDesktopBrowserMockup(ctx, x, y, w, h, img, urlStr, badgeStr, opts = {}) {
+      ctx.save();
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+      ctx.shadowBlur = 24;
+      ctx.shadowOffsetY = 10;
+
+      // Outer window chassis
+      ctx.fillStyle = '#0c1514';
+      ctx.strokeStyle = 'rgba(229, 190, 122, 0.45)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, h, 14);
+      ctx.fill();
+      ctx.stroke();
+
+      // Window Header Bar
+      const headerH = Math.max(30, Math.min(38, h * 0.11));
+      ctx.shadowColor = 'transparent';
+      ctx.fillStyle = '#142522';
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, headerH, [14, 14, 0, 0]);
+      ctx.fill();
+
+      // Traffic light window buttons
+      const dotY = y + headerH * 0.5;
+      const dotR = 4.5;
+      const dotSpacing = 14;
+      const dotStartX = x + 16;
+      ctx.fillStyle = '#ff5f56';
+      ctx.beginPath();
+      ctx.arc(dotStartX, dotY, dotR, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#ffbd2e';
+      ctx.beginPath();
+      ctx.arc(dotStartX + dotSpacing, dotY, dotR, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#27c93f';
+      ctx.beginPath();
+      ctx.arc(dotStartX + dotSpacing * 2, dotY, dotR, 0, Math.PI * 2);
+      ctx.fill();
+
+      // URL search bar pill
+      const urlW = Math.min(w * 0.55, 300);
+      const urlH = headerH * 0.68;
+      const urlX = x + (w - urlW) * 0.5;
+      const urlY = y + (headerH - urlH) * 0.5;
+
+      ctx.fillStyle = 'rgba(6, 12, 11, 0.8)';
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.roundRect(urlX, urlY, urlW, urlH, urlH * 0.5);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.font = '600 11px ui-monospace, SFMono-Regular, monospace';
+      ctx.fillStyle = '#5eead4';
+      ctx.textAlign = 'center';
+      ctx.fillText(`🔒 ${urlStr || 'as-studio.design'}`, urlX + urlW * 0.5, urlY + urlH * 0.70);
+
+      // Viewport Content Area
+      const viewX = x + 1;
+      const viewY = y + headerH;
+      const viewW = w - 2;
+      const viewH = h - headerH - 1;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.roundRect(viewX, viewY, viewW, viewH, [0, 0, 13, 13]);
+      ctx.clip();
+
+      if (img && img.complete && img.naturalWidth > 0) {
+        const scale = Math.max(viewW / img.naturalWidth, viewH / img.naturalHeight);
+        const imgDrawW = img.naturalWidth * scale;
+        const imgDrawH = img.naturalHeight * scale;
+        const imgDrawX = viewX + (viewW - imgDrawW) * 0.5;
+        const imgDrawY = viewY;
+        ctx.drawImage(img, imgDrawX, imgDrawY, imgDrawW, imgDrawH);
+
+        const imgGrad = ctx.createLinearGradient(viewX, viewY, viewX, viewY + viewH);
+        imgGrad.addColorStop(0, 'rgba(0, 0, 0, 0.04)');
+        imgGrad.addColorStop(0.65, 'rgba(0, 0, 0, 0.35)');
+        imgGrad.addColorStop(1, 'rgba(6, 14, 13, 0.88)');
+        ctx.fillStyle = imgGrad;
+        ctx.fillRect(viewX, viewY, viewW, viewH);
+      } else {
+        ctx.fillStyle = '#0f201d';
+        ctx.fillRect(viewX, viewY, viewW, viewH);
+      }
+
+      if (badgeStr) {
+        const bpW = Math.min(viewW - 24, 280);
+        const bpH = 30;
+        const bpX = viewX + 12;
+        const bpY = viewY + viewH - bpH - 12;
+        ctx.fillStyle = 'rgba(6, 14, 13, 0.92)';
+        ctx.strokeStyle = '#00f2fe';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.roundRect(bpX, bpY, bpW, bpH, 6);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.font = '700 11px ui-monospace, monospace';
+        ctx.fillStyle = '#00f2fe';
+        ctx.textAlign = 'center';
+        ctx.fillText(badgeStr, bpX + bpW * 0.5, bpY + 19);
+      }
+
+      ctx.restore();
+      ctx.restore();
+    }
+
+    function drawMobilePhoneMockup(ctx, x, y, w, h, img, statusTime = '9:41', badgeStr, opts = {}) {
+      ctx.save();
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+      ctx.shadowBlur = 28;
+      ctx.shadowOffsetY = 14;
+
+      const cornerRadius = 24;
+
+      // Chassis outer border (dark titanium)
+      ctx.fillStyle = '#060d0c';
+      ctx.strokeStyle = 'rgba(229, 190, 122, 0.6)';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, h, cornerRadius);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.shadowColor = 'transparent';
+
+      // Inner screen border
+      const inset = 6;
+      const screenX = x + inset;
+      const screenY = y + inset;
+      const screenW = w - inset * 2;
+      const screenH = h - inset * 2;
+      const innerRadius = 18;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.roundRect(screenX, screenY, screenW, screenH, innerRadius);
+      ctx.clip();
+
+      if (img && img.complete && img.naturalWidth > 0) {
+        const scale = Math.max(screenW / img.naturalWidth, screenH / img.naturalHeight);
+        const imgDrawW = img.naturalWidth * scale;
+        const imgDrawH = img.naturalHeight * scale;
+        const imgDrawX = screenX + (screenW - imgDrawW) * 0.5;
+        const imgDrawY = screenY;
+        ctx.drawImage(img, imgDrawX, imgDrawY, imgDrawW, imgDrawH);
+
+        const scGrad = ctx.createLinearGradient(screenX, screenY, screenX, screenY + screenH);
+        scGrad.addColorStop(0, 'rgba(0, 0, 0, 0.5)');
+        scGrad.addColorStop(0.25, 'rgba(0, 0, 0, 0.08)');
+        scGrad.addColorStop(0.7, 'rgba(0, 0, 0, 0.25)');
+        scGrad.addColorStop(1, 'rgba(5, 12, 11, 0.90)');
+        ctx.fillStyle = scGrad;
+        ctx.fillRect(screenX, screenY, screenW, screenH);
+      } else {
+        ctx.fillStyle = '#0c1b18';
+        ctx.fillRect(screenX, screenY, screenW, screenH);
+      }
+
+      // Dynamic Island Pill
+      const pillW = Math.min(screenW * 0.38, 80);
+      const pillH = 15;
+      const pillX = screenX + (screenW - pillW) * 0.5;
+      const pillY = screenY + 7;
+      ctx.fillStyle = '#000000';
+      ctx.beginPath();
+      ctx.roundRect(pillX, pillY, pillW, pillH, 7.5);
+      ctx.fill();
+
+      // Camera lens dot
+      ctx.fillStyle = '#1a2e2b';
+      ctx.beginPath();
+      ctx.arc(pillX + pillW - 12, pillY + 7.5, 3, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Status Bar (Time & Icons)
+      ctx.font = '600 10.5px system-ui, sans-serif';
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'left';
+      ctx.fillText(statusTime, screenX + 14, screenY + 18);
+
+      ctx.textAlign = 'right';
+      ctx.font = '500 10px system-ui, sans-serif';
+      ctx.fillText('5G 🔋', screenX + screenW - 12, screenY + 18);
+
+      // Interactive floating UI badge on phone screen
+      if (badgeStr) {
+        const bW = screenW - 20;
+        const bH = 34;
+        const bX = screenX + 10;
+        const bY = screenY + screenH - bH - 30;
+
+        ctx.fillStyle = 'rgba(6, 14, 13, 0.95)';
+        ctx.strokeStyle = '#e5be7a';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.roundRect(bX, bY, bW, bH, 8);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.font = '700 10.5px ui-monospace, monospace';
+        ctx.fillStyle = '#e5be7a';
+        ctx.textAlign = 'center';
+        ctx.fillText(badgeStr, bX + bW * 0.5, bY + 21);
+      }
+
+      // Home indicator bar at bottom
+      const homeW = screenW * 0.40;
+      const homeH = 4;
+      const homeX = screenX + (screenW - homeW) * 0.5;
+      const homeY = screenY + screenH - 10;
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+      ctx.beginPath();
+      ctx.roundRect(homeX, homeY, homeW, homeH, 2);
+      ctx.fill();
+
+      ctx.restore();
+      ctx.restore();
+    }
 
     function renderSceneFrame(ctx, width, height, t, isStaticThumbnail = false) {
       ctx.fillStyle = '#060d0c';
@@ -2711,67 +3004,167 @@
         ctx.save();
         ctx.globalAlpha = alpha;
 
-        const archY = height * 0.28;
-        const archScale = 1.0 + Math.sin((isStaticThumbnail && t < 0.5 ? 1.5 : t) * 1.5) * 0.03;
-        ctx.save();
-        ctx.translate(width * 0.5, archY);
-        ctx.scale(archScale, archScale);
+        const isVertical = height > width;
 
-        ctx.strokeStyle = '#e5be7a';
-        ctx.lineWidth = 6;
-        ctx.shadowColor = 'rgba(229, 190, 122, 0.6)';
-        ctx.shadowBlur = 24;
-        ctx.beginPath();
-        ctx.arc(0, -10, 44, Math.PI, 0, false);
-        ctx.lineTo(44, 40);
-        ctx.moveTo(-44, -10);
-        ctx.lineTo(-44, 40);
-        ctx.stroke();
+        if (isVertical) {
+          // 9:16 Portrait Mobile Layout
+          const archY = height * 0.14;
+          const archScale = 1.0 + Math.sin((isStaticThumbnail && t < 0.5 ? 1.5 : t) * 1.5) * 0.03;
+          ctx.save();
+          ctx.translate(width * 0.5, archY);
+          ctx.scale(archScale, archScale);
 
-        ctx.fillStyle = '#b98a50';
-        ctx.beginPath();
-        ctx.arc(0, -5, 20, Math.PI, 0, false);
-        ctx.lineTo(20, 40);
-        ctx.lineTo(-20, 40);
-        ctx.closePath();
-        ctx.fill();
-        ctx.restore();
+          ctx.strokeStyle = '#e5be7a';
+          ctx.lineWidth = 6;
+          ctx.shadowColor = 'rgba(229, 190, 122, 0.6)';
+          ctx.shadowBlur = 24;
+          ctx.beginPath();
+          ctx.arc(0, -10, 40, Math.PI, 0, false);
+          ctx.lineTo(40, 36);
+          ctx.moveTo(-40, -10);
+          ctx.lineTo(-40, 36);
+          ctx.stroke();
 
-        ctx.font = '700 48px system-ui, -apple-system, sans-serif';
-        ctx.fillStyle = '#ffffff';
-        ctx.textAlign = 'center';
-        ctx.shadowColor = 'rgba(0,0,0,0.8)';
-        ctx.shadowBlur = 12;
-        ctx.fillText('AS STUDIO', width * 0.5, height * 0.46);
+          ctx.fillStyle = '#b98a50';
+          ctx.beginPath();
+          ctx.arc(0, -5, 18, Math.PI, 0, false);
+          ctx.lineTo(18, 36);
+          ctx.lineTo(-18, 36);
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
 
-        ctx.fillStyle = '#e5be7a';
-        ctx.fillText('.', width * 0.5 + 130, height * 0.46);
+          ctx.font = '700 40px system-ui, -apple-system, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          ctx.textAlign = 'center';
+          ctx.shadowColor = 'rgba(0,0,0,0.8)';
+          ctx.shadowBlur = 12;
+          ctx.fillText('AS STUDIO', width * 0.5, height * 0.23);
+          ctx.fillStyle = '#e5be7a';
+          ctx.fillText('.', width * 0.5 + 115, height * 0.23);
 
-        ctx.font = '600 27px system-ui, -apple-system, sans-serif';
-        ctx.fillStyle = '#e5be7a';
-        ctx.fillText('WEBSITES WITH QUIET PRESENCE', width * 0.5, height * 0.56);
+          ctx.font = '600 21px system-ui, -apple-system, sans-serif';
+          ctx.fillStyle = '#e5be7a';
+          ctx.fillText('WEBSITES WITH QUIET PRESENCE', width * 0.5, height * 0.28);
 
-        ctx.font = '400 17px ui-monospace, SFMono-Regular, monospace';
-        ctx.fillStyle = '#94a3b8';
-        ctx.fillText('Sub-Second Speeds (<0.4s FCP) · Handcrafted Code · Zero Page Builders', width * 0.5, height * 0.63);
+          ctx.font = '400 14px ui-monospace, SFMono-Regular, monospace';
+          ctx.fillStyle = '#94a3b8';
+          ctx.fillText('Sub-Second Speeds (<0.4s FCP) · Zero Builders', width * 0.5, height * 0.32);
 
-        ctx.fillStyle = 'rgba(229, 190, 122, 0.15)';
-        ctx.strokeStyle = 'rgba(229, 190, 122, 0.4)';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.roundRect(width * 0.5 - 300, height * 0.70, 600, 44, 22);
-        ctx.fill();
-        ctx.stroke();
+          // Hero Devices Preview in 9:16
+          const mockW = width * 0.86;
+          const mockH = 340;
+          const mockX = width * 0.07;
+          const mockY = height * 0.36 + Math.sin(t * 1.5) * 5;
+          drawDesktopBrowserMockup(ctx, mockX, mockY, mockW, mockH, projectImages.courtBloom, 'as-studio.design/portfolio', '⚡ 100/100 Google Lighthouse Guaranteed');
 
-        ctx.font = '600 14px system-ui, sans-serif';
-        ctx.fillStyle = '#ffffff';
-        if (currentCutMode === 'fiverr') {
-          ctx.fillText(`★ Order Safely on Fiverr (${fiverrHandle}) · Pro Handcoded Delivery`, width * 0.5, height * 0.75);
-        } else if (currentCutMode === 'upwork') {
-          ctx.fillText(`★ Hire Securely on Upwork (${upworkHandle}) · Escrow Protection`, width * 0.5, height * 0.75);
+          const phoneW = 220;
+          const phoneH = 380;
+          const phoneX = width * 0.5 - 20;
+          const phoneY = height * 0.54 - Math.sin(t * 1.8) * 6;
+          drawMobilePhoneMockup(ctx, phoneX, phoneY, phoneW, phoneH, projectImages.mittiHero, '9:41', '📱 Phone-First Touch UI');
+
+          // Bottom Verified Platform Pill
+          ctx.fillStyle = 'rgba(229, 190, 122, 0.15)';
+          ctx.strokeStyle = 'rgba(229, 190, 122, 0.4)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.roundRect(width * 0.08, height * 0.90, width * 0.84, 46, 23);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.font = '600 13.5px system-ui, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          if (currentCutMode === 'fiverr') {
+            ctx.fillText(`★ Order Safely on Fiverr (${fiverrHandle})`, width * 0.5, height * 0.90 + 28);
+          } else if (currentCutMode === 'upwork') {
+            ctx.fillText(`★ Hire on Upwork (${upworkHandle}) · Escrow`, width * 0.5, height * 0.90 + 28);
+          } else {
+            ctx.fillText(`★ Verified on Fiverr (${fiverrHandle}) & Upwork`, width * 0.5, height * 0.90 + 28);
+          }
+
         } else {
-          ctx.fillText(`★ Available on Fiverr (${fiverrHandle}) & Upwork (${upworkHandle})`, width * 0.5, height * 0.75);
+          // 16:9 Landscape Desktop Layout
+          // Left Side: Brand Arch & Typography
+          const leftCenterX = width * 0.28;
+          const archY = height * 0.24;
+          const archScale = 1.0 + Math.sin((isStaticThumbnail && t < 0.5 ? 1.5 : t) * 1.5) * 0.03;
+          ctx.save();
+          ctx.translate(leftCenterX, archY);
+          ctx.scale(archScale, archScale);
+
+          ctx.strokeStyle = '#e5be7a';
+          ctx.lineWidth = 6;
+          ctx.shadowColor = 'rgba(229, 190, 122, 0.6)';
+          ctx.shadowBlur = 24;
+          ctx.beginPath();
+          ctx.arc(0, -10, 44, Math.PI, 0, false);
+          ctx.lineTo(44, 40);
+          ctx.moveTo(-44, -10);
+          ctx.lineTo(-44, 40);
+          ctx.stroke();
+
+          ctx.fillStyle = '#b98a50';
+          ctx.beginPath();
+          ctx.arc(0, -5, 20, Math.PI, 0, false);
+          ctx.lineTo(20, 40);
+          ctx.lineTo(-20, 40);
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
+
+          ctx.font = '700 48px system-ui, -apple-system, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          ctx.textAlign = 'center';
+          ctx.shadowColor = 'rgba(0,0,0,0.8)';
+          ctx.shadowBlur = 12;
+          ctx.fillText('AS STUDIO', leftCenterX, height * 0.42);
+
+          ctx.fillStyle = '#e5be7a';
+          ctx.fillText('.', leftCenterX + 130, height * 0.42);
+
+          ctx.font = '600 24px system-ui, -apple-system, sans-serif';
+          ctx.fillStyle = '#e5be7a';
+          ctx.fillText('WEBSITES WITH QUIET PRESENCE', leftCenterX, height * 0.52);
+
+          ctx.font = '400 15px ui-monospace, SFMono-Regular, monospace';
+          ctx.fillStyle = '#94a3b8';
+          ctx.fillText('Sub-Second Speeds (<0.4s FCP) · Handcrafted Code', leftCenterX, height * 0.60);
+          ctx.fillText('Zero Page Builders · 100% Full Source Code Ownership', leftCenterX, height * 0.65);
+
+          ctx.fillStyle = 'rgba(229, 190, 122, 0.15)';
+          ctx.strokeStyle = 'rgba(229, 190, 122, 0.4)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.roundRect(leftCenterX - 220, height * 0.72, 440, 44, 22);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.font = '600 13.5px system-ui, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          if (currentCutMode === 'fiverr') {
+            ctx.fillText(`★ Order Safely on Fiverr (${fiverrHandle})`, leftCenterX, height * 0.77);
+          } else if (currentCutMode === 'upwork') {
+            ctx.fillText(`★ Hire Securely on Upwork (${upworkHandle})`, leftCenterX, height * 0.77);
+          } else {
+            ctx.fillText(`★ Available on Fiverr (${fiverrHandle}) & Upwork`, leftCenterX, height * 0.77);
+          }
+
+          // Right Side: High-converting dual mockups floating dynamically
+          const dW = width * 0.42;
+          const dH = height * 0.68;
+          const dX = width * 0.53;
+          const dY = height * 0.14 + Math.sin(t * 1.4) * 5;
+          drawDesktopBrowserMockup(ctx, dX, dY, dW, dH, projectImages.courtBloom, 'as-studio.design/portfolio', '⚡ Sub-0.3s Load · Handcrafted Code');
+
+          // Floating Mobile Phone Mockup overlapping the bottom right
+          const pW = 190;
+          const pH = height * 0.66;
+          const pX = width * 0.82;
+          const pY = height * 0.22 - Math.sin(t * 1.8) * 6;
+          drawMobilePhoneMockup(ctx, pX, pY, pW, pH, projectImages.mittiHero, '9:41', '★ 100% Phone-First');
         }
+
         ctx.restore();
       }
 
@@ -2785,119 +3178,111 @@
         ctx.save();
         ctx.globalAlpha = alpha;
 
-        ctx.textAlign = 'center';
-        ctx.font = '700 12.5px ui-monospace, monospace';
-        ctx.fillStyle = '#00f2fe';
-        ctx.fillText('COMMERCIAL WORK SHOWCASE · HEALTHCARE & ROASTERY', width * 0.5, 48);
+        const isVertical = height > width;
 
-        ctx.font = '700 32px system-ui, sans-serif';
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText('VitalCare Multispecialty Clinic & Mitti Café Roastery', width * 0.5, 88);
+        if (isVertical) {
+          // 9:16 Portrait Mobile Layout
+          ctx.textAlign = 'center';
+          ctx.font = '700 12px ui-monospace, monospace';
+          ctx.fillStyle = '#00f2fe';
+          ctx.fillText('02 · COMMERCIAL PROJECTS · HEALTHCARE & ROASTERY', width * 0.5, 42);
 
-        const c1x = width * 0.08;
-        const c1y = 118;
-        const cw = width * 0.40;
-        const ch = height * 0.65;
+          ctx.font = '700 24px system-ui, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText('VitalCare Clinic & Mitti Café', width * 0.5, 74);
 
-        // VitalCare Card
-        ctx.fillStyle = 'rgba(15, 34, 30, 0.92)';
-        ctx.strokeStyle = 'rgba(43, 102, 92, 0.7)';
-        ctx.lineWidth = 2;
-        ctx.shadowColor = 'rgba(0, 242, 254, 0.2)';
-        ctx.shadowBlur = 20;
-        ctx.beginPath();
-        ctx.roundRect(c1x, c1y, cw, ch, 16);
-        ctx.fill();
-        ctx.stroke();
+          // Top Half: Desktop Browser Mockup (VitalCare)
+          const dW = width * 0.88;
+          const dH = 340;
+          const dX = width * 0.06;
+          const dY = 96 + Math.sin(st * 1.5) * 4;
+          drawDesktopBrowserMockup(ctx, dX, dY, dW, dH, projectImages.vitalCare, 'vitalcare.clinic/booking', '★ Growth Tier · Sub-0.3s Slot Booking');
 
-        // Medical Badge & Schedule
-        ctx.fillStyle = '#0d1e1b';
-        ctx.beginPath();
-        ctx.roundRect(c1x + 14, c1y + 14, cw - 28, ch * 0.38, 10);
-        ctx.fill();
+          // Bottom Half: Mobile Phone Mockup (Mitti Café)
+          const pW = 240;
+          const pH = 520;
+          const pX = (width - pW) * 0.5;
+          const pY = 460 - Math.sin(st * 1.8) * 5;
+          drawMobilePhoneMockup(ctx, pX, pY, pW, pH, projectImages.mittiHero, '10:30', '★ Starter Tier · 100/100 Mobile Speed');
 
-        ctx.strokeStyle = '#2b665c';
-        ctx.lineWidth = 3.5;
-        ctx.beginPath();
-        ctx.arc(c1x + cw * 0.5, c1y + ch * 0.16, 22, 0, Math.PI * 2);
-        ctx.stroke();
-        ctx.fillStyle = '#10b981';
-        ctx.fillRect(c1x + cw * 0.5 - 3.5, c1y + ch * 0.16 - 11, 7, 22);
-        ctx.fillRect(c1x + cw * 0.5 - 11, c1y + ch * 0.16 - 3.5, 22, 7);
+          // Bottom Feature Pill
+          ctx.fillStyle = 'rgba(16, 185, 129, 0.15)';
+          ctx.strokeStyle = '#10b981';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.roundRect(width * 0.08, height * 0.89, width * 0.84, 44, 22);
+          ctx.fill();
+          ctx.stroke();
 
-        ctx.textAlign = 'center';
-        ctx.font = '700 16px system-ui, sans-serif';
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText('VitalCare Multispecialty Clinic', c1x + cw * 0.5, c1y + ch * 0.28);
-        ctx.font = '600 11.5px ui-monospace, monospace';
-        ctx.fillStyle = '#10b981';
-        ctx.fillText('GROWTH TIER · 6 CLINICAL DEPARTMENTS · LIVE TRIAGE', c1x + cw * 0.5, c1y + ch * 0.34);
+          ctx.font = '600 13px system-ui, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText('★ +42% Inquiries · Phone-First Touch Navigation', width * 0.5, height * 0.89 + 27);
 
-        ctx.textAlign = 'left';
-        ctx.font = '400 13px system-ui, sans-serif';
-        ctx.fillStyle = '#cbd5e1';
-        ctx.fillText('• 09:30 AM · General Medicine · Dr. Vance [CONFIRMED]', c1x + 22, c1y + ch * 0.48);
-        ctx.fillText('• 11:15 AM · Cardiology Triage · Dr. Chen [AVAILABLE]', c1x + 22, c1y + ch * 0.56);
-        ctx.fillText('• 02:30 PM · Pediatric Telehealth Booking [LIVE]', c1x + 22, c1y + ch * 0.64);
-        ctx.fillText('• Sub-0.3s Slot Booking · Realistic Lead Qualification', c1x + 22, c1y + ch * 0.72);
+        } else {
+          // 16:9 Landscape Desktop Layout
+          ctx.textAlign = 'center';
+          ctx.font = '700 12.5px ui-monospace, monospace';
+          ctx.fillStyle = '#00f2fe';
+          ctx.fillText('02 · COMMERCIAL SHOWCASE · HEALTHCARE & ARTISANAL ROASTERY', width * 0.5, 44);
 
-        ctx.fillStyle = 'rgba(16, 185, 129, 0.15)';
-        ctx.strokeStyle = '#10b981';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.roundRect(c1x + 22, c1y + ch * 0.80, cw - 44, 34, 8);
-        ctx.fill();
-        ctx.stroke();
-        ctx.textAlign = 'center';
-        ctx.font = '700 12px ui-monospace, monospace';
-        ctx.fillStyle = '#10b981';
-        ctx.fillText('★ +42% Patient Inquiries · Zero Page Lag', c1x + cw * 0.5, c1y + ch * 0.80 + 22);
+          ctx.font = '700 30px system-ui, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText('VitalCare Multispecialty Clinic & Mitti Café Roastery', width * 0.5, 82);
 
-        // Mitti Café Card
-        const c2x = width * 0.52;
-        ctx.fillStyle = 'rgba(32, 22, 14, 0.92)';
-        ctx.strokeStyle = 'rgba(229, 190, 122, 0.55)';
-        ctx.shadowColor = 'rgba(229, 190, 122, 0.25)';
-        ctx.beginPath();
-        ctx.roundRect(c2x, c1y, cw, ch, 16);
-        ctx.fill();
-        ctx.stroke();
+          // Left: Desktop Safari Browser Mockup (VitalCare Clinic)
+          const dW = width * 0.52;
+          const dH = height * 0.70;
+          const dX = width * 0.05;
+          const dY = 108 + Math.sin(st * 1.4) * 4;
+          drawDesktopBrowserMockup(ctx, dX, dY, dW, dH, projectImages.vitalCare, 'vitalcare.clinic/appointment', '★ 6 Clinical Depts · 0.3s Booking · +42% Leads');
 
-        ctx.fillStyle = '#1b130c';
-        ctx.beginPath();
-        ctx.roundRect(c2x + 14, c1y + 14, cw - 28, ch * 0.38, 10);
-        ctx.fill();
+          // Right: Mobile Smartphone Mockup (Mitti Café)
+          const pW = 220;
+          const pH = height * 0.72;
+          const pX = width * 0.62;
+          const pY = 100 - Math.sin(st * 1.6) * 5;
+          drawMobilePhoneMockup(ctx, pX, pY, pW, pH, projectImages.mittiHero, '10:30', '★ Starter Tier · 100/100 Speed');
 
-        ctx.font = '300 28px Georgia, serif';
-        ctx.fillStyle = '#e5be7a';
-        ctx.textAlign = 'center';
-        ctx.fillText('MITTI CAFÉ', c2x + cw * 0.5, c1y + ch * 0.18);
-        ctx.font = '11.5px ui-monospace, monospace';
-        ctx.fillStyle = '#a8987b';
-        ctx.fillText('ARTISANAL ROASTERY & SLOW BREW BAR', c2x + cw * 0.5, c1y + ch * 0.26);
-        ctx.font = '600 11.5px ui-monospace, monospace';
-        ctx.fillStyle = '#e5be7a';
-        ctx.fillText('STARTER TIER · ORGANIC ROASTERY · INSTANT MENU', c2x + cw * 0.5, c1y + ch * 0.34);
+          // Side Feature Card for Mitti
+          const scX = width * 0.82;
+          const scY = 120;
+          const scW = width * 0.14;
+          const scH = height * 0.64;
+          ctx.fillStyle = 'rgba(15, 26, 24, 0.85)';
+          ctx.strokeStyle = 'rgba(229, 190, 122, 0.4)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.roundRect(scX, scY, scW, scH, 12);
+          ctx.fill();
+          ctx.stroke();
 
-        ctx.textAlign = 'left';
-        ctx.font = '400 13px system-ui, sans-serif';
-        ctx.fillStyle = '#cbd5e1';
-        ctx.fillText('• Single Estate Arabica · Dark Caramel Chikmagalur', c2x + 22, c1y + ch * 0.48);
-        ctx.fillText('• Cold Brew Tasting Flights & Origin Tasting Notes', c2x + 22, c1y + ch * 0.56);
-        ctx.fillText('• Instant Mobile Table Reservation & Bean Orders', c2x + 22, c1y + ch * 0.64);
-        ctx.fillText('• Phone-First Touch Navigation with Sub-0.3s FCP', c2x + 22, c1y + ch * 0.72);
+          ctx.textAlign = 'left';
+          ctx.font = '700 12px ui-monospace, monospace';
+          ctx.fillStyle = '#e5be7a';
+          ctx.fillText('MITTI CAFÉ', scX + 14, scY + 28);
+          ctx.font = '600 11px system-ui, sans-serif';
+          ctx.fillStyle = '#94a3b8';
+          ctx.fillText('Chikmagalur Roast', scX + 14, scY + 46);
 
-        ctx.fillStyle = 'rgba(229, 190, 122, 0.15)';
-        ctx.strokeStyle = '#e5be7a';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.roundRect(c2x + 22, c1y + ch * 0.80, cw - 44, 34, 8);
-        ctx.fill();
-        ctx.stroke();
-        ctx.textAlign = 'center';
-        ctx.font = '700 12px ui-monospace, monospace';
-        ctx.fillStyle = '#e5be7a';
-        ctx.fillText('★ 100/100 Mobile Speed · 100% Touch Responsive', c2x + cw * 0.5, c1y + ch * 0.80 + 22);
+          ctx.font = '400 11.5px system-ui, sans-serif';
+          ctx.fillStyle = '#cbd5e1';
+          const mittiPoints = ['• Single-estate brew', '• Instant table book', '• Origin flights', '• 100% Touch UX'];
+          mittiPoints.forEach((p, i) => ctx.fillText(p, scX + 14, scY + 80 + i * 26));
+
+          ctx.fillStyle = 'rgba(16, 185, 129, 0.15)';
+          ctx.strokeStyle = '#10b981';
+          ctx.beginPath();
+          ctx.roundRect(scX + 10, scY + scH - 65, scW - 20, 52, 8);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.textAlign = 'center';
+          ctx.font = '700 11.5px ui-monospace, monospace';
+          ctx.fillStyle = '#10b981';
+          ctx.fillText('LIGHTHOUSE', scX + scW * 0.5, scY + scH - 42);
+          ctx.font = '800 16px ui-monospace, monospace';
+          ctx.fillText('100 / 100', scX + scW * 0.5, scY + scH - 22);
+        }
 
         ctx.restore();
       }
@@ -2912,111 +3297,111 @@
         ctx.save();
         ctx.globalAlpha = alpha;
 
-        ctx.textAlign = 'center';
-        ctx.font = '700 12.5px ui-monospace, monospace';
-        ctx.fillStyle = '#e5be7a';
-        ctx.fillText('BESPOKE LUXURY & MINIMALIST ARCHITECTURE', width * 0.5, 48);
+        const isVertical = height > width;
 
-        ctx.font = '700 32px system-ui, sans-serif';
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText('Fold Atelier Artisanal Fashion & Atelier North Spaces', width * 0.5, 88);
+        if (isVertical) {
+          // 9:16 Portrait Mobile Layout
+          ctx.textAlign = 'center';
+          ctx.font = '700 12px ui-monospace, monospace';
+          ctx.fillStyle = '#e5be7a';
+          ctx.fillText('03 · BESPOKE LUXURY & MINIMALIST ARCHITECTURE', width * 0.5, 42);
 
-        const c1x = width * 0.08;
-        const c1y = 118;
-        const cw = width * 0.40;
-        const ch = height * 0.65;
+          ctx.font = '700 24px system-ui, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText('Atelier North & Fold Atelier', width * 0.5, 74);
 
-        // Fold Atelier Card
-        ctx.fillStyle = 'rgba(26, 22, 18, 0.94)';
-        ctx.strokeStyle = 'rgba(229, 190, 122, 0.6)';
-        ctx.shadowColor = 'rgba(229, 190, 122, 0.25)';
-        ctx.shadowBlur = 20;
-        ctx.beginPath();
-        ctx.roundRect(c1x, c1y, cw, ch, 16);
-        ctx.fill();
-        ctx.stroke();
+          // Top Half: Desktop Browser Mockup (Atelier North)
+          const dW = width * 0.88;
+          const dH = 340;
+          const dX = width * 0.06;
+          const dY = 96 + Math.sin(st * 1.5) * 4;
+          drawDesktopBrowserMockup(ctx, dX, dY, dW, dH, projectImages.atelierHero, 'ateliernorth.arch/spaces', '★ Signature Tier · Architectural Portfolio');
 
-        ctx.fillStyle = '#15120e';
-        ctx.beginPath();
-        ctx.roundRect(c1x + 14, c1y + 14, cw - 28, ch * 0.38, 10);
-        ctx.fill();
+          // Bottom Half: Mobile Phone Mockup (Fold Atelier Fashion)
+          const pW = 240;
+          const pH = 520;
+          const pX = (width - pW) * 0.5;
+          const pY = 460 - Math.sin(st * 1.8) * 5;
+          drawMobilePhoneMockup(ctx, pX, pY, pW, pH, projectImages.faHero, '12:15', '★ Growth Tier · Slide-Out Sizing Drawer');
 
-        ctx.font = '300 28px Georgia, serif';
-        ctx.fillStyle = '#e5be7a';
-        ctx.textAlign = 'center';
-        ctx.fillText('FOLD ATELIER', c1x + cw * 0.5, c1y + ch * 0.18);
-        ctx.font = '11.5px ui-monospace, monospace';
-        ctx.fillStyle = '#a8987b';
-        ctx.fillText('AUTUMN / WINTER LINEN EDITORIAL', c1x + cw * 0.5, c1y + ch * 0.26);
-        ctx.font = '600 11.5px ui-monospace, monospace';
-        ctx.fillStyle = '#e5be7a';
-        ctx.fillText('GROWTH TIER · TACTILE E-COMMERCE', c1x + cw * 0.5, c1y + ch * 0.34);
+          // Bottom Feature Pill
+          ctx.fillStyle = 'rgba(229, 190, 122, 0.15)';
+          ctx.strokeStyle = '#e5be7a';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.roundRect(width * 0.08, height * 0.89, width * 0.84, 44, 22);
+          ctx.fill();
+          ctx.stroke();
 
-        ctx.textAlign = 'left';
-        ctx.font = '400 13px system-ui, sans-serif';
-        ctx.fillStyle = '#cbd5e1';
-        ctx.fillText('• Slide-Out Quick View Product Drawer Preview', c1x + 22, c1y + ch * 0.48);
-        ctx.fillText('• Tactile Garment Sizing & Fit Modal (S · M · L · XL)', c1x + 22, c1y + ch * 0.56);
-        ctx.fillText('• Zero Heavy Plugins · 100% Lightweight CSS Craft', c1x + 22, c1y + ch * 0.64);
-        ctx.fillText('• Editorial Typography Built for Luxury Retailers', c1x + 22, c1y + ch * 0.72);
+          ctx.font = '600 13px system-ui, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText('★ Luxury Editorial Aesthetics · Zero Page Builders', width * 0.5, height * 0.89 + 27);
 
-        ctx.fillStyle = 'rgba(229, 190, 122, 0.15)';
-        ctx.strokeStyle = '#e5be7a';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.roundRect(c1x + 22, c1y + ch * 0.80, cw - 44, 34, 8);
-        ctx.fill();
-        ctx.stroke();
-        ctx.textAlign = 'center';
-        ctx.font = '700 12px ui-monospace, monospace';
-        ctx.fillStyle = '#e5be7a';
-        ctx.fillText('★ Refined Editorial Conversion & Instant Sizing', c1x + cw * 0.5, c1y + ch * 0.80 + 22);
+        } else {
+          // 16:9 Landscape Desktop Layout
+          ctx.textAlign = 'center';
+          ctx.font = '700 12.5px ui-monospace, monospace';
+          ctx.fillStyle = '#e5be7a';
+          ctx.fillText('03 · BESPOKE LUXURY EDITORIAL & MINIMALIST ARCHITECTURAL PRACTICE', width * 0.5, 44);
 
-        // Atelier North Card
-        const c2x = width * 0.52;
-        ctx.fillStyle = 'rgba(12, 18, 22, 0.94)';
-        ctx.strokeStyle = 'rgba(100, 180, 210, 0.55)';
-        ctx.shadowColor = 'rgba(0, 242, 254, 0.2)';
-        ctx.beginPath();
-        ctx.roundRect(c2x, c1y, cw, ch, 16);
-        ctx.fill();
-        ctx.stroke();
+          ctx.font = '700 30px system-ui, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText('Atelier North Spatial Practice & Fold Atelier Luxury Linen', width * 0.5, 82);
 
-        ctx.fillStyle = '#081014';
-        ctx.beginPath();
-        ctx.roundRect(c2x + 14, c1y + 14, cw - 28, ch * 0.38, 10);
-        ctx.fill();
+          // Left: Desktop Safari Browser Mockup (Atelier North)
+          const dW = width * 0.52;
+          const dH = height * 0.70;
+          const dX = width * 0.05;
+          const dY = 108 + Math.sin(st * 1.4) * 4;
+          drawDesktopBrowserMockup(ctx, dX, dY, dW, dH, projectImages.atelierHero, 'ateliernorth.arch/nordic-pavilion', '★ Signature Practice · $85k Retainer Design');
 
-        ctx.font = '700 24px system-ui, sans-serif';
-        ctx.fillStyle = '#ffffff';
-        ctx.textAlign = 'center';
-        ctx.fillText('ATELIER NORTH', c2x + cw * 0.5, c1y + ch * 0.18);
-        ctx.font = '11.5px ui-monospace, monospace';
-        ctx.fillStyle = '#67e8f9';
-        ctx.fillText('MINIMALIST ARCHITECTURE & SPATIAL DESIGN', c2x + cw * 0.5, c1y + ch * 0.26);
-        ctx.font = '600 11.5px ui-monospace, monospace';
-        ctx.fillStyle = '#94a3b8';
-        ctx.fillText('SIGNATURE TIER · ARCHITECTURAL PRACTICE', c2x + cw * 0.5, c1y + ch * 0.34);
+          // Right: Mobile Smartphone Mockup (Fold Atelier)
+          const pW = 220;
+          const pH = height * 0.72;
+          const pX = width * 0.62;
+          const pY = 100 - Math.sin(st * 1.6) * 5;
+          drawMobilePhoneMockup(ctx, pX, pY, pW, pH, projectImages.faHero, '12:15', '★ Growth Tier · Sizing Drawer');
 
-        ctx.textAlign = 'left';
-        ctx.font = '400 13px system-ui, sans-serif';
-        ctx.fillStyle = '#cbd5e1';
-        ctx.fillText('• Elevation Coordinates & Spatial Blueprint Grid', c2x + 22, c1y + ch * 0.48);
-        ctx.fillText('• Nordic Timber Pavilion · Sustainable Materiality', c2x + 22, c1y + ch * 0.56);
-        ctx.fillText('• Interactive Project Dossiers & Client Walkthroughs', c2x + 22, c1y + ch * 0.64);
-        ctx.fillText('• Uncompromising Spatial Silence & Clean Margins', c2x + 22, c1y + ch * 0.72);
+          // Side Feature Card for Fold Atelier
+          const scX = width * 0.82;
+          const scY = 120;
+          const scW = width * 0.14;
+          const scH = height * 0.64;
+          ctx.fillStyle = 'rgba(26, 22, 18, 0.90)';
+          ctx.strokeStyle = 'rgba(229, 190, 122, 0.45)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.roundRect(scX, scY, scW, scH, 12);
+          ctx.fill();
+          ctx.stroke();
 
-        ctx.fillStyle = 'rgba(103, 232, 249, 0.15)';
-        ctx.strokeStyle = '#67e8f9';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.roundRect(c2x + 22, c1y + ch * 0.80, cw - 44, 34, 8);
-        ctx.fill();
-        ctx.stroke();
-        ctx.textAlign = 'center';
-        ctx.font = '700 12px ui-monospace, monospace';
-        ctx.fillStyle = '#67e8f9';
-        ctx.fillText('★ Commands High-Ticket Architecture Retainers', c2x + cw * 0.5, c1y + ch * 0.80 + 22);
+          ctx.textAlign = 'left';
+          ctx.font = '700 12px ui-monospace, monospace';
+          ctx.fillStyle = '#e5be7a';
+          ctx.fillText('FOLD ATELIER', scX + 14, scY + 28);
+          ctx.font = '600 11px system-ui, sans-serif';
+          ctx.fillStyle = '#94a3b8';
+          ctx.fillText('Autumn / Winter Linen', scX + 14, scY + 46);
+
+          ctx.font = '400 11.5px system-ui, sans-serif';
+          ctx.fillStyle = '#cbd5e1';
+          const faPoints = ['• Slide-out quick view', '• Tactile size selector', '• Lightweight styling', '• Sub-0.3s conversions'];
+          faPoints.forEach((p, i) => ctx.fillText(p, scX + 14, scY + 80 + i * 26));
+
+          ctx.fillStyle = 'rgba(229, 190, 122, 0.15)';
+          ctx.strokeStyle = '#e5be7a';
+          ctx.beginPath();
+          ctx.roundRect(scX + 10, scY + scH - 65, scW - 20, 52, 8);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.textAlign = 'center';
+          ctx.font = '700 11.5px ui-monospace, monospace';
+          ctx.fillStyle = '#e5be7a';
+          ctx.fillText('EDITORIAL CONV', scX + scW * 0.5, scY + scH - 42);
+          ctx.font = '800 16px ui-monospace, monospace';
+          ctx.fillText('+38% REVENUE', scX + scW * 0.5, scY + scH - 22);
+        }
 
         ctx.restore();
       }
@@ -3031,111 +3416,111 @@
         ctx.save();
         ctx.globalAlpha = alpha;
 
-        ctx.textAlign = 'center';
-        ctx.font = '700 12.5px ui-monospace, monospace';
-        ctx.fillStyle = '#f59e0b';
-        ctx.fillText('HIGH-TICKET DEVELOPMENTS & CORPORATE COUNSEL', width * 0.5, 48);
+        const isVertical = height > width;
 
-        ctx.font = '700 32px system-ui, sans-serif';
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText('Apex Residences Luxury Homes & Rao & Partners Law', width * 0.5, 88);
+        if (isVertical) {
+          // 9:16 Portrait Mobile Layout
+          ctx.textAlign = 'center';
+          ctx.font = '700 12px ui-monospace, monospace';
+          ctx.fillStyle = '#f59e0b';
+          ctx.fillText('04 · LUXURY REAL ESTATE & CORPORATE COUNSEL', width * 0.5, 42);
 
-        const c1x = width * 0.08;
-        const c1y = 118;
-        const cw = width * 0.40;
-        const ch = height * 0.65;
+          ctx.font = '700 24px system-ui, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText('Apex Residences & Rao Law', width * 0.5, 74);
 
-        // Apex Residences Card
-        ctx.fillStyle = 'rgba(18, 16, 12, 0.94)';
-        ctx.strokeStyle = 'rgba(245, 158, 11, 0.6)';
-        ctx.shadowColor = 'rgba(245, 158, 11, 0.3)';
-        ctx.shadowBlur = 20;
-        ctx.beginPath();
-        ctx.roundRect(c1x, c1y, cw, ch, 16);
-        ctx.fill();
-        ctx.stroke();
+          // Top Half: Desktop Browser Mockup (Apex Residences)
+          const dW = width * 0.88;
+          const dH = 340;
+          const dX = width * 0.06;
+          const dY = 96 + Math.sin(st * 1.5) * 4;
+          drawDesktopBrowserMockup(ctx, dX, dY, dW, dH, projectImages.apexHero, 'apexresidences.com/penthouse', '★ Signature Tier · $12.8M Penthouse Explorer');
 
-        ctx.fillStyle = '#100e0a';
-        ctx.beginPath();
-        ctx.roundRect(c1x + 14, c1y + 14, cw - 28, ch * 0.38, 10);
-        ctx.fill();
+          // Bottom Half: Mobile Phone Mockup (Rao & Partners Law)
+          const pW = 240;
+          const pH = 520;
+          const pX = (width - pW) * 0.5;
+          const pY = 460 - Math.sin(st * 1.8) * 5;
+          drawMobilePhoneMockup(ctx, pX, pY, pW, pH, projectImages.raoLaw, '3:45', '★ Legal Counsel · Supreme Court Practice');
 
-        ctx.font = '800 24px system-ui, sans-serif';
-        ctx.fillStyle = '#ffffff';
-        ctx.textAlign = 'center';
-        ctx.fillText('APEX RESIDENCES', c1x + cw * 0.5, c1y + ch * 0.18);
-        ctx.font = '11.5px ui-monospace, monospace';
-        ctx.fillStyle = '#f59e0b';
-        ctx.fillText('THE PENTHOUSE COLLECTION · $4.2M - $12.8M', c1x + cw * 0.5, c1y + ch * 0.26);
-        ctx.font = '600 11.5px ui-monospace, monospace';
-        ctx.fillStyle = '#cbd5e1';
-        ctx.fillText('SIGNATURE TIER · ULTRA-LUXURY REAL ESTATE', c1x + cw * 0.5, c1y + ch * 0.34);
+          // Bottom Feature Pill
+          ctx.fillStyle = 'rgba(245, 158, 11, 0.15)';
+          ctx.strokeStyle = '#f59e0b';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.roundRect(width * 0.08, height * 0.89, width * 0.84, 44, 22);
+          ctx.fill();
+          ctx.stroke();
 
-        ctx.textAlign = 'left';
-        ctx.font = '400 13px system-ui, sans-serif';
-        ctx.fillStyle = '#cbd5e1';
-        ctx.fillText('• Unit 44B · 4,200 SQ FT · Private Sky Pool Terrace', c1x + 22, c1y + ch * 0.48);
-        ctx.fillText('• Interactive Architectural Floorplan Explorer', c1x + 22, c1y + ch * 0.56);
-        ctx.fillText('• Private Viewing Concierge & VIP Brochure Access', c1x + 22, c1y + ch * 0.64);
-        ctx.fillText('• Deep Glassmorphism Theme with Instant Responsiveness', c1x + 22, c1y + ch * 0.72);
+          ctx.font = '600 13px system-ui, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText('★ Commands Multi-Million Dollar Trust & Retainers', width * 0.5, height * 0.89 + 27);
 
-        ctx.fillStyle = 'rgba(245, 158, 11, 0.15)';
-        ctx.strokeStyle = '#f59e0b';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.roundRect(c1x + 22, c1y + ch * 0.80, cw - 44, 34, 8);
-        ctx.fill();
-        ctx.stroke();
-        ctx.textAlign = 'center';
-        ctx.font = '700 12px ui-monospace, monospace';
-        ctx.fillStyle = '#f59e0b';
-        ctx.fillText('★ Commands Multi-Million Dollar Buyer Trust', c1x + cw * 0.5, c1y + ch * 0.80 + 22);
+        } else {
+          // 16:9 Landscape Desktop Layout
+          ctx.textAlign = 'center';
+          ctx.font = '700 12.5px ui-monospace, monospace';
+          ctx.fillStyle = '#f59e0b';
+          ctx.fillText('04 · HIGH-TICKET REAL ESTATE DEVELOPMENTS & CORPORATE COUNSEL', width * 0.5, 44);
 
-        // Rao & Partners Card
-        const c2x = width * 0.52;
-        ctx.fillStyle = 'rgba(14, 20, 28, 0.94)';
-        ctx.strokeStyle = 'rgba(148, 163, 184, 0.6)';
-        ctx.shadowColor = 'rgba(148, 163, 184, 0.2)';
-        ctx.beginPath();
-        ctx.roundRect(c2x, c1y, cw, ch, 16);
-        ctx.fill();
-        ctx.stroke();
+          ctx.font = '700 30px system-ui, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText('Apex Residences Luxury Homes & Rao & Partners Law', width * 0.5, 82);
 
-        ctx.fillStyle = '#0a1017';
-        ctx.beginPath();
-        ctx.roundRect(c2x + 14, c1y + 14, cw - 28, ch * 0.38, 10);
-        ctx.fill();
+          // Left: Desktop Safari Browser Mockup (Apex Residences)
+          const dW = width * 0.52;
+          const dH = height * 0.70;
+          const dX = width * 0.05;
+          const dY = 108 + Math.sin(st * 1.4) * 4;
+          drawDesktopBrowserMockup(ctx, dX, dY, dW, dH, projectImages.apexHero, 'apexresidences.com/penthouse-44b', '★ $12.8M Penthouse · Floorplan & Sky Pool Explorer');
 
-        ctx.font = '700 24px Georgia, serif';
-        ctx.fillStyle = '#ffffff';
-        ctx.textAlign = 'center';
-        ctx.fillText('RAO & PARTNERS', c2x + cw * 0.5, c1y + ch * 0.18);
-        ctx.font = '11.5px ui-monospace, monospace';
-        ctx.fillStyle = '#94a3b8';
-        ctx.fillText('CORPORATE LITIGATION & COMMERCIAL ADVISORY', c2x + cw * 0.5, c1y + ch * 0.26);
-        ctx.font = '600 11.5px ui-monospace, monospace';
-        ctx.fillStyle = '#5eead4';
-        ctx.fillText('STARTER / GROWTH TIER · LEGAL COUNSEL', c2x + cw * 0.5, c1y + ch * 0.34);
+          // Right: Mobile Smartphone Mockup (Rao Law Chambers)
+          const pW = 220;
+          const pH = height * 0.72;
+          const pX = width * 0.62;
+          const pY = 100 - Math.sin(st * 1.6) * 5;
+          drawMobilePhoneMockup(ctx, pX, pY, pW, pH, projectImages.raoLaw, '3:45', '★ 24-Yr Supreme Court Counsel');
 
-        ctx.textAlign = 'left';
-        ctx.font = '400 13px system-ui, sans-serif';
-        ctx.fillStyle = '#cbd5e1';
-        ctx.fillText('• Mergers & Acquisitions · Supreme Court Practice', c2x + 22, c1y + ch * 0.48);
-        ctx.fillText('• Partner Dossiers & Practice Area Knowledgebase', c2x + 22, c1y + ch * 0.56);
-        ctx.fillText('• Direct Consultation Intake & Encrypted Inquiries', c2x + 22, c1y + ch * 0.64);
-        ctx.fillText('• Sober, Trusted Authority That Instills Credibility', c2x + 22, c1y + ch * 0.72);
+          // Side Feature Card for Rao & Partners
+          const scX = width * 0.82;
+          const scY = 120;
+          const scW = width * 0.14;
+          const scH = height * 0.64;
+          ctx.fillStyle = 'rgba(14, 20, 28, 0.90)';
+          ctx.strokeStyle = 'rgba(148, 163, 184, 0.45)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.roundRect(scX, scY, scW, scH, 12);
+          ctx.fill();
+          ctx.stroke();
 
-        ctx.fillStyle = 'rgba(94, 234, 212, 0.15)';
-        ctx.strokeStyle = '#5eead4';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.roundRect(c2x + 22, c1y + ch * 0.80, cw - 44, 34, 8);
-        ctx.fill();
-        ctx.stroke();
-        ctx.textAlign = 'center';
-        ctx.font = '700 12px ui-monospace, monospace';
-        ctx.fillStyle = '#5eead4';
-        ctx.fillText('★ 24-Year Track Record · Enterprise Credibility', c2x + cw * 0.5, c1y + ch * 0.80 + 22);
+          ctx.textAlign = 'left';
+          ctx.font = '700 12px ui-monospace, monospace';
+          ctx.fillStyle = '#5eead4';
+          ctx.fillText('RAO LAW', scX + 14, scY + 28);
+          ctx.font = '600 11px system-ui, sans-serif';
+          ctx.fillStyle = '#94a3b8';
+          ctx.fillText('Corporate Litigation', scX + 14, scY + 46);
+
+          ctx.font = '400 11.5px system-ui, sans-serif';
+          ctx.fillStyle = '#cbd5e1';
+          const raoPoints = ['• M&A Advisory', '• Supreme Court lead', '• Encrypted briefs', '• Authority presence'];
+          raoPoints.forEach((p, i) => ctx.fillText(p, scX + 14, scY + 80 + i * 26));
+
+          ctx.fillStyle = 'rgba(94, 234, 212, 0.15)';
+          ctx.strokeStyle = '#5eead4';
+          ctx.beginPath();
+          ctx.roundRect(scX + 10, scY + scH - 65, scW - 20, 52, 8);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.textAlign = 'center';
+          ctx.font = '700 11.5px ui-monospace, monospace';
+          ctx.fillStyle = '#5eead4';
+          ctx.fillText('CLIENT TRUST', scX + scW * 0.5, scY + scH - 42);
+          ctx.font = '800 16px ui-monospace, monospace';
+          ctx.fillText('EST. 2002', scX + scW * 0.5, scY + scH - 22);
+        }
 
         ctx.restore();
       }
@@ -3150,122 +3535,229 @@
         ctx.save();
         ctx.globalAlpha = alpha;
 
-        ctx.textAlign = 'center';
-        ctx.font = '700 12.5px ui-monospace, monospace';
-        ctx.fillStyle = '#00f2fe';
-        ctx.fillText('FLAGSHIP AI TELEMETRY PLATFORM & GUARANTEED 100 SPEED', width * 0.5, 45);
+        const isVertical = height > width;
 
-        ctx.font = '700 32px system-ui, sans-serif';
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText('Delta.OS Global AI Mesh & 100/100 Google Lighthouse Guaranteed', width * 0.5, 84);
+        if (isVertical) {
+          // 9:16 Portrait Mobile Layout
+          ctx.textAlign = 'center';
+          ctx.font = '700 12px ui-monospace, monospace';
+          ctx.fillStyle = '#00f2fe';
+          ctx.fillText('05 · REAL-TIME TELEMETRY & 100 SPEED', width * 0.5, 42);
 
-        const bx = width * 0.10;
-        const by = 112;
-        const bw = width * 0.80;
-        const bh = height * 0.67;
+          ctx.font = '700 24px system-ui, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText('Delta.OS AI & Lighthouse 100', width * 0.5, 74);
 
-        ctx.fillStyle = 'rgba(7, 12, 18, 0.94)';
-        ctx.strokeStyle = '#00f2fe';
-        ctx.lineWidth = 2;
-        ctx.shadowColor = 'rgba(0, 242, 254, 0.4)';
-        ctx.shadowBlur = 22;
-        ctx.beginPath();
-        ctx.roundRect(bx, by, bw, bh, 16);
-        ctx.fill();
-        ctx.stroke();
+          const bx = width * 0.06;
+          const by = 100;
+          const bw = width * 0.88;
+          const bh = height * 0.77;
 
-        ctx.fillStyle = 'rgba(0, 242, 254, 0.08)';
-        ctx.fillRect(bx, by, bw, 42);
-        ctx.fillStyle = '#10b981';
-        ctx.beginPath();
-        ctx.arc(bx + 25, by + 21, 5, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.textAlign = 'left';
-        ctx.font = '600 13px ui-monospace, monospace';
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText('Delta.OS Global Telemetry Mesh', bx + 40, by + 26);
-
-        ctx.textAlign = 'right';
-        ctx.fillStyle = '#00f2fe';
-        ctx.fillText('eBPF Kernel Ring · Sub-Millisecond Analytics', bx + bw - 25, by + 26);
-
-        // 3 Key Metrics
-        const mY = by + 60;
-        const mw = (bw - 50) / 3;
-
-        // Metric 1
-        ctx.fillStyle = 'rgba(255,255,255,0.04)';
-        ctx.beginPath();
-        ctx.roundRect(bx + 16, mY, mw - 12, 85, 8);
-        ctx.fill();
-        ctx.textAlign = 'left';
-        ctx.font = '11px ui-monospace, monospace';
-        ctx.fillStyle = '#94a3b8';
-        ctx.fillText('COGNITIVE LATENCY', bx + 28, mY + 28);
-        ctx.font = '700 30px ui-monospace, monospace';
-        ctx.fillStyle = '#00f2fe';
-        ctx.fillText('0.38 ms', bx + 28, mY + 68);
-
-        // Metric 2
-        ctx.fillStyle = 'rgba(255,255,255,0.04)';
-        ctx.beginPath();
-        ctx.roundRect(bx + 16 + mw, mY, mw - 12, 85, 8);
-        ctx.fill();
-        ctx.font = '11px ui-monospace, monospace';
-        ctx.fillStyle = '#94a3b8';
-        ctx.fillText('EVENT INGRESS', bx + 28 + mw, mY + 28);
-        ctx.font = '700 30px ui-monospace, monospace';
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText('2.41M/s', bx + 28 + mw, mY + 68);
-
-        // Metric 3
-        ctx.fillStyle = 'rgba(255,255,255,0.04)';
-        ctx.beginPath();
-        ctx.roundRect(bx + 16 + mw * 2, mY, mw - 12, 85, 8);
-        ctx.fill();
-        ctx.font = '11px ui-monospace, monospace';
-        ctx.fillStyle = '#94a3b8';
-        ctx.fillText('ZERO-LOSS GRAPH', bx + 28 + mw * 2, mY + 28);
-        ctx.font = '700 30px ui-monospace, monospace';
-        ctx.fillStyle = '#10b981';
-        ctx.fillText('100.0%', bx + 28 + mw * 2, mY + 68);
-
-        // Sine wave telemetry line
-        ctx.strokeStyle = '#00f2fe';
-        ctx.lineWidth = 2.5;
-        ctx.beginPath();
-        for (let x = 0; x < bw - 40; x += 5) {
-          const y = by + 195 + Math.sin(x * 0.04 + t * 4) * 16 + Math.cos(x * 0.02 - t * 2) * 10;
-          if (x === 0) ctx.moveTo(bx + 20 + x, y);
-          else ctx.lineTo(bx + 20 + x, y);
-        }
-        ctx.stroke();
-
-        // 4 Lighthouse 100 Badges directly in the display
-        const ringLabels = ['Performance: 100', 'Accessibility: 100', 'Best Practices: 100', 'SEO: 100'];
-        const rY = by + 265;
-        const pillW = (bw - 60) / 4;
-        for (let i = 0; i < 4; i++) {
-          const rx = bx + 20 + i * (pillW + 8);
-          ctx.fillStyle = 'rgba(16, 185, 129, 0.12)';
-          ctx.strokeStyle = '#10b981';
-          ctx.lineWidth = 1.5;
+          ctx.fillStyle = 'rgba(7, 12, 18, 0.94)';
+          ctx.strokeStyle = '#00f2fe';
+          ctx.lineWidth = 2;
+          ctx.shadowColor = 'rgba(0, 242, 254, 0.4)';
+          ctx.shadowBlur = 22;
           ctx.beginPath();
-          ctx.roundRect(rx, rY, pillW, 40, 8);
+          ctx.roundRect(bx, by, bw, bh, 16);
           ctx.fill();
           ctx.stroke();
 
-          ctx.font = '700 12.5px ui-monospace, monospace';
+          ctx.fillStyle = 'rgba(0, 242, 254, 0.08)';
+          ctx.fillRect(bx, by, bw, 38);
           ctx.fillStyle = '#10b981';
-          ctx.textAlign = 'center';
-          ctx.fillText(`⚡ ${ringLabels[i]}`, rx + pillW * 0.5, rY + 25);
-        }
+          ctx.beginPath();
+          ctx.arc(bx + 20, by + 19, 5, 0, Math.PI * 2);
+          ctx.fill();
 
-        ctx.textAlign = 'center';
-        ctx.font = '600 13px ui-monospace, monospace';
-        ctx.fillStyle = '#94a3b8';
-        ctx.fillText('Sub-Second Load (<0.4s FCP) · Clean Semantic Architecture · 100% Full Source Code Handover', width * 0.5, by + bh - 16);
+          ctx.textAlign = 'left';
+          ctx.font = '600 12px ui-monospace, monospace';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText('Delta.OS eBPF Telemetry Mesh', bx + 34, by + 23);
+
+          // 3 Metric Cards Stacked
+          const metrics = [
+            { label: 'COGNITIVE LATENCY', val: '0.38 ms', color: '#00f2fe' },
+            { label: 'EVENT INGRESS', val: '2.41M /s', color: '#ffffff' },
+            { label: 'ZERO-LOSS GRAPH', val: '100.0%', color: '#10b981' }
+          ];
+
+          metrics.forEach((m, i) => {
+            const mY = by + 50 + i * 86;
+            ctx.fillStyle = 'rgba(255,255,255,0.04)';
+            ctx.beginPath();
+            ctx.roundRect(bx + 16, mY, bw - 32, 74, 10);
+            ctx.fill();
+
+            ctx.textAlign = 'left';
+            ctx.font = '11px ui-monospace, monospace';
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText(m.label, bx + 32, mY + 26);
+
+            ctx.font = '700 28px ui-monospace, monospace';
+            ctx.fillStyle = m.color;
+            ctx.fillText(m.val, bx + 32, mY + 58);
+          });
+
+          // Telemetry Sine Waveform
+          const waveY = by + 340;
+          ctx.strokeStyle = '#00f2fe';
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          for (let x = 0; x < bw - 40; x += 4) {
+            const y = waveY + Math.sin(x * 0.05 + t * 4) * 18 + Math.cos(x * 0.03 - t * 2) * 10;
+            if (x === 0) ctx.moveTo(bx + 20 + x, y);
+            else ctx.lineTo(bx + 20 + x, y);
+          }
+          ctx.stroke();
+
+          // 4 Lighthouse 100 Badges (2x2 Grid)
+          const ringLabels = ['Performance: 100', 'Accessibility: 100', 'Best Practices: 100', 'SEO: 100'];
+          const gridW = (bw - 40) / 2;
+          for (let i = 0; i < 4; i++) {
+            const col = i % 2;
+            const row = Math.floor(i / 2);
+            const rx = bx + 16 + col * (gridW + 8);
+            const ry = by + 400 + row * 54;
+
+            ctx.fillStyle = 'rgba(16, 185, 129, 0.12)';
+            ctx.strokeStyle = '#10b981';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.roundRect(rx, ry, gridW, 44, 8);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.font = '700 12px ui-monospace, monospace';
+            ctx.fillStyle = '#10b981';
+            ctx.textAlign = 'center';
+            ctx.fillText(`⚡ ${ringLabels[i]}`, rx + gridW * 0.5, ry + 27);
+          }
+
+          ctx.textAlign = 'center';
+          ctx.font = '600 12.5px ui-monospace, monospace';
+          ctx.fillStyle = '#94a3b8';
+          ctx.fillText('Sub-Second Load (<0.4s FCP) · Zero Builders', width * 0.5, by + bh - 18);
+
+        } else {
+          // 16:9 Landscape Desktop Layout
+          ctx.textAlign = 'center';
+          ctx.font = '700 12.5px ui-monospace, monospace';
+          ctx.fillStyle = '#00f2fe';
+          ctx.fillText('05 · FLAGSHIP AI TELEMETRY PLATFORM & GUARANTEED 100 SPEED', width * 0.5, 45);
+
+          ctx.font = '700 32px system-ui, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText('Delta.OS Global AI Mesh & 100/100 Google Lighthouse Guaranteed', width * 0.5, 84);
+
+          const bx = width * 0.10;
+          const by = 112;
+          const bw = width * 0.80;
+          const bh = height * 0.67;
+
+          ctx.fillStyle = 'rgba(7, 12, 18, 0.94)';
+          ctx.strokeStyle = '#00f2fe';
+          ctx.lineWidth = 2;
+          ctx.shadowColor = 'rgba(0, 242, 254, 0.4)';
+          ctx.shadowBlur = 22;
+          ctx.beginPath();
+          ctx.roundRect(bx, by, bw, bh, 16);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.fillStyle = 'rgba(0, 242, 254, 0.08)';
+          ctx.fillRect(bx, by, bw, 42);
+          ctx.fillStyle = '#10b981';
+          ctx.beginPath();
+          ctx.arc(bx + 25, by + 21, 5, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.textAlign = 'left';
+          ctx.font = '600 13px ui-monospace, monospace';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText('Delta.OS Global Telemetry Mesh', bx + 40, by + 26);
+
+          ctx.textAlign = 'right';
+          ctx.fillStyle = '#00f2fe';
+          ctx.fillText('eBPF Kernel Ring · Sub-Millisecond Analytics', bx + bw - 25, by + 26);
+
+          // 3 Key Metrics
+          const mY = by + 60;
+          const mw = (bw - 50) / 3;
+
+          // Metric 1
+          ctx.fillStyle = 'rgba(255,255,255,0.04)';
+          ctx.beginPath();
+          ctx.roundRect(bx + 16, mY, mw - 12, 85, 8);
+          ctx.fill();
+          ctx.textAlign = 'left';
+          ctx.font = '11px ui-monospace, monospace';
+          ctx.fillStyle = '#94a3b8';
+          ctx.fillText('COGNITIVE LATENCY', bx + 28, mY + 28);
+          ctx.font = '700 30px ui-monospace, monospace';
+          ctx.fillStyle = '#00f2fe';
+          ctx.fillText('0.38 ms', bx + 28, mY + 68);
+
+          // Metric 2
+          ctx.fillStyle = 'rgba(255,255,255,0.04)';
+          ctx.beginPath();
+          ctx.roundRect(bx + 16 + mw, mY, mw - 12, 85, 8);
+          ctx.fill();
+          ctx.font = '11px ui-monospace, monospace';
+          ctx.fillStyle = '#94a3b8';
+          ctx.fillText('EVENT INGRESS', bx + 28 + mw, mY + 28);
+          ctx.font = '700 30px ui-monospace, monospace';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText('2.41M/s', bx + 28 + mw, mY + 68);
+
+          // Metric 3
+          ctx.fillStyle = 'rgba(255,255,255,0.04)';
+          ctx.beginPath();
+          ctx.roundRect(bx + 16 + mw * 2, mY, mw - 12, 85, 8);
+          ctx.fill();
+          ctx.font = '11px ui-monospace, monospace';
+          ctx.fillStyle = '#94a3b8';
+          ctx.fillText('ZERO-LOSS GRAPH', bx + 28 + mw * 2, mY + 28);
+          ctx.font = '700 30px ui-monospace, monospace';
+          ctx.fillStyle = '#10b981';
+          ctx.fillText('100.0%', bx + 28 + mw * 2, mY + 68);
+
+          // Sine wave telemetry line
+          ctx.strokeStyle = '#00f2fe';
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          for (let x = 0; x < bw - 40; x += 5) {
+            const y = by + 195 + Math.sin(x * 0.04 + t * 4) * 16 + Math.cos(x * 0.02 - t * 2) * 10;
+            if (x === 0) ctx.moveTo(bx + 20 + x, y);
+            else ctx.lineTo(bx + 20 + x, y);
+          }
+          ctx.stroke();
+
+          // 4 Lighthouse 100 Badges directly in the display
+          const ringLabels = ['Performance: 100', 'Accessibility: 100', 'Best Practices: 100', 'SEO: 100'];
+          const rY = by + 265;
+          const pillW = (bw - 60) / 4;
+          for (let i = 0; i < 4; i++) {
+            const rx = bx + 20 + i * (pillW + 8);
+            ctx.fillStyle = 'rgba(16, 185, 129, 0.12)';
+            ctx.strokeStyle = '#10b981';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.roundRect(rx, rY, pillW, 40, 8);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.font = '700 12.5px ui-monospace, monospace';
+            ctx.fillStyle = '#10b981';
+            ctx.textAlign = 'center';
+            ctx.fillText(`⚡ ${ringLabels[i]}`, rx + pillW * 0.5, rY + 25);
+          }
+
+          ctx.textAlign = 'center';
+          ctx.font = '600 13px ui-monospace, monospace';
+          ctx.fillStyle = '#94a3b8';
+          ctx.fillText('Sub-Second Load (<0.4s FCP) · Clean Semantic Architecture · 100% Full Source Code Handover', width * 0.5, by + bh - 16);
+        }
 
         ctx.restore();
       }
@@ -3280,18 +3772,8 @@
         ctx.save();
         ctx.globalAlpha = alpha;
 
-        ctx.textAlign = 'center';
-        ctx.font = '700 12.5px ui-monospace, monospace';
-        ctx.fillStyle = '#e5be7a';
-        ctx.fillText('TRANSPARENT VALUE · THREE CLEAR PACKAGES · ON-TIME DELIVERY', width * 0.5, 48);
+        const isVertical = height > width;
 
-        ctx.font = '700 32px system-ui, sans-serif';
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText('Three Packages Shaped Around Your Business', width * 0.5, 88);
-
-        const pw = 300;
-        const ph = 310;
-        const py = 120;
         let packages;
         if (currentCutMode === 'fiverr') {
           packages = [
@@ -3313,51 +3795,128 @@
           ];
         }
 
-        packages.forEach((pkg, idx) => {
-          const px = width * 0.5 - 480 + idx * 320;
-          ctx.fillStyle = idx === 1 ? 'rgba(32, 92, 83, 0.5)' : 'rgba(15, 26, 24, 0.9)';
-          ctx.strokeStyle = idx === 1 ? '#00f2fe' : 'rgba(229, 190, 122, 0.4)';
-          ctx.lineWidth = idx === 1 ? 2.5 : 1;
-          ctx.beginPath();
-          ctx.roundRect(px, py, pw, ph, 16);
-          ctx.fill();
-          ctx.stroke();
-
-          ctx.font = '700 18px system-ui, sans-serif';
-          ctx.fillStyle = idx === 1 ? '#00f2fe' : '#e5be7a';
-          ctx.fillText(pkg.name, px + pw * 0.5, py + 38);
-
-          ctx.font = '700 42px ui-monospace, monospace';
-          ctx.fillStyle = '#ffffff';
-          ctx.fillText(pkg.price, px + pw * 0.5, py + 90);
-
-          ctx.font = '600 13.5px system-ui, sans-serif';
-          ctx.fillStyle = '#10b981';
-          ctx.fillText(pkg.time, px + pw * 0.5, py + 126);
-
-          ctx.font = '400 13px system-ui, sans-serif';
-          ctx.fillStyle = '#cbd5e1';
-          ctx.fillText(pkg.scope, px + pw * 0.5, py + 155);
-
-          ctx.strokeStyle = 'rgba(255,255,255,0.08)';
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(px + 24, py + 172);
-          ctx.lineTo(px + pw - 24, py + 172);
-          ctx.stroke();
-
-          ctx.textAlign = 'left';
-          ctx.font = '400 12.5px system-ui, sans-serif';
-          ctx.fillStyle = '#94a3b8';
-          pkg.details.forEach((d, dIdx) => {
-            ctx.fillText(`✓ ${d}`, px + 28, py + 205 + dIdx * 28);
-          });
+        if (isVertical) {
+          // 9:16 Portrait Mobile Layout
           ctx.textAlign = 'center';
-        });
+          ctx.font = '700 12px ui-monospace, monospace';
+          ctx.fillStyle = '#e5be7a';
+          ctx.fillText('06 · TRANSPARENT VALUE · THREE CLEAR PACKAGES', width * 0.5, 42);
 
-        ctx.font = '600 14px system-ui, sans-serif';
-        ctx.fillStyle = '#e5be7a';
-        ctx.fillText('★ No hidden retainers · 30-day bug-free warranty · You own every line of code', width * 0.5, py + ph + 34);
+          ctx.font = '700 24px system-ui, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText('Three Packages Built for Speed', width * 0.5, 74);
+
+          const pw = width * 0.88;
+          const ph = 240;
+          const px = width * 0.06;
+
+          packages.forEach((pkg, idx) => {
+            const py = 100 + idx * 260;
+            const isHighlight = idx === 1;
+
+            ctx.fillStyle = isHighlight ? 'rgba(32, 92, 83, 0.65)' : 'rgba(15, 26, 24, 0.92)';
+            ctx.strokeStyle = isHighlight ? '#00f2fe' : 'rgba(229, 190, 122, 0.4)';
+            ctx.lineWidth = isHighlight ? 2.5 : 1;
+            ctx.beginPath();
+            ctx.roundRect(px, py, pw, ph, 14);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.textAlign = 'left';
+            ctx.font = '700 18px system-ui, sans-serif';
+            ctx.fillStyle = isHighlight ? '#00f2fe' : '#e5be7a';
+            ctx.fillText(pkg.name, px + 22, py + 34);
+
+            ctx.textAlign = 'right';
+            ctx.font = '800 32px ui-monospace, monospace';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(pkg.price, px + pw - 22, py + 38);
+
+            ctx.textAlign = 'left';
+            ctx.font = '600 12.5px system-ui, sans-serif';
+            ctx.fillStyle = '#10b981';
+            ctx.fillText(`⚡ ${pkg.time} · ${pkg.scope}`, px + 22, py + 66);
+
+            ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(px + 20, py + 82);
+            ctx.lineTo(px + pw - 20, py + 82);
+            ctx.stroke();
+
+            ctx.font = '400 12.5px system-ui, sans-serif';
+            ctx.fillStyle = '#cbd5e1';
+            pkg.details.forEach((d, dIdx) => {
+              ctx.fillText(`✓ ${d}`, px + 24, py + 112 + dIdx * 28);
+            });
+          });
+
+          ctx.textAlign = 'center';
+          ctx.font = '600 13px system-ui, sans-serif';
+          ctx.fillStyle = '#e5be7a';
+          ctx.fillText('★ 30-day bug-free warranty · Full Source Code Ownership', width * 0.5, height * 0.94);
+
+        } else {
+          // 16:9 Landscape Desktop Layout
+          ctx.textAlign = 'center';
+          ctx.font = '700 12.5px ui-monospace, monospace';
+          ctx.fillStyle = '#e5be7a';
+          ctx.fillText('06 · TRANSPARENT VALUE · THREE CLEAR PACKAGES · ON-TIME DELIVERY', width * 0.5, 48);
+
+          ctx.font = '700 32px system-ui, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText('Three Packages Shaped Around Your Business', width * 0.5, 88);
+
+          const pw = 300;
+          const ph = 310;
+          const py = 120;
+
+          packages.forEach((pkg, idx) => {
+            const px = width * 0.5 - 480 + idx * 320;
+            ctx.fillStyle = idx === 1 ? 'rgba(32, 92, 83, 0.5)' : 'rgba(15, 26, 24, 0.9)';
+            ctx.strokeStyle = idx === 1 ? '#00f2fe' : 'rgba(229, 190, 122, 0.4)';
+            ctx.lineWidth = idx === 1 ? 2.5 : 1;
+            ctx.beginPath();
+            ctx.roundRect(px, py, pw, ph, 16);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.font = '700 18px system-ui, sans-serif';
+            ctx.fillStyle = idx === 1 ? '#00f2fe' : '#e5be7a';
+            ctx.fillText(pkg.name, px + pw * 0.5, py + 38);
+
+            ctx.font = '700 42px ui-monospace, monospace';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(pkg.price, px + pw * 0.5, py + 90);
+
+            ctx.font = '600 13.5px system-ui, sans-serif';
+            ctx.fillStyle = '#10b981';
+            ctx.fillText(pkg.time, px + pw * 0.5, py + 126);
+
+            ctx.font = '400 13px system-ui, sans-serif';
+            ctx.fillStyle = '#cbd5e1';
+            ctx.fillText(pkg.scope, px + pw * 0.5, py + 155);
+
+            ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(px + 24, py + 172);
+            ctx.lineTo(px + pw - 24, py + 172);
+            ctx.stroke();
+
+            ctx.textAlign = 'left';
+            ctx.font = '400 12.5px system-ui, sans-serif';
+            ctx.fillStyle = '#94a3b8';
+            pkg.details.forEach((d, dIdx) => {
+              ctx.fillText(`✓ ${d}`, px + 28, py + 205 + dIdx * 28);
+            });
+            ctx.textAlign = 'center';
+          });
+
+          ctx.font = '600 14px system-ui, sans-serif';
+          ctx.fillStyle = '#e5be7a';
+          ctx.fillText('★ No hidden retainers · 30-day bug-free warranty · You own every line of code', width * 0.5, py + ph + 34);
+        }
 
         ctx.restore();
       }
@@ -3372,59 +3931,127 @@
         ctx.save();
         ctx.globalAlpha = alpha;
 
-        ctx.textAlign = 'center';
-        ctx.font = '700 13px ui-monospace, monospace';
-        ctx.fillStyle = '#10b981';
-        ctx.fillText('100% ESCROW PROTECTION · WORKING WORLDWIDE', width * 0.5, 55);
+        const isVertical = height > width;
 
-        ctx.font = '700 36px system-ui, sans-serif';
-        ctx.fillStyle = '#ffffff';
-        if (currentCutMode === 'fiverr') {
-          ctx.fillText('Order Your Handcrafted Website on Fiverr', width * 0.5, 100);
-        } else if (currentCutMode === 'upwork') {
-          ctx.fillText('Hire AS Studio with Upwork Escrow Protection', width * 0.5, 100);
+        if (isVertical) {
+          // 9:16 Portrait Mobile Layout
+          ctx.textAlign = 'center';
+          ctx.font = '700 12px ui-monospace, monospace';
+          ctx.fillStyle = '#10b981';
+          ctx.fillText('07 · 100% ESCROW PROTECTION · WORKING WORLDWIDE', width * 0.5, 48);
+
+          ctx.font = '700 28px system-ui, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          if (currentCutMode === 'fiverr') {
+            ctx.fillText('Order on Fiverr Safely', width * 0.5, 95);
+          } else if (currentCutMode === 'upwork') {
+            ctx.fillText('Hire on Upwork with Escrow', width * 0.5, 95);
+          } else {
+            ctx.fillText('Start Your Website Today', width * 0.5, 95);
+          }
+
+          // Mobile Preview Mockup in Scene 7
+          const pW = 260;
+          const pH = 440;
+          const pX = (width - pW) * 0.5;
+          const pY = 135;
+          drawMobilePhoneMockup(ctx, pX, pY, pW, pH, projectImages.courtBloom, '9:41', '★ 100/100 Mobile Speed Verified');
+
+          // Large High-Converting CTA Button
+          const btnW = width * 0.88;
+          const btnH = 68;
+          const btnY = 620;
+          ctx.fillStyle = '#e5be7a';
+          ctx.shadowColor = 'rgba(229, 190, 122, 0.45)';
+          ctx.shadowBlur = 24;
+          ctx.beginPath();
+          ctx.roundRect((width - btnW) * 0.5, btnY, btnW, btnH, 34);
+          ctx.fill();
+
+          ctx.font = '800 18px system-ui, sans-serif';
+          ctx.fillStyle = '#061210';
+          ctx.shadowBlur = 0;
+          if (currentCutMode === 'fiverr') {
+            ctx.fillText('★ ORDER SAFELY ON FIVERR ↗', width * 0.5, btnY + 42);
+          } else if (currentCutMode === 'upwork') {
+            ctx.fillText('★ HIRE ON UPWORK WITH ESCROW ↗', width * 0.5, btnY + 42);
+          } else {
+            ctx.fillText('★ ORDER ON FIVERR OR UPWORK ↗', width * 0.5, btnY + 42);
+          }
+
+          // Trust Badges Stack
+          const badges = [
+            '🛡️ 100% Escrow Milestone Releases',
+            '⚡ 3 to 7 Day Guaranteed Delivery',
+            '📦 Full Source Code Handover',
+            '🔧 30 Days Free Post-Launch Fixes'
+          ];
+          ctx.font = '600 13px system-ui, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          badges.forEach((b, i) => {
+            ctx.fillText(b, width * 0.5, 730 + i * 36);
+          });
+
+          ctx.font = '600 13px ui-monospace, monospace';
+          ctx.fillStyle = '#00f2fe';
+          ctx.fillText(`Fiverr: ${fiverrHandle} · Upwork: ${upworkHandle}`, width * 0.5, 900);
+
         } else {
-          ctx.fillText('Get Started on Fiverr or Upwork Today', width * 0.5, 100);
+          // 16:9 Landscape Desktop Layout
+          ctx.textAlign = 'center';
+          ctx.font = '700 13px ui-monospace, monospace';
+          ctx.fillStyle = '#10b981';
+          ctx.fillText('07 · 100% ESCROW PROTECTION · WORKING WORLDWIDE', width * 0.5, 55);
+
+          ctx.font = '700 36px system-ui, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          if (currentCutMode === 'fiverr') {
+            ctx.fillText('Order Your Handcrafted Website on Fiverr', width * 0.5, 100);
+          } else if (currentCutMode === 'upwork') {
+            ctx.fillText('Hire AS Studio with Upwork Escrow Protection', width * 0.5, 100);
+          } else {
+            ctx.fillText('Get Started on Fiverr or Upwork Today', width * 0.5, 100);
+          }
+
+          const btnY = 175;
+          const btnW = 680;
+          const btnH = 80;
+          ctx.fillStyle = '#e5be7a';
+          ctx.shadowColor = 'rgba(229, 190, 122, 0.4)';
+          ctx.shadowBlur = 30;
+          ctx.beginPath();
+          ctx.roundRect(width * 0.5 - btnW * 0.5, btnY, btnW, btnH, 40);
+          ctx.fill();
+
+          ctx.font = '800 24px system-ui, sans-serif';
+          ctx.fillStyle = '#061210';
+          ctx.shadowBlur = 0;
+          if (currentCutMode === 'fiverr') {
+            ctx.fillText('★ ORDER SAFELY ON FIVERR ↗', width * 0.5, btnY + 48);
+          } else if (currentCutMode === 'upwork') {
+            ctx.fillText('★ HIRE DIRECTLY ON UPWORK WITH ESCROW ↗', width * 0.5, btnY + 48);
+          } else {
+            ctx.fillText('★ ORDER ON FIVERR OR HIRE ON UPWORK ↗', width * 0.5, btnY + 48);
+          }
+
+          // Trust Badges Grid
+          const bY = 295;
+          const badges = [
+            '🛡️ 100% Escrow Milestone Releases',
+            '⚡ 3 to 7 Day Guaranteed Delivery',
+            '📦 Full Source Code Ownership Handover',
+            '🔧 30 Days Free Post-Launch Fixes'
+          ];
+
+          ctx.font = '600 16px system-ui, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText(`${badges[0]}   •   ${badges[1]}`, width * 0.5, bY);
+          ctx.fillText(`${badges[2]}   •   ${badges[3]}`, width * 0.5, bY + 36);
+
+          ctx.font = '600 15px ui-monospace, monospace';
+          ctx.fillStyle = '#00f2fe';
+          ctx.fillText(`Fiverr Profile: ${fiverrHandle}   ·   Upwork Agency: ${upworkHandle}`, width * 0.5, bY + 84);
         }
-
-        const btnY = 175;
-        const btnW = 680;
-        const btnH = 80;
-        ctx.fillStyle = '#e5be7a';
-        ctx.shadowColor = 'rgba(229, 190, 122, 0.4)';
-        ctx.shadowBlur = 30;
-        ctx.beginPath();
-        ctx.roundRect(width * 0.5 - btnW * 0.5, btnY, btnW, btnH, 40);
-        ctx.fill();
-
-        ctx.font = '800 24px system-ui, sans-serif';
-        ctx.fillStyle = '#061210';
-        ctx.shadowBlur = 0;
-        if (currentCutMode === 'fiverr') {
-          ctx.fillText('★ ORDER SAFELY ON FIVERR ↗', width * 0.5, btnY + 48);
-        } else if (currentCutMode === 'upwork') {
-          ctx.fillText('★ HIRE DIRECTLY ON UPWORK WITH ESCROW ↗', width * 0.5, btnY + 48);
-        } else {
-          ctx.fillText('★ ORDER ON FIVERR OR HIRE ON UPWORK ↗', width * 0.5, btnY + 48);
-        }
-
-        // Trust Badges Grid
-        const bY = 295;
-        const badges = [
-          '🛡️ 100% Escrow Milestone Releases',
-          '⚡ 3 to 7 Day Guaranteed Delivery',
-          '📦 Full Source Code Ownership Handover',
-          '🔧 30 Days Free Post-Launch Fixes'
-        ];
-
-        ctx.font = '600 16px system-ui, sans-serif';
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText(`${badges[0]}   •   ${badges[1]}`, width * 0.5, bY);
-        ctx.fillText(`${badges[2]}   •   ${badges[3]}`, width * 0.5, bY + 36);
-
-        ctx.font = '600 15px ui-monospace, monospace';
-        ctx.fillStyle = '#00f2fe';
-        ctx.fillText(`Fiverr Profile: ${fiverrHandle}   ·   Upwork Agency: ${upworkHandle}`, width * 0.5, bY + 84);
 
         ctx.restore();
       }
@@ -3734,6 +4361,49 @@
         };
       }
 
+      // Aspect Ratio Switching Handlers (16:9 Landscape Desktop vs 9:16 Portrait Mobile)
+      const btn16x9 = $('btnAspect16x9');
+      const btn9x16 = $('btnAspect9x16');
+      const container = $('videoCanvasContainer');
+      const aspectPill = $('aspectRatioPill');
+
+      const setAspectRatio = (ratio) => {
+        if (ratio === '9:16') {
+          if (btn9x16) btn9x16.classList.add('active');
+          if (btn16x9) btn16x9.classList.remove('active');
+          adCanvas.width = 720;
+          adCanvas.height = 1280;
+          adCanvas.style.aspectRatio = '9/16';
+          if (container) {
+            container.style.maxWidth = '440px';
+            container.style.margin = '0 auto';
+          }
+          if (aspectPill) aspectPill.textContent = '720 × 1280 (9:16 Mobile Reel/TikTok)';
+        } else {
+          if (btn16x9) btn16x9.classList.add('active');
+          if (btn9x16) btn9x16.classList.remove('active');
+          adCanvas.width = 1280;
+          adCanvas.height = 720;
+          adCanvas.style.aspectRatio = '16/9';
+          if (container) {
+            container.style.maxWidth = '100%';
+            container.style.margin = '0';
+          }
+          if (aspectPill) aspectPill.textContent = '1280 × 720 (16:9 HD Desktop)';
+        }
+
+        renderSceneFrame(adCtx, adCanvas.width, adCanvas.height, videoCurrentTime);
+        if (modalCtx && modalCanvas) {
+          modalCanvas.width = adCanvas.width;
+          modalCanvas.height = adCanvas.height;
+          modalCanvas.style.aspectRatio = adCanvas.style.aspectRatio;
+          renderSceneFrame(modalCtx, modalCanvas.width, modalCanvas.height, videoCurrentTime);
+        }
+      };
+
+      if (btn16x9) btn16x9.onclick = () => setAspectRatio('16:9');
+      if (btn9x16) btn9x16.onclick = () => setAspectRatio('9:16');
+
       function updateTimeDisplay() {
         if (!timeDisplay) return;
         const curSec = Math.floor(videoCurrentTime);
@@ -3778,12 +4448,12 @@
           recorder.onstop = () => {
             const blob = new Blob(recordedChunks, { type: mimeType });
             const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            let filename = 'AS_Studio_Shorts_Reels_Fiverr_Upwork_Ad.webm';
-            if (currentCutMode === 'fiverr') filename = 'AS_Studio_Fiverr_Showcase_Ad.webm';
-            else if (currentCutMode === 'upwork') filename = 'AS_Studio_Upwork_Showcase_Ad.webm';
-            else if (currentCutMode === 'intro') filename = 'AS_Studio_Pure_Brand_Intro_Video.webm';
+            const isMobileAspect = adCanvas.height > adCanvas.width;
+            const aspectSuffix = isMobileAspect ? '_9x16_Mobile_Portrait' : '_16x9_Desktop_Landscape';
+            let filename = `AS_Studio_Showcase${aspectSuffix}.webm`;
+            if (currentCutMode === 'fiverr') filename = `AS_Studio_Fiverr_Showcase${aspectSuffix}.webm`;
+            else if (currentCutMode === 'upwork') filename = `AS_Studio_Upwork_Showcase${aspectSuffix}.webm`;
+            else if (currentCutMode === 'intro') filename = `AS_Studio_Pure_Brand_Intro${aspectSuffix}.webm`;
             a.download = filename;
             document.body.appendChild(a);
             a.click();
