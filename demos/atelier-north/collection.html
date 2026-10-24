@@ -55,22 +55,22 @@
           <li>Speed optimization + hosting setup</li>
         </ul>
       </details>
-      <a href="../../work.html">All demos</a>
-      <a href="../../work/atelier-north.html">Read the case study</a>
+      <a href="/work">All demos</a>
+      <a href="/work/atelier-north">Read the case study</a>
       <a data-mode="fiverr" class="pill" data-fiverr-link href="https://www.fiverr.com/s/GPPQm9q" target="_blank" rel="noopener">Order this on Fiverr</a>
-      <a data-mode="direct" class="pill" href="../../contact.html?package=signature">Get a quote like this</a>
+      <a data-mode="direct" class="pill" href="/contact?package=signature">Get a quote like this</a>
     </span>
   </div>
 
   <!-- Store Navigation -->
   <header class="dnav">
     <div class="dnav-in">
-      <a class="dlogo" href="index.html">Atelier North</a>
+      <a class="dlogo" href="/atelier">Atelier North</a>
       <nav class="dlinks" id="anNavLinks" aria-label="Store Navigation">
-        <a href="index.html">Home</a>
-        <a href="collection.html" class="cur" aria-current="page">Collection</a>
-        <a href="about.html">About</a>
-        <a href="collection.html?wishlist=1" class="an-wish-link" aria-label="Saved Items">
+        <a href="/atelier">Home</a>
+        <a href="/atelier/collection" class="cur" aria-current="page">Collection</a>
+        <a href="/atelier/about">About</a>
+        <a href="/atelier/collection?wishlist=1" class="an-wish-link" aria-label="Saved Items">
           Wishlist <span class="cartcount" data-wishlist-count style="display:none">0</span>
         </a>
         <button type="button" class="an-nav-cart" data-cart-drawer-trigger aria-label="Open Cart Drawer" style="background:none;border:0;color:inherit;font:inherit;cursor:pointer;padding:0;display:inline-flex;align-items:center">
@@ -153,13 +153,13 @@
   <footer class="dfoot">
     <div class="wrap">
       <div>
-        Atelier North · Fictional concept demo by <a href="../../index.html" style="text-decoration:underline">AS Studio</a>. Images are AI generated.
+        Atelier North · Fictional concept demo by <a href="/" style="text-decoration:underline">AS Studio</a>. Images are AI generated.
       </div>
       <div class="soc">
-        <a href="../../work/atelier-north.html">Case Study</a>
-        <a href="about.html">About</a>
-        <a href="cart.html">Cart</a>
-        <a href="checkout.html">Checkout</a>
+        <a href="/work/atelier-north">Case Study</a>
+        <a href="/atelier/about">About</a>
+        <a href="/atelier/cart">Cart</a>
+        <a href="/atelier/checkout">Checkout</a>
       </div>
     </div>
   </footer>
@@ -259,14 +259,14 @@
               '<button type="button" class="an-wish-btn ' + (isWished ? 'active' : '') + '" data-wish-btn="' + p.id + '" aria-pressed="' + (isWished ? 'true' : 'false') + '" aria-label="Save ' + p.name + ' to wishlist">' +
                 '<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>' +
               '</button>' +
-              '<a href="product.html?p=' + p.id + '" style="display:block">' +
+              '<a href="/atelier/product?p=' + p.id + '" style="display:block">' +
                 '<div class="ph" style="background-image:url(' + p.thumb + ');background-position:center;background-size:cover">' +
                   (p.badge ? '<span class="tag" style="position:absolute;top:12px;left:12px">' + p.badge + '</span>' : '') +
                 '</div>' +
               '</a>' +
               '<div class="bd">' +
                 '<span class="tag">' + p.cat + '</span>' +
-                '<h3><a href="product.html?p=' + p.id + '">' + p.name + '</a></h3>' +
+                '<h3><a href="/atelier/product?p=' + p.id + '">' + p.name + '</a></h3>' +
                 '<p>' + p.summary + '</p>' +
                 '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">' +
                   '<span class="price">' + store.formatINR(p.price) + '</span>' +

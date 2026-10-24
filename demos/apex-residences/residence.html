@@ -129,24 +129,24 @@
           <li>Speed optimization + hosting setup</li>
         </ul>
       </details>
-      <a href="../../work.html">All demos</a>
-      <a href="../../work/apex-residences.html">Read the case study</a>
+      <a href="/work">All demos</a>
+      <a href="/work/apex-residences">Read the case study</a>
       <a data-mode="fiverr" class="pill" data-fiverr-link href="https://www.fiverr.com/s/GPPQm9q" target="_blank" rel="noopener">Order this on Fiverr</a>
-      <a data-mode="direct" class="pill" href="../../contact.html?package=signature">Get a quote like this</a>
+      <a data-mode="direct" class="pill" href="/contact?package=signature">Get a quote like this</a>
     </span>
   </div>
 
   <header class="dnav">
     <div class="dnav-in">
-      <a class="dlogo" href="index.html" aria-label="Apex Residences Homepage">Apex Residences</a>
+      <a class="dlogo" href="/apex" aria-label="Apex Residences Homepage">Apex Residences</a>
       <nav class="dlinks" aria-label="Main navigation">
-        <a href="index.html">Home</a>
-        <a href="residences.html" class="cur" aria-current="page">Residences</a>
-        <a href="journal.html">Journal</a>
-        <a href="about.html">About</a>
-        <a href="reserve.html">Reserve</a>
+        <a href="/apex">Home</a>
+        <a href="/apex/residences" class="cur" aria-current="page">Residences</a>
+        <a href="/apex/journal">Journal</a>
+        <a href="/apex/about">About</a>
+        <a href="/apex/reserve">Reserve</a>
       </nav>
-      <a class="dbtn" href="reserve.html">Reserve a viewing</a>
+      <a class="dbtn" href="/apex/reserve">Reserve a viewing</a>
       <button class="dmenu" type="button" aria-expanded="false" aria-label="Toggle navigation menu">Menu</button>
     </div>
   </header>
@@ -156,7 +156,7 @@
     <!-- Title & Back Nav -->
     <section class="sec" style="padding-bottom:20px">
       <div class="wrap">
-        <a class="fine" href="residences.html" style="display:inline-flex;align-items:center;gap:6px;margin-bottom:12px;font-weight:600">← Back to all residences</a>
+        <a class="fine" href="/apex/residences" style="display:inline-flex;align-items:center;gap:6px;margin-bottom:12px;font-weight:600">← Back to all residences</a>
         <span class="kick" id="rtag">Residence Detail</span>
         <h1 class="t" id="rn" style="font-size:clamp(40px,6vw,76px);margin-top:6px">The Courtyard House</h1>
         <p class="lead" id="rd">A single-storey home built around a still pool and an old olive tree.</p>
@@ -191,7 +191,7 @@
             </p>
           </div>
           <div style="margin-top:24px">
-            <a href="reserve.html" class="dbtn" id="reservePlanLink">Reserve this residence</a>
+            <a href="/apex/reserve" class="dbtn" id="reservePlanLink">Reserve this residence</a>
           </div>
         </div>
 
@@ -250,11 +250,11 @@
 
   <footer class="dfoot">
     <div class="wrap">
-      <div>Apex Residences · Fictional concept demo by <a href="../../index.html" style="text-decoration:underline">AS Studio</a>. Images are AI generated.</div>
+      <div>Apex Residences · Fictional concept demo by <a href="/" style="text-decoration:underline">AS Studio</a>. Images are AI generated.</div>
       <div class="soc">
-        <a href="../../work/apex-residences.html">Case Study</a>
-        <a href="residences.html">All Residences</a>
-        <a href="reserve.html">Reserve</a>
+        <a href="/work/apex-residences">Case Study</a>
+        <a href="/apex/residences">All Residences</a>
+        <a href="/apex/reserve">Reserve</a>
       </div>
     </div>
   </footer>
@@ -538,7 +538,7 @@
       if (otherWrap) {
         const others = Object.values(R).filter(item => item.id !== cur.id).slice(0, 3);
         otherWrap.innerHTML = others.map(item => `
-          <a class="imgcard" href="residence.html?r=${item.id}" style="text-decoration:none;color:inherit">
+          <a class="imgcard" href="/apex/residence?r=${item.id}" style="text-decoration:none;color:inherit">
             <div class="ph" style="background-image:url(${item.im});aspect-ratio:16/10;border-radius:6px;background-size:cover;background-position:center"></div>
             <div class="bd" style="padding:14px 4px 6px">
               <span class="tag">${item.t} · ${item.c}</span>

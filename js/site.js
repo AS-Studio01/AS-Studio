@@ -1,5 +1,106 @@
 (function(){
 'use strict';
+
+/* Clean URL address-bar enforcement (strips .html and /index.html in browser address bar) */
+(function enforceCleanAddressBar() {
+  try {
+    const p = window.location.pathname;
+    const s = window.location.search || '';
+    const h = window.location.hash || '';
+    if (p.endsWith('.html') || p.includes('/index.html') || p.includes('x7q2m9r4v8k1p6z3') || p.startsWith('/demos/')) {
+      let clean = p;
+      if (clean === '/index.html') clean = '/';
+      else if (clean === '/packages.html') clean = '/packages';
+      else if (clean === '/work.html') clean = '/work';
+      else if (clean === '/about.html') clean = '/about';
+      else if (clean === '/contact.html') clean = '/contact';
+      else if (clean.includes('x7q2m9r4v8k1p6z3')) clean = '/admin';
+      else if (clean === '/legal/privacy.html' || clean === '/legal/privacy') clean = '/privacy';
+      else if (clean === '/legal/terms.html' || clean === '/legal/terms') clean = '/terms';
+      else if (clean === '/legal/disclaimer.html' || clean === '/legal/disclaimer') clean = '/disclaimer';
+      else if (clean === '/legal/cancellation-refund.html' || clean === '/legal/cancellation-refund') clean = '/refund';
+      else {
+        const demoMap = [
+          ['/demos/vitalcare-multispeciality-clinic', '/vitalcare'],
+          ['/demos/mitti-cafe', '/mitti'],
+          ['/demos/fold-atelier', '/fold'],
+          ['/demos/atelier-north', '/atelier'],
+          ['/demos/apex-residences', '/apex'],
+          ['/demos/rao-law', '/rao'],
+          ['/demos/delta-os', '/delta'],
+        ];
+        for (const [folder, prefix] of demoMap) {
+          if (clean.startsWith(folder)) {
+            clean = clean.replace(folder, prefix);
+            break;
+          }
+        }
+        clean = clean.replace(/\/index\.html$/, '').replace(/\/index$/, '').replace(/\.html$/, '');
+        if (!clean || clean === '') clean = '/';
+      }
+
+      if (clean !== p) {
+        window.history.replaceState(null, '', clean + s + h);
+      }
+    }
+  } catch (_) {}
+})();
+
+/* Dynamic link click interceptor: rewrites any .html relative href to clean custom URLs */
+document.addEventListener('click', function(e) {
+  const a = e.target.closest('a');
+  if (!a || !a.getAttribute('href')) return;
+  const rawHref = a.getAttribute('href');
+  if (rawHref.startsWith('http://') || rawHref.startsWith('https://') || rawHref.startsWith('mailto:') || rawHref.startsWith('tel:') || rawHref.startsWith('#')) return;
+
+  const cleanMap = {
+    'index.html': '/',
+    '/index.html': '/',
+    '../index.html': '/',
+    'packages.html': '/packages',
+    '/packages.html': '/packages',
+    '../packages.html': '/packages',
+    'work.html': '/work',
+    '/work.html': '/work',
+    '../work.html': '/work',
+    'about.html': '/about',
+    '/about.html': '/about',
+    '../about.html': '/about',
+    'contact.html': '/contact',
+    '/contact.html': '/contact',
+    '../contact.html': '/contact',
+    'legal/privacy.html': '/privacy',
+    '/legal/privacy.html': '/privacy',
+    '../legal/privacy.html': '/privacy',
+    'legal/terms.html': '/terms',
+    '/legal/terms.html': '/terms',
+    '../legal/terms.html': '/terms',
+    'legal/disclaimer.html': '/disclaimer',
+    '/legal/disclaimer.html': '/disclaimer',
+    '../legal/disclaimer.html': '/disclaimer',
+    'legal/cancellation-refund.html': '/refund',
+    '/legal/cancellation-refund.html': '/refund',
+    '../legal/cancellation-refund.html': '/refund',
+    'demos/vitalcare-multispeciality-clinic/index.html': '/vitalcare',
+    'demos/mitti-cafe/index.html': '/mitti',
+    'demos/fold-atelier/index.html': '/fold',
+    'demos/atelier-north/index.html': '/atelier',
+    'demos/apex-residences/index.html': '/apex',
+    'demos/rao-law/index.html': '/rao',
+    'demos/delta-os/index.html': '/delta',
+    '/x7q2m9r4v8k1p6z3/': '/admin',
+    '/x7q2m9r4v8k1p6z3': '/admin',
+    '../x7q2m9r4v8k1p6z3/': '/admin'
+  };
+
+  const parts = rawHref.split(/([?#].*)/);
+  const baseHref = parts[0];
+  const queryOrHash = parts.slice(1).join('');
+  if (cleanMap[baseHref]) {
+    a.setAttribute('href', cleanMap[baseHref] + queryOrHash);
+  }
+}, true);
+
 const reduce=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 document.addEventListener('DOMContentLoaded',()=>requestAnimationFrame(()=>document.body.classList.add('ready')));
 setTimeout(()=>document.body&&document.body.classList.add('ready'),1200);

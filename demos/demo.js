@@ -1,4 +1,93 @@
 (function(){'use strict';
+
+/* Clean URL address-bar enforcement for demo pages */
+(function enforceCleanAddressBar() {
+  try {
+    const p = window.location.pathname;
+    const s = window.location.search || '';
+    const h = window.location.hash || '';
+    if (p.endsWith('.html') || p.includes('/index.html') || p.startsWith('/demos/')) {
+      let clean = p;
+      const demoMap = [
+        ['/demos/vitalcare-multispeciality-clinic', '/vitalcare'],
+        ['/demos/mitti-cafe', '/mitti'],
+        ['/demos/fold-atelier', '/fold'],
+        ['/demos/atelier-north', '/atelier'],
+        ['/demos/apex-residences', '/apex'],
+        ['/demos/rao-law', '/rao'],
+        ['/demos/delta-os', '/delta'],
+      ];
+      for (const [folder, prefix] of demoMap) {
+        if (clean.startsWith(folder)) {
+          clean = clean.replace(folder, prefix);
+          break;
+        }
+      }
+      clean = clean.replace(/\/index\.html$/, '').replace(/\/index$/, '').replace(/\.html$/, '');
+      if (!clean || clean === '') clean = '/';
+      if (clean !== p) {
+        window.history.replaceState(null, '', clean + s + h);
+      }
+    }
+  } catch (_) {}
+})();
+
+/* Clean link click interceptor in demos: rewrites ../../work.html -> /work, residences.html -> /currentDemo/residences */
+document.addEventListener('click', function(e) {
+  const a = e.target.closest('a');
+  if (!a || !a.getAttribute('href')) return;
+  const raw = a.getAttribute('href');
+  if (raw.startsWith('http://') || raw.startsWith('https://') || raw.startsWith('mailto:') || raw.startsWith('tel:') || raw.startsWith('#')) return;
+
+  const pathname = window.location.pathname;
+  let demoBase = '';
+  if (pathname.startsWith('/vitalcare') || pathname.includes('vitalcare')) demoBase = '/vitalcare';
+  else if (pathname.startsWith('/mitti') || pathname.includes('mitti')) demoBase = '/mitti';
+  else if (pathname.startsWith('/fold') || pathname.includes('fold')) demoBase = '/fold';
+  else if (pathname.startsWith('/atelier') || pathname.includes('atelier')) demoBase = '/atelier';
+  else if (pathname.startsWith('/apex') || pathname.includes('apex')) demoBase = '/apex';
+  else if (pathname.startsWith('/rao') || pathname.includes('rao')) demoBase = '/rao';
+  else if (pathname.startsWith('/delta') || pathname.includes('delta')) demoBase = '/delta';
+
+  // Common root-level links from demos
+  if (raw.includes('../../work.html') || raw === '../work.html') {
+    e.preventDefault();
+    const hash = raw.includes('#') ? raw.slice(raw.indexOf('#')) : '';
+    window.location.href = '/work' + hash;
+    return;
+  }
+  if (raw.includes('../../index.html') || raw === '../index.html' || raw === '../../') {
+    e.preventDefault();
+    window.location.href = '/';
+    return;
+  }
+  if (raw.includes('../../contact.html') || raw === '../contact.html') {
+    e.preventDefault();
+    const query = raw.includes('?') ? raw.slice(raw.indexOf('?')) : '';
+    window.location.href = '/contact' + query;
+    return;
+  }
+  if (raw.includes('../../work/')) {
+    e.preventDefault();
+    const cs = raw.replace(/^.*\/work\//, '').replace(/\.html$/, '');
+    window.location.href = '/work/' + cs;
+    return;
+  }
+
+  // Internal demo relative links (e.g. index.html -> /apex, residences.html -> /apex/residences)
+  if (demoBase && (raw.endsWith('.html') || raw.includes('.html?') || raw === 'index.html')) {
+    e.preventDefault();
+    const [pathPart, queryPart] = raw.split('?');
+    const [pagePart, hashPart] = pathPart.split('#');
+    let sub = pagePart.replace(/\.html$/, '');
+    let dest = sub === 'index' || sub === '' ? demoBase : demoBase + '/' + sub;
+    if (queryPart) dest += '?' + queryPart;
+    if (hashPart) dest += '#' + hashPart;
+    window.location.href = dest;
+    return;
+  }
+}, true);
+
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
 $$('.reveal').forEach(el=>io.observe(el));

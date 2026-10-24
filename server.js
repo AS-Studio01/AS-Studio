@@ -1095,6 +1095,90 @@ async function startServer() {
   }));
 
   // -------------------------------------------------------------
+  // CANONICAL CLEAN-URL REDIRECT MIDDLEWARE (STRICT HTTP 301)
+  // Automatically strips .html extensions and folder paths so URLs are clean
+  // -------------------------------------------------------------
+  app.use((req, res, next) => {
+    if (req.method !== "GET") return next();
+
+    const pathname = req.path;
+    const query = req.url.includes("?") ? req.url.slice(req.url.indexOf("?")) : "";
+
+    // Normalize root index.html
+    if (pathname === "/index.html") {
+      return res.redirect(301, "/" + query);
+    }
+
+    // Specific clean routes mapping
+    const cleanMap = {
+      "/packages.html": "/packages",
+      "/work.html": "/work",
+      "/about.html": "/about",
+      "/contact.html": "/contact",
+      "/legal/privacy.html": "/privacy",
+      "/legal/terms.html": "/terms",
+      "/legal/disclaimer.html": "/disclaimer",
+      "/legal/cancellation-refund.html": "/refund",
+      "/x7q2m9r4v8k1p6z3": "/admin",
+      "/x7q2m9r4v8k1p6z3/": "/admin",
+      "/x7q2m9r4v8k1p6z3/index.html": "/admin",
+      "/demos/vitalcare-multispeciality-clinic": "/vitalcare",
+      "/demos/vitalcare-multispeciality-clinic/": "/vitalcare",
+      "/demos/vitalcare-multispeciality-clinic/index.html": "/vitalcare",
+      "/demos/mitti-cafe": "/mitti",
+      "/demos/mitti-cafe/": "/mitti",
+      "/demos/mitti-cafe/index.html": "/mitti",
+      "/demos/fold-atelier": "/fold",
+      "/demos/fold-atelier/": "/fold",
+      "/demos/fold-atelier/index.html": "/fold",
+      "/demos/atelier-north": "/atelier",
+      "/demos/atelier-north/": "/atelier",
+      "/demos/atelier-north/index.html": "/atelier",
+      "/demos/apex-residences": "/apex",
+      "/demos/apex-residences/": "/apex",
+      "/demos/apex-residences/index.html": "/apex",
+      "/demos/rao-law": "/rao",
+      "/demos/rao-law/": "/rao",
+      "/demos/rao-law/index.html": "/rao",
+      "/demos/delta-os": "/delta",
+      "/demos/delta-os/": "/delta",
+      "/demos/delta-os/index.html": "/delta",
+    };
+
+    if (cleanMap[pathname]) {
+      return res.redirect(301, cleanMap[pathname] + query);
+    }
+
+    const demoFolderMap = [
+      { prefix: "vitalcare", dir: "vitalcare-multispeciality-clinic" },
+      { prefix: "mitti", dir: "mitti-cafe" },
+      { prefix: "fold", dir: "fold-atelier" },
+      { prefix: "atelier", dir: "atelier-north" },
+      { prefix: "apex", dir: "apex-residences" },
+      { prefix: "rao", dir: "rao-law" },
+      { prefix: "delta", dir: "delta-os" },
+    ];
+
+    for (const d of demoFolderMap) {
+      if (pathname.startsWith(`/demos/${d.dir}/`)) {
+        const sub = pathname.replace(`/demos/${d.dir}/`, "");
+        if (sub.endsWith(".html")) {
+          const cleanSub = sub.replace(/\.html$/, "");
+          return res.redirect(301, cleanSub === "index" ? `/${d.prefix}` + query : `/${d.prefix}/${cleanSub}` + query);
+        }
+      }
+    }
+
+    // Strip generic .html extension (e.g. /my-page.html -> /my-page)
+    if (pathname.endsWith(".html")) {
+      const cleanPath = pathname.replace(/\.html$/, "");
+      return res.redirect(301, cleanPath + query);
+    }
+
+    next();
+  });
+
+  // -------------------------------------------------------------
   // CANONICAL CLEAN CUSTOM URLS (NO FILE EXTENSIONS OR FOLDER NAMES)
   // -------------------------------------------------------------
   // Clean Core Pages
@@ -1110,21 +1194,34 @@ async function startServer() {
   app.get("/disclaimer", (_req, res) => res.sendFile(path.join(__dirname, "legal", "disclaimer.html")));
   app.get(["/cancellation-refund", "/refund"], (_req, res) => res.sendFile(path.join(__dirname, "legal", "cancellation-refund.html")));
 
-  // Clean Concept Demos (Direct memorable custom URLs)
-  app.get(["/demos/vitalcare", "/vitalcare"], (_req, res) => res.sendFile(path.join(__dirname, "demos", "vitalcare-multispeciality-clinic", "index.html")));
-  app.get(["/demos/vitalcare/:subpage", "/vitalcare/:subpage"], (req, res, next) => {
-    const sub = req.params.subpage.replace(/\.html$/, "");
-    const file = path.join(__dirname, "demos", "vitalcare-multispeciality-clinic", `${sub}.html`);
-    if (fs.existsSync(file)) return res.sendFile(file);
-    next();
-  });
+  // Shared demo CSS & JS for clean URL access
+  app.get(["/demo.css", "/demos/demo.css"], (_req, res) => res.sendFile(path.join(__dirname, "demos", "demo.css")));
+  app.get(["/demo.js", "/demos/demo.js"], (_req, res) => res.sendFile(path.join(__dirname, "demos", "demo.js")));
 
-  app.get(["/demos/mitti", "/demos/mitti-cafe", "/mitti"], (_req, res) => res.sendFile(path.join(__dirname, "demos", "mitti-cafe", "index.html")));
-  app.get(["/demos/fold", "/demos/fold-atelier", "/fold"], (_req, res) => res.sendFile(path.join(__dirname, "demos", "fold-atelier", "index.html")));
-  app.get(["/demos/atelier", "/demos/atelier-north", "/atelier"], (_req, res) => res.sendFile(path.join(__dirname, "demos", "atelier-north", "index.html")));
-  app.get(["/demos/apex", "/demos/apex-residences", "/apex"], (_req, res) => res.sendFile(path.join(__dirname, "demos", "apex-residences", "index.html")));
-  app.get(["/demos/rao", "/demos/rao-law", "/rao"], (_req, res) => res.sendFile(path.join(__dirname, "demos", "rao-law", "index.html")));
-  app.get(["/demos/delta", "/demos/delta-os", "/delta"], (_req, res) => res.sendFile(path.join(__dirname, "demos", "delta-os", "index.html")));
+  // Clean Concept Demos (Direct memorable custom URLs and subpages)
+  const demoFolderMap = [
+    { prefix: "vitalcare", dir: "vitalcare-multispeciality-clinic" },
+    { prefix: "mitti", dir: "mitti-cafe" },
+    { prefix: "fold", dir: "fold-atelier" },
+    { prefix: "atelier", dir: "atelier-north" },
+    { prefix: "apex", dir: "apex-residences" },
+    { prefix: "rao", dir: "rao-law" },
+    { prefix: "delta", dir: "delta-os" },
+  ];
+
+  for (const d of demoFolderMap) {
+    app.get([`/${d.prefix}`, `/demos/${d.prefix}`, `/demos/${d.dir}`], (_req, res) => {
+      res.sendFile(path.join(__dirname, "demos", d.dir, "index.html"));
+    });
+    app.get([`/${d.prefix}/:subpage`, `/demos/${d.prefix}/:subpage`, `/demos/${d.dir}/:subpage`], (req, res, next) => {
+      const sub = req.params.subpage.replace(/\.html$/, "");
+      const file = path.join(__dirname, "demos", d.dir, `${sub}.html`);
+      if (fs.existsSync(file) && fs.statSync(file).isFile()) {
+        return res.sendFile(file);
+      }
+      next();
+    });
+  }
 
   // Clean Admin Portal URLs (Direct access via /admin or /portal)
   app.get(["/admin", "/portal", "/dashboard", "/login", "/inbox"], (_req, res) => {
