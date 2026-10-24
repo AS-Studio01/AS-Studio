@@ -2,102 +2,105 @@
 'use strict';
 
 /* Clean URL address-bar enforcement (strips .html and /index.html in browser address bar) */
+function getCleanPath(p) {
+  if (!p) return '/';
+  if (p === '/index.html' || p === '/index') return '/';
+  if (p === '/packages.html' || p === '/packages/') return '/packages';
+  if (p === '/work.html' || p === '/work/') return '/work';
+  if (p === '/about.html' || p === '/about/') return '/about';
+  if (p === '/contact.html' || p === '/contact/') return '/contact';
+  if (p.includes('x7q2m9r4v8k1p6z3')) return '/admin';
+  if (p.includes('/legal/privacy')) return '/privacy';
+  if (p.includes('/legal/terms')) return '/terms';
+  if (p.includes('/legal/disclaimer')) return '/disclaimer';
+  if (p.includes('/legal/cancellation-refund')) return '/refund';
+
+  if (p.startsWith('/work/') && p.endsWith('.html')) {
+    return p.replace(/\.html$/, '');
+  }
+
+  const demoMap = [
+    ['/demos/vitalcare-multispeciality-clinic', '/vitalcare'],
+    ['/demos/mitti-cafe', '/mitti'],
+    ['/demos/fold-atelier', '/fold'],
+    ['/demos/atelier-north', '/atelier'],
+    ['/demos/apex-residences', '/apex'],
+    ['/demos/rao-law', '/rao'],
+    ['/demos/delta-os', '/delta'],
+  ];
+  for (const [folder, prefix] of demoMap) {
+    if (p.startsWith(folder)) {
+      let sub = p.replace(folder, prefix).replace(/\/index\.html$/, '').replace(/\/index$/, '').replace(/\.html$/, '');
+      return sub || prefix;
+    }
+    if (p.startsWith(prefix) && p.endsWith('.html')) {
+      return p.replace(/\.html$/, '');
+    }
+  }
+
+  if (p.endsWith('.html')) {
+    return p.replace(/\.html$/, '');
+  }
+  return p;
+}
+
 (function enforceCleanAddressBar() {
   try {
     const p = window.location.pathname;
     const s = window.location.search || '';
     const h = window.location.hash || '';
-    if (p.endsWith('.html') || p.includes('/index.html') || p.includes('x7q2m9r4v8k1p6z3') || p.startsWith('/demos/')) {
-      let clean = p;
-      if (clean === '/index.html') clean = '/';
-      else if (clean === '/packages.html') clean = '/packages';
-      else if (clean === '/work.html') clean = '/work';
-      else if (clean === '/about.html') clean = '/about';
-      else if (clean === '/contact.html') clean = '/contact';
-      else if (clean.includes('x7q2m9r4v8k1p6z3')) clean = '/admin';
-      else if (clean === '/legal/privacy.html' || clean === '/legal/privacy') clean = '/privacy';
-      else if (clean === '/legal/terms.html' || clean === '/legal/terms') clean = '/terms';
-      else if (clean === '/legal/disclaimer.html' || clean === '/legal/disclaimer') clean = '/disclaimer';
-      else if (clean === '/legal/cancellation-refund.html' || clean === '/legal/cancellation-refund') clean = '/refund';
-      else {
-        const demoMap = [
-          ['/demos/vitalcare-multispeciality-clinic', '/vitalcare'],
-          ['/demos/mitti-cafe', '/mitti'],
-          ['/demos/fold-atelier', '/fold'],
-          ['/demos/atelier-north', '/atelier'],
-          ['/demos/apex-residences', '/apex'],
-          ['/demos/rao-law', '/rao'],
-          ['/demos/delta-os', '/delta'],
-        ];
-        for (const [folder, prefix] of demoMap) {
-          if (clean.startsWith(folder)) {
-            clean = clean.replace(folder, prefix);
-            break;
-          }
-        }
-        clean = clean.replace(/\/index\.html$/, '').replace(/\/index$/, '').replace(/\.html$/, '');
-        if (!clean || clean === '') clean = '/';
-      }
-
-      if (clean !== p) {
-        window.history.replaceState(null, '', clean + s + h);
-      }
+    const clean = getCleanPath(p);
+    if (clean !== p) {
+      window.history.replaceState(null, '', clean + s + h);
     }
   } catch (_) {}
 })();
 
-/* Dynamic link click interceptor: rewrites any .html relative href to clean custom URLs */
+/* Clean link normalizer */
+function normalizeCleanHref(raw) {
+  if (!raw || raw.startsWith('http://') || raw.startsWith('https://') || raw.startsWith('mailto:') || raw.startsWith('tel:') || raw.startsWith('#') || raw.startsWith('javascript:')) {
+    return raw;
+  }
+  const [pathPart, ...rest] = raw.split(/([?#].*)/);
+  const queryAndHash = rest.join('');
+  let p = pathPart;
+  if (p.startsWith('../')) p = p.slice(2);
+  if (!p.startsWith('/')) p = '/' + p;
+  const cleanPath = getCleanPath(p);
+  return cleanPath + queryAndHash;
+}
+
+/* Pre-clean all links in DOM on load */
+function cleanAllLinks() {
+  try {
+    document.querySelectorAll('a[href]').forEach(a => {
+      const raw = a.getAttribute('href');
+      const clean = normalizeCleanHref(raw);
+      if (clean && clean !== raw) {
+        a.setAttribute('href', clean);
+      }
+    });
+  } catch (_) {}
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', cleanAllLinks);
+} else {
+  cleanAllLinks();
+}
+
+/* Dynamic link click interceptor: ensures any clicked relative link goes to the clean URL immediately */
 document.addEventListener('click', function(e) {
   const a = e.target.closest('a');
-  if (!a || !a.getAttribute('href')) return;
+  if (!a) return;
   const rawHref = a.getAttribute('href');
-  if (rawHref.startsWith('http://') || rawHref.startsWith('https://') || rawHref.startsWith('mailto:') || rawHref.startsWith('tel:') || rawHref.startsWith('#')) return;
-
-  const cleanMap = {
-    'index.html': '/',
-    '/index.html': '/',
-    '../index.html': '/',
-    'packages.html': '/packages',
-    '/packages.html': '/packages',
-    '../packages.html': '/packages',
-    'work.html': '/work',
-    '/work.html': '/work',
-    '../work.html': '/work',
-    'about.html': '/about',
-    '/about.html': '/about',
-    '../about.html': '/about',
-    'contact.html': '/contact',
-    '/contact.html': '/contact',
-    '../contact.html': '/contact',
-    'legal/privacy.html': '/privacy',
-    '/legal/privacy.html': '/privacy',
-    '../legal/privacy.html': '/privacy',
-    'legal/terms.html': '/terms',
-    '/legal/terms.html': '/terms',
-    '../legal/terms.html': '/terms',
-    'legal/disclaimer.html': '/disclaimer',
-    '/legal/disclaimer.html': '/disclaimer',
-    '../legal/disclaimer.html': '/disclaimer',
-    'legal/cancellation-refund.html': '/refund',
-    '/legal/cancellation-refund.html': '/refund',
-    '../legal/cancellation-refund.html': '/refund',
-    'demos/vitalcare-multispeciality-clinic/index.html': '/vitalcare',
-    'demos/mitti-cafe/index.html': '/mitti',
-    'demos/fold-atelier/index.html': '/fold',
-    'demos/atelier-north/index.html': '/atelier',
-    'demos/apex-residences/index.html': '/apex',
-    'demos/rao-law/index.html': '/rao',
-    'demos/delta-os/index.html': '/delta',
-    '/x7q2m9r4v8k1p6z3/': '/admin',
-    '/x7q2m9r4v8k1p6z3': '/admin',
-    '../x7q2m9r4v8k1p6z3/': '/admin'
-  };
-
-  const parts = rawHref.split(/([?#].*)/);
-  const baseHref = parts[0];
-  const queryOrHash = parts.slice(1).join('');
-  if (cleanMap[baseHref]) {
-    a.setAttribute('href', cleanMap[baseHref] + queryOrHash);
+  if (!rawHref) return;
+  const clean = normalizeCleanHref(rawHref);
+  if (clean && clean !== rawHref) {
+    a.setAttribute('href', clean);
+    if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+      e.preventDefault();
+      window.location.href = clean;
+    }
   }
 }, true);
 
@@ -227,10 +230,10 @@ setTimeout(()=>document.body&&document.body.classList.add('ready'),1200);
       <div class="policy-banner-text">
         <strong>Site Policies &amp; Compliance:</strong> By continuing to use our website, you accept and agree to our
         <span class="policy-banner-links">
-          <a href="${prefix}legal/privacy.html">Privacy Policy</a>,
-          <a href="${prefix}legal/terms.html">Terms of Service</a>,
-          <a href="${prefix}legal/disclaimer.html">Disclaimer</a>, and
-          <a href="${prefix}legal/cancellation-refund.html">Cancellation &amp; Refund Policy</a>.
+          <a href="/privacy">Privacy Policy</a>,
+          <a href="/terms">Terms of Service</a>,
+          <a href="/disclaimer">Disclaimer</a>, and
+          <a href="/refund">Cancellation &amp; Refund Policy</a>.
         </span>
       </div>
       <div class="policy-banner-acts">
@@ -273,10 +276,9 @@ if(nav){const light=nav.classList.contains('light');let last=-1;
     const hasHome=Array.from(ln.querySelectorAll('a')).some(a=>(a.textContent||'').trim().toLowerCase()==='home');
     if(!hasHome){
       const homeA=document.createElement('a');
-      const prefix=(location.pathname.includes('/legal/')||location.pathname.includes('/work/'))?'../':'';
-      homeA.href=prefix+'index.html';
+      homeA.href='/';
       homeA.textContent='Home';
-      if(location.pathname==='/'||location.pathname.endsWith('/index.html')){
+      if(location.pathname==='/'||location.pathname.endsWith('/index.html')||location.pathname===''){
         homeA.setAttribute('aria-current','page');
       }
       ln.insertBefore(homeA,ln.firstChild);

@@ -174,6 +174,7 @@ dotenv.config();
 var __filename = fileURLToPath(import.meta.url);
 var __dirname = path.dirname(__filename);
 var app = express();
+app.set("trust proxy", true);
 var PORT = 3000;
 app.use(express.json());
 // These endpoints were open to anyone (email relay and AI chat). The public site does not use them, so they are switched off.
@@ -1085,11 +1086,28 @@ Looking forward to your reply!`
 async function startServer() {
   const isProd = process.env.NODE_ENV === "production";
 
-  // Explicitly serve static CSS with text/css headers so dev browser never receives Vite module transformation
+  // Helper to resolve HTML file across root or dist
+  const resolveHtmlFile = (relPath) => {
+    if (isProd && fs.existsSync(path.join(__dirname, "dist", relPath))) {
+      return path.join(__dirname, "dist", relPath);
+    }
+    return path.join(__dirname, relPath);
+  };
+
+  // Explicitly serve static CSS with text/css headers
   app.use("/css", express.static(path.join(__dirname, "css"), {
     setHeaders: (res, filePath) => {
       if (filePath.endsWith(".css")) {
         res.setHeader("Content-Type", "text/css; charset=utf-8");
+      }
+    }
+  }));
+
+  // Explicitly serve static JS with application/javascript headers
+  app.use("/js", express.static(path.join(__dirname, "js"), {
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith(".js")) {
+        res.setHeader("Content-Type", "application/javascript; charset=utf-8");
       }
     }
   }));
@@ -1115,10 +1133,15 @@ async function startServer() {
       "/work.html": "/work",
       "/about.html": "/about",
       "/contact.html": "/contact",
+      "/404.html": "/404",
       "/legal/privacy.html": "/privacy",
+      "/legal/privacy": "/privacy",
       "/legal/terms.html": "/terms",
+      "/legal/terms": "/terms",
       "/legal/disclaimer.html": "/disclaimer",
+      "/legal/disclaimer": "/disclaimer",
       "/legal/cancellation-refund.html": "/refund",
+      "/legal/cancellation-refund": "/refund",
       "/x7q2m9r4v8k1p6z3": "/admin",
       "/x7q2m9r4v8k1p6z3/": "/admin",
       "/x7q2m9r4v8k1p6z3/index.html": "/admin",
@@ -1149,6 +1172,13 @@ async function startServer() {
       return res.redirect(301, cleanMap[pathname] + query);
     }
 
+    // Strip .html from /work case studies
+    if (pathname.startsWith("/work/") && pathname.endsWith(".html")) {
+      const cleanSub = pathname.replace(/\.html$/, "");
+      return res.redirect(301, cleanSub + query);
+    }
+
+    // Strip .html from demo subpages
     const demoFolderMap = [
       { prefix: "vitalcare", dir: "vitalcare-multispeciality-clinic" },
       { prefix: "mitti", dir: "mitti-cafe" },
@@ -1167,9 +1197,12 @@ async function startServer() {
           return res.redirect(301, cleanSub === "index" ? `/${d.prefix}` + query : `/${d.prefix}/${cleanSub}` + query);
         }
       }
+      if (pathname.startsWith(`/${d.prefix}/`) && pathname.endsWith(".html")) {
+        return res.redirect(301, pathname.replace(/\.html$/, "") + query);
+      }
     }
 
-    // Strip generic .html extension (e.g. /my-page.html -> /my-page)
+    // Strip generic .html extension
     if (pathname.endsWith(".html")) {
       const cleanPath = pathname.replace(/\.html$/, "");
       return res.redirect(301, cleanPath + query);
@@ -1181,22 +1214,33 @@ async function startServer() {
   // -------------------------------------------------------------
   // CANONICAL CLEAN CUSTOM URLS (NO FILE EXTENSIONS OR FOLDER NAMES)
   // -------------------------------------------------------------
-  // Clean Core Pages
-  app.get(["/work", "/portfolio"], (_req, res) => res.sendFile(path.join(__dirname, "work.html")));
-  app.get(["/about", "/studio"], (_req, res) => res.sendFile(path.join(__dirname, "about.html")));
-  app.get(["/packages", "/pricing", "/plans"], (_req, res) => res.sendFile(path.join(__dirname, "packages.html")));
-  app.get(["/contact", "/hire", "/brief"], (_req, res) => res.sendFile(path.join(__dirname, "contact.html")));
-  app.get("/work/as-studio", (_req, res) => res.sendFile(path.join(__dirname, "work", "as-studio.html")));
+  // Clean Core Pages (supports both with and without trailing slash)
+  app.get(["/", "/site.html"], (_req, res) => res.sendFile(resolveHtmlFile("index.html")));
+  app.get(["/work", "/work/", "/portfolio", "/portfolio/"], (_req, res) => res.sendFile(resolveHtmlFile("work.html")));
+  app.get(["/about", "/about/", "/studio", "/studio/"], (_req, res) => res.sendFile(resolveHtmlFile("about.html")));
+  app.get(["/packages", "/packages/", "/pricing", "/pricing/", "/plans", "/plans/"], (_req, res) => res.sendFile(resolveHtmlFile("packages.html")));
+  app.get(["/contact", "/contact/", "/hire", "/hire/", "/brief", "/brief/"], (_req, res) => res.sendFile(resolveHtmlFile("contact.html")));
+  app.get(["/404", "/404/"], (_req, res) => res.status(404).sendFile(resolveHtmlFile("404.html")));
+
+  // Clean Work Case Studies (e.g. /work/as-studio, /work/mitti-cafe, etc.)
+  app.get(["/work/:caseStudy", "/work/:caseStudy/"], (req, res, next) => {
+    const slug = req.params.caseStudy.replace(/\.html$/, "");
+    const file = resolveHtmlFile(path.join("work", `${slug}.html`));
+    if (fs.existsSync(file) && fs.statSync(file).isFile()) {
+      return res.sendFile(file);
+    }
+    next();
+  });
 
   // Clean Legal Pages
-  app.get("/privacy", (_req, res) => res.sendFile(path.join(__dirname, "legal", "privacy.html")));
-  app.get("/terms", (_req, res) => res.sendFile(path.join(__dirname, "legal", "terms.html")));
-  app.get("/disclaimer", (_req, res) => res.sendFile(path.join(__dirname, "legal", "disclaimer.html")));
-  app.get(["/cancellation-refund", "/refund"], (_req, res) => res.sendFile(path.join(__dirname, "legal", "cancellation-refund.html")));
+  app.get(["/privacy", "/privacy/"], (_req, res) => res.sendFile(resolveHtmlFile(path.join("legal", "privacy.html"))));
+  app.get(["/terms", "/terms/"], (_req, res) => res.sendFile(resolveHtmlFile(path.join("legal", "terms.html"))));
+  app.get(["/disclaimer", "/disclaimer/"], (_req, res) => res.sendFile(resolveHtmlFile(path.join("legal", "disclaimer.html"))));
+  app.get(["/cancellation-refund", "/cancellation-refund/", "/refund", "/refund/"], (_req, res) => res.sendFile(resolveHtmlFile(path.join("legal", "cancellation-refund.html"))));
 
   // Shared demo CSS & JS for clean URL access
-  app.get(["/demo.css", "/demos/demo.css"], (_req, res) => res.sendFile(path.join(__dirname, "demos", "demo.css")));
-  app.get(["/demo.js", "/demos/demo.js"], (_req, res) => res.sendFile(path.join(__dirname, "demos", "demo.js")));
+  app.get(["/demo.css", "/demos/demo.css"], (_req, res) => res.sendFile(resolveHtmlFile(path.join("demos", "demo.css"))));
+  app.get(["/demo.js", "/demos/demo.js"], (_req, res) => res.sendFile(resolveHtmlFile(path.join("demos", "demo.js"))));
 
   // Clean Concept Demos (Direct memorable custom URLs and subpages)
   const demoFolderMap = [
@@ -1210,12 +1254,12 @@ async function startServer() {
   ];
 
   for (const d of demoFolderMap) {
-    app.get([`/${d.prefix}`, `/demos/${d.prefix}`, `/demos/${d.dir}`], (_req, res) => {
-      res.sendFile(path.join(__dirname, "demos", d.dir, "index.html"));
+    app.get([`/${d.prefix}`, `/${d.prefix}/`, `/demos/${d.prefix}`, `/demos/${d.prefix}/`, `/demos/${d.dir}`, `/demos/${d.dir}/`], (_req, res) => {
+      res.sendFile(resolveHtmlFile(path.join("demos", d.dir, "index.html")));
     });
-    app.get([`/${d.prefix}/:subpage`, `/demos/${d.prefix}/:subpage`, `/demos/${d.dir}/:subpage`], (req, res, next) => {
+    app.get([`/${d.prefix}/:subpage`, `/${d.prefix}/:subpage/`, `/demos/${d.prefix}/:subpage`, `/demos/${d.dir}/:subpage`], (req, res, next) => {
       const sub = req.params.subpage.replace(/\.html$/, "");
-      const file = path.join(__dirname, "demos", d.dir, `${sub}.html`);
+      const file = resolveHtmlFile(path.join("demos", d.dir, `${sub}.html`));
       if (fs.existsSync(file) && fs.statSync(file).isFile()) {
         return res.sendFile(file);
       }
@@ -1224,41 +1268,32 @@ async function startServer() {
   }
 
   // Clean Admin Portal URLs (Direct access via /admin or /portal)
-  app.get(["/admin", "/portal", "/dashboard", "/login", "/inbox"], (_req, res) => {
-    res.sendFile(path.join(__dirname, "x7q2m9r4v8k1p6z3", "index.html"));
+  app.get(["/admin", "/admin/", "/portal", "/portal/", "/dashboard", "/dashboard/", "/login", "/inbox"], (_req, res) => {
+    res.sendFile(resolveHtmlFile(path.join("x7q2m9r4v8k1p6z3", "index.html")));
   });
   app.get(["/x7q2m9r4v8k1p6z3", "/x7q2m9r4v8k1p6z3/"], (_req, res) => {
-    res.sendFile(path.join(__dirname, "x7q2m9r4v8k1p6z3", "index.html"));
+    res.sendFile(resolveHtmlFile(path.join("x7q2m9r4v8k1p6z3", "index.html")));
   });
 
-  // Serve static assets, demos, legal, work, js
-  app.use("/assets", express.static(path.join(__dirname, "assets")));
-  app.use("/demos", express.static(path.join(__dirname, "demos")));
-  app.use("/work", express.static(path.join(__dirname, "work")));
-  app.use("/legal", express.static(path.join(__dirname, "legal")));
-  app.use("/x7q2m9r4v8k1p6z3", express.static(path.join(__dirname, "x7q2m9r4v8k1p6z3")));
-  app.use("/js", express.static(path.join(__dirname, "js"), {
-    setHeaders: (res, filePath) => {
-      if (filePath.endsWith(".js")) {
-        res.setHeader("Content-Type", "application/javascript; charset=utf-8");
-      }
-    }
-  }));
+  // Serve static assets with index: false to prevent 403 Forbidden directory listing
+  app.use("/assets", express.static(path.join(__dirname, "assets"), { index: false }));
+  app.use("/demos", express.static(path.join(__dirname, "demos"), { index: false }));
+  app.use("/work", express.static(path.join(__dirname, "work"), { index: false }));
+  app.use("/legal", express.static(path.join(__dirname, "legal"), { index: false }));
+  app.use("/x7q2m9r4v8k1p6z3", express.static(path.join(__dirname, "x7q2m9r4v8k1p6z3"), { index: false }));
 
-  // Automatic clean-URL resolver middleware for any static HTML page
+  // Automatic clean-URL resolver fallback for any other static HTML page
   app.use((req, res, next) => {
     if (req.method !== "GET") return next();
-    const reqPath = req.path.replace(/^\//, "");
+    const reqPath = req.path.replace(/^\//, "").replace(/\/$/, "");
     if (!reqPath || reqPath === "") return next();
 
-    // Check if root .html exists (e.g. /about -> about.html)
-    const directHtml = path.join(__dirname, `${reqPath}.html`);
+    const directHtml = resolveHtmlFile(`${reqPath}.html`);
     if (fs.existsSync(directHtml) && fs.statSync(directHtml).isFile()) {
       return res.sendFile(directHtml);
     }
 
-    // Check if directory index.html exists (e.g. /demos/mitti-cafe -> /demos/mitti-cafe/index.html)
-    const dirIndexHtml = path.join(__dirname, reqPath, "index.html");
+    const dirIndexHtml = resolveHtmlFile(path.join(reqPath, "index.html"));
     if (fs.existsSync(dirIndexHtml) && fs.statSync(dirIndexHtml).isFile()) {
       return res.sendFile(dirIndexHtml);
     }
@@ -1274,11 +1309,14 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   } else {
-    app.use(express.static(path.join(__dirname, "dist"), { extensions: ["html"] }));
-    app.get("*", (_req, res) => {
-      res.sendFile(path.join(__dirname, "dist", "index.html"));
-    });
+    app.use(express.static(path.join(__dirname, "dist"), { extensions: ["html"], index: false }));
   }
+
+  // Final 404 Handler - returns custom branded 404 page with 404 status
+  app.use((_req, res) => {
+    res.status(404).sendFile(resolveHtmlFile("404.html"));
+  });
+
   app.listen(Number(PORT), "0.0.0.0", () => {
     console.log(`Server listening on http://0.0.0.0:${PORT}`);
   });
