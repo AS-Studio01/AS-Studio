@@ -1221,6 +1221,7 @@ async function startServer() {
   app.get(["/packages", "/packages/", "/pricing", "/pricing/", "/plans", "/plans/"], (_req, res) => res.sendFile(resolveHtmlFile("packages.html")));
   app.get(["/contact", "/contact/", "/hire", "/hire/", "/brief", "/brief/"], (_req, res) => res.sendFile(resolveHtmlFile("contact.html")));
   app.get(["/404", "/404/"], (_req, res) => res.status(404).sendFile(resolveHtmlFile("404.html")));
+  app.get(["/forbidden.html", "/forbidden"], (_req, res) => res.status(200).sendFile(resolveHtmlFile("forbidden.html")));
 
   // Clean Work Case Studies (e.g. /work/as-studio, /work/mitti-cafe, etc.)
   app.get(["/work/:caseStudy", "/work/:caseStudy/"], (req, res, next) => {
