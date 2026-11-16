@@ -1,251 +1,173 @@
-import http from 'node:http';
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import 'dotenv/config';
+#!/usr/bin/env node
 
-import publicConfigHandler from '../api/public/config.js';
-import publicInquiryHandler from '../api/public/inquiry.js';
-import authLoginHandler from '../api/auth/login.js';
-import authLogoutHandler from '../api/auth/logout.js';
-import authMeHandler from '../api/auth/me.js';
-import adminConfigHandler from '../api/admin/config.js';
-import adminInquiriesHandler from '../api/admin/inquiries.js';
+/**
+ * Local development server for AS Studio.
+ *
+ * Runs the real /api/* handlers plus the static site, so you get exactly the
+ * behaviour Vercel gives you — without needing `vercel dev` or a paid account.
+ *
+ *   node tools/dev-server.js          → http://localhost:3000
+ *   PORT=8080 node tools/dev-server.js
+ *
+ * This is a DEVELOPMENT tool. It is never deployed: Vercel ignores the
+ * tools/ directory and runs each api/*.js as its own serverless function.
+ */
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT_DIR = path.resolve(__dirname, '..');
+'use strict';
 
-const MIME_TYPES = {
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+const url = require('url');
+
+const ROOT = path.resolve(__dirname, '..');
+const PORT = parseInt(process.env.PORT, 10) || 3000;
+
+/* Load .env if present (no dependency needed) */
+(function loadEnv() {
+  const file = path.join(ROOT, '.env');
+  if (!fs.existsSync(file)) return;
+  fs.readFileSync(file, 'utf8').split('\n').forEach(function (line) {
+    const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)$/);
+    if (!m) return;
+    let value = m[2].trim().replace(/^["']|["']$/g, '');
+    if (process.env[m[1]] === undefined) process.env[m[1]] = value;
+  });
+  console.log('  .env loaded');
+})();
+
+const MIME = {
   '.html': 'text/html; charset=utf-8',
-  '.css': 'text/css; charset=utf-8',
-  '.js': 'application/javascript; charset=utf-8',
+  '.css':  'text/css; charset=utf-8',
+  '.js':   'application/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
-  '.svg': 'image/svg+xml',
-  '.png': 'image/png',
-  '.jpg': 'image/jpeg',
+  '.svg':  'image/svg+xml',
+  '.png':  'image/png',
+  '.jpg':  'image/jpeg',
   '.jpeg': 'image/jpeg',
   '.webp': 'image/webp',
-  '.ico': 'image/x-icon',
-  '.xml': 'application/xml; charset=utf-8',
-  '.txt': 'text/plain; charset=utf-8',
-  '.mp4': 'video/mp4',
-  '.webm': 'video/webm',
-  '.woff2': 'font/woff2'
+  '.ico':  'image/x-icon',
+  '.woff2':'font/woff2',
+  '.mp4':  'video/mp4',
+  '.txt':  'text/plain; charset=utf-8',
+  '.xml':  'application/xml; charset=utf-8'
 };
 
-const API_ROUTES = new Map([
-  ['/api/public/config', publicConfigHandler],
-  ['/api/public/inquiry', publicInquiryHandler],
-  ['/api/auth/login', authLoginHandler],
-  ['/api/auth/logout', authLogoutHandler],
-  ['/api/auth/me', authMeHandler],
-  ['/api/admin/config', adminConfigHandler],
-  ['/api/admin/inquiries', adminInquiriesHandler]
-]);
+/* routes that mirror vercel.json */
+const REWRITES = {
+  '/demos/mitti': 'demos/mitti.html',
+  '/demos/rao': 'demos/rao.html',
+  '/demos/vitalcare': 'demos/vitalcare.html',
+  '/demos/atelier': 'demos/atelier.html',
+  '/demos/apex': 'demos/apex.html',
+  '/demos/delta': 'demos/delta.html',
+  '/packages': 'packages.html',
+  '/work': 'work.html',
+  '/about': 'about.html',
+  '/contact': 'contact.html',
+  '/admin': 'admin.html',
+  '/legal/privacy': 'legal/privacy.html',
+  '/legal/terms': 'legal/terms.html',
+  '/legal/refund': 'legal/refund.html',
+  '/legal/disclaimer': 'legal/disclaimer.html'
+};
 
-const REWRITES = new Map([
-  ['/', 'index.html'],
-  ['/packages', 'packages.html'],
-  ['/packages/', 'packages.html'],
-  ['/work', 'work.html'],
-  ['/work/', 'work.html'],
-  ['/about', 'about.html'],
-  ['/about/', 'about.html'],
-  ['/contact', 'contact.html'],
-  ['/contact/', 'contact.html'],
-  ['/admin', 'admin.html'],
-  ['/admin/', 'admin.html'],
-  ['/privacy', 'legal/privacy.html'],
-  ['/privacy/', 'legal/privacy.html'],
-  ['/terms', 'legal/terms.html'],
-  ['/terms/', 'legal/terms.html'],
-  ['/refund', 'legal/refund.html'],
-  ['/refund/', 'legal/refund.html'],
-  ['/disclaimer', 'legal/disclaimer.html'],
-  ['/disclaimer/', 'legal/disclaimer.html'],
-  ['/legal/cancellation-refund', 'legal/refund.html'],
-  ['/demos', 'demos/index.html'],
-  ['/demos/', 'demos/index.html'],
-  ['/demos/mitti', 'demos/mitti.html'],
-  ['/demos/rao', 'demos/rao.html'],
-  ['/demos/vitalcare', 'demos/vitalcare.html'],
-  ['/demos/atelier', 'demos/atelier.html'],
-  ['/demos/apex', 'demos/apex.html'],
-  ['/demos/delta', 'demos/delta.html'],
-  ['/404', '404.html']
-]);
-
-const REDIRECTS = new Map([
-  ['/index.html', '/'],
-  ['/packages.html', '/packages'],
-  ['/work.html', '/work'],
-  ['/about.html', '/about'],
-  ['/contact.html', '/contact'],
-  ['/admin.html', '/admin'],
-  ['/legal/privacy.html', '/privacy'],
-  ['/legal/terms.html', '/terms'],
-  ['/legal/refund.html', '/refund'],
-  ['/legal/disclaimer.html', '/disclaimer'],
-  ['/legal/cancellation-refund.html', '/refund'],
-  ['/demos/index.html', '/demos'],
-  ['/demos/mitti.html', '/demos/mitti'],
-  ['/demos/rao.html', '/demos/rao'],
-  ['/demos/vitalcare.html', '/demos/vitalcare'],
-  ['/demos/atelier.html', '/demos/atelier'],
-  ['/demos/apex.html', '/demos/apex'],
-  ['/demos/delta.html', '/demos/delta']
-]);
-
-const BLOCKED_PREFIXES = [
-  '/.env',
-  '/.data',
-  '/.git',
-  '/.aistudio',
-  '/lib/',
-  '/tools/',
-  '/api/',
-  '/node_modules/',
-  '/package.json',
-  '/package-lock.json',
-  '/bun.lock',
-  '/firebase-applet-config.json',
-  '/firebase-blueprint.json',
-  '/firebase.json',
-  '/firestore.rules',
-  '/vercel.json',
-  '/metadata.json'
-];
-
-function applyCommonHeaders(res, pathname) {
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), interest-cohort=()');
-  res.setHeader('X-DNS-Prefetch-Control', 'off');
-  if (pathname.startsWith('/admin') || pathname.startsWith('/api/')) {
-    res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
-    res.setHeader('Cache-Control', 'no-store, max-age=0');
-  } else if (pathname.startsWith('/demos')) {
-    res.setHeader('X-Robots-Tag', 'noindex, nofollow');
-  }
+function readBody(req) {
+  return new Promise(function (resolve) {
+    let raw = '';
+    req.on('data', function (c) { raw += c; if (raw.length > 1e6) req.destroy(); });
+    req.on('end', function () {
+      const ct = req.headers['content-type'] || '';
+      if (ct.includes('application/json') && raw) {
+        try { resolve(JSON.parse(raw)); } catch (_) { resolve(raw); }
+      } else resolve(raw || undefined);
+    });
+    req.on('error', function () { resolve(undefined); });
+  });
 }
 
-async function sendFile(res, relPath, statusCode = 200) {
-  const fullPath = path.resolve(ROOT_DIR, relPath);
-  if (!fullPath.startsWith(ROOT_DIR + path.sep) && fullPath !== ROOT_DIR) {
-    res.statusCode = 403;
-    res.end('Forbidden');
+const server = http.createServer(async function (req, res) {
+  const parsed = url.parse(req.url, true);
+  let pathname = decodeURIComponent(parsed.pathname);
+
+  /* ---------- API ---------- */
+  if (pathname.startsWith('/api/')) {
+    const file = path.join(ROOT, pathname + '.js');
+    if (!fs.existsSync(file)) {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ error: 'No such endpoint' }));
+    }
+    req.body = await readBody(req);
+    req.query = parsed.query;
+
+    /* Vercel-style res helpers */
+    let sent = false;
+    res.status = function (c) { res.statusCode = c; return res; };
+    res.json = function (payload) {
+      if (sent) return res;
+      sent = true;
+      if (!res.getHeader('Content-Type')) res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify(payload));
+      return res;
+    };
+    res.send = function (payload) { return res.json(payload); };
+
+    try {
+      const handler = require(file);
+      await handler(req, res);
+      if (!sent) res.end();
+    } catch (err) {
+      console.error('[dev] API error', err);
+      if (!sent) {
+        res.statusCode = 500;
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({ error: 'Internal error', detail: err.message }));
+      }
+    }
+    console.log(`${req.method} ${pathname} → ${res.statusCode}`);
     return;
   }
-  try {
-    const stat = await fs.stat(fullPath);
-    if (!stat.isFile()) {
-      return sendNotFound(res);
-    }
-    const ext = path.extname(fullPath).toLowerCase();
-    const mime = MIME_TYPES[ext] || 'application/octet-stream';
-    const content = await fs.readFile(fullPath);
-    res.statusCode = statusCode;
-    res.setHeader('Content-Type', mime);
-    if (ext === '.html' && !res.getHeader('Cache-Control')) {
-      res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
-    } else if (['.png', '.jpg', '.jpeg', '.webp', '.svg', '.woff2'].includes(ext)) {
-      res.setHeader('Cache-Control', 'public, max-age=3600');
-    }
-    res.end(content);
-  } catch {
-    await sendNotFound(res);
+
+  /* ---------- static ---------- */
+  if (pathname === '/') pathname = '/index.html';
+  if (REWRITES[pathname]) pathname = '/' + REWRITES[pathname];
+
+  let file = path.join(ROOT, pathname);
+
+  /* directory index */
+  if (fs.existsSync(file) && fs.statSync(file).isDirectory()) {
+    file = path.join(file, 'index.html');
   }
-}
+  /* extensionless .html */
+  if (!fs.existsSync(file) && fs.existsSync(file + '.html')) file += '.html';
 
-async function sendNotFound(res) {
-  try {
-    const html = await fs.readFile(path.join(ROOT_DIR, '404.html'));
-    res.statusCode = 404;
-    res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.setHeader('Cache-Control', 'no-store');
-    res.end(html);
-  } catch {
-    res.statusCode = 404;
-    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-    res.end('404 Not Found');
+  /* path traversal guard */
+  if (!file.startsWith(ROOT)) {
+    res.writeHead(403); return res.end('Forbidden');
   }
-}
 
-export function createServer() {
-  return http.createServer(async (req, res) => {
-    const url = new URL(req.url || '/', `http://${req.headers.host || 'localhost'}`);
-    let pathname = '/';
-    try {
-      pathname = decodeURIComponent(url.pathname);
-    } catch {
-      res.statusCode = 400;
-      res.end('Bad Request');
-      return;
-    }
+  if (!fs.existsSync(file) || !fs.statSync(file).isFile()) {
+    const notFound = path.join(ROOT, '404.html');
+    res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+    return res.end(fs.existsSync(notFound) ? fs.readFileSync(notFound) : 'Not found');
+  }
 
-    applyCommonHeaders(res, pathname);
-
-    // Route /api/* endpoints directly
-    const apiHandler = API_ROUTES.get(pathname);
-    if (apiHandler) {
-      req.query = Object.fromEntries(url.searchParams.entries());
-      return apiHandler(req, res);
-    }
-
-    if (pathname.startsWith('/api/')) {
-      res.statusCode = 404;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({ ok: false, error: 'Endpoint not found' }));
-      return;
-    }
-
-    // Redirect explicit .html requests to clean URLs
-    const redirectTarget = REDIRECTS.get(pathname);
-    if (redirectTarget) {
-      res.statusCode = 301;
-      res.setHeader('Location', `${redirectTarget}${url.search}`);
-      res.end();
-      return;
-    }
-
-    // Block access to server source, secrets, and config internals
-    if (
-      pathname.includes('..') ||
-      BLOCKED_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(prefix))
-    ) {
-      return sendNotFound(res);
-    }
-
-    // Check clean URL rewrites
-    const rewriteTarget = REWRITES.get(pathname);
-    if (rewriteTarget) {
-      return sendFile(res, rewriteTarget, 200);
-    }
-
-    // Allow static files from /css, /js, /assets, /robots.txt, /sitemap.xml
-    const staticAllowed =
-      pathname.startsWith('/css/') ||
-      pathname.startsWith('/js/') ||
-      pathname.startsWith('/assets/') ||
-      pathname === '/demos/demo.css' ||
-      pathname === '/demos/demo.js' ||
-      pathname === '/robots.txt' ||
-      pathname === '/sitemap.xml';
-
-    if (staticAllowed) {
-      return sendFile(res, pathname.slice(1), 200);
-    }
-
-    return sendNotFound(res);
+  const ext = path.extname(file).toLowerCase();
+  res.writeHead(200, {
+    'Content-Type': MIME[ext] || 'application/octet-stream',
+    'X-Content-Type-Options': 'nosniff',
+    'Cache-Control': ext === '.html' ? 'no-cache' : 'public, max-age=3600'
   });
-}
+  fs.createReadStream(file).pipe(res);
+});
 
-const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
-if (isMain) {
-  const port = Number(process.env.PORT || 3000);
-  const host = '0.0.0.0';
-  const server = createServer();
-  server.listen(port, host, () => {
-    console.log(`AS Studio Pro dev server listening on http://${host}:${port}`);
-  });
-}
+server.listen(PORT, '0.0.0.0', function () {
+  console.log('\n  AS Studio dev server');
+  console.log('  ─────────────────────────────');
+  console.log(`  Site    http://localhost:${PORT}`);
+  console.log(`  Console http://localhost:${PORT}/admin`);
+  console.log(`  API     http://localhost:${PORT}/api/public/config`);
+  console.log('\n  Admin login needs ADMIN_EMAIL / ADMIN_PASSWORD_HASH /');
+  console.log('  ADMIN_SESSION_SECRET in .env — generate the hash with:');
+  console.log('    node tools/hash-password.js\n');
+});
