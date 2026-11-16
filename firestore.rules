@@ -1,116 +1,11 @@
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
-
-    // Global Safety Net
+    // Zero client SDK access: all reads and writes are mediated by signed
+    // serverless endpoints (/api/*) using Service Account credentials.
     match /{document=**} {
       allow read, write: if false;
-    }
-
-    function isSignedIn() {
-      return request.auth != null;
-    }
-
-    function isValidId(id) {
-      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
-    }
-
-    function incoming() {
-      return request.resource.data;
-    }
-
-    function existing() {
-      return resource.data;
-    }
-
-    function isOwner(userId) {
-      return isSignedIn() && request.auth.uid == userId;
-    }
-
-    function isAdmin() {
-      return isSignedIn() && (
-        request.auth.token.email_verified == true ||
-        request.auth.token.email == 'sahina724462s@gmail.com'
-      );
-    }
-
-    function isValidInquiry(data) {
-      return data.keys().hasAll(['clientName', 'businessName', 'contactChannel', 'scopeSummary', 'source', 'status'])
-        && data.clientName is string && data.clientName.size() > 0 && data.clientName.size() <= 100
-        && data.businessName is string && data.businessName.size() > 0 && data.businessName.size() <= 120
-        && data.contactChannel is string && data.contactChannel.size() >= 3 && data.contactChannel.size() <= 150
-        && data.scopeSummary is string && data.scopeSummary.size() > 0 && data.scopeSummary.size() <= 2500
-        && data.source in ['website_contact_form', 'ai_chat_assistant', 'direct_inquiry']
-        && data.status in ['new', 'in_review', 'contacted', 'completed'];
-    }
-
-    function isValidPageView(data) {
-      return data.keys().hasAll(['path', 'createdAt'])
-        && data.path is string && data.path.size() > 0 && data.path.size() <= 300
-        && (!('demo' in data) || (data.demo is string && data.demo.size() <= 80))
-        && (!('title' in data) || (data.title is string && data.title.size() <= 200))
-        && (!('referrer' in data) || (data.referrer is string && data.referrer.size() <= 300));
-    }
-
-    // Inquiries Collection
-    match /inquiries/{inquiryId} {
-      // Anyone can submit a project brief (public contact form / AI chat assistant)
-      allow create: if isValidId(inquiryId) && isValidInquiry(incoming());
-      
-      // Admin or founder can view, update and delete inquiries
-      allow read, update, delete: if true;
-    }
-
-    // Page Views Collection (Visitor analytics tracking)
-    match /page_views/{viewId} {
-      allow create: if isValidId(viewId) && isValidPageView(incoming());
-      allow read, delete: if isAdmin();
-      allow update: if false;
-    }
-
-    // Users Collection
-    match /users/{userId} {
-      allow get: if isValidId(userId) && (isOwner(userId) || isAdmin());
-      allow list: if isAdmin();
-      allow create: if isValidId(userId) && isOwner(userId);
-      allow update: if isValidId(userId) && (isOwner(userId) || isAdmin());
-      allow delete: if isAdmin();
-    }
-
-    // Verified Reviews Collection
-    match /reviews/{reviewId} {
-      allow read: if true;
-      // Only admins can add, change or remove reviews (was open to anyone)
-      allow create, update, delete: if isAdmin();
-    }
-
-    // Public CMS content: Public read, Admin or Founder write
-    match /site_content/{contentId} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    // Client Projects (Delivery Milestones Tracking)
-    match /client_projects/{projectId} {
-      allow read: if isAdmin() || (isSignedIn() && (resource.data.clientUid == request.auth.uid || resource.data.userId == request.auth.uid));
-      allow create: if isAdmin();
-      allow update, delete: if isAdmin();
-    }
-
-    // Studio Site Settings (Public read, verified admin or founder passcode write)
-    match /site_settings/{settingId} {
-      allow read, write: if true;
-    }
-
-    // Client Sites (Builder Mark verification: public read, founder write)
-    match /client_sites/{siteKey} {
-      allow read: if true;
-      allow write: if true;
-    }
-
-    // Admin-only Client Sites Collection (Client labels & private notes)
-    match /client_sites_admin/{siteKey} {
-      allow read, write: if true;
     }
   }
 }

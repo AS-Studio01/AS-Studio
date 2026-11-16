@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en" data-demo="mitti">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Mitti Café &amp; Roastery — AS Studio Demo</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/demos/demo.css">
+</head>
+<body>
+  <div class="demo-strip">
+    <span>AS Studio Concept 01 · Starter Tier ($95)</span>
+    <span><a href="/demos">Gallery</a> · <a href="/contact?package=starter">Book similar build</a></span>
+  </div>
+
+  <header class="d-header">
+    <div class="d-wrap d-header-inner">
+      <a href="#top" class="d-brand">Mitti Café</a>
+      <nav class="d-nav" aria-label="Mitti navigation">
+        <a href="#menu">Menu</a>
+        <a href="#roastery">Roastery</a>
+        <a href="#reserve">Reserve</a>
+      </nav>
+      <a href="#reserve" class="d-btn d-btn-primary">Book a table</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="d-hero">
+      <div class="d-wrap d-hero-grid">
+        <div>
+          <p class="d-kicker" data-live-status data-open-hour="8" data-close-hour="22" data-open-label="Open today" data-closed-label="Closed until 08:00">08:00–22:00 IST</p>
+          <h1 class="d-title">Single-estate pour-overs &amp; slow morning plates.</h1>
+          <p class="d-lead">Roasted in small batches from Chikmagalur estates and served alongside naturally leavened sourdough in Koregaon Park, Pune.</p>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="#menu" class="d-btn d-btn-primary">Explore daily menu</a>
+            <a href="#reserve" class="d-btn d-btn-ghost">Reserve seating</a>
+          </div>
+        </div>
+        <div class="d-hero-media">
+          <img src="/assets/img/mitti-hero.webp" alt="Freshly brewed pour-over coffee on terracotta ceramic tableware at Mitti Café" width="760" height="570">
+        </div>
+      </div>
+    </section>
+
+    <section id="menu" class="d-section">
+      <div class="d-wrap">
+        <div class="d-section-head">
+          <div>
+            <p class="d-kicker">House Menu</p>
+            <h2>Crafted every morning in small batches.</h2>
+          </div>
+        </div>
+
+        <div class="d-tabs" data-filter-group="mitti-menu-grid">
+          <button type="button" class="d-tab is-active" data-filter="all" aria-pressed="true">All items</button>
+          <button type="button" class="d-tab" data-filter="coffee" aria-pressed="false">Filter &amp; Espresso</button>
+          <button type="button" class="d-tab" data-filter="bakery" aria-pressed="false">Sourdough &amp; Plates</button>
+          <button type="button" class="d-tab" data-filter="cold" aria-pressed="false">Cold Brew &amp; Seasonal</button>
+        </div>
+
+        <div id="mitti-menu-grid" class="d-grid-3">
+          <article class="d-card" data-category="coffee">
+            <p class="d-card-meta">Espresso · Washed Arabica</p>
+            <h3>Jaggery Cortado</h3>
+            <p>Double ristretto balanced with lightly steamed A2 milk and house spiced palm reduction.</p>
+            <p class="d-price">&#8377;240</p>
+          </article>
+          <article class="d-card" data-category="coffee">
+            <p class="d-card-meta">Manual Brew · V60</p>
+            <h3>Ratnagiri Estate Pour-Over</h3>
+            <p>Washed bourbon cultivar brewed to order with toasted hazelnut and mandarin notes.</p>
+            <p class="d-price">&#8377;290</p>
+          </article>
+          <article class="d-card" data-category="cold">
+            <p class="d-card-meta">18-Hour Steep · Chilled</p>
+            <h3>Tamarind Espresso Tonic</h3>
+            <p>Bright cold extraction poured over chilled botanical tonic with dehydrated orange wheel.</p>
+            <p class="d-price">&#8377;280</p>
+          </article>
+          <article class="d-card" data-category="bakery">
+            <p class="d-card-meta">Morning Plate · Till 14:00</p>
+            <h3>Whipped Ricotta Tartine</h3>
+            <p>48-hour country sourdough finished with roasted figs, pistachio dukkah, and wildflower honey.</p>
+            <p class="d-price">&#8377;360</p>
+          </article>
+          <article class="d-card" data-category="bakery">
+            <p class="d-card-meta">House Pastry · Warm</p>
+            <h3>Cardamom Kouign-Amann</h3>
+            <p>Caramelized laminated croissant dough layered with freshly pounded green Malabar cardamom.</p>
+            <p class="d-price">&#8377;220</p>
+          </article>
+          <article class="d-card" data-category="cold">
+            <p class="d-card-meta">Seasonal · Matcha</p>
+            <h3>Iced Kokum Citrus Fizz</h3>
+            <p>Coastal kokum syrup shaken with fresh Meyer lemon and crisp sparking spring water.</p>
+            <p class="d-price">&#8377;250</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="roastery" class="d-section">
+      <div class="d-wrap d-grid-2">
+        <div class="d-card">
+          <div class="d-card-thumb">
+            <img src="/assets/img/mitti-pour.webp" alt="Precision pour-over extraction on stoneware server" loading="lazy">
+          </div>
+          <p class="d-card-meta">Direct Estate Trade</p>
+          <h3>Micro-lot roasting every Tuesday</h3>
+          <p>We buy directly from high-elevation shade estates across Chikmagalur and Coorg at harvest prices well above fair-trade baselines.</p>
+        </div>
+        <div class="d-card">
+          <div class="d-card-thumb">
+            <img src="/assets/img/mitti-roast.webp" alt="Roasted coffee beans and ceramic cupping bowls" loading="lazy">
+          </div>
+          <p class="d-card-meta">Whole Bean &amp; Ground</p>
+          <h3>Takeaway bags packed within 48 hours</h3>
+          <p>Pick up 250g valve-sealed bags at the bar ground specifically for V60, AeroPress, Moka pot, or home espresso machines.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="reserve" class="d-section">
+      <div class="d-wrap d-grid-2">
+        <div>
+          <p class="d-kicker">Lane 6 · Koregaon Park</p>
+          <h2>Reserve a courtyard table.</h2>
+          <p class="d-lead">Walk-ins are always welcome at the communal counter. Book ahead for weekend brunch tables of 2 to 6 guests.</p>
+        </div>
+        <form class="d-form" data-demo-form data-confirm-message="Table request noted for confirmation (demo mode).">
+          <div class="d-field">
+            <label for="mitti-name">Guest Name</label>
+            <input id="mitti-name" type="text" required placeholder="Ananya Deshmukh">
+          </div>
+          <div class="d-grid-2">
+            <div class="d-field">
+              <label for="mitti-size">Party Size</label>
+              <select id="mitti-size">
+                <option>2 Guests</option>
+                <option>4 Guests</option>
+                <option>6 Guests</option>
+              </select>
+            </div>
+            <div class="d-field">
+              <label for="mitti-slot">Preferred Slot</label>
+              <select id="mitti-slot">
+                <option>09:30 Morning Bar</option>
+                <option>12:30 Courtyard Lunch</option>
+                <option>17:00 Evening Pour-Over</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="d-btn d-btn-primary">Confirm demo reservation</button>
+          <p class="d-status-note" data-demo-status hidden role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="d-footer">
+    <div class="d-wrap d-footer-inner">
+      <span>Mitti Café &amp; Roastery · Concept build by AS Studio</span>
+      <span><a href="/demos">Back to gallery</a> · &copy; <span data-year>2025</span></span>
+    </div>
+  </footer>
+  <script src="/demos/demo.js" defer></script>
+</body>
+</html>

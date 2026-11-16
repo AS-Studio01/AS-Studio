@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en" data-demo="atelier">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Atelier North Homeware — AS Studio Demo</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/demos/demo.css">
+</head>
+<body>
+  <div class="demo-strip">
+    <span>AS Studio Concept 04 · Signature Tier ($600)</span>
+    <span><a href="/demos">Gallery</a> · <a href="/contact?package=signature">Book similar build</a></span>
+  </div>
+
+  <header class="d-header">
+    <div class="d-wrap d-header-inner">
+      <a href="#top" class="d-brand">Atelier North</a>
+      <nav class="d-nav" aria-label="Atelier navigation">
+        <a href="#catalog">Objects</a>
+        <a href="#craft">Materials</a>
+      </nav>
+      <button type="button" class="d-btn d-btn-primary" data-open-cart>Bag (<span id="cart-count">0</span>)</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="d-hero">
+      <div class="d-wrap d-hero-grid">
+        <div>
+          <p class="d-kicker">Edition 04 · Solid Teak, Brass &amp; Stoneware</p>
+          <h1 class="d-title">Quiet architectural furniture built for decades.</h1>
+          <p class="d-lead">Numbered small-batch furniture, turned brass lamps, and hand-thrown stoneware vessels crafted by independent workshops.</p>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="#catalog" class="d-btn d-btn-primary">Browse collection</a>
+            <button type="button" class="d-btn d-btn-ghost" data-open-cart>Inspect shopping bag</button>
+          </div>
+        </div>
+        <div class="d-hero-media">
+          <img src="/assets/img/atelier.webp" alt="Atelier North crafted oak dining lounge and textile accents" width="760" height="570">
+        </div>
+      </div>
+    </section>
+
+    <section id="catalog" class="d-section">
+      <div class="d-wrap">
+        <div class="d-section-head">
+          <div>
+            <p class="d-kicker">Catalog</p>
+            <h2>Select pieces in stock for dispatch.</h2>
+          </div>
+        </div>
+
+        <div class="d-tabs" data-filter-group="atelier-grid">
+          <button type="button" class="d-tab is-active" data-filter="all" aria-pressed="true">All Pieces</button>
+          <button type="button" class="d-tab" data-filter="seating" aria-pressed="false">Seating</button>
+          <button type="button" class="d-tab" data-filter="lighting" aria-pressed="false">Lighting</button>
+          <button type="button" class="d-tab" data-filter="objects" aria-pressed="false">Objects &amp; Textiles</button>
+        </div>
+
+        <div id="atelier-grid" class="d-grid-3">
+          <article class="d-card" data-category="seating">
+            <div class="d-card-thumb"><img src="/assets/img/an-chair.webp" alt="Kors Lounge Chair in oiled oak" loading="lazy"></div>
+            <p class="d-card-meta">Solid Oak · Mortise Joinery</p>
+            <h3>Kors Low Lounge Chair</h3>
+            <p class="d-price">$740</p>
+            <button type="button" class="d-btn d-btn-ghost" data-add-to-cart data-name="Kors Low Lounge Chair" data-price="740">Add to bag</button>
+          </article>
+
+          <article class="d-card" data-category="lighting">
+            <div class="d-card-thumb"><img src="/assets/img/an-lamp.webp" alt="Vela Brushed Brass Table Lamp" loading="lazy"></div>
+            <p class="d-card-meta">Spun Brass · Warm 2700K</p>
+            <h3>Vela Dome Table Lamp</h3>
+            <p class="d-price">$290</p>
+            <button type="button" class="d-btn d-btn-ghost" data-add-to-cart data-name="Vela Dome Table Lamp" data-price="290">Add to bag</button>
+          </article>
+
+          <article class="d-card" data-category="objects">
+            <div class="d-card-thumb"><img src="/assets/img/an-bowl.webp" alt="Basalt Ash Ceramic Bowl" loading="lazy"></div>
+            <p class="d-card-meta">Stoneware · Raw Ash Glaze</p>
+            <h3>Basalt Vessel Bowl</h3>
+            <p class="d-price">$115</p>
+            <button type="button" class="d-btn d-btn-ghost" data-add-to-cart data-name="Basalt Vessel Bowl" data-price="115">Add to bag</button>
+          </article>
+
+          <article class="d-card" data-category="seating">
+            <div class="d-card-thumb"><img src="/assets/img/an-sofa.webp" alt="Monolith Linen Daybed Sofa" loading="lazy"></div>
+            <p class="d-card-meta">Belgian Linen · Kiln Ash</p>
+            <h3>Monolith Daybed Sofa</h3>
+            <p class="d-price">$1680</p>
+            <button type="button" class="d-btn d-btn-ghost" data-add-to-cart data-name="Monolith Daybed Sofa" data-price="1680">Add to bag</button>
+          </article>
+
+          <article class="d-card" data-category="objects">
+            <div class="d-card-thumb"><img src="/assets/img/an-frame.webp" alt="Gallery Ash Timber Mirror Frame" loading="lazy"></div>
+            <p class="d-card-meta">Steamed Ash · Brass Pins</p>
+            <h3>Gallery Shelf Mirror</h3>
+            <p class="d-price">$340</p>
+            <button type="button" class="d-btn d-btn-ghost" data-add-to-cart data-name="Gallery Shelf Mirror" data-price="340">Add to bag</button>
+          </article>
+
+          <article class="d-card" data-category="objects">
+            <div class="d-card-thumb"><img src="/assets/img/an-rug.webp" alt="Hand-knotted Unbleached Wool Rug" loading="lazy"></div>
+            <p class="d-card-meta">Unbleached Wool · 6×9 ft</p>
+            <h3>Flatweave Undyed Rug</h3>
+            <p class="d-price">$520</p>
+            <button type="button" class="d-btn d-btn-ghost" data-add-to-cart data-name="Flatweave Undyed Rug" data-price="520">Add to bag</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="craft" class="d-section">
+      <div class="d-wrap d-grid-3">
+        <div class="d-card">
+          <p class="d-card-meta">01 · Kiln-Dried Timber</p>
+          <h3>10% Moisture Standard</h3>
+          <p>Every oak and Burma teak beam is seasoned for six months prior to CNC joinery and hand-rubbed linseed finishing.</p>
+        </div>
+        <div class="d-card">
+          <p class="d-card-meta">02 · Zero Veneers</p>
+          <h3>Solid Through-Grain</h3>
+          <p>Built exclusively from solid stock so surfaces age with natural patina and can be lightly sanded decades later.</p>
+        </div>
+        <div class="d-card">
+          <p class="d-card-meta">03 · Crated Delivery</p>
+          <h3>White-Glove Placement</h3>
+          <p>Dispatched in reusable birch plywood crates with assembly handled inside your room of choice.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <aside id="cart-drawer" class="cart-drawer" hidden role="dialog" aria-modal="true" aria-label="Shopping Bag">
+    <div class="cart-panel">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--d-border); padding-bottom: 12px;">
+        <strong style="font-family: var(--d-font-display); font-size: 1.2rem;">Your Bag</strong>
+        <button type="button" class="d-btn d-btn-ghost" data-close-cart>Close</button>
+      </div>
+      <div id="cart-items" class="cart-items"></div>
+      <p id="cart-message" class="d-status-note" hidden></p>
+      <div style="border-top: 1px solid var(--d-border); padding-top: 14px; display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; justify-content: space-between; font-family: var(--d-font-mono);">
+          <span>Subtotal</span>
+          <strong id="cart-subtotal">$0</strong>
+        </div>
+        <button type="button" id="cart-checkout" class="d-btn d-btn-primary">Submit demo order</button>
+      </div>
+    </div>
+  </aside>
+
+  <footer class="d-footer">
+    <div class="d-wrap d-footer-inner">
+      <span>Atelier North · Interactive commerce demo by AS Studio</span>
+      <span><a href="/demos">Back to gallery</a> · &copy; <span data-year>2025</span></span>
+    </div>
+  </footer>
+  <script src="/demos/demo.js" defer></script>
+</body>
+</html>

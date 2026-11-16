@@ -1,60 +1,37 @@
-# AS Studio website
+# AS Studio Pro
 
-Static site: no build step, no server. Open `index.html` locally or deploy the folder to Vercel, Netlify or any static host.
+Clean, security-hardened static & serverless web practice architecture for **AS Studio** (`asstudio.in`). Built with zero client-side frameworks, zero client-exposed database keys, `scrypt` + signed `HttpOnly` session cookies, clean URL rewrites, and six self-contained interactive demonstration builds.
 
-## Before you go live (5 steps)
-1. **Domain placeholder.** Search for `REPLACE-WITH-YOUR-DOMAIN` in `index.html`, `packages.html`, `work.html`, `contact.html`, `404.html`, `legal/*`, `demos/**`, `robots.txt`, `sitemap.xml` and replace it with your live domain. A project-wide find and replace in your editor does it in one go.
-2. **Fiverr link (later).** Not needed now. When your gig is live, open the admin panel, paste the link and switch Fiverr mode on.
-3. **Deploy Firestore rules.** `firebase deploy --only firestore:rules` using `firestore.rules` and `firebase.json`. This closes the public edit/delete hole on reviews.
-4. **Admin inbox.** Open `/x7q2m9r4v8k1p6z3/` and sign in with an admin account. Confirm only emails you own are listed in `firestore.rules`.
-5. **Test the contact form** once from a phone and confirm the enquiry appears in the inbox.
+## Architecture Overview
 
-## Structure
-- `index.html`: scroll-driven hero (video scrubbed by scroll), packages, demos, process, FAQ.
-- `packages.html`, `work.html`, `contact.html`, `legal/`, `404.html`
-- `demos/`: six multi-page demo sites, two per package (Starter 1 page, Growth 3 pages, Signature 6 pages)
-- `about.html`, `work/as-studio.html`: about page and the case study of this site
-- `assets/video/`: hero scrub video and poster
-- `assets/brand/`: logo mark (SVG), favicons, wordmarks
-- `assets/og/`: share images, one per page and demo
-- `assets/img/`: demo images in WebP (full and `-sm` sizes)
-- `x7q2m9r4v8k1p6z3/`: private admin inbox (noindex)
+- **Public Pages (`/index.html`, `/packages.html`, `/work.html`, `/about.html`, `/contact.html`, `/404.html`)**: Editorial dark/light dual-theme design system driven by `/css/site.css` and `/js/boot.js` + `/js/site.js`. Zero inline scripts, zero secrets, and clean-URL navigation across every link.
+- **Legal Pages (`/legal/*`)**: Privacy, Terms, Refund, and Concept Disclaimer pages rewritten to `/privacy`, `/terms`, `/refund`, `/disclaimer`.
+- **Interactive Concept Commissions (`/demos/*`)**: Six working industry demos sharing `/demos/demo.css` and `/demos/demo.js`:
+  - `/demos/mitti` — Café with live IST open/closed hours status and filterable INR menu
+  - `/demos/rao` — Chambers with practice accordion and conflict-checked consultation slots
+  - `/demos/vitalcare` — Clinic with specialist roster filtering and appointment intake
+  - `/demos/atelier` — Homeware catalog with material filters and slide-over shopping bag
+  - `/demos/apex` — Luxury property showcase with interactive mortgage EMI estimator
+  - `/demos/delta` — B2B SaaS telemetry page with billing switcher and copyable API docs
+- **Hardened Security & Serverless API (`/lib/core.js`, `/api/*`)**:
+  - `GET /api/public/config`: Public package tiers, availability status, and contact metadata
+  - `POST /api/public/inquiry`: CSRF origin verification, sliding-window IP rate limiting, honeypot filter, and length/schema validation
+  - `POST /api/auth/login`: Constant-time `scrypt` password verification issuing HMAC-SHA256 signed `HttpOnly` cookies
+  - `POST /api/auth/logout`: Clears signed session cookie
+  - `GET /api/auth/me`: Session status probe
+  - `GET/PATCH /api/admin/config`: Session-authenticated live configuration editing
+  - `GET/PATCH /api/admin/inquiries`: Session-authenticated brief queue and workflow state updates
+- **Deny-All Client Firestore Rules (`/firestore.rules`)**: Client SDK read/write operations are completely disabled (`allow read, write: if false`). Server handlers communicate with Firestore exclusively using short-lived RS256 Service Account OAuth tokens, falling back safely to `.data/store.json` in local development when Firebase credentials are unset.
 
-## Notes
-- The hero scrubs a 4 MB video on desktop and laptops. Phones, small windows and reduced-motion users get a static hero instead, by design.
-- Demo businesses are fictional and the images are AI generated. Replace with real client work as you win it.
+## Commands
 
-## Fiverr mode switch (admin panel)
-Open `/x7q2m9r4v8k1p6z3/`, sign in, and use the **Fiverr mode** card.
-- **Off (default):** direct pricing. Prices are negotiable, "Order on Fiverr" buttons, price chips, Fiverr FAQ answers and Fiverr legal sections are all removed, and visitors are pointed to "Start a project" and "Get a quote". The contact form gains an optional budget field.
-- **On:** the fixed Fiverr packages ($95 / $275 / $600), delivery days and "Order on Fiverr" buttons appear, all linking to the URL you saved. It cannot be turned on without a valid `https://www.fiverr.com/...` link.
-- The setting is stored in Firestore `site_settings/main` (public read, admin-only write). If it cannot be read, the site stays in direct mode. Visitors see a change on their next page load.
-- Share images, page titles and meta descriptions contain no prices, so they are correct in both modes.
+```bash
+npm run dev      # Start local static + serverless API dev server on :3000
+npm run serve    # Alias for local production preview on :3000
+npm run hash     # Generate a salted scrypt hash for ADMIN_PASSWORD_HASH
+npm run check    # Run full 147-check security, HTML, routing, and API verification suite
+```
 
-## Opening the private workspace
-Tap the **AS.Studio** wordmark five times quickly on the home page, or the "(c) 2026 AS Studio" line in the footer on any page. You can also go straight to `/x7q2m9r4v8k1p6z3/`.
+## Verification Summary
 
-
-## Admin sign-in (read this if you cannot log in)
-Open `/x7q2m9r4v8k1p6z3/`, or tap the AS.Studio name five times on the home page.
-Sign in with **Google** or **email and password**. Both need setting up once in the Firebase Console:
-1. Authentication, Sign-in method: switch on **Google** and **Email/Password**.
-2. Authentication, Settings, Authorized domains: add the domain you are using (the admin page shows it under "Cannot sign in?").
-3. Use an email listed in `firestore.rules`. Email accounts must be **verified**: the admin page sends the verification email for you.
-4. Deploy the rules: `firebase deploy --only firestore:rules`.
-
-Security changes in this version: the public "admin passcode" was removed (anyone could read it in the page source), the clickable list of admin emails was removed, verified email is required again in `firestore.rules`, and the unused `/api/*` endpoints in `server.js` (an open email and AI relay) now return 410.
-
-
-## Demo change: Fold Yoga is now FOLD Atelier (fashion)
-`demos/fold-yoga/` was replaced by `demos/fold-atelier/` with three pages: `index.html`, `collection.html`, `atelier.html`. The share image is `assets/og/demo-fold-atelier.jpg`. References were updated in `index.html`, `work.html`, `contact.html`, `sitemap.xml`, `vite.config.js`, `server.js` and the admin page. Delete the old `demos/fold-yoga/` folder and `assets/og/demo-fold-yoga.jpg` from the repo.
-
-
-## Firebase setup checklist (if sign-in or the contact form does not work)
-1. Authentication, Sign-in method: turn on Email/Password and Google.
-2. Authentication, Settings, Authorized domains: add your live domain (and the Vercel preview domain).
-3. Authentication, Users: add your admin account. Use an email that is listed in `firestore.rules`, then verify the email (the admin page can send the verification mail).
-4. Firestore Database: choose the database named in `js/firebase.js`, open Rules, paste `firestore.rules`, Publish.
-5. Open the admin page, open "Cannot sign in? Check the connection" and press "Run Firebase check". It reports which of these is missing.
-
-Never put a password in the website files or in `firestore.rules`. Passwords live only in Firebase Authentication.
+Run `npm run check` (`node tools/verify.js`) before deploying to validate file integrity, HTML5 syntax (`parse5`), zero leaked credentials, `vercel.json` rules, `firestore.rules`, cryptographic session security, and end-to-end HTTP behavior.

@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en" data-demo="apex">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Apex Residences — AS Studio Demo</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/demos/demo.css">
+</head>
+<body>
+  <div class="demo-strip">
+    <span>AS Studio Concept 05 · Signature Tier ($600)</span>
+    <span><a href="/demos">Gallery</a> · <a href="/contact?package=signature">Book similar build</a></span>
+  </div>
+
+  <header class="d-header">
+    <div class="d-wrap d-header-inner">
+      <a href="#top" class="d-brand">Apex Residences</a>
+      <nav class="d-nav" aria-label="Apex navigation">
+        <a href="#typologies">Residences</a>
+        <a href="#calculator">EMI Planner</a>
+        <a href="#viewing">Private Viewing</a>
+      </nav>
+      <a href="#viewing" class="d-btn d-btn-primary">Arrange viewing</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="d-hero">
+      <div class="d-wrap d-hero-grid">
+        <div>
+          <p class="d-kicker">Hillside Enclave · Only 14 Sky Villas</p>
+          <h1 class="d-title">Low-density travertine residences above the treeline.</h1>
+          <p class="d-lead">Private elevator lobbies, 11-foot exposed concrete soffits, cross-ventilated wrap terraces, and uninterrupted valley light.</p>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="#typologies" class="d-btn d-btn-primary">Compare residences</a>
+            <a href="#calculator" class="d-btn d-btn-ghost">Calculate payment plan</a>
+          </div>
+        </div>
+        <div class="d-hero-media">
+          <img src="/assets/img/apex.webp" alt="Apex Residences modern cantilevered concrete architecture" width="760" height="570">
+        </div>
+      </div>
+    </section>
+
+    <section id="typologies" class="d-section">
+      <div class="d-wrap d-grid-3">
+        <article class="d-card">
+          <div class="d-card-thumb"><img src="/assets/img/apex-interior.webp" alt="Three-bedroom garden duplex living hall" loading="lazy"></div>
+          <p class="d-card-meta">3,400 sq.ft · Levels 1–4</p>
+          <h3>Garden Duplex</h3>
+          <p>Three en-suite bedrooms, private landscaped plunge court, and direct garage access.</p>
+          <p class="d-price">From $680,000</p>
+        </article>
+        <article class="d-card">
+          <div class="d-card-thumb"><img src="/assets/img/apex-terrace.webp" alt="Full-floor corner terrace suite" loading="lazy"></div>
+          <p class="d-card-meta">4,600 sq.ft · Levels 5–10</p>
+          <h3>Corner Horizon Villa</h3>
+          <p>Full single-floor plate with dual-aspect entertaining deck, study, and separate staff entrance.</p>
+          <p class="d-price">From $940,000</p>
+        </article>
+        <article class="d-card">
+          <div class="d-card-thumb"><img src="/assets/img/apex.webp" alt="Cantilevered penthouse pavilion" loading="lazy"></div>
+          <p class="d-card-meta">6,200 sq.ft · Levels 11–14</p>
+          <h3>Crown Penthouse</h3>
+          <p>Double-height gallery pavilion, heated lap lap pool, and private roof conservatory.</p>
+          <p class="d-price">From $1,420,000</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="calculator" class="d-section">
+      <div class="d-wrap d-grid-2">
+        <div>
+          <p class="d-kicker">Interactive Financing Estimator</p>
+          <h2>Estimate monthly mortgage payments.</h2>
+          <p class="d-lead">Adjust purchase tier, down payment percentage, annual interest rate, and loan tenure to model monthly cashflow instantly.</p>
+          <div class="d-card" style="margin-top: 20px;">
+            <p class="d-card-meta">Estimated Monthly Obligation</p>
+            <p id="emi-monthly" style="font-family: var(--d-font-display); font-size: 2.3rem; font-weight: 700; color: var(--d-ink); margin: 4px 0;">$4,025 / mo</p>
+            <p style="font-family: var(--d-font-mono); font-size: 0.85rem;">Financed Principal: <span id="emi-loan">$544,000</span></p>
+          </div>
+        </div>
+
+        <form class="d-form">
+          <div class="d-field">
+            <label for="emi-price">Residence Tier</label>
+            <select id="emi-price">
+              <option value="680000">Garden Duplex — $680,000</option>
+              <option value="940000">Corner Horizon Villa — $940,000</option>
+              <option value="1420000">Crown Penthouse — $1,420,000</option>
+            </select>
+          </div>
+          <div class="d-field">
+            <label for="emi-down">Down Payment: <span id="emi-down-val">20%</span></label>
+            <input id="emi-down" type="range" min="10" max="50" step="5" value="20">
+          </div>
+          <div class="d-field">
+            <label for="emi-rate">Annual Interest Rate: <span id="emi-rate-val">6.5%</span></label>
+            <input id="emi-rate" type="range" min="4" max="11" step="0.5" value="6.5">
+          </div>
+          <div class="d-field">
+            <label for="emi-years">Loan Tenure: <span id="emi-years-val">20 yrs</span></label>
+            <input id="emi-years" type="range" min="10" max="30" step="5" value="20">
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section id="viewing" class="d-section">
+      <div class="d-wrap d-grid-2">
+        <div>
+          <p class="d-kicker">By Private Appointment</p>
+          <h2>Walk the finished model gallery.</h2>
+          <p class="d-lead">Accompanied tours include material sample boards, engineering structural notes, and private advisor walkthroughs.</p>
+        </div>
+        <form class="d-form" data-demo-form data-confirm-message="Private residence tour logged in demo mode.">
+          <div class="d-field">
+            <label for="apex-name">Full Name</label>
+            <input id="apex-name" type="text" required placeholder="Karan Malhotra">
+          </div>
+          <div class="d-field">
+            <label for="apex-unit">Preferred Residence</label>
+            <select id="apex-unit">
+              <option>Garden Duplex (3,400 sq.ft)</option>
+              <option>Corner Horizon Villa (4,600 sq.ft)</option>
+              <option>Crown Penthouse (6,200 sq.ft)</option>
+            </select>
+          </div>
+          <button type="submit" class="d-btn d-btn-primary">Request private tour</button>
+          <p class="d-status-note" data-demo-status hidden role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="d-footer">
+    <div class="d-wrap d-footer-inner">
+      <span>Apex Residences · Real estate showcase demo by AS Studio</span>
+      <span><a href="/demos">Back to gallery</a> · &copy; <span data-year>2025</span></span>
+    </div>
+  </footer>
+  <script src="/demos/demo.js" defer></script>
+</body>
+</html>

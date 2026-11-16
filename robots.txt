@@ -1,6 +1,16 @@
 User-agent: *
 Allow: /
-Disallow: /x7q2m9r4v8k1p6z3/
+Allow: /packages
+Allow: /work
+Allow: /about
+Allow: /contact
+Allow: /privacy
+Allow: /terms
+Allow: /refund
+Allow: /disclaimer
+Disallow: /demos
+Disallow: /demos/
+Disallow: /admin
+Disallow: /api/
 
-# DEPLOY STEP: replace with your live domain
-Sitemap: https://REPLACE-WITH-YOUR-DOMAIN/sitemap.xml
+Sitemap: https://asstudio.in/sitemap.xml

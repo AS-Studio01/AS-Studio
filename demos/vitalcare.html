@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en" data-demo="vitalcare">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>VitalCare Multispecialty Clinic — AS Studio Demo</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/demos/demo.css">
+</head>
+<body>
+  <div class="demo-strip">
+    <span>AS Studio Concept 03 · Growth Tier ($275)</span>
+    <span><a href="/demos">Gallery</a> · <a href="/contact?package=growth">Book similar build</a></span>
+  </div>
+
+  <header class="d-header">
+    <div class="d-wrap d-header-inner">
+      <a href="#top" class="d-brand">VitalCare Clinic</a>
+      <nav class="d-nav" aria-label="Clinic navigation">
+        <a href="#roster">Doctors</a>
+        <a href="#diagnostics">Diagnostics</a>
+        <a href="#book">Appointment</a>
+      </nav>
+      <a href="#book" class="d-btn d-btn-primary">Book consultation</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="d-hero">
+      <div class="d-wrap d-hero-grid">
+        <div>
+          <p class="d-kicker" data-live-status data-open-hour="8" data-close-hour="20" data-open-label="OPD Open" data-closed-label="After-hours Triage">08:00–20:00 IST</p>
+          <h1 class="d-title">Preventive &amp; specialist care under one quiet roof.</h1>
+          <p class="d-lead">Same-day internal medicine, cardiology screening, dental restoration, and outpatient diagnostics with zero waiting-room friction.</p>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="#book" class="d-btn d-btn-primary">Schedule a visit</a>
+            <a href="#roster" class="d-btn d-btn-ghost">Filter specialists</a>
+          </div>
+        </div>
+        <div class="d-hero-media">
+          <img src="/assets/img/vitalcare.svg" alt="VitalCare Multispecialty Clinic visual emblem and department guide" width="720" height="540">
+        </div>
+      </div>
+    </section>
+
+    <section id="roster" class="d-section">
+      <div class="d-wrap">
+        <div class="d-section-head">
+          <div>
+            <p class="d-kicker">Consultant Roster</p>
+            <h2>Specialists consulting this week.</h2>
+          </div>
+        </div>
+
+        <div class="d-tabs" data-filter-group="doctor-grid">
+          <button type="button" class="d-tab is-active" data-filter="all" aria-pressed="true">All Departments</button>
+          <button type="button" class="d-tab" data-filter="cardiology" aria-pressed="false">Cardiology</button>
+          <button type="button" class="d-tab" data-filter="medicine" aria-pressed="false">Internal Medicine</button>
+          <button type="button" class="d-tab" data-filter="dental" aria-pressed="false">Dental &amp; Implant</button>
+        </div>
+
+        <div id="doctor-grid" class="d-grid-3">
+          <article class="d-card" data-category="cardiology">
+            <p class="d-card-meta">MD, DM Cardiology · Mon–Sat</p>
+            <h3>Dr. Siddharth Menon</h3>
+            <p>Preventive lipidology, hypertension clinics, and non-invasive echo screening. 14 years clinical experience.</p>
+            <p class="d-price">Next slot: Today 16:30</p>
+          </article>
+          <article class="d-card" data-category="medicine">
+            <p class="d-card-meta">MD Internal Medicine · Daily</p>
+            <h3>Dr. Kavita Kulkarni</h3>
+            <p>Metabolic health, thyroid panels, adult vaccination schedules, and fever diagnostics.</p>
+            <p class="d-price">Next slot: Today 11:00</p>
+          </article>
+          <article class="d-card" data-category="dental">
+            <p class="d-card-meta">MDS Prosthodontics · Tue–Sun</p>
+            <h3>Dr. Rohan Chatterjee</h3>
+            <p>Microscope-assisted endodontics, single-sitting crowns, and conservative restorative dentistry.</p>
+            <p class="d-price">Next slot: Tomorrow 10:15</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="diagnostics" class="d-section">
+      <div class="d-wrap d-grid-3">
+        <div class="d-card">
+          <p class="d-card-meta">01 · Lab Draws</p>
+          <h3>Fasting Panels from 07:00</h3>
+          <p>Sample collection every morning with encrypted digital lab reports delivered before 16:00 same day.</p>
+        </div>
+        <div class="d-card">
+          <p class="d-card-meta">02 · Cardiac Echo</p>
+          <h3>Zero Referral Wait</h3>
+          <p>12-lead ECG and colour Doppler echocardiography inside the outpatient suite.</p>
+        </div>
+        <div class="d-card">
+          <p class="d-card-meta">03 · Follow-up</p>
+          <h3>Transparent Flat Fee</h3>
+          <p>Standard outpatient consultations include one 7-day report-review follow-up at zero extra charge.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="book" class="d-section">
+      <div class="d-wrap d-grid-2">
+        <div>
+          <p class="d-kicker">Outpatient Registration</p>
+          <h2>Reserve an appointment slot.</h2>
+          <p class="d-lead">Front-desk coordinators confirm preferred specialist times by phone or SMS within 20 minutes during clinic hours.</p>
+        </div>
+        <form class="d-form" data-demo-form data-confirm-message="Appointment request logged in demo sandbox (no clinical data transmitted).">
+          <div class="d-field">
+            <label for="vc-name">Patient Name</label>
+            <input id="vc-name" type="text" required placeholder="Priya Narayanan">
+          </div>
+          <div class="d-grid-2">
+            <div class="d-field">
+              <label for="vc-dept">Department</label>
+              <select id="vc-dept">
+                <option>Internal Medicine</option>
+                <option>Cardiology</option>
+                <option>Dental &amp; Implant</option>
+              </select>
+            </div>
+            <div class="d-field">
+              <label for="vc-time">Preferred Window</label>
+              <select id="vc-time">
+                <option>Morning (08:30–12:00)</option>
+                <option>Afternoon (13:00–16:00)</option>
+                <option>Evening (16:30–19:30)</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="d-btn d-btn-primary">Request appointment</button>
+          <p class="d-status-note" data-demo-status hidden role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="d-footer">
+    <div class="d-wrap d-footer-inner">
+      <span>VitalCare Clinic · Illustrative healthcare concept by AS Studio</span>
+      <span><a href="/demos">Back to gallery</a> · &copy; <span data-year>2025</span></span>
+    </div>
+  </footer>
+  <script src="/demos/demo.js" defer></script>
+</body>
+</html>

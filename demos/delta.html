@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en" data-demo="delta">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Delta.OS Telemetry — AS Studio Demo</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/demos/demo.css">
+</head>
+<body>
+  <div class="demo-strip">
+    <span>AS Studio Concept 06 · Signature Tier ($600)</span>
+    <span><a href="/demos">Gallery</a> · <a href="/contact?package=signature">Book similar build</a></span>
+  </div>
+
+  <header class="d-header">
+    <div class="d-wrap d-header-inner">
+      <a href="#top" class="d-brand">Delta.OS</a>
+      <nav class="d-nav" aria-label="Delta navigation">
+        <a href="#architecture">Platform</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#api">API Docs</a>
+      </nav>
+      <a href="#api" class="d-btn d-btn-primary">Inspect SDK</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="d-hero">
+      <div class="d-wrap d-hero-grid">
+        <div>
+          <p class="d-kicker">v2.4 Telemetry Engine · Sub-15ms Ingestion</p>
+          <h1 class="d-title">Deterministic product telemetry without query bills.</h1>
+          <p class="d-lead">Stream structured product events, latency traces, and revenue funnels into one composable SQL store deployed inside your own VPC.</p>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="#pricing" class="d-btn d-btn-primary">Compare clusters</a>
+            <a href="#api" class="d-btn d-btn-ghost">Quickstart snippets</a>
+          </div>
+        </div>
+        <div class="d-hero-media">
+          <img src="/assets/img/nova.webp" alt="Delta OS real-time engineering metrics dashboard" width="760" height="570">
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture" class="d-section">
+      <div class="d-wrap d-grid-3">
+        <div class="d-card">
+          <p class="d-card-meta">01 · Edge Collector</p>
+          <h3>Zero Dropped Spans</h3>
+          <p>Buffered regional ingestion workers absorb traffic bursts 10× baseline capacity without back-pressure.</p>
+        </div>
+        <div class="d-card">
+          <p class="d-card-meta">02 · Columnar Retention</p>
+          <h3>365-Day Hot Queries</h3>
+          <p>Parquet-backed storage answers percentile cohort scans across billions of rows in under a second.</p>
+        </div>
+        <div class="d-card">
+          <p class="d-card-meta">03 · Webhook Triggers</p>
+          <h3>Real-Time Anomaly Alerts</h3>
+          <p>Dispatch signed JSON alerts to PagerDuty, Slack, or internal incident hooks on threshold drift.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="d-section">
+      <div class="d-wrap">
+        <div class="d-section-head">
+          <div>
+            <p class="d-kicker">Predictable Clusters</p>
+            <h2>Switch billing cadence.</h2>
+          </div>
+          <label style="display: inline-flex; align-items: center; gap: 10px; font-family: var(--d-font-mono); font-size: 0.84rem; cursor: pointer;">
+            <input id="billing-toggle" type="checkbox">
+            <span>Annual billing (save 20%)</span>
+          </label>
+        </div>
+
+        <div class="d-grid-3">
+          <article class="d-card">
+            <p class="d-card-meta">Seed Teams</p>
+            <h3>Core</h3>
+            <p class="d-price" style="font-size: 2rem;" data-monthly="$49 / mo" data-annual="$39 / mo">$49 / mo</p>
+            <p>Up to 5M events/month, 90-day retention, and unlimited team dashboards.</p>
+          </article>
+          <article class="d-card" style="border-color: var(--d-accent);">
+            <p class="d-card-meta">Scaling Products</p>
+            <h3>Scale Cluster</h3>
+            <p class="d-price" style="font-size: 2rem;" data-monthly="$199 / mo" data-annual="$159 / mo">$199 / mo</p>
+            <p>Up to 50M events/month, 365-day hot retention, SQL API access, and SAML SSO.</p>
+          </article>
+          <article class="d-card">
+            <p class="d-card-meta">Dedicated VPC</p>
+            <h3>Enterprise</h3>
+            <p class="d-price" style="font-size: 2rem;" data-monthly="$690 / mo" data-annual="$550 / mo">$690 / mo</p>
+            <p>BYOC storage buckets, private peering, HIPAA/SOC2 audit trails, and 99.99% SLA.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="api" class="d-section">
+      <div class="d-wrap">
+        <div class="d-section-head">
+          <div>
+            <p class="d-kicker">Developer Experience</p>
+            <h2>Instrument in under five minutes.</h2>
+          </div>
+          <button type="button" id="copy-snippet" class="d-btn d-btn-ghost">Copy</button>
+        </div>
+
+        <div class="d-tabs">
+          <button type="button" class="d-tab is-active" data-code-tab="curl">cURL</button>
+          <button type="button" class="d-tab" data-code-tab="node">TypeScript SDK</button>
+          <button type="button" class="d-tab" data-code-tab="sql">SQL Percentile</button>
+        </div>
+
+        <pre id="api-code-block" class="d-code">curl -X POST https://api.deltaos.example/v2/events \
+  -H "Authorization: Bearer $DELTA_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"service":"checkout-api","latency_ms":42,"ok":true}'</pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="d-footer">
+    <div class="d-wrap d-footer-inner">
+      <span>Delta.OS · B2B SaaS launch concept by AS Studio</span>
+      <span><a href="/demos">Back to gallery</a> · &copy; <span data-year>2025</span></span>
+    </div>
+  </footer>
+  <script src="/demos/demo.js" defer></script>
+</body>
+</html>

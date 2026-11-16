@@ -1,14 +1,17 @@
 {
-  "name": "as-studio-static",
+  "name": "as-studio-pro",
   "private": true,
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
-  "description": "AS Studio production website. Firebase is loaded client-side; no build step is required.",
+  "description": "AS Studio Pro — Clean static architecture with hardened Node/Vercel API endpoints, scrypt cookie auth, and 6 interactive concept commissions.",
   "scripts": {
-    "dev": "node server.js",
-    "build": "vite build",
-    "start": "node server.js",
-    "lint": "node -e \"console.log('Lint passed')\""
+    "dev": "node tools/dev-server.js",
+    "serve": "node tools/dev-server.js",
+    "start": "node tools/dev-server.js",
+    "hash": "node tools/hash-password.js",
+    "check": "node tools/verify.js",
+    "build": "node tools/verify.js --build",
+    "lint": "node tools/verify.js --lint"
   },
   "dependencies": {
     "@google/genai": "^2.28.0",

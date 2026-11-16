@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en" data-demo="rao">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Rao &amp; Partners Counsel — AS Studio Demo</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/demos/demo.css">
+</head>
+<body>
+  <div class="demo-strip">
+    <span>AS Studio Concept 02 · Starter Tier ($95)</span>
+    <span><a href="/demos">Gallery</a> · <a href="/contact?package=starter">Book similar build</a></span>
+  </div>
+
+  <header class="d-header">
+    <div class="d-wrap d-header-inner">
+      <a href="#top" class="d-brand">Rao &amp; Partners</a>
+      <nav class="d-nav" aria-label="Rao Chambers navigation">
+        <a href="#practice">Practice Areas</a>
+        <a href="#counsel">Counsel</a>
+        <a href="#schedule">Consultation</a>
+      </nav>
+      <a href="#schedule" class="d-btn d-btn-primary">Request briefing</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="d-hero">
+      <div class="d-wrap d-hero-grid">
+        <div>
+          <p class="d-kicker">Commercial Litigation &amp; Arbitration · Bengaluru &amp; New Delhi</p>
+          <h1 class="d-title">Measured advocacy for complex commercial disputes.</h1>
+          <p class="d-lead">Independent chambers representing technology founders, infrastructure consortiums, and family enterprises across High Court proceedings and domestic arbitration.</p>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="#practice" class="d-btn d-btn-primary">Review practice scope</a>
+            <a href="#schedule" class="d-btn d-btn-ghost">Reserve consultation slot</a>
+          </div>
+        </div>
+        <div class="d-hero-media">
+          <img src="/assets/img/rao-chambers.svg" alt="Rao and Partners chambers crest and architectural layout" width="720" height="540">
+        </div>
+      </div>
+    </section>
+
+    <section id="practice" class="d-section">
+      <div class="d-wrap">
+        <div class="d-section-head">
+          <div>
+            <p class="d-kicker">Mandates</p>
+            <h2>Core chambers practice areas.</h2>
+          </div>
+        </div>
+
+        <div class="d-acc-list">
+          <div class="d-acc-item">
+            <button type="button" class="d-acc-trigger" data-acc-trigger aria-expanded="true" aria-controls="rao-p1">
+              <span>01 · Commercial Arbitration &amp; Emergency Interim Relief</span>
+              <span>+</span>
+            </button>
+            <p id="rao-p1" class="d-acc-panel">Representation before three-member arbitral tribunals, SIAC-seated disputes, Section 9 applications for asset preservation, and challenge petitions under Section 34.</p>
+          </div>
+          <div class="d-acc-item">
+            <button type="button" class="d-acc-trigger" data-acc-trigger aria-expanded="false" aria-controls="rao-p2">
+              <span>02 · Shareholder Disputes &amp; Governance Deadlocks</span>
+              <span>+</span>
+            </button>
+            <p id="rao-p2" class="d-acc-panel" hidden>Advisory and NCLT appearances on oppression and mismanagement claims, founder exit restructurings, and enforcement of investor protective covenants.</p>
+          </div>
+          <div class="d-acc-item">
+            <button type="button" class="d-acc-trigger" data-acc-trigger aria-expanded="false" aria-controls="rao-p3">
+              <span>03 · Technology Licensing &amp; IP Enforcement</span>
+              <span>+</span>
+            </button>
+            <p id="rao-p3" class="d-acc-panel" hidden>Urgent injunction actions involving proprietary software, SaaS enterprise SLAs, trade secret misappropriation, and cross-border vendor defaults.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="counsel" class="d-section">
+      <div class="d-wrap d-grid-2">
+        <article class="d-card">
+          <p class="d-card-meta">Managing Partner · Enrolment KAR/1422/2011</p>
+          <h3>Arvind Rao, Advocate</h3>
+          <p>Fourteen years appearing in high-value commercial suits, construction arbitrations, and appellate writ benches across South India.</p>
+        </article>
+        <article class="d-card">
+          <p class="d-card-meta">Partner · Dispute Strategy</p>
+          <h3>Meera Subramanian, Advocate</h3>
+          <p>Leads corporate restructuring, insolvency creditor representation before the NCLT, and cross-border contractual settlement negotiations.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="schedule" class="d-section">
+      <div class="d-wrap d-grid-2">
+        <div>
+          <p class="d-kicker">Confidential Intake</p>
+          <h2>Schedule an initial 30-minute case conference.</h2>
+          <p class="d-lead">Please provide neutral opposing-party names so chambers can run a conflict check prior to confirmation.</p>
+        </div>
+        <form class="d-form" data-demo-form data-confirm-message="Chambers slot requested for conflict verification (demo mode).">
+          <div class="d-field">
+            <label for="rao-name">Authorized Representative</label>
+            <input id="rao-name" type="text" required placeholder="Vikramaditya Nair">
+          </div>
+          <div class="d-field">
+            <label for="rao-slot">Available Chamber Slot</label>
+            <select id="rao-slot">
+              <option>Tomorrow · 11:00 IST (Video)</option>
+              <option>Thursday · 15:30 IST (Lavelle Road Chambers)</option>
+              <option>Friday · 17:00 IST (Telephone)</option>
+            </select>
+          </div>
+          <div class="d-field">
+            <label for="rao-matter">Dispute Category &amp; Opposite Party (Conflict Check)</label>
+            <textarea id="rao-matter" rows="3" required placeholder="Brief summary without privileged attachments"></textarea>
+          </div>
+          <button type="submit" class="d-btn d-btn-primary">Submit slot request</button>
+          <p class="d-status-note" data-demo-status hidden role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="d-footer">
+    <div class="d-wrap d-footer-inner">
+      <span>Rao &amp; Partners · Illustrative legal chambers demo by AS Studio</span>
+      <span><a href="/demos">Back to gallery</a> · &copy; <span data-year>2025</span></span>
+    </div>
+  </footer>
+  <script src="/demos/demo.js" defer></script>
+</body>
+</html>

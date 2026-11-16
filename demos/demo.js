@@ -1,174 +1,306 @@
-(function(){'use strict';
+(function () {
+  'use strict';
 
-/* Clean URL address-bar enforcement for demo pages */
-(function enforceCleanAddressBar() {
-  try {
-    const p = window.location.pathname;
-    const s = window.location.search || '';
-    const h = window.location.hash || '';
-    if (p.endsWith('.html') || p.includes('/index.html') || p.startsWith('/demos/')) {
-      let clean = p;
-      const demoMap = [
-        ['/demos/vitalcare-multispeciality-clinic', '/vitalcare'],
-        ['/demos/mitti-cafe', '/mitti'],
-        ['/demos/fold-atelier', '/fold'],
-        ['/demos/atelier-north', '/atelier'],
-        ['/demos/apex-residences', '/apex'],
-        ['/demos/rao-law', '/rao'],
-        ['/demos/delta-os', '/delta'],
-      ];
-      for (const [folder, prefix] of demoMap) {
-        if (clean.startsWith(folder)) {
-          clean = clean.replace(folder, prefix);
-          break;
+  function setYear() {
+    var year = String(new Date().getFullYear());
+    document.querySelectorAll('[data-year]').forEach(function (el) {
+      el.textContent = year;
+    });
+  }
+
+  function initReveal() {
+    var items = document.querySelectorAll('.d-reveal');
+    if (!items.length) return;
+    items.forEach(function (el) { el.classList.add('is-visible'); });
+  }
+
+  // Live open/closed schedule status indicator (e.g., Mitti Café 08:00-22:30, VitalCare 08:00-20:00)
+  function initLiveStatus() {
+    document.querySelectorAll('[data-live-status]').forEach(function (el) {
+      var openHour = Number(el.getAttribute('data-open-hour') || 8);
+      var closeHour = Number(el.getAttribute('data-close-hour') || 22);
+      var labelOpen = el.getAttribute('data-open-label') || 'Open now';
+      var labelClosed = el.getAttribute('data-closed-label') || 'Closed now';
+
+      var now = new Date();
+      var istOffsetMin = 330;
+      var utcMin = now.getUTCHours() * 60 + now.getUTCMinutes();
+      var istHour = Math.floor(((utcMin + istOffsetMin) % 1440) / 60);
+      var isOpen = istHour >= openHour && istHour < closeHour;
+      el.textContent = (isOpen ? labelOpen : labelClosed) + ' · ' + openHour + ':00–' + closeHour + ':00 IST';
+    });
+  }
+
+  // Category / Menu / Roster filter tabs
+  function initMenuFilter() {
+    document.querySelectorAll('[data-filter-group]').forEach(function (group) {
+      var targetId = group.getAttribute('data-filter-group');
+      var container = document.getElementById(targetId);
+      if (!container) return;
+
+      var buttons = group.querySelectorAll('[data-filter]');
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var category = btn.getAttribute('data-filter');
+          buttons.forEach(function (b) {
+            var active = b === btn;
+            b.classList.toggle('is-active', active);
+            b.setAttribute('aria-pressed', active ? 'true' : 'false');
+          });
+          container.querySelectorAll('[data-category]').forEach(function (item) {
+            var itemCats = (item.getAttribute('data-category') || '').split(/\s+/);
+            item.hidden = category !== 'all' && itemCats.indexOf(category) === -1;
+          });
+        });
+      });
+    });
+  }
+
+  // Accordion panels (Rao Chambers / FAQ)
+  function initAccordion() {
+    document.querySelectorAll('[data-acc-trigger]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var isOpen = btn.getAttribute('aria-expanded') === 'true';
+        var panel = document.getElementById(btn.getAttribute('aria-controls') || '');
+        btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+        if (panel) panel.hidden = isOpen;
+      });
+    });
+  }
+
+  // Slide-over shopping cart drawer (Atelier North)
+  function initCart() {
+    var drawer = document.getElementById('cart-drawer');
+    if (!drawer) return;
+
+    var itemsEl = document.getElementById('cart-items');
+    var subtotalEl = document.getElementById('cart-subtotal');
+    var countEl = document.getElementById('cart-count');
+    var checkoutMsg = document.getElementById('cart-message');
+    var cart = [];
+
+    function render() {
+      if (!itemsEl) return;
+      itemsEl.textContent = '';
+      var total = 0;
+      var count = 0;
+
+      if (!cart.length) {
+        var empty = document.createElement('p');
+        empty.style.color = 'var(--d-muted)';
+        empty.textContent = 'Your bag is currently empty.';
+        itemsEl.appendChild(empty);
+      } else {
+        cart.forEach(function (entry, idx) {
+          total += entry.price * entry.qty;
+          count += entry.qty;
+
+          var row = document.createElement('div');
+          row.className = 'cart-row';
+
+          var info = document.createElement('div');
+          var title = document.createElement('strong');
+          title.textContent = entry.name;
+          var price = document.createElement('div');
+          price.className = 'd-price';
+          price.style.fontSize = '0.84rem';
+          price.style.color = 'var(--d-muted)';
+          price.textContent = '$' + (entry.price * entry.qty);
+          info.appendChild(title);
+          info.appendChild(price);
+
+          var qtyBox = document.createElement('div');
+          qtyBox.className = 'cart-qty';
+          var minus = document.createElement('button');
+          minus.type = 'button';
+          minus.textContent = '-';
+          minus.setAttribute('aria-label', 'Decrease quantity');
+          minus.addEventListener('click', function () {
+            entry.qty -= 1;
+            if (entry.qty <= 0) cart.splice(idx, 1);
+            render();
+          });
+
+          var qtyLabel = document.createElement('span');
+          qtyLabel.textContent = String(entry.qty);
+
+          var plus = document.createElement('button');
+          plus.type = 'button';
+          plus.textContent = '+';
+          plus.setAttribute('aria-label', 'Increase quantity');
+          plus.addEventListener('click', function () {
+            entry.qty += 1;
+            render();
+          });
+
+          qtyBox.appendChild(minus);
+          qtyBox.appendChild(qtyLabel);
+          qtyBox.appendChild(plus);
+          row.appendChild(info);
+          row.appendChild(qtyBox);
+          itemsEl.appendChild(row);
+        });
+      }
+
+      if (subtotalEl) subtotalEl.textContent = '$' + total.toLocaleString();
+      if (countEl) countEl.textContent = String(count);
+    }
+
+    function openCart() {
+      drawer.hidden = false;
+      if (checkoutMsg) checkoutMsg.hidden = true;
+    }
+
+    function closeCart() {
+      drawer.hidden = true;
+    }
+
+    document.querySelectorAll('[data-open-cart]').forEach(function (btn) {
+      btn.addEventListener('click', openCart);
+    });
+    document.querySelectorAll('[data-close-cart]').forEach(function (btn) {
+      btn.addEventListener('click', closeCart);
+    });
+    drawer.addEventListener('click', function (e) {
+      if (e.target === drawer) closeCart();
+    });
+
+    document.querySelectorAll('[data-add-to-cart]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var name = btn.getAttribute('data-name') || 'Edition Piece';
+        var price = Number(btn.getAttribute('data-price') || 0);
+        var existing = cart.find(function (item) { return item.name === name; });
+        if (existing) existing.qty += 1;
+        else cart.push({ name: name, price: price, qty: 1 });
+        render();
+        openCart();
+      });
+    });
+
+    var checkoutBtn = document.getElementById('cart-checkout');
+    if (checkoutBtn) {
+      checkoutBtn.addEventListener('click', function () {
+        if (!cart.length) return;
+        cart = [];
+        render();
+        if (checkoutMsg) {
+          checkoutMsg.hidden = false;
+          checkoutMsg.textContent = 'Demo order queued for trade dispatch confirmation.';
         }
-      }
-      clean = clean.replace(/\/index\.html$/, '').replace(/\/index$/, '').replace(/\.html$/, '');
-      if (!clean || clean === '') clean = '/';
-      if (clean !== p) {
-        window.history.replaceState(null, '', clean + s + h);
-      }
+      });
     }
-  } catch (_) {}
-})();
 
-/* Clean link click interceptor in demos: rewrites ../../work.html -> /work, residences.html -> /currentDemo/residences */
-document.addEventListener('click', function(e) {
-  const a = e.target.closest('a');
-  if (!a || !a.getAttribute('href')) return;
-  const raw = a.getAttribute('href');
-  if (raw.startsWith('http://') || raw.startsWith('https://') || raw.startsWith('mailto:') || raw.startsWith('tel:') || raw.startsWith('#')) return;
-
-  const pathname = window.location.pathname;
-  let demoBase = '';
-  if (pathname.startsWith('/vitalcare') || pathname.includes('vitalcare')) demoBase = '/vitalcare';
-  else if (pathname.startsWith('/mitti') || pathname.includes('mitti')) demoBase = '/mitti';
-  else if (pathname.startsWith('/fold') || pathname.includes('fold')) demoBase = '/fold';
-  else if (pathname.startsWith('/atelier') || pathname.includes('atelier')) demoBase = '/atelier';
-  else if (pathname.startsWith('/apex') || pathname.includes('apex')) demoBase = '/apex';
-  else if (pathname.startsWith('/rao') || pathname.includes('rao')) demoBase = '/rao';
-  else if (pathname.startsWith('/delta') || pathname.includes('delta')) demoBase = '/delta';
-
-  // Common root-level links from demos
-  if (raw.includes('../../work.html') || raw === '../work.html') {
-    e.preventDefault();
-    const hash = raw.includes('#') ? raw.slice(raw.indexOf('#')) : '';
-    window.location.href = '/work' + hash;
-    return;
-  }
-  if (raw.includes('../../index.html') || raw === '../index.html' || raw === '../../') {
-    e.preventDefault();
-    window.location.href = '/';
-    return;
-  }
-  if (raw.includes('../../contact.html') || raw === '../contact.html') {
-    e.preventDefault();
-    const query = raw.includes('?') ? raw.slice(raw.indexOf('?')) : '';
-    window.location.href = '/contact' + query;
-    return;
-  }
-  if (raw.includes('../../work/')) {
-    e.preventDefault();
-    const cs = raw.replace(/^.*\/work\//, '').replace(/\.html$/, '');
-    window.location.href = '/work/' + cs;
-    return;
+    render();
   }
 
-  // Internal demo relative links (e.g. index.html -> /apex, residences.html -> /apex/residences)
-  if (demoBase && (raw.endsWith('.html') || raw.includes('.html?') || raw === 'index.html')) {
-    e.preventDefault();
-    const [pathPart, queryPart] = raw.split('?');
-    const [pagePart, hashPart] = pathPart.split('#');
-    let sub = pagePart.replace(/\.html$/, '');
-    let dest = sub === 'index' || sub === '' ? demoBase : demoBase + '/' + sub;
-    if (queryPart) dest += '?' + queryPart;
-    if (hashPart) dest += '#' + hashPart;
-    window.location.href = dest;
-    return;
-  }
-}, true);
+  // Interactive EMI Calculator (Apex Residences)
+  function initEmiCalculator() {
+    var priceEl = document.getElementById('emi-price');
+    var downEl = document.getElementById('emi-down');
+    var rateEl = document.getElementById('emi-rate');
+    var yearsEl = document.getElementById('emi-years');
+    var outMonthly = document.getElementById('emi-monthly');
+    var outLoan = document.getElementById('emi-loan');
+    if (!priceEl || !downEl || !rateEl || !yearsEl || !outMonthly) return;
 
-const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
-$$('.reveal').forEach(el=>io.observe(el));
-/* lightweight analytics tracking across demo pages */
-(function trackDemo(){
-  try{
-    const path=location.pathname;
-    const m=path.match(/\/demos\/([^\/]+)/);
-    const demo=m?m[1]:'demo';
-    const payload={
-      path:path,
-      demo:demo,
-      title:(document.title||'').slice(0,200),
-      referrer:(document.referrer||'direct').slice(0,300),
-      createdAt:new Date().toISOString()
-    };
-    fetch('/api/track',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(payload),
-      keepalive:true
-    }).catch(function(){});
-  }catch(_){}
-})();
-const m=$('.dmenu'),l=$('.dlinks');
-if(m&&l){
-  m.addEventListener('click',e=>{
-    e.stopPropagation();
-    const o=l.classList.toggle('open');
-    m.setAttribute('aria-expanded',o);
-  });
-  $$('a',l).forEach(a=>a.addEventListener('click',()=>{
-    l.classList.remove('open');
-    m.setAttribute('aria-expanded','false');
-  }));
-  document.addEventListener('click',e=>{
-    if(l.classList.contains('open')&&!l.contains(e.target)&&!m.contains(e.target)){
-      l.classList.remove('open');
-      m.setAttribute('aria-expanded','false');
+    function recalc() {
+      var price = Number(priceEl.value);
+      var downPct = Number(downEl.value);
+      var ratePct = Number(rateEl.value);
+      var years = Number(yearsEl.value);
+
+      var loan = price * (1 - downPct / 100);
+      var monthlyRate = ratePct / 12 / 100;
+      var months = years * 12;
+      var factor = Math.pow(1 + monthlyRate, months);
+      var emi = monthlyRate > 0 ? (loan * monthlyRate * factor) / (factor - 1) : loan / months;
+
+      outMonthly.textContent = '$' + Math.round(emi).toLocaleString() + ' / mo';
+      if (outLoan) outLoan.textContent = '$' + Math.round(loan).toLocaleString();
+
+      var downVal = document.getElementById('emi-down-val');
+      var rateVal = document.getElementById('emi-rate-val');
+      var yearsVal = document.getElementById('emi-years-val');
+      if (downVal) downVal.textContent = downPct + '%';
+      if (rateVal) rateVal.textContent = ratePct.toFixed(1) + '%';
+      if (yearsVal) yearsVal.textContent = years + ' yrs';
     }
-  });
-  document.addEventListener('keydown',e=>{
-    if(e.key==='Escape'&&l.classList.contains('open')){
-      l.classList.remove('open');
-      m.setAttribute('aria-expanded','false');
-      m.focus();
-    }
-  });
-}
-/* tabs */
-$$('[data-tabs]').forEach(g=>{const btns=$$('button',g),panes=$$('.pane',g.parentElement);
- btns.forEach(b=>b.addEventListener('click',()=>{btns.forEach(x=>x.classList.toggle('on',x===b));panes.forEach(p=>p.classList.toggle('on',p.dataset.pane===b.dataset.tab))}))});
-/* filters */
-$$('[data-filter-group]').forEach(g=>{const items=$$('[data-cat]',g.parentElement);
- $$('button',g).forEach(b=>b.addEventListener('click',()=>{$$('button',g).forEach(x=>x.classList.toggle('on',x===b));const c=b.dataset.f;items.forEach(i=>{i.style.display=(c==='all'||i.dataset.cat===c)?'':'none'})}))});
-/* demo forms: success state only, nothing is sent anywhere */
-$$('form[data-demo]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();const st=$('.st',f);if(!f.checkValidity()){f.reportValidity();return}
- st.textContent=f.dataset.demo;f.reset()}));
-/* cart (Atelier North) */
-const P=window.PRODUCTS||[];const KEY='atelier-north-cart';
-const getCart=()=>{try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return{}}};
-const setCart=c=>{try{localStorage.setItem(KEY,JSON.stringify(c))}catch(e){}updCount()};
-const money=n=>'$'+n.toLocaleString('en-US');
-function updCount(){const n=Object.values(getCart()).reduce((a,b)=>a+b,0);$$('[data-cart-count]').forEach(e=>e.textContent=n)}
-updCount();
-window.addToCart=(id)=>{const c=getCart();c[id]=(c[id]||0)+1;setCart(c);const t=$('#toast');if(t){t.textContent='Added to cart';t.style.opacity=1;setTimeout(()=>t.style.opacity=0,1400)}};
-function renderCart(){const box=$('#cartItems');if(!box)return;const c=getCart();const ids=Object.keys(c).filter(i=>c[i]>0);
- if(!ids.length){box.innerHTML='<p class="lead">Your cart is empty.</p>';$('#cartSum')&&($('#cartSum').style.display='none');return}
- let sub=0;box.innerHTML='';ids.forEach(id=>{const p=P.find(x=>x.id===id);if(!p)return;sub+=p.price*c[id];
-  const r=document.createElement('div');r.className='crow';
-  r.innerHTML='<div class="th"></div><div><b></b><div class="fine"></div></div><div class="qty"><button aria-label="Fewer">−</button><span></span><button aria-label="More">+</button></div>';
-  r.querySelector('.th').style.cssText=p.bg;r.querySelector('b').textContent=p.name;r.querySelector('.fine').textContent=money(p.price);r.querySelector('span').textContent=c[id];
-  const [mi,pl]=r.querySelectorAll('button');mi.onclick=()=>{const k=getCart();k[id]=Math.max(0,(k[id]||0)-1);setCart(k);renderCart()};pl.onclick=()=>{const k=getCart();k[id]=(k[id]||0)+1;setCart(k);renderCart()};box.appendChild(r)});
- const ship=sub>=200?0:15;$('#subTotal').textContent=money(sub);$('#shipTotal').textContent=ship?money(ship):'Free';$('#grandTotal').textContent=money(sub+ship)}
-renderCart();
-/* checkout demo */
-const co=$('#checkout');if(co){const c=getCart();let sub=0;Object.keys(c).forEach(id=>{const p=P.find(x=>x.id===id);if(p)sub+=p.price*c[id]});const ship=sub&&sub<200?15:0;$('#coTotal').textContent=money(sub+ship)}
-const pay=$('#payBtn');if(pay)pay.addEventListener('click',e=>{e.preventDefault();const f=$('#checkout');if(!f.checkValidity()){f.reportValidity();return}$('#payModal').classList.add('on')});
-$$('[data-close]').forEach(b=>b.addEventListener('click',()=>b.closest('.modal').classList.remove('on')));
-/* deposit reservation demo */
-const dep=$('#depositBtn');if(dep)dep.addEventListener('click',e=>{e.preventDefault();const f=$('#reserve');if(!f.checkValidity()){f.reportValidity();return}$('#payModal').classList.add('on')});
-const sel=$('#resSel'),amt=$('#depAmt');if(sel&&amt){const u=()=>{amt.textContent=sel.selectedOptions[0].dataset.dep||'$0'};sel.addEventListener('change',u);u()}
 
+    [priceEl, downEl, rateEl, yearsEl].forEach(function (ctrl) {
+      ctrl.addEventListener('input', recalc);
+      ctrl.addEventListener('change', recalc);
+    });
+    recalc();
+  }
+
+  // Billing toggle & API snippet switcher (Delta.OS)
+  function initBillingAndDocs() {
+    var toggle = document.getElementById('billing-toggle');
+    if (toggle) {
+      toggle.addEventListener('change', function () {
+        var annual = toggle.checked;
+        document.querySelectorAll('[data-monthly][data-annual]').forEach(function (el) {
+          el.textContent = annual ? el.getAttribute('data-annual') : el.getAttribute('data-monthly');
+        });
+      });
+    }
+
+    var tabButtons = document.querySelectorAll('[data-code-tab]');
+    var codeDisplay = document.getElementById('api-code-block');
+    if (tabButtons.length && codeDisplay) {
+      var snippets = {
+        curl: 'curl -X POST https://api.deltaos.example/v2/events \\\n  -H "Authorization: Bearer $DELTA_TOKEN" \\\n  -H "Content-Type: application/json" \\\n  -d \'{"service":"checkout-api","latency_ms":42,"ok":true}\'',
+        node: 'import { DeltaClient } from "@delta-os/sdk";\n\nconst delta = new DeltaClient({ token: process.env.DELTA_TOKEN });\nawait delta.track("checkout.completed", { latencyMs: 42, region: "ap-south-1" });',
+        sql: 'SELECT service, percentile_cont(0.95) WITHIN GROUP (ORDER BY latency_ms) AS p95\nFROM telemetry_events\nWHERE recorded_at > NOW() - INTERVAL \'1 hour\'\nGROUP BY service;'
+      };
+      tabButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var key = btn.getAttribute('data-code-tab');
+          tabButtons.forEach(function (b) { b.classList.toggle('is-active', b === btn); });
+          codeDisplay.textContent = snippets[key] || snippets.curl;
+        });
+      });
+    }
+
+    var copyBtn = document.getElementById('copy-snippet');
+    if (copyBtn && codeDisplay) {
+      copyBtn.addEventListener('click', function () {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(codeDisplay.textContent || '');
+        }
+        copyBtn.textContent = 'Copied';
+        setTimeout(function () { copyBtn.textContent = 'Copy'; }, 1600);
+      });
+    }
+  }
+
+  // Interactive Booking / Slot / Reservation forms (no network side effects)
+  function initDemoForms() {
+    document.querySelectorAll('[data-demo-form]').forEach(function (form) {
+      var status = form.querySelector('[data-demo-status]');
+      var message = form.getAttribute('data-confirm-message') || 'Request recorded in demo mode.';
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+        if (status) {
+          status.hidden = false;
+          status.textContent = message;
+        }
+        form.reset();
+      });
+    });
+  }
+
+  setYear();
+  initReveal();
+  initLiveStatus();
+  initMenuFilter();
+  initAccordion();
+  initCart();
+  initEmiCalculator();
+  initBillingAndDocs();
+  initDemoForms();
 })();
