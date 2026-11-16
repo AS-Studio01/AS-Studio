@@ -1,19 +1,12 @@
-import { clearSessionCookie, sendJson, verifyOrigin } from '../../lib/core.js';
+/**
+ * POST /api/auth/logout — clears the session cookie.
+ */
+'use strict';
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return sendJson(res, 405, { ok: false, error: 'Method not allowed' }, { Allow: 'POST' });
-  }
-  if (!verifyOrigin(req)) {
-    return sendJson(res, 403, { ok: false, error: 'Invalid request origin' });
-  }
-  return sendJson(
-    res,
-    200,
-    { ok: true, authenticated: false },
-    {
-      'Set-Cookie': clearSessionCookie(req),
-      'Cache-Control': 'no-store'
-    }
-  );
-}
+const { json, methodNotAllowed, sessionCookie } = require('../../lib/core');
+
+module.exports = (req, res) => {
+  if (req.method !== 'POST') return methodNotAllowed(res, ['POST']);
+  res.setHeader('Set-Cookie', sessionCookie('', 0));
+  return json(res, 200, { ok: true });
+};

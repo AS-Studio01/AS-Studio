@@ -1,18 +1,18 @@
-import { getSessionFromRequest, sendJson } from '../../lib/core.js';
+/**
+ * GET /api/auth/me — returns the current session, or 401.
+ * The admin UI polls this to decide whether to render the dashboard.
+ */
+'use strict';
 
-export default async function handler(req, res) {
-  if (req.method !== 'GET') {
-    return sendJson(res, 405, { ok: false, error: 'Method not allowed' }, { Allow: 'GET' });
-  }
-  const session = getSessionFromRequest(req);
-  return sendJson(
-    res,
-    200,
-    {
-      ok: true,
-      authenticated: Boolean(session),
-      expiresAt: session ? new Date(session.exp * 1000).toISOString() : null
-    },
-    { 'Cache-Control': 'no-store' }
-  );
-}
+const { json, methodNotAllowed, getSession } = require('../../lib/core');
+
+module.exports = (req, res) => {
+  if (req.method !== 'GET') return methodNotAllowed(res, ['GET']);
+  const session = getSession(req);
+  if (!session) return json(res, 401, { authenticated: false });
+  return json(res, 200, {
+    authenticated: true,
+    email: session.email,
+    expiresAt: new Date(session.exp).toISOString()
+  });
+};
