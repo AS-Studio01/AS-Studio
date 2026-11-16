@@ -1,9 +1,40 @@
 rules_version = '2';
 
+// ============================================================================
+//  AS STUDIO — Firestore security rules
+//
+//  THE MODEL
+//  ---------
+//  The browser NEVER talks to Firestore in this build.
+//
+//    * Public config  -> served by /api/public/config (server-held constants)
+//    * Contact form   -> POST /api/public/inquiry -> server writes with a
+//                        service account, which bypasses these rules
+//    * Admin console  -> /api/admin/* behind a signed HttpOnly session cookie
+//
+//  Because all Firestore access is server-side via the Admin SDK, client
+//  access should be closed completely. That is what the rules below do.
+//
+//  This closes the live vulnerability found on the current deployment:
+//  `site_settings/main` was readable AND WRITABLE by anyone. An attacker
+//  could have repointed the Fiverr/Upwork URLs to a phishing page or changed
+//  the advertised prices.
+//
+//  HOW TO APPLY
+//  ------------
+//  1. Firebase Console -> Firestore Database -> Rules
+//  2. Replace everything with the contents of this file
+//  3. Publish, then re-run the probe in README.md to confirm 403
+// ============================================================================
+
+
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Zero client SDK access: all reads and writes are mediated by signed
-    // serverless endpoints (/api/*) using Service Account credentials.
+
+    // Deny everything to browser clients. No exceptions.
+    // The server-side Admin SDK ignores these rules by design, so the
+    // contact form and admin console keep working normally.
     match /{document=**} {
       allow read, write: if false;
     }

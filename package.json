@@ -1,29 +1,19 @@
 {
-  "name": "as-studio-pro",
+  "name": "as-studio",
+  "version": "1.0.0",
   "private": true,
-  "version": "2.0.0",
-  "type": "module",
-  "description": "AS Studio Pro — Clean static architecture with hardened Node/Vercel API endpoints, scrypt cookie auth, and 6 interactive concept commissions.",
+  "description": "AS Studio \u2014 calm, fast websites for independent businesses",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
-    "dev": "node tools/dev-server.js",
+    "dev": "vercel dev",
     "serve": "node tools/dev-server.js",
-    "start": "node tools/dev-server.js",
     "hash": "node tools/hash-password.js",
     "check": "node tools/verify.js",
-    "build": "node tools/verify.js --build",
-    "lint": "node tools/verify.js --lint"
-  },
-  "dependencies": {
-    "@google/genai": "^2.28.0",
-    "dotenv": "^18.0.6",
-    "express": "^5.2.1",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0",
-    "recharts": "^3.10.1",
-    "vite": "^8.3.4"
+    "check:demos": "node tools/verify.js demos"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^6.1.2",
-    "parse5": "^8.0.1"
+    "playwright": "^1.49.0"
   }
 }

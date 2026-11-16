@@ -1,16 +1,11 @@
+# AS Studio — as-studio-delta.vercel.app
 User-agent: *
 Allow: /
-Allow: /packages
-Allow: /work
-Allow: /about
-Allow: /contact
-Allow: /privacy
-Allow: /terms
-Allow: /refund
-Allow: /disclaimer
-Disallow: /demos
+
+# Demos are design samples, not client pages. They stay out of the index
+# but the links are followed so the work page keeps its context.
 Disallow: /demos/
 Disallow: /admin
 Disallow: /api/
 
-Sitemap: https://asstudio.in/sitemap.xml
+Sitemap: https://as-studio-delta.vercel.app/sitemap.xml

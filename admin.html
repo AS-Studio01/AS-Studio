@@ -1,206 +1,173 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex, nofollow, noarchive">
-  <title>Console — AS Studio</title>
-  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/admin.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Studio Console | AS Studio</title>
+<meta name="description" content="Private studio console. Authorised access only.">
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@700;800&display=swap">
+<link rel="stylesheet" href="/css/admin.css">
 </head>
 <body>
-  <div class="admin-wrap">
-    <section id="admin-gate" class="gate-shell">
-      <div class="gate-card">
-        <p class="gate-kicker">AS Studio · Private Console</p>
-        <h1>Sign in</h1>
-        <p class="gate-sub">Access is verified server-side via scrypt and signed HttpOnly session cookies.</p>
-        <form id="login-form" class="field-stack">
-          <div class="field">
-            <label for="admin-password">Admin Password</label>
-            <input id="admin-password" name="password" type="password" required autocomplete="current-password" placeholder="Enter console password">
-          </div>
-          <button type="submit" class="btn btn-primary">Authenticate</button>
-          <p id="login-error" class="admin-status is-error" role="alert" hidden></p>
-        </form>
-        <a href="/" class="gate-back">&larr; Return to AS Studio</a>
-      </div>
-    </section>
 
-    <section id="admin-console" hidden>
-      <header class="admin-header">
-        <div>
-          <p class="gate-kicker" style="margin-bottom: 4px;">Authenticated Session</p>
-          <h1>Studio Operations Console</h1>
-        </div>
-        <div class="admin-header-actions">
-          <a href="/" class="btn btn-ghost">View public site</a>
-          <button type="button" id="logout-btn" class="btn btn-ghost">Sign out</button>
-        </div>
-      </header>
+<!-- ============ LOGIN ============ -->
+<main class="gate" id="gate">
+  <form class="gate-card" id="loginForm" novalidate>
+    <div class="gate-mark" aria-hidden="true">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
+        <path d="M5 20V11a7 7 0 0 1 14 0v9" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M9 20v-8a3 3 0 0 1 6 0v8z" fill="#b98a50"/>
+      </svg>
+    </div>
+    <h1 class="gate-title">Studio console</h1>
+    <p class="gate-sub">Authorised access only. All attempts are rate-limited and logged.</p>
 
-      <div class="admin-grid">
-        <section class="admin-panel" aria-labelledby="config-heading">
-          <div class="panel-head">
-            <h2 id="config-heading">Studio Configuration</h2>
-            <span class="panel-meta">Public API State</span>
-          </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" autocomplete="username" required>
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" autocomplete="current-password" required>
+    </div>
 
-          <form id="config-form" class="field-stack">
-            <div class="field-row">
-              <div class="field">
-                <label for="cfg-studioName">Studio Name</label>
-                <input id="cfg-studioName" name="studioName" type="text" required>
-              </div>
-              <div class="field">
-                <label for="cfg-mode">Primary CTA Mode</label>
-                <select id="cfg-mode" name="mode">
-                  <option value="direct">Direct Brief (/contact)</option>
-                  <option value="fiverr">Fiverr Escrow</option>
-                  <option value="upwork">Upwork Contract</option>
-                </select>
-              </div>
-            </div>
+    <button class="btn" type="submit" id="loginBtn">Sign in</button>
+    <p class="gate-err" id="loginErr" role="alert"></p>
+    <p class="gate-foot">Not the studio owner? <a href="/">Return to the website</a></p>
+  </form>
+</main>
 
-            <div class="field">
-              <label for="cfg-tagline">Tagline</label>
-              <input id="cfg-tagline" name="tagline" type="text" required>
-            </div>
-
-            <div class="field">
-              <label for="cfg-availability">Availability Note</label>
-              <input id="cfg-availability" name="availability" type="text" required>
-            </div>
-
-            <div class="field">
-              <label for="cfg-announcement">Optional Top Announcement</label>
-              <input id="cfg-announcement" name="announcement" type="text" placeholder="Leave blank to hide banner">
-            </div>
-
-            <div class="field-row">
-              <div class="field">
-                <label for="cfg-email">Contact Email</label>
-                <input id="cfg-email" name="email" type="email" required>
-              </div>
-              <div class="field">
-                <label for="cfg-telegram">Telegram Handle</label>
-                <input id="cfg-telegram" name="telegram" type="text" required>
-              </div>
-            </div>
-
-            <div class="field">
-              <label for="cfg-telegramUrl">Telegram URL</label>
-              <input id="cfg-telegramUrl" name="telegramUrl" type="url" required>
-            </div>
-
-            <div class="field">
-              <label for="cfg-fiverrUrl">Fiverr URL</label>
-              <input id="cfg-fiverrUrl" name="fiverrUrl" type="url" required>
-            </div>
-
-            <div class="field">
-              <label for="cfg-upworkUrl">Upwork URL</label>
-              <input id="cfg-upworkUrl" name="upworkUrl" type="url" required>
-            </div>
-
-            <div class="pkg-block">
-              <p class="pkg-block-title">Starter Package</p>
-              <div class="field-row-3">
-                <div class="field">
-                  <label for="pkg_0_priceUsd">USD</label>
-                  <input id="pkg_0_priceUsd" name="pkg_0_priceUsd" type="number" min="10" max="50000" required>
-                </div>
-                <div class="field">
-                  <label for="pkg_0_days">Days</label>
-                  <input id="pkg_0_days" name="pkg_0_days" type="number" min="1" max="90" required>
-                </div>
-                <div class="field">
-                  <label for="pkg_0_pages">Pages</label>
-                  <input id="pkg_0_pages" name="pkg_0_pages" type="number" min="1" max="50" required>
-                </div>
-              </div>
-              <div class="field">
-                <label for="pkg_0_summary">Summary</label>
-                <input id="pkg_0_summary" name="pkg_0_summary" type="text" required>
-              </div>
-            </div>
-
-            <div class="pkg-block">
-              <p class="pkg-block-title">Growth Package</p>
-              <div class="field-row-3">
-                <div class="field">
-                  <label for="pkg_1_priceUsd">USD</label>
-                  <input id="pkg_1_priceUsd" name="pkg_1_priceUsd" type="number" min="10" max="50000" required>
-                </div>
-                <div class="field">
-                  <label for="pkg_1_days">Days</label>
-                  <input id="pkg_1_days" name="pkg_1_days" type="number" min="1" max="90" required>
-                </div>
-                <div class="field">
-                  <label for="pkg_1_pages">Pages</label>
-                  <input id="pkg_1_pages" name="pkg_1_pages" type="number" min="1" max="50" required>
-                </div>
-              </div>
-              <div class="field">
-                <label for="pkg_1_summary">Summary</label>
-                <input id="pkg_1_summary" name="pkg_1_summary" type="text" required>
-              </div>
-            </div>
-
-            <div class="pkg-block">
-              <p class="pkg-block-title">Signature Package</p>
-              <div class="field-row-3">
-                <div class="field">
-                  <label for="pkg_2_priceUsd">USD</label>
-                  <input id="pkg_2_priceUsd" name="pkg_2_priceUsd" type="number" min="10" max="50000" required>
-                </div>
-                <div class="field">
-                  <label for="pkg_2_days">Days</label>
-                  <input id="pkg_2_days" name="pkg_2_days" type="number" min="1" max="90" required>
-                </div>
-                <div class="field">
-                  <label for="pkg_2_pages">Pages</label>
-                  <input id="pkg_2_pages" name="pkg_2_pages" type="number" min="1" max="50" required>
-                </div>
-              </div>
-              <div class="field">
-                <label for="pkg_2_summary">Summary</label>
-                <input id="pkg_2_summary" name="pkg_2_summary" type="text" required>
-              </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Save configuration</button>
-            <p id="config-status" class="admin-status" role="status" hidden></p>
-          </form>
-        </section>
-
-        <section class="admin-panel" aria-labelledby="queue-heading">
-          <div class="panel-head">
-            <div>
-              <h2 id="queue-heading">Inquiry Queue</h2>
-              <span id="inquiry-count" class="panel-meta">0 total</span>
-            </div>
-            <div class="queue-controls">
-              <select id="inquiry-filter" class="status-select" aria-label="Filter inquiries by status">
-                <option value="all">All statuses</option>
-                <option value="new">New</option>
-                <option value="reviewing">Reviewing</option>
-                <option value="replied">Replied</option>
-                <option value="archived">Archived</option>
-              </select>
-              <button type="button" id="refresh-inquiries" class="btn btn-ghost">Refresh</button>
-            </div>
-          </div>
-
-          <div id="inquiry-list" class="inquiry-list"></div>
-        </section>
-      </div>
-    </section>
+<!-- ============ DASHBOARD ============ -->
+<div class="app" id="app" hidden>
+  <div class="app-bar" role="navigation" aria-label="Session">
+    <div class="app-brand">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M5 20V11a7 7 0 0 1 14 0v9" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M9 20v-8a3 3 0 0 1 6 0v8z" fill="#b98a50"/>
+      </svg>
+      <span>Studio console</span>
+    </div>
+    <div class="app-actions">
+      <span class="who" id="who"></span>
+      <button class="btn-ghost" id="logoutBtn" type="button">Sign out</button>
+    </div>
   </div>
 
-  <script src="/js/admin.js" defer></script>
+  <header class="tabs-bar">
+    <h1 class="console-title">Studio console</h1>
+    <nav class="tabs" role="tablist" aria-label="Console sections">
+      <button role="tab" id="tab-config" aria-selected="true" aria-controls="panel-config" class="tab on" type="button">Site config</button>
+      <button role="tab" id="tab-inquiries" aria-selected="false" aria-controls="panel-inquiries" class="tab" type="button">Inquiries <span class="count" id="inqCount" hidden></span></button>
+    </nav>
+  </header>
+
+  <main class="app-body" id="consoleMain">
+    <!-- config -->
+    <section id="panel-config" role="tabpanel" aria-labelledby="tab-config" class="panel">
+      <div class="panel-head">
+        <h2>Public site configuration</h2>
+        <p>These values are served from the server to every visitor. Changes take effect within two minutes.</p>
+      </div>
+
+      <form id="configForm">
+        <fieldset>
+          <legend>Studio status</legend>
+          <div class="grid2">
+            <div class="field">
+              <label for="cfgStatus">Availability</label>
+              <select id="cfgStatus" name="studio.status">
+                <option value="open">Open — accepting projects</option>
+                <option value="closed">Closed — waitlist only</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="cfgStatusLabel">Status label shown on site</label>
+              <input type="text" id="cfgStatusLabel" name="studio.statusLabel" maxlength="80">
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Pricing (USD, whole dollars)</legend>
+          <div class="grid3">
+            <div class="field">
+              <label for="cfgStarter">Starter</label>
+              <input type="number" id="cfgStarter" name="pricing.starter" min="1" max="99999" step="1">
+            </div>
+            <div class="field">
+              <label for="cfgGrowth">Growth</label>
+              <input type="number" id="cfgGrowth" name="pricing.growth" min="1" max="99999" step="1">
+            </div>
+            <div class="field">
+              <label for="cfgSignature">Signature</label>
+              <input type="number" id="cfgSignature" name="pricing.signature" min="1" max="99999" step="1">
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Marketplaces &amp; links</legend>
+          <div class="grid2">
+            <div class="field checkbox">
+              <label><input type="checkbox" id="cfgFiverrOn" name="marketplace.fiverr"> Show Fiverr buttons</label>
+            </div>
+            <div class="field">
+              <label for="cfgFiverrUrl">Fiverr URL</label>
+              <input type="url" id="cfgFiverrUrl" name="links.fiverr" placeholder="https://www.fiverr.com/s/...">
+            </div>
+            <div class="field checkbox">
+              <label><input type="checkbox" id="cfgUpworkOn" name="marketplace.upwork"> Show Upwork buttons</label>
+            </div>
+            <div class="field">
+              <label for="cfgUpworkUrl">Upwork URL</label>
+              <input type="url" id="cfgUpworkUrl" name="links.upwork" placeholder="https://www.upwork.com/...">
+            </div>
+            <div class="field">
+              <label for="cfgTelegram">Telegram URL</label>
+              <input type="url" id="cfgTelegram" name="links.telegram">
+            </div>
+            <div class="field">
+              <label for="cfgEmail">Contact email</label>
+              <input type="email" id="cfgEmail" name="links.email">
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Announcement bar</legend>
+          <div class="field">
+            <label for="cfgAnnounce">Message (leave empty to hide)</label>
+            <input type="text" id="cfgAnnounce" name="announcement" maxlength="160">
+          </div>
+        </fieldset>
+
+        <div class="save-row">
+          <button class="btn" type="submit" id="saveBtn">Save configuration</button>
+          <span class="save-msg" id="saveMsg" role="status"></span>
+        </div>
+      </form>
+    </section>
+
+    <!-- inquiries -->
+    <section id="panel-inquiries" role="tabpanel" aria-labelledby="tab-inquiries" class="panel" hidden>
+      <div class="panel-head">
+        <h2>Project inquiries</h2>
+        <p>Newest first. Loaded directly from the server queue; never exposed to the public site.</p>
+      </div>
+      <div class="toolbar">
+        <button class="btn-ghost" id="refreshInq" type="button">Refresh</button>
+        <span class="save-msg" id="inqMsg" role="status"></span>
+      </div>
+      <div id="inqList"></div>
+    </section>
+  </main>
+</div>
+
+<script src="/js/admin.js"></script>
 </body>
 </html>
