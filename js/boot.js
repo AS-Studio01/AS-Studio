@@ -1,20 +1,17 @@
+/* AS Studio boot — runs before paint. Restores saved theme preference.
+   Kept tiny and render-blocking on purpose to avoid a flash of wrong theme. */
 (function () {
-  var root = document.documentElement;
-  root.classList.add('js-ready');
+  /* Progressive enhancement switch.
+     Content is visible by default. Only when JS runs do we opt in to
+     scroll-reveal animation — so a JS failure, a print, a screenshot or a
+     text-only browser still shows the whole page. */
+  document.documentElement.className =
+    (document.documentElement.className + ' js').trim();
+
   try {
-    var savedTheme = localStorage.getItem('as_theme');
-    var theme = savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : 'dark';
-    root.setAttribute('data-theme', theme);
-    var params = new URLSearchParams(window.location.search);
-    var modeParam = params.get('mode');
-    if (modeParam === 'direct' || modeParam === 'fiverr' || modeParam === 'upwork') {
-      localStorage.setItem('as_mode', modeParam);
+    var saved = localStorage.getItem('as-theme');
+    if (saved === 'dark' || saved === 'light') {
+      document.documentElement.setAttribute('data-theme', saved);
     }
-    var mode = localStorage.getItem('as_mode');
-    if (mode === 'direct' || mode === 'fiverr' || mode === 'upwork') {
-      root.setAttribute('data-mode', mode);
-    }
-  } catch (_) {
-    root.setAttribute('data-theme', 'dark');
-  }
+  } catch (_) { /* private mode — ignore */ }
 })();

@@ -1,314 +1,296 @@
+/**
+ * AS Studio — site behaviour
+ *
+ * SECURITY NOTE
+ * -------------
+ * Nothing security-relevant lives here. This file only:
+ *   - toggles the mobile menu
+ *   - reveals sections on scroll
+ *   - requests /api/public/config and *renders* what the server returns
+ *
+ * A visitor can edit every line of this file and gain nothing: the server
+ * decides the config, and the only write path (/api/public/inquiry) is
+ * validated server-side and rate-limited.
+ */
+
 (function () {
   'use strict';
 
-  var root = document.documentElement;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function setYear() {
-    var year = String(new Date().getFullYear());
-    document.querySelectorAll('[data-year]').forEach(function (el) {
-      el.textContent = year;
+  /* ============================================================
+     Mobile menu
+     ============================================================ */
+  var menuBtn = document.getElementById('menuBtn');
+  var navLinks = document.getElementById('navLinks');
+
+  if (menuBtn && navLinks) {
+    menuBtn.addEventListener('click', function () {
+      var open = navLinks.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', String(open));
     });
-  }
 
-  function initThemeToggle() {
-    var btns = document.querySelectorAll('[data-theme-toggle]');
-    function syncLabels(theme) {
-      btns.forEach(function (btn) {
-        btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
-        btn.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
-        var label = btn.querySelector('[data-theme-label]');
-        if (label) label.textContent = theme === 'dark' ? 'Light' : 'Dark';
-      });
-    }
-    var current = root.getAttribute('data-theme') || 'dark';
-    syncLabels(current);
-    btns.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var next = (root.getAttribute('data-theme') || 'dark') === 'dark' ? 'light' : 'dark';
-        root.setAttribute('data-theme', next);
-        try {
-          localStorage.setItem('as_theme', next);
-        } catch (_) {}
-        syncLabels(next);
-      });
+    navLinks.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        navLinks.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      }
     });
-  }
 
-  function initNavigation() {
-    var toggle = document.querySelector('[data-nav-toggle]');
-    var drawer = document.getElementById('mobile-drawer');
-    var closeBtn = document.querySelector('[data-nav-close]');
-
-    function closeDrawer() {
-      if (!drawer || !toggle) return;
-      drawer.hidden = true;
-      drawer.classList.remove('is-open');
-      toggle.setAttribute('aria-expanded', 'false');
-      document.body.classList.remove('nav-open');
-    }
-
-    function openDrawer() {
-      if (!drawer || !toggle) return;
-      drawer.hidden = false;
-      drawer.classList.add('is-open');
-      toggle.setAttribute('aria-expanded', 'true');
-      document.body.classList.add('nav-open');
-      var firstLink = drawer.querySelector('a, button');
-      if (firstLink) firstLink.focus();
-    }
-
-    if (toggle && drawer) {
-      toggle.addEventListener('click', function () {
-        var isOpen = toggle.getAttribute('aria-expanded') === 'true';
-        if (isOpen) closeDrawer();
-        else openDrawer();
-      });
-      if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
-      drawer.addEventListener('click', function (e) {
-        if (e.target === drawer) closeDrawer();
-      });
-      drawer.querySelectorAll('a').forEach(function (link) {
-        link.addEventListener('click', function () {
-          closeDrawer();
-        });
-      });
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && !drawer.hidden) {
-          closeDrawer();
-          toggle.focus();
-        }
-      });
-    }
-
-    // Highlight active route cleanly
-    var currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
-    document.querySelectorAll('.site-nav a, #mobile-drawer a').forEach(function (link) {
-      var href = (link.getAttribute('href') || '').replace(/\/+$/, '') || '/';
-      if (href === currentPath) {
-        link.setAttribute('aria-current', 'page');
-      } else {
-        link.removeAttribute('aria-current');
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+        navLinks.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        menuBtn.focus();
       }
     });
   }
 
-  function initAccordions() {
-    document.querySelectorAll('[data-accordion-trigger]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var expanded = btn.getAttribute('aria-expanded') === 'true';
-        var panelId = btn.getAttribute('aria-controls');
-        var panel = panelId ? document.getElementById(panelId) : null;
-        var group = btn.closest('[data-accordion-group]');
-        if (group && !expanded) {
-          group.querySelectorAll('[data-accordion-trigger]').forEach(function (other) {
-            if (other !== btn) {
-              other.setAttribute('aria-expanded', 'false');
-              var otherPanel = document.getElementById(other.getAttribute('aria-controls') || '');
-              if (otherPanel) otherPanel.hidden = true;
-            }
-          });
-        }
-        btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-        if (panel) panel.hidden = expanded;
-      });
-    });
-  }
+  /* ============================================================
+     Scroll reveal
+     ============================================================ */
+  var revealItems = document.querySelectorAll('[data-rv]');
 
-  function initReveal() {
-    var nodes = document.querySelectorAll('.reveal');
-    if (!nodes.length) return;
-    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      nodes.forEach(function (el) { el.classList.add('is-visible'); });
-      return;
-    }
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    Array.prototype.forEach.call(revealItems, function (el) { el.classList.add('in'); });
+  } else {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
+          entry.target.classList.add('in');
           io.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.08, rootMargin: '0px 0px -24px 0px' });
-    nodes.forEach(function (el) { io.observe(el); });
+    }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
+
+    Array.prototype.forEach.call(revealItems, function (el) { io.observe(el); });
+
+    /* Backstop: if any reveal element is still hidden after 2.5s (observer
+       never fired, e.g. inside a scroll container or a print preview),
+       show it anyway. Content must never stay invisible. */
+    setTimeout(function () {
+      Array.prototype.forEach.call(revealItems, function (el) {
+        if (!el.classList.contains('in')) el.classList.add('in');
+      });
+    }, 2500);
   }
 
-  function applyPublicConfig(config) {
-    if (!config) return;
+  /* ============================================================
+     Footer year
+     ============================================================ */
+  var yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
-    document.querySelectorAll('[data-config="availability"]').forEach(function (el) {
-      el.textContent = config.availability || 'Accepting commissions';
-    });
-    document.querySelectorAll('[data-config="email"]').forEach(function (el) {
-      el.textContent = config.email;
-      if (el.tagName === 'A') el.setAttribute('href', 'mailto:' + config.email);
-    });
-    document.querySelectorAll('[data-config="telegram"]').forEach(function (el) {
-      el.textContent = config.telegram;
-      if (el.tagName === 'A' && config.telegramUrl) {
-        el.setAttribute('href', config.telegramUrl);
-      }
-    });
-    document.querySelectorAll('[data-config="fiverr-link"]').forEach(function (el) {
-      if (config.fiverrUrl) el.setAttribute('href', config.fiverrUrl);
-    });
-    document.querySelectorAll('[data-config="upwork-link"]').forEach(function (el) {
-      if (config.upworkUrl) el.setAttribute('href', config.upworkUrl);
-    });
-
-    if (config.announcement) {
-      var banner = document.getElementById('studio-announcement');
-      if (banner) {
-        banner.textContent = config.announcement;
-        banner.hidden = false;
-      }
+  /* ============================================================
+     Nav shadow on scroll
+     ============================================================ */
+  var nav = document.querySelector('.nav');
+  function onScroll() {
+    if (nav) {
+      nav.style.boxShadow = window.scrollY > 8
+        ? '0 8px 28px -18px rgba(15,23,42,.35)'
+        : 'none';
     }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 
-    if (Array.isArray(config.packages)) {
-      config.packages.forEach(function (pkg) {
-        document.querySelectorAll('[data-pkg-price="' + pkg.id + '"]').forEach(function (el) {
-          el.textContent = '$' + pkg.priceUsd;
-        });
-        document.querySelectorAll('[data-pkg-days="' + pkg.id + '"]').forEach(function (el) {
-          el.textContent = pkg.days + ' days';
-        });
-        document.querySelectorAll('[data-pkg-pages="' + pkg.id + '"]').forEach(function (el) {
-          el.textContent = pkg.pages + (pkg.pages === 1 ? ' page' : ' pages');
-        });
-        document.querySelectorAll('[data-pkg-summary="' + pkg.id + '"]').forEach(function (el) {
-          el.textContent = pkg.summary;
-        });
+  /* ============================================================
+     Server config → render
+     ------------------------------------------------------------
+     The server is the source of truth for pricing, marketplace
+     links and studio status. If this fetch fails we keep the
+     server-rendered defaults already in the HTML.
+     ============================================================ */
+  var config = null;
+
+  function setText(sel, value) {
+    if (!value) return;
+    var nodes = document.querySelectorAll(sel);
+    Array.prototype.forEach.call(nodes, function (n) { n.textContent = value; });
+  }
+
+  function applyConfig(cfg) {
+    config = cfg;
+    if (!cfg) return;
+
+    /* prices */
+    if (cfg.pricing) {
+      ['starter', 'growth', 'signature'].forEach(function (name) {
+        if (cfg.pricing[name]) {
+          setText('[data-price="' + name + '"]', '$' + cfg.pricing[name]);
+          setText('[data-price-tag="' + name + '"]', '$' + cfg.pricing[name]);
+        }
       });
     }
 
-    // Respect optional mode override or configured mode for primary booking CTAs
-    var overrideMode = root.getAttribute('data-mode');
-    var activeMode = overrideMode || config.mode || 'direct';
-    document.querySelectorAll('[data-mode-cta]').forEach(function (el) {
-      if (activeMode === 'fiverr' && config.fiverrUrl) {
-        el.setAttribute('href', config.fiverrUrl);
-        el.setAttribute('target', '_blank');
-        el.setAttribute('rel', 'noopener noreferrer');
-        if (el.dataset.modeLabel === 'auto') el.textContent = 'Commission on Fiverr';
-      } else if (activeMode === 'upwork' && config.upworkUrl) {
-        el.setAttribute('href', config.upworkUrl);
-        el.setAttribute('target', '_blank');
-        el.setAttribute('rel', 'noopener noreferrer');
-        if (el.dataset.modeLabel === 'auto') el.textContent = 'Commission on Upwork';
+    /* studio status pill */
+    if (cfg.studio) {
+      var pills = document.querySelectorAll('[data-status-pill]');
+      Array.prototype.forEach.call(pills, function (p) {
+        p.setAttribute('data-status', cfg.studio.status);
+        var label = p.querySelector('span');
+        if (label && cfg.studio.statusLabel) label.textContent = cfg.studio.statusLabel;
+      });
+    }
+
+    /* marketplace buttons */
+    var mp = cfg.marketplace || {};
+    var links = cfg.links || {};
+
+    var fiverrBtns = document.querySelectorAll('[data-market="fiverr"]');
+    Array.prototype.forEach.call(fiverrBtns, function (b) {
+      if (mp.fiverr && links.fiverr) {
+        b.hidden = false;
+        if (b.tagName === 'A') b.href = links.fiverr;
       } else {
-        el.setAttribute('href', '/contact');
-        el.removeAttribute('target');
-        el.removeAttribute('rel');
+        b.hidden = true;
       }
     });
+
+    var upworkBtns = document.querySelectorAll('[data-market="upwork"]');
+    Array.prototype.forEach.call(upworkBtns, function (b) {
+      if (mp.upwork && links.upwork) {
+        b.hidden = false;
+        if (b.tagName === 'A') b.href = links.upwork;
+      } else {
+        b.hidden = true;
+      }
+    });
+
+    /* announcement bar */
+    if (cfg.announcement) {
+      var bar = document.getElementById('announce');
+      if (bar) {
+        bar.textContent = cfg.announcement;
+        bar.classList.add('on');
+      }
+    }
   }
 
-  function hydrateConfig() {
-    fetch('/api/public/config', { headers: { Accept: 'application/json' } })
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (payload) {
-        if (payload && payload.ok && payload.config) {
-          applyPublicConfig(payload.config);
-        }
-      })
-      .catch(function () {});
-  }
+  fetch('/api/public/config', { headers: { Accept: 'application/json' } })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(applyConfig)
+    .catch(function () { /* keep server-rendered defaults */ });
 
-  function initInquiryForm() {
-    var form = document.getElementById('brief-form');
-    if (!form) return;
+  /* ============================================================
+     Contact form
+     ============================================================ */
+  var form = document.getElementById('inquiryForm');
 
-    var params = new URLSearchParams(window.location.search);
-    var pkgParam = params.get('package');
-    var pkgSelect = form.querySelector('[name="package"]');
-    if (pkgParam && pkgSelect && ['starter', 'growth', 'signature', 'custom'].indexOf(pkgParam) !== -1) {
-      pkgSelect.value = pkgParam;
+  if (form) {
+    var statusBox = document.getElementById('formStatus');
+    var submitBtn = form.querySelector('button[type="submit"]');
+
+    function fieldError(name, message) {
+      var input = form.querySelector('[name="' + name + '"]');
+      var slot = form.querySelector('[data-error="' + name + '"]');
+      if (input) {
+        if (message) input.setAttribute('aria-invalid', 'true');
+        else input.removeAttribute('aria-invalid');
+      }
+      if (slot) slot.textContent = message || '';
     }
 
-    var statusEl = document.getElementById('brief-status');
-    var submitBtn = form.querySelector('[type="submit"]');
+    function clearErrors() {
+      ['clientName', 'businessName', 'contactChannel', 'contactValue', 'scopeSummary']
+        .forEach(function (n) { fieldError(n, ''); });
+    }
 
     function showStatus(kind, message) {
-      if (!statusEl) return;
-      statusEl.hidden = false;
-      statusEl.className = 'form-status ' + (kind === 'error' ? 'is-error' : 'is-success');
-      statusEl.textContent = message;
+      if (!statusBox) return;
+      statusBox.className = 'form-status show ' + kind;
+      statusBox.textContent = message;
+      statusBox.setAttribute('role', kind === 'bad' ? 'alert' : 'status');
     }
 
+    /* Client-side validation is a convenience only — the server re-validates
+       everything and is the authority. */
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (!form.checkValidity()) {
-        form.reportValidity();
+      clearErrors();
+
+      var data = {
+        clientName:     form.clientName.value.trim(),
+        businessName:   form.businessName.value.trim(),
+        contactChannel: form.contactChannel.value,
+        contactValue:   form.contactValue.value.trim(),
+        budget:         form.budget ? form.budget.value : '',
+        scopeSummary:   form.scopeSummary.value.trim(),
+        website:        form.website ? form.website.value : ''  /* honeypot */
+      };
+
+      var invalid = false;
+      if (data.clientName.length < 2) {
+        fieldError('clientName', 'Please enter your name.');
+        invalid = true;
+      }
+      if (data.businessName.length < 2) {
+        fieldError('businessName', 'Please enter your business name.');
+        invalid = true;
+      }
+      if (!data.contactChannel) {
+        fieldError('contactChannel', 'Choose how we should reply.');
+        invalid = true;
+      }
+      if (data.contactValue.length < 3) {
+        fieldError('contactValue', 'Please add your contact detail.');
+        invalid = true;
+      }
+      if (data.scopeSummary.length < 15) {
+        fieldError('scopeSummary', 'Tell us a little more — at least a sentence.');
+        invalid = true;
+      }
+
+      if (invalid) {
+        showStatus('bad', 'Please check the highlighted fields.');
+        var firstBad = form.querySelector('[aria-invalid="true"]');
+        if (firstBad) firstBad.focus();
         return;
       }
 
-      var data = {
-        name: (form.querySelector('[name="name"]') || {}).value || '',
-        business: (form.querySelector('[name="business"]') || {}).value || '',
-        contact: (form.querySelector('[name="contact"]') || {}).value || '',
-        package: (form.querySelector('[name="package"]') || {}).value || 'starter',
-        timeline: (form.querySelector('[name="timeline"]') || {}).value || 'Flexible',
-        brief: (form.querySelector('[name="brief"]') || {}).value || '',
-        website: (form.querySelector('[name="website"]') || {}).value || ''
-      };
-
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.dataset.originalLabel = submitBtn.textContent;
-        submitBtn.textContent = 'Sending brief...';
-      }
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+      showStatus('ok', 'Sending your brief…');
+      statusBox.className = 'form-status show';
+      statusBox.textContent = 'Sending your brief…';
 
       fetch('/api/public/inquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify(data)
       })
-        .then(function (resp) {
-          return resp.json().then(function (body) {
-            return { ok: resp.ok, body: body };
+        .then(function (res) {
+          return res.json().then(function (body) {
+            return { status: res.status, body: body };
           });
         })
-        .then(function (res) {
-          if (res.ok && res.body && res.body.ok) {
+        .then(function (out) {
+          if (out.status === 200) {
             form.reset();
-            showStatus('success', 'Brief received. Reference ' + res.body.id + ' — we respond within 24 hours.');
+            showStatus('ok', out.body.message || 'Thank you — your brief has reached us.');
+          } else if (out.status === 422 && out.body.fields) {
+            Object.keys(out.body.fields).forEach(function (k) {
+              fieldError(k, out.body.fields[k]);
+            });
+            showStatus('bad', out.body.error || 'Please check the highlighted fields.');
           } else {
-            showStatus('error', (res.body && res.body.error) || 'Please check your brief details and try again.');
+            showStatus('bad', out.body.error || 'Something went wrong. Please email us directly.');
           }
         })
         .catch(function () {
-          showStatus('error', 'Network error while sending brief. Email us directly at asbusinessofficial01@gmail.com.');
+          showStatus('bad', 'Network error. Please email asbusinessofficial01@gmail.com instead.');
         })
-        .finally(function () {
-          if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.textContent = submitBtn.dataset.originalLabel || 'Send project brief';
-          }
+        .then(function () {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Send project brief';
         });
     });
-  }
 
-  function initAdminShortcut() {
-    var mark = document.querySelector('[data-admin-trigger]');
-    if (!mark) return;
-    var clicks = 0;
-    var timer = null;
-    mark.addEventListener('click', function () {
-      clicks += 1;
-      clearTimeout(timer);
-      if (clicks >= 3) {
-        window.location.href = '/admin';
-        return;
-      }
-      timer = setTimeout(function () { clicks = 0; }, 900);
+    /* clear a field's error as soon as the user edits it */
+    form.addEventListener('input', function (e) {
+      var name = e.target.name;
+      if (name) fieldError(name, '');
     });
   }
-
-  setYear();
-  initThemeToggle();
-  initNavigation();
-  initAccordions();
-  initReveal();
-  hydrateConfig();
-  initInquiryForm();
-  initAdminShortcut();
 })();
