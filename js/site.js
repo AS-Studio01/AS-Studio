@@ -293,4 +293,23 @@
       if (name) fieldError(name, '');
     });
   }
+
+  /* 6. Interactive Domain Switcher (Axinq-style Applications section) */
+  var domainTabs = document.querySelectorAll('[data-domain-tab]');
+  var domainPanels = document.querySelectorAll('[data-domain-panel]');
+  if (domainTabs.length && domainPanels.length) {
+    domainTabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        var target = tab.getAttribute('data-domain-tab');
+        domainTabs.forEach(function (t) {
+          var active = t === tab;
+          t.classList.toggle('is-active', active);
+          t.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        domainPanels.forEach(function (p) {
+          p.hidden = p.getAttribute('data-domain-panel') !== target;
+        });
+      });
+    });
+  }
 })();
