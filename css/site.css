@@ -1366,3 +1366,28 @@ button { font: inherit; color: inherit; }
 @media (max-width: 560px) {
   .process-strip { grid-template-columns: 1fr; }
 }
+
+/* Smooth micro-animations */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+@keyframes panel-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero .console {
+  animation: float-slow 6s ease-in-out infinite;
+}
+.domain-panel:not([hidden]) {
+  animation: panel-enter .35s var(--ease) both;
+}
+.btn {
+  transition: transform .18s var(--ease), box-shadow .18s var(--ease), background-color .18s var(--ease);
+}
+.btn:hover {
+  transform: translateY(-1px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero .console, .marquee-track, .domain-panel { animation: none !important; }
+}
