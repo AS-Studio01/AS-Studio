@@ -1,173 +1,289 @@
-<!doctype html>
-<html lang="en" data-demo="mitti">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex, nofollow">
-  <title>Mitti Café &amp; Roastery — AS Studio Demo</title>
-  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/demos/demo.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mitti Café — Small-batch coffee, Patna</title>
+<meta name="description" content="Coffee roasted in small batches every Tuesday in Patna. Filter, espresso, cold brew and beans to take home. Open Tuesday to Sunday.">
+<meta name="theme-color" content="#2b1810">
+<meta name="robots" content="noindex,follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="demo.css">
+<style>
+:root {
+  --max: 1120px;
+  --ink: #241611;
+  --body: #5c4a3f;
+  --muted: #7c695d;
+  --line: #e8ddd0;
+  --card: #fffdf9;
+  --accent: #b8502f;
+  --accent-fg: #fff;
+  --bg: #faf5ee;
+  --nav-bg: rgba(250, 245, 238, .92);
+  --foot-bg: #2b1810;
+  --foot-fg: #c9b5a2;
+  --foot-muted: #9c8574;
+  --foot-heading: #fff;
+  --display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --logo-size: 26px;
+  --logo-weight: 700;
+  --h1-weight: 600;
+  --h1-max: 4.4rem;
+  --btn-bg: #2b1810;
+  --card-radius: 18px;
+}
+body { font-family: var(--font); background: var(--bg); color: var(--ink); }
+
+.hero::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  background:
+    radial-gradient(ellipse 58% 52% at 80% 20%, rgba(184, 80, 47, .12), transparent 62%),
+    radial-gradient(ellipse 48% 44% at 10% 80%, rgba(201, 154, 78, .14), transparent 66%);
+}
+
+.cup-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: clamp(22px, 3vw, 32px);
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(43, 24, 16, .04), 0 30px 60px -34px rgba(43, 24, 16, .34);
+}
+.cup-card svg { margin: 0 auto; width: 100%; max-width: 200px; height: auto; }
+.cup-label { font-family: var(--display); font-size: 21px; margin-top: 14px; }
+.cup-sub { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-top: 5px; font-weight: 600; }
+
+.marquee {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: #2b1810;
+  color: #e8d9c9;
+  overflow: hidden;
+  padding: 13px 0;
+}
+.marquee-track { display: flex; gap: 40px; white-space: nowrap; animation: slide 36s linear infinite; width: max-content; }
+.marquee-track span { font-family: var(--display); font-size: 16px; font-style: italic; }
+@keyframes slide { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } }
+
+.menu-cats { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+.cat {
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--body);
+  transition: .2s;
+}
+.cat[aria-pressed="true"] { background: #2b1810; border-color: #2b1810; color: #faf5ee; }
+.cat:hover:not([aria-pressed="true"]) { border-color: var(--accent); color: var(--accent); }
+
+.menu-list { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+.menu-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; background: var(--card); padding: 16px 20px; }
+.menu-row:hover { background: #fff8f0; }
+.dish { font-family: var(--display); font-size: 19px; font-weight: 600; }
+.dish small { display: block; font-family: var(--font); font-size: 12px; font-weight: 400; color: var(--muted); margin-top: 2px; letter-spacing: 0; }
+.price { font-family: var(--display); font-size: 18px; font-weight: 700; color: var(--accent); white-space: nowrap; }
+
+.hours-card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
+.hours-card h3 { font-size: 10.5px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+.hours-list { list-style: none; }
+.hours-list li { display: flex; justify-content: space-between; gap: 12px; font-size: 13.5px; color: var(--body); padding: 7px 0; border-bottom: 1px dashed var(--line); }
+.hours-list li:last-child { border: 0; }
+.hours-list li.today { color: var(--accent); font-weight: 700; }
+.hours-list .d { font-weight: 600; }
+
+.find-card { background: #2b1810; color: #f0e4d6; border-radius: 20px; padding: 26px; }
+.find-card h3 { font-family: var(--display); font-size: 21px; margin-bottom: 9px; color: #fff; }
+.find-card p { font-size: 13.5px; line-height: 1.7; color: #dbc7b5; }
+.find-card a { color: #e0b378; text-decoration: underline; text-underline-offset: 3px; min-height: 44px; display: inline-flex; align-items: center; }
+</style>
 </head>
 <body>
-  <div class="demo-strip">
-    <span>AS Studio Concept 01 · Starter Tier ($95)</span>
-    <span><a href="/demos">Gallery</a> · <a href="/contact?package=starter">Book similar build</a></span>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="mitti.html" class="logo">Mitti<span>café · patna</span></a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#menu">Menu</a>
+      <a href="#hours">Hours</a>
+      <a href="#find">Find us</a>
+    </nav>
+    <span class="status" id="status" data-open="true" role="status">
+      <i aria-hidden="true"></i><span id="statusText">Checking…</span>
+    </span>
   </div>
+</header>
 
-  <header class="d-header">
-    <div class="d-wrap d-header-inner">
-      <a href="#top" class="d-brand">Mitti Café</a>
-      <nav class="d-nav" aria-label="Mitti navigation">
+<main id="main">
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Small batch · Roasted here</span>
+      <h1>Coffee that tastes<br>like <em>morning.</em></h1>
+      <p class="lede">We roast in small batches every Tuesday, so what lands in your cup is rarely more than four days old. Come sit for a while, or take a bag home.</p>
+      <div class="hero-actions">
+        <a class="btn btn-main" href="#menu">See the menu</a>
+        <a class="btn btn-line" href="#find">Get directions</a>
+      </div>
+    </div>
+    <div class="cup-card">
+      <svg viewBox="0 0 200 200" role="img" aria-label="A coffee cup with steam rising">
+        <defs>
+          <linearGradient id="cupg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#b8502f"/><stop offset="100%" stop-color="#8f3d23"/>
+          </linearGradient>
+        </defs>
+        <circle cx="100" cy="100" r="88" fill="#f3e8db"/>
+        <path d="M62 84h76l-7 52a14 14 0 0 1-14 12H83a14 14 0 0 1-14-12z" fill="url(#cupg)"/>
+        <path d="M138 94h10a14 14 0 0 1 0 28h-13" fill="none" stroke="#8f3d23" stroke-width="7" stroke-linecap="round"/>
+        <ellipse cx="100" cy="84" rx="38" ry="8" fill="#f0d9bf"/>
+        <ellipse cx="100" cy="84" rx="30" ry="5.5" fill="#5a3524"/>
+        <path d="M84 62c0-7 6-8 6-15s-6-8-6-15" fill="none" stroke="#c9a98c" stroke-width="4.5" stroke-linecap="round" opacity=".85"/>
+        <path d="M100 58c0-7 6-8 6-15s-6-8-6-15" fill="none" stroke="#c9a98c" stroke-width="4.5" stroke-linecap="round" opacity=".55"/>
+        <path d="M116 62c0-7 6-8 6-15s-6-8-6-15" fill="none" stroke="#c9a98c" stroke-width="4.5" stroke-linecap="round" opacity=".85"/>
+        <rect x="58" y="152" width="84" height="6" rx="3" fill="#e2d0bb"/>
+      </svg>
+      <p class="cup-label">Mitti House Blend</p>
+      <p class="cup-sub">Chocolate · Jaggery · Orange peel</p>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Roasted Tuesdays</span><span>·</span><span>Single origin</span><span>·</span><span>Filter &amp; espresso</span><span>·</span><span>Beans to take home</span><span>·</span><span>Cash &amp; UPI</span><span>·</span>
+    <span>Roasted Tuesdays</span><span>·</span><span>Single origin</span><span>·</span><span>Filter &amp; espresso</span><span>·</span><span>Beans to take home</span><span>·</span><span>Cash &amp; UPI</span><span>·</span>
+  </div>
+</div>
+
+<section class="sec" id="menu">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>What we're pouring</h2>
+      <p>Everything is priced in rupees and includes taxes. Oat milk is ₹30 extra.</p>
+    </div>
+
+    <div class="menu-cats" role="group" aria-label="Filter the menu">
+      <button class="cat" data-cat="all" aria-pressed="true" type="button">Everything</button>
+      <button class="cat" data-cat="coffee" aria-pressed="false" type="button">Coffee</button>
+      <button class="cat" data-cat="food" aria-pressed="false" type="button">Food</button>
+      <button class="cat" data-cat="beans" aria-pressed="false" type="button">Beans</button>
+    </div>
+
+    <div class="menu-list" id="menuList">
+      <div class="menu-row" data-cat="coffee"><div class="dish">Filter coffee<small>House blend, brewed by the cup</small></div><div class="price">₹120</div></div>
+      <div class="menu-row" data-cat="coffee"><div class="dish">Cappuccino<small>Double shot, silky microfoam</small></div><div class="price">₹160</div></div>
+      <div class="menu-row" data-cat="coffee"><div class="dish">Flat white<small>Ristretto base, thinner foam</small></div><div class="price">₹170</div></div>
+      <div class="menu-row" data-cat="coffee"><div class="dish">Cold brew<small>Steeped eighteen hours, served over ice</small></div><div class="price">₹190</div></div>
+      <div class="menu-row" data-cat="coffee"><div class="dish">Masala chai<small>Ginger, cardamom, whole milk</small></div><div class="price">₹90</div></div>
+      <div class="menu-row" data-cat="food"><div class="dish">Butter croissant<small>Baked this morning</small></div><div class="price">₹130</div></div>
+      <div class="menu-row" data-cat="food"><div class="dish">Chilli cheese toast<small>Sourdough, sharp cheddar</small></div><div class="price">₹180</div></div>
+      <div class="menu-row" data-cat="food"><div class="dish">Banana walnut loaf<small>Slice, warmed on request</small></div><div class="price">₹110</div></div>
+      <div class="menu-row" data-cat="beans"><div class="dish">House blend · 250g<small>Chocolate, jaggery, orange peel</small></div><div class="price">₹650</div></div>
+      <div class="menu-row" data-cat="beans"><div class="dish">Chikmagalur single origin · 250g<small>Stone fruit, brown sugar</small></div><div class="price">₹780</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="hours" style="background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>When we're open</h2>
+      <p>Closed Mondays, so we can roast, restock and repair things.</p>
+    </div>
+    <div class="grid-auto">
+      <div class="hours-card">
+        <h3>Opening hours</h3>
+        <ul class="hours-list" id="hoursList">
+          <li data-day="2"><span class="d">Tuesday</span><span>8:00 – 21:00</span></li>
+          <li data-day="3"><span class="d">Wednesday</span><span>8:00 – 21:00</span></li>
+          <li data-day="4"><span class="d">Thursday</span><span>8:00 – 21:00</span></li>
+          <li data-day="5"><span class="d">Friday</span><span>8:00 – 22:00</span></li>
+          <li data-day="6"><span class="d">Saturday</span><span>9:00 – 22:00</span></li>
+          <li data-day="0"><span class="d">Sunday</span><span>9:00 – 20:00</span></li>
+          <li data-day="1"><span class="d">Monday</span><span>Closed</span></li>
+        </ul>
+      </div>
+      <div class="hours-card">
+        <h3>Good to know</h3>
+        <p style="font-size:13.5px;color:var(--body);line-height:1.8">Seats about eighteen inside and eight on the veranda. Laptops are welcome on weekdays and we keep the music low until six. No reservations — walk in and we'll find you a chair.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="find">
+  <div class="wrap">
+    <div class="sec-head"><h2>Come find us</h2></div>
+    <div class="grid-auto">
+      <div class="find-card">
+        <h3>The café</h3>
+        <p>14 Boring Road,<br>Patna 800001, Bihar</p>
+        <p style="margin-top:10px"><a href="https://maps.google.com/?q=Boring+Road+Patna" target="_blank" rel="noopener noreferrer">Open in Google Maps →</a></p>
+      </div>
+      <div class="find-card">
+        <h3>Say hello</h3>
+        <p>Call or WhatsApp<br><a href="tel:+919999999999">+91 99999 99999</a></p>
+        <p><a href="mailto:hello@mitticafe.example">hello@mitticafe.example</a></p>
+      </div>
+      <div class="find-card">
+        <h3>Order beans</h3>
+        <p>We deliver across Patna within two days. Message your order and pay on delivery.</p>
+        <p style="margin-top:10px"><a href="https://wa.me/919999999999" target="_blank" rel="noopener noreferrer">Message on WhatsApp →</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <p class="foot-brand">Mitti</p>
+        <p>Small-batch coffee, roasted in Patna since 2021.</p>
+      </div>
+      <div>
+        <h3>Visit</h3>
         <a href="#menu">Menu</a>
-        <a href="#roastery">Roastery</a>
-        <a href="#reserve">Reserve</a>
-      </nav>
-      <a href="#reserve" class="d-btn d-btn-primary">Book a table</a>
+        <a href="#hours">Hours</a>
+        <a href="#find">Find us</a>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <a href="tel:+919999999999">+91 99999 99999</a>
+        <a href="mailto:hello@mitticafe.example">Email us</a>
+      </div>
     </div>
-  </header>
+    <p class="foot-base">© <span id="year"></span> Mitti Café · A fictional business, built by AS Studio as a design demonstration.</p>
+  </div>
+</footer>
 
-  <main id="top">
-    <section class="d-hero">
-      <div class="d-wrap d-hero-grid">
-        <div>
-          <p class="d-kicker" data-live-status data-open-hour="8" data-close-hour="22" data-open-label="Open today" data-closed-label="Closed until 08:00">08:00–22:00 IST</p>
-          <h1 class="d-title">Single-estate pour-overs &amp; slow morning plates.</h1>
-          <p class="d-lead">Roasted in small batches from Chikmagalur estates and served alongside naturally leavened sourdough in Koregaon Park, Pune.</p>
-          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-            <a href="#menu" class="d-btn d-btn-primary">Explore daily menu</a>
-            <a href="#reserve" class="d-btn d-btn-ghost">Reserve seating</a>
-          </div>
-        </div>
-        <div class="d-hero-media">
-          <img src="/assets/img/mitti-hero.webp" alt="Freshly brewed pour-over coffee on terracotta ceramic tableware at Mitti Café" width="760" height="570">
-        </div>
-      </div>
-    </section>
+<aside class="demo-badge" aria-label="Demo notice">Concept demo by AS Studio · <a href="../work">see all six</a></aside>
 
-    <section id="menu" class="d-section">
-      <div class="d-wrap">
-        <div class="d-section-head">
-          <div>
-            <p class="d-kicker">House Menu</p>
-            <h2>Crafted every morning in small batches.</h2>
-          </div>
-        </div>
-
-        <div class="d-tabs" data-filter-group="mitti-menu-grid">
-          <button type="button" class="d-tab is-active" data-filter="all" aria-pressed="true">All items</button>
-          <button type="button" class="d-tab" data-filter="coffee" aria-pressed="false">Filter &amp; Espresso</button>
-          <button type="button" class="d-tab" data-filter="bakery" aria-pressed="false">Sourdough &amp; Plates</button>
-          <button type="button" class="d-tab" data-filter="cold" aria-pressed="false">Cold Brew &amp; Seasonal</button>
-        </div>
-
-        <div id="mitti-menu-grid" class="d-grid-3">
-          <article class="d-card" data-category="coffee">
-            <p class="d-card-meta">Espresso · Washed Arabica</p>
-            <h3>Jaggery Cortado</h3>
-            <p>Double ristretto balanced with lightly steamed A2 milk and house spiced palm reduction.</p>
-            <p class="d-price">&#8377;240</p>
-          </article>
-          <article class="d-card" data-category="coffee">
-            <p class="d-card-meta">Manual Brew · V60</p>
-            <h3>Ratnagiri Estate Pour-Over</h3>
-            <p>Washed bourbon cultivar brewed to order with toasted hazelnut and mandarin notes.</p>
-            <p class="d-price">&#8377;290</p>
-          </article>
-          <article class="d-card" data-category="cold">
-            <p class="d-card-meta">18-Hour Steep · Chilled</p>
-            <h3>Tamarind Espresso Tonic</h3>
-            <p>Bright cold extraction poured over chilled botanical tonic with dehydrated orange wheel.</p>
-            <p class="d-price">&#8377;280</p>
-          </article>
-          <article class="d-card" data-category="bakery">
-            <p class="d-card-meta">Morning Plate · Till 14:00</p>
-            <h3>Whipped Ricotta Tartine</h3>
-            <p>48-hour country sourdough finished with roasted figs, pistachio dukkah, and wildflower honey.</p>
-            <p class="d-price">&#8377;360</p>
-          </article>
-          <article class="d-card" data-category="bakery">
-            <p class="d-card-meta">House Pastry · Warm</p>
-            <h3>Cardamom Kouign-Amann</h3>
-            <p>Caramelized laminated croissant dough layered with freshly pounded green Malabar cardamom.</p>
-            <p class="d-price">&#8377;220</p>
-          </article>
-          <article class="d-card" data-category="cold">
-            <p class="d-card-meta">Seasonal · Matcha</p>
-            <h3>Iced Kokum Citrus Fizz</h3>
-            <p>Coastal kokum syrup shaken with fresh Meyer lemon and crisp sparking spring water.</p>
-            <p class="d-price">&#8377;250</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="roastery" class="d-section">
-      <div class="d-wrap d-grid-2">
-        <div class="d-card">
-          <div class="d-card-thumb">
-            <img src="/assets/img/mitti-pour.webp" alt="Precision pour-over extraction on stoneware server" loading="lazy">
-          </div>
-          <p class="d-card-meta">Direct Estate Trade</p>
-          <h3>Micro-lot roasting every Tuesday</h3>
-          <p>We buy directly from high-elevation shade estates across Chikmagalur and Coorg at harvest prices well above fair-trade baselines.</p>
-        </div>
-        <div class="d-card">
-          <div class="d-card-thumb">
-            <img src="/assets/img/mitti-roast.webp" alt="Roasted coffee beans and ceramic cupping bowls" loading="lazy">
-          </div>
-          <p class="d-card-meta">Whole Bean &amp; Ground</p>
-          <h3>Takeaway bags packed within 48 hours</h3>
-          <p>Pick up 250g valve-sealed bags at the bar ground specifically for V60, AeroPress, Moka pot, or home espresso machines.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="reserve" class="d-section">
-      <div class="d-wrap d-grid-2">
-        <div>
-          <p class="d-kicker">Lane 6 · Koregaon Park</p>
-          <h2>Reserve a courtyard table.</h2>
-          <p class="d-lead">Walk-ins are always welcome at the communal counter. Book ahead for weekend brunch tables of 2 to 6 guests.</p>
-        </div>
-        <form class="d-form" data-demo-form data-confirm-message="Table request noted for confirmation (demo mode).">
-          <div class="d-field">
-            <label for="mitti-name">Guest Name</label>
-            <input id="mitti-name" type="text" required placeholder="Ananya Deshmukh">
-          </div>
-          <div class="d-grid-2">
-            <div class="d-field">
-              <label for="mitti-size">Party Size</label>
-              <select id="mitti-size">
-                <option>2 Guests</option>
-                <option>4 Guests</option>
-                <option>6 Guests</option>
-              </select>
-            </div>
-            <div class="d-field">
-              <label for="mitti-slot">Preferred Slot</label>
-              <select id="mitti-slot">
-                <option>09:30 Morning Bar</option>
-                <option>12:30 Courtyard Lunch</option>
-                <option>17:00 Evening Pour-Over</option>
-              </select>
-            </div>
-          </div>
-          <button type="submit" class="d-btn d-btn-primary">Confirm demo reservation</button>
-          <p class="d-status-note" data-demo-status hidden role="status"></p>
-        </form>
-      </div>
-    </section>
-  </main>
-
-  <footer class="d-footer">
-    <div class="d-wrap d-footer-inner">
-      <span>Mitti Café &amp; Roastery · Concept build by AS Studio</span>
-      <span><a href="/demos">Back to gallery</a> · &copy; <span data-year>2025</span></span>
-    </div>
-  </footer>
-  <script src="/demos/demo.js" defer></script>
+<script src="demo.js"></script>
+<script>
+ASDemo.liveStatus({
+  hours: { 0: [9, 20], 1: null, 2: [8, 21], 3: [8, 21], 4: [8, 21], 5: [8, 22], 6: [9, 22] },
+  pill: 'status', text: 'statusText', highlight: 'hoursList'
+});
+ASDemo.menuFilter('.cat', '.menu-row');
+ASDemo.year('year');
+ASDemo.reveal();
+</script>
 </body>
 </html>

@@ -1,134 +1,163 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex, nofollow">
-  <title>Interactive Gallery — AS Studio</title>
-  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
-  <script src="/js/boot.js"></script>
-  <link rel="stylesheet" href="/css/site.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Six concept builds — AS Studio</title>
+<meta name="description" content="Six complete websites built by AS Studio as design demonstrations: café, law chambers, clinic, homeware store, real estate and software.">
+<meta name="theme-color" content="#0c1420">
+<meta name="robots" content="noindex,follow">
+<link rel="stylesheet" href="../css/site.css">
+<style>
+  .hub-hero { padding: 56px 0 8px; }
+  .hub-hero h1 { font-size: clamp(2rem, 5vw, 3rem); letter-spacing: -.03em; line-height: 1.08; }
+  .hub-hero p { margin-top: 14px; font-size: 16px; color: var(--body); max-width: 54ch; line-height: 1.7; }
+  .hub-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px; grid-auto-rows: 1fr;
+    margin: 34px 0 60px;
+  }
+  @media (max-width: 1040px) { .hub-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 640px)  { .hub-grid { grid-template-columns: 1fr; } }
+  .hub-card {
+    display: flex; flex-direction: column; gap: 10px;
+    padding: 24px; border-radius: 12px; background: var(--card);
+    border: 1px solid var(--line); text-decoration: none; color: inherit;
+    transition: border-color .2s, box-shadow .2s, transform .2s;
+  }
+  .hub-card:hover, .hub-card:focus-visible {
+    border-color: #b9c2ce; box-shadow: 0 18px 40px -30px rgba(12,20,32,.45); transform: translateY(-2px);
+  }
+  .hub-swatch { display: flex; gap: 6px; margin-bottom: 4px; }
+  .hub-swatch i { width: 26px; height: 26px; border-radius: 6px; display: block; }
+  .hub-card h2 { font-size: 19px; font-weight: 700; letter-spacing: -.02em; }
+  .hub-card p { font-size: 13.5px; line-height: 1.65; color: var(--body); flex: 1; }
+  .hub-meta { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 6px; border-top: 1px solid var(--line); }
+  .hub-tier { font-size: 10.5px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; color: var(--muted); }
+  .hub-go { font-size: 12.5px; font-weight: 700; color: var(--accent); display: inline-flex; align-items: center; gap: 5px; min-height: 44px; }
+  .foot h2 {
+    font-size: 10.5px; font-weight: 800;
+    letter-spacing: .15em; text-transform: uppercase;
+    color: #4a5768; margin-bottom: 14px;
+  }
+  .foot-col a { display: flex; align-items: center; min-height: 44px; font-size: 13px; color: var(--body); padding: 4px 0; overflow-wrap: anywhere; }
+</style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="/" class="brand"><span>AS<span class="brand-accent">.</span>Studio</span></a>
-      <nav class="site-nav" aria-label="Primary navigation">
-        <a href="/">Home</a>
-        <a href="/packages">Packages</a>
-        <a href="/work">Work</a>
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
-      </nav>
-      <div class="header-actions">
-        <button type="button" class="theme-btn" data-theme-toggle><span data-theme-label>Light</span></button>
-        <a href="/contact" class="btn btn-primary btn-sm header-cta-desktop">Commission build</a>
-        <button type="button" class="nav-toggle" data-nav-toggle aria-expanded="false" aria-controls="mobile-drawer" aria-label="Open menu">Menu</button>
-      </div>
-    </div>
-  </header>
 
-  <div id="mobile-drawer" class="mobile-drawer" hidden role="dialog" aria-modal="true" aria-label="Site navigation">
-    <div class="mobile-drawer-panel">
-      <div class="mobile-drawer-head">
-        <span class="brand">AS<span class="brand-accent">.</span>Studio</span>
-        <button type="button" class="theme-btn" data-nav-close>Close</button>
-      </div>
-      <nav class="mobile-drawer-nav" aria-label="Mobile navigation">
-        <a href="/">Home</a>
-        <a href="/packages">Packages</a>
-        <a href="/work">Work</a>
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
-      </nav>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="../index.html" class="brand" aria-label="AS Studio — home">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M5 20V11a7 7 0 0 1 14 0v9" stroke="#060b1f" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M9 20v-8a3 3 0 0 1 6 0v8z" fill="#b98a50"/>
+      </svg>
+      AS Studio
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="../work.html">Work</a>
+      <a href="../packages.html">Packages</a>
+      <a href="../about.html">About</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-dark btn-sm" href="../contact.html">Start a project</a>
     </div>
   </div>
+</header>
 
-  <main>
-    <section class="section-tight">
-      <div class="container">
-        <p class="kicker">Live Sandbox Index</p>
-        <h1 class="page-title">Six interactive demonstration commissions.</h1>
-        <p class="lead" style="margin-top: 14px;">Inspect typography, responsive spacing, and interactive widgets built for six different business models.</p>
+<main class="wrap">
+  <div class="hub-hero">
+    <h1>Six complete builds</h1>
+    <p>Each one is a full website rather than a screenshot — real pages, real interactions, real mobile behaviour. Open one on your phone and browse it the way a customer would. They are demonstrations of the work, not live businesses.</p>
+  </div>
+
+  <div class="hub-grid">
+
+    <a class="hub-card" href="mitti.html">
+      <span class="hub-swatch" aria-hidden="true">
+        <i style="background:#8c5a3c"></i><i style="background:#c98a5e"></i><i style="background:#faf5ee"></i>
+      </span>
+      <h2>Mitti Café</h2>
+      <p>Café and roastery in Patna. Open or closed read from the visitor's own clock, a filterable menu in rupees, and today highlighted in the hours table.</p>
+      <span class="hub-meta"><span class="hub-tier">Starter · $95</span><span class="hub-go">Open <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+    </a>
+
+    <a class="hub-card" href="rao.html">
+      <span class="hub-swatch" aria-hidden="true">
+        <i style="background:#1b2a3d"></i><i style="background:#8a6a3b"></i><i style="background:#f7f8fa"></i>
+      </span>
+      <h2>Rao &amp; Partners</h2>
+      <p>Boutique legal chambers. Expandable practice areas and a consultation picker that confirms the chosen slot in a live status line.</p>
+      <span class="hub-meta"><span class="hub-tier">Starter · $95</span><span class="hub-go">Open <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+    </a>
+
+    <a class="hub-card" href="vitalcare.html">
+      <span class="hub-swatch" aria-hidden="true">
+        <i style="background:#0a5c53"></i><i style="background:#7fb8ae"></i><i style="background:#f3f8f7"></i>
+      </span>
+      <h2>VitalCare Clinic</h2>
+      <p>Multispecialty clinic. Six departments, a live doctor roster and an appointment form that validates in place and confirms without a reload.</p>
+      <span class="hub-meta"><span class="hub-tier">Growth · $275</span><span class="hub-go">Open <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+    </a>
+
+    <a class="hub-card" href="atelier.html">
+      <span class="hub-swatch" aria-hidden="true">
+        <i style="background:#3c3a35"></i><i style="background:#b08a5e"></i><i style="background:#f4f1ec"></i>
+      </span>
+      <h2>Atelier North</h2>
+      <p>Homeware store. Add to basket, a cart drawer that traps focus and closes on Escape, a rupee subtotal that survives a refresh, and glaze swatches.</p>
+      <span class="hub-meta"><span class="hub-tier">Growth · $275</span><span class="hub-go">Open <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+    </a>
+
+    <a class="hub-card" href="apex.html">
+      <span class="hub-swatch" aria-hidden="true">
+        <i style="background:#101418"></i><i style="background:#a67c2e"></i><i style="background:#f6f6f4"></i>
+      </span>
+      <h2>Apex Residences</h2>
+      <p>Property developer. Floor plans filtered by bedroom count, an EMI calculator that recalculates on drag, and RERA detail handled honestly.</p>
+      <span class="hub-meta"><span class="hub-tier">Signature · $600</span><span class="hub-go">Open <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+    </a>
+
+    <a class="hub-card" href="delta.html">
+      <span class="hub-swatch" aria-hidden="true">
+        <i style="background:#0b0c10"></i><i style="background:#4f46e5"></i><i style="background:#fafafa"></i>
+      </span>
+      <h2>Delta</h2>
+      <p>SaaS product site. Interface mock built in markup, monthly and yearly billing that swaps live, and a documented API with a code sample.</p>
+      <span class="hub-meta"><span class="hub-tier">Signature · $600</span><span class="hub-go">Open <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+    </a>
+
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <p class="foot-brand">AS Studio</p>
+        <p>Hand-built websites with quiet presence. Patna, India — working with clients anywhere.</p>
       </div>
-    </section>
-
-    <section class="section">
-      <div class="container work-grid">
-        <article class="work-card">
-          <a href="/demos/mitti" class="work-thumb"><img src="/assets/img/mitti-hero.webp" alt="Mitti Café specialty bar" loading="lazy"></a>
-          <div class="work-body">
-            <p class="work-line">01 · Café &amp; Roastery · Starter</p>
-            <h2>Mitti Café</h2>
-            <p>Live IST open status, interactive INR coffee &amp; bakery filter, and table booking.</p>
-            <div class="work-actions"><span>/demos/mitti</span><a href="/demos/mitti" class="work-link">Launch &rarr;</a></div>
-          </div>
-        </article>
-
-        <article class="work-card">
-          <a href="/demos/rao" class="work-thumb"><img src="/assets/img/rao-chambers.svg" alt="Rao Chambers" loading="lazy"></a>
-          <div class="work-body">
-            <p class="work-line">02 · Legal Chambers · Starter</p>
-            <h2>Rao &amp; Partners</h2>
-            <p>Practice area accordion, counsel credentials, and consultation slot intake.</p>
-            <div class="work-actions"><span>/demos/rao</span><a href="/demos/rao" class="work-link">Launch &rarr;</a></div>
-          </div>
-        </article>
-
-        <article class="work-card">
-          <a href="/demos/vitalcare" class="work-thumb"><img src="/assets/img/vitalcare.svg" alt="VitalCare Clinic" loading="lazy"></a>
-          <div class="work-body">
-            <p class="work-line">03 · Multispecialty Clinic · Growth</p>
-            <h2>VitalCare Clinic</h2>
-            <p>Department filter, specialist doctor roster, and direct appointment request.</p>
-            <div class="work-actions"><span>/demos/vitalcare</span><a href="/demos/vitalcare" class="work-link">Launch &rarr;</a></div>
-          </div>
-        </article>
-
-        <article class="work-card">
-          <a href="/demos/atelier" class="work-thumb"><img src="/assets/img/atelier.webp" alt="Atelier North homeware" loading="lazy"></a>
-          <div class="work-body">
-            <p class="work-line">04 · Homeware Commerce · Signature</p>
-            <h2>Atelier North</h2>
-            <p>Material-filtered objects catalog paired with a working slide-over cart drawer.</p>
-            <div class="work-actions"><span>/demos/atelier</span><a href="/demos/atelier" class="work-link">Launch &rarr;</a></div>
-          </div>
-        </article>
-
-        <article class="work-card">
-          <a href="/demos/apex" class="work-thumb"><img src="/assets/img/apex.webp" alt="Apex Residences" loading="lazy"></a>
-          <div class="work-body">
-            <p class="work-line">05 · Luxury Property · Signature</p>
-            <h2>Apex Residences</h2>
-            <p>Architectural floor plan specs and live interactive mortgage EMI estimator.</p>
-            <div class="work-actions"><span>/demos/apex</span><a href="/demos/apex" class="work-link">Launch &rarr;</a></div>
-          </div>
-        </article>
-
-        <article class="work-card">
-          <a href="/demos/delta" class="work-thumb"><img src="/assets/img/nova.webp" alt="Delta OS SaaS" loading="lazy"></a>
-          <div class="work-body">
-            <p class="work-line">06 · B2B Telemetry SaaS · Signature</p>
-            <h2>Delta.OS</h2>
-            <p>Monthly/annual billing switch, live pricing cards, and copyable SDK/API docs.</p>
-            <div class="work-actions"><span>/demos/delta</span><a href="/demos/delta" class="work-link">Launch &rarr;</a></div>
-          </div>
-        </article>
+      <div class="foot-col">
+        <h2>Pages</h2>
+        <a href="../index.html">Home</a>
+        <a href="../work.html">Work</a>
+        <a href="../packages.html">Packages</a>
+        <a href="../about.html">About</a>
       </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-bottom">
-        <span>&copy; <span data-year>2025</span> AS Studio</span>
-        <span><a href="/work">Back to Work overview</a></span>
+      <div class="foot-col">
+        <h2>Get in touch</h2>
+        <a href="../contact.html">Start a project</a>
+        <a href="mailto:asbusinessofficial01@gmail.com">asbusinessofficial01@gmail.com</a>
+        <a href="https://t.me/AS_Studio_official01">Telegram</a>
       </div>
     </div>
-  </footer>
-  <script src="/js/site.js" defer></script>
+    <p class="foot-base">© <span id="y">2026</span> AS Studio · All six concepts are fictional businesses.</p>
+  </div>
+</footer>
+
+<script src="../js/boot.js"></script>
+<script>document.getElementById('y').textContent = new Date().getFullYear();</script>
 </body>
 </html>

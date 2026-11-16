@@ -1,139 +1,379 @@
-<!doctype html>
-<html lang="en" data-demo="rao">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex, nofollow">
-  <title>Rao &amp; Partners Counsel — AS Studio Demo</title>
-  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/demos/demo.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rao &amp; Partners — Advocates, Patna High Court</title>
+<meta name="description" content="Boutique litigation and advisory practice in Patna. Property, family, corporate and civil matters. Consultation by appointment.">
+<meta name="theme-color" content="#0f1b2d">
+<meta name="robots" content="noindex,follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="demo.css">
+<style>
+:root {
+  --max: 1080px;
+  --ink: #0f1b2d;
+  --body: #46556b;
+  --muted: #616f83;
+  --line: #dfe4ea;
+  --card: #ffffff;
+  --accent: #7a5c28;
+  --accent-fg: #fff;
+  --bg: #f7f8fa;
+  --nav-bg: rgba(247, 248, 250, .94);
+  --foot-bg: #0f1b2d;
+  --foot-fg: #a8b6c8;
+  --foot-muted: #7b8ca1;
+  --foot-heading: #fff;
+  --display: "Lora", Georgia, serif;
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --logo-size: 20px;
+  --logo-weight: 600;
+  --h1-weight: 500;
+  --h1-max: 3.4rem;
+  --btn-bg: #0f1b2d;
+  --btn-radius: 6px;
+  --card-radius: 8px;
+}
+body { font-family: var(--font); background: var(--bg); color: var(--ink); }
+
+/* a fine rule under the nav reads as "law chambers" */
+.nav { border-bottom: 2px solid var(--ink); }
+.logo { letter-spacing: .02em; }
+.logo span { letter-spacing: .22em; }
+
+h1 { line-height: 1.06; letter-spacing: -.015em; }
+
+.hero { position: relative; }
+.hero::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(180deg, rgba(15, 27, 45, .04), transparent 55%);
+}
+
+.rule {
+  width: 56px; height: 2px; background: var(--accent);
+  margin: 22px 0;
+}
+
+.creds {
+  display: flex; flex-wrap: wrap; gap: 10px 26px;
+  margin-top: 30px; padding-top: 22px; border-top: 1px solid var(--line);
+  list-style: none;
+}
+.creds li {
+  font-size: 12px; font-weight: 600; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--muted);
+  display: flex; align-items: center; gap: 8px;
+}
+.creds li::before {
+  content: ""; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--accent); flex: none;
+}
+
+/* practice areas as an accordion list */
+.practice { border-top: 1px solid var(--line); }
+.practice-item { border-bottom: 1px solid var(--line); }
+.practice-head {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; min-height: 64px; padding: 14px 0; text-align: left;
+  cursor: pointer;
+}
+.practice-head h3 {
+  font-family: var(--display); font-size: clamp(17px, 2.2vw, 20px);
+  font-weight: 600; letter-spacing: -.01em; color: var(--ink);
+}
+.practice-num {
+  font-size: 11px; font-weight: 700; letter-spacing: .12em;
+  color: var(--accent); margin-right: 12px; font-variant-numeric: tabular-nums;
+}
+.practice-icon {
+  flex: none; width: 22px; height: 22px; position: relative;
+}
+.practice-icon::before,
+.practice-icon::after {
+  content: ""; position: absolute; background: var(--ink);
+  transition: transform .25s ease, opacity .25s;
+}
+.practice-icon::before { left: 0; right: 0; top: 50%; height: 1.5px; transform: translateY(-50%); }
+.practice-icon::after { top: 0; bottom: 0; left: 50%; width: 1.5px; transform: translateX(-50%); }
+[aria-expanded="true"] .practice-icon::after { transform: translateX(-50%) rotate(90deg); opacity: 0; }
+.practice-body { padding: 0 0 24px; max-width: 62ch; }
+.practice-body p { font-size: 14px; line-height: 1.8; color: var(--body); }
+.practice-body ul { margin: 12px 0 0 18px; }
+.practice-body li { font-size: 13.5px; line-height: 1.75; color: var(--body); margin-bottom: 5px; }
+
+/* consultation slots */
+.slots { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 10px; margin-top: 20px; }
+.slot {
+  min-height: 52px; padding: 12px 10px; border-radius: 6px;
+  border: 1px solid var(--line); background: var(--card);
+  font-size: 12.5px; font-weight: 600; color: var(--ink);
+  text-align: center; transition: .2s; line-height: 1.35;
+}
+.slot small { display: block; font-size: 10.5px; font-weight: 500; color: #5c6675; margin-top: 3px; }
+.slot[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.slot[aria-pressed="true"] small { color: #d3dce8; }
+.slot:hover:not([aria-pressed="true"]) { border-color: var(--accent); }
+.slot[disabled] { opacity: .42; cursor: not-allowed; text-decoration: line-through; }
+
+.chambers { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 26px; }
+.chambers h3 { font-family: var(--display); font-size: 18px; margin-bottom: 10px; }
+.chambers p { font-size: 13.5px; color: var(--body); line-height: 1.8; }
+.chambers dl { margin-top: 16px; display: grid; gap: 10px; }
+.chambers dt { font-size: 10.5px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; color: var(--muted); }
+.chambers dd { font-size: 13.5px; color: var(--ink); }
+
+.notice {
+  border-left: 3px solid var(--accent);
+  background: rgba(122, 92, 40, .06);
+  padding: 16px 18px; border-radius: 0 6px 6px 0;
+  font-size: 13px; line-height: 1.7; color: var(--body);
+}
+</style>
 </head>
 <body>
-  <div class="demo-strip">
-    <span>AS Studio Concept 02 · Starter Tier ($95)</span>
-    <span><a href="/demos">Gallery</a> · <a href="/contact?package=starter">Book similar build</a></span>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="rao.html" class="logo">Rao &amp; Partners<span>advocates · patna</span></a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#practice">Practice</a>
+      <a href="#consult">Consultation</a>
+      <a href="#chambers">Chambers</a>
+    </nav>
+    <a class="btn btn-main" href="#consult" style="min-height:44px;padding:0 20px;font-size:12.5px">Book a consultation</a>
   </div>
+</header>
 
-  <header class="d-header">
-    <div class="d-wrap d-header-inner">
-      <a href="#top" class="d-brand">Rao &amp; Partners</a>
-      <nav class="d-nav" aria-label="Rao Chambers navigation">
-        <a href="#practice">Practice Areas</a>
-        <a href="#counsel">Counsel</a>
-        <a href="#schedule">Consultation</a>
-      </nav>
-      <a href="#schedule" class="d-btn d-btn-primary">Request briefing</a>
+<main id="main">
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Established 2009 · Patna High Court</span>
+      <h1>Careful counsel<br>for matters that<br>carry weight.</h1>
+      <div class="rule" aria-hidden="true"></div>
+      <p class="lede">We are a four-advocate chambers practising property, family, corporate and civil litigation. We take a small number of matters at a time, so each one gets the attention it needs.</p>
+      <div class="hero-actions">
+        <a class="btn btn-main" href="#consult">Request a consultation</a>
+        <a class="btn btn-line" href="#practice">Practice areas</a>
+      </div>
+      <ul class="creds">
+        <li>Bar Council of Bihar</li>
+        <li>Patna High Court</li>
+        <li>District &amp; Sessions Courts</li>
+      </ul>
     </div>
-  </header>
-
-  <main id="top">
-    <section class="d-hero">
-      <div class="d-wrap d-hero-grid">
-        <div>
-          <p class="d-kicker">Commercial Litigation &amp; Arbitration · Bengaluru &amp; New Delhi</p>
-          <h1 class="d-title">Measured advocacy for complex commercial disputes.</h1>
-          <p class="d-lead">Independent chambers representing technology founders, infrastructure consortiums, and family enterprises across High Court proceedings and domestic arbitration.</p>
-          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-            <a href="#practice" class="d-btn d-btn-primary">Review practice scope</a>
-            <a href="#schedule" class="d-btn d-btn-ghost">Reserve consultation slot</a>
-          </div>
-        </div>
-        <div class="d-hero-media">
-          <img src="/assets/img/rao-chambers.svg" alt="Rao and Partners chambers crest and architectural layout" width="720" height="540">
-        </div>
-      </div>
-    </section>
-
-    <section id="practice" class="d-section">
-      <div class="d-wrap">
-        <div class="d-section-head">
-          <div>
-            <p class="d-kicker">Mandates</p>
-            <h2>Core chambers practice areas.</h2>
-          </div>
-        </div>
-
-        <div class="d-acc-list">
-          <div class="d-acc-item">
-            <button type="button" class="d-acc-trigger" data-acc-trigger aria-expanded="true" aria-controls="rao-p1">
-              <span>01 · Commercial Arbitration &amp; Emergency Interim Relief</span>
-              <span>+</span>
-            </button>
-            <p id="rao-p1" class="d-acc-panel">Representation before three-member arbitral tribunals, SIAC-seated disputes, Section 9 applications for asset preservation, and challenge petitions under Section 34.</p>
-          </div>
-          <div class="d-acc-item">
-            <button type="button" class="d-acc-trigger" data-acc-trigger aria-expanded="false" aria-controls="rao-p2">
-              <span>02 · Shareholder Disputes &amp; Governance Deadlocks</span>
-              <span>+</span>
-            </button>
-            <p id="rao-p2" class="d-acc-panel" hidden>Advisory and NCLT appearances on oppression and mismanagement claims, founder exit restructurings, and enforcement of investor protective covenants.</p>
-          </div>
-          <div class="d-acc-item">
-            <button type="button" class="d-acc-trigger" data-acc-trigger aria-expanded="false" aria-controls="rao-p3">
-              <span>03 · Technology Licensing &amp; IP Enforcement</span>
-              <span>+</span>
-            </button>
-            <p id="rao-p3" class="d-acc-panel" hidden>Urgent injunction actions involving proprietary software, SaaS enterprise SLAs, trade secret misappropriation, and cross-border vendor defaults.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="counsel" class="d-section">
-      <div class="d-wrap d-grid-2">
-        <article class="d-card">
-          <p class="d-card-meta">Managing Partner · Enrolment KAR/1422/2011</p>
-          <h3>Arvind Rao, Advocate</h3>
-          <p>Fourteen years appearing in high-value commercial suits, construction arbitrations, and appellate writ benches across South India.</p>
-        </article>
-        <article class="d-card">
-          <p class="d-card-meta">Partner · Dispute Strategy</p>
-          <h3>Meera Subramanian, Advocate</h3>
-          <p>Leads corporate restructuring, insolvency creditor representation before the NCLT, and cross-border contractual settlement negotiations.</p>
-        </article>
-      </div>
-    </section>
-
-    <section id="schedule" class="d-section">
-      <div class="d-wrap d-grid-2">
-        <div>
-          <p class="d-kicker">Confidential Intake</p>
-          <h2>Schedule an initial 30-minute case conference.</h2>
-          <p class="d-lead">Please provide neutral opposing-party names so chambers can run a conflict check prior to confirmation.</p>
-        </div>
-        <form class="d-form" data-demo-form data-confirm-message="Chambers slot requested for conflict verification (demo mode).">
-          <div class="d-field">
-            <label for="rao-name">Authorized Representative</label>
-            <input id="rao-name" type="text" required placeholder="Vikramaditya Nair">
-          </div>
-          <div class="d-field">
-            <label for="rao-slot">Available Chamber Slot</label>
-            <select id="rao-slot">
-              <option>Tomorrow · 11:00 IST (Video)</option>
-              <option>Thursday · 15:30 IST (Lavelle Road Chambers)</option>
-              <option>Friday · 17:00 IST (Telephone)</option>
-            </select>
-          </div>
-          <div class="d-field">
-            <label for="rao-matter">Dispute Category &amp; Opposite Party (Conflict Check)</label>
-            <textarea id="rao-matter" rows="3" required placeholder="Brief summary without privileged attachments"></textarea>
-          </div>
-          <button type="submit" class="d-btn d-btn-primary">Submit slot request</button>
-          <p class="d-status-note" data-demo-status hidden role="status"></p>
-        </form>
-      </div>
-    </section>
-  </main>
-
-  <footer class="d-footer">
-    <div class="d-wrap d-footer-inner">
-      <span>Rao &amp; Partners · Illustrative legal chambers demo by AS Studio</span>
-      <span><a href="/demos">Back to gallery</a> · &copy; <span data-year>2025</span></span>
+    <div class="chambers" style="background:var(--ink);border-color:var(--ink);color:#e8eef6">
+      <h2 style="font-family:var(--display);font-size:21px;font-weight:600;margin-bottom:9px;color:#fff">Our approach</h2>
+      <p style="color:#a8b6c8">Most matters are won or lost in the preparation, long before anyone enters a courtroom. We tell clients plainly what we think the outcome will be, including when that answer is unwelcome.</p>
+      <dl>
+        <div><dt style="color:#7b8ca1">Matters handled</dt><dd style="color:#fff">410+ since 2009</dd></div>
+        <div><dt style="color:#7b8ca1">Average first response</dt><dd style="color:#fff">Same working day</dd></div>
+        <div><dt style="color:#7b8ca1">Languages</dt><dd style="color:#fff">English · Hindi · Bhojpuri</dd></div>
+      </dl>
     </div>
-  </footer>
-  <script src="/demos/demo.js" defer></script>
+  </div>
+</section>
+
+<section class="sec" id="practice" style="background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Practice areas</h2>
+      <p>Select an area to see the kind of work we take on.</p>
+    </div>
+
+    <div class="practice" id="practiceList">
+
+      <div class="practice-item">
+        <button class="practice-head" type="button" aria-expanded="false" aria-controls="pa1">
+          <h3><span class="practice-num">01</span>Property &amp; land disputes</h3>
+          <span class="practice-icon" aria-hidden="true"></span>
+        </button>
+        <div class="practice-body" id="pa1">
+          <p>Title suits, partition, boundary and encroachment matters, and the specific reliefs that follow from them. We handle both the trial stage and first appeals.</p>
+          <ul>
+            <li>Title and possession suits</li>
+            <li>Partition and family settlement</li>
+            <li>Mutation and revenue records</li>
+            <li>Injunction applications</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="practice-item">
+        <button class="practice-head" type="button" aria-expanded="false" aria-controls="pa2">
+          <h3><span class="practice-num">02</span>Family &amp; matrimonial</h3>
+          <span class="practice-icon" aria-hidden="true"></span>
+        </button>
+        <div class="practice-body" id="pa2">
+          <p>Divorce, maintenance, custody and succession. These matters are personal, and we handle them with the discretion they deserve — including mediation where that is the better route.</p>
+          <ul>
+            <li>Mutual and contested divorce</li>
+            <li>Maintenance and alimony</li>
+            <li>Child custody and guardianship</li>
+            <li>Succession certificates</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="practice-item">
+        <button class="practice-head" type="button" aria-expanded="false" aria-controls="pa3">
+          <h3><span class="practice-num">03</span>Corporate &amp; commercial</h3>
+          <span class="practice-icon" aria-hidden="true"></span>
+        </button>
+        <div class="practice-body" id="pa3">
+          <p>Contract drafting and review, recovery suits, and disputes arising from supply and service agreements. We work with small and mid-sized businesses across Bihar.</p>
+          <ul>
+            <li>Contract drafting and vetting</li>
+            <li>Recovery and summary suits</li>
+            <li>Cheque bounce matters</li>
+            <li>Arbitration</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="practice-item">
+        <button class="practice-head" type="button" aria-expanded="false" aria-controls="pa4">
+          <h3><span class="practice-num">04</span>Civil &amp; writ</h3>
+          <span class="practice-icon" aria-hidden="true"></span>
+        </button>
+        <div class="practice-body" id="pa4">
+          <p>Writ petitions before the High Court, service matters, and civil appeals. We advise on whether a writ is actually the right instrument before filing one.</p>
+          <ul>
+            <li>Writ petitions</li>
+            <li>Service and employment matters</li>
+            <li>Civil appeals and revisions</li>
+            <li>Stay applications</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="consult">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Request a consultation</h2>
+      <p>First consultations run for thirty minutes and cost ₹1,500, credited against fees if you engage us. Choose a slot below and we will confirm by phone.</p>
+    </div>
+
+    <div class="grid-auto" style="align-items:start">
+      <div>
+        <h3 style="font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#4a5566;margin-bottom:6px">This week</h3>
+        <div class="slots" id="slots" role="group" aria-label="Available consultation slots">
+          <button class="slot" type="button" aria-pressed="false" data-slot="Tue 10:30">Tuesday<small>10:30 am</small></button>
+          <button class="slot" type="button" aria-pressed="false" data-slot="Tue 15:00">Tuesday<small>3:00 pm</small></button>
+          <button class="slot" type="button" aria-pressed="false" data-slot="Wed 11:00">Wednesday<small>11:00 am</small></button>
+          <button class="slot" type="button" aria-pressed="false" data-slot="Wed 16:30">Wednesday<small>4:30 pm</small></button>
+          <button class="slot" type="button" disabled data-slot="Thu 10:30">Thursday<small>Fully booked</small></button>
+          <button class="slot" type="button" aria-pressed="false" data-slot="Fri 12:00">Friday<small>12:00 pm</small></button>
+        </div>
+        <p id="slotNote" style="margin-top:16px;font-size:13px;color:var(--muted);min-height:1.6em" role="status"></p>
+      </div>
+
+      <div class="chambers">
+        <h3>What to bring</h3>
+        <p>A short written summary of the matter, any notices or court documents you have received, and a rough timeline of events. If documents are in Hindi, bring them as they are — we will read them.</p>
+        <div class="notice" style="margin-top:16px">
+          Please do not send original documents by post or email. Bring copies to the consultation; originals stay with you.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="chambers" style="background:var(--card);border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head"><h2>Chambers</h2></div>
+    <div class="grid-auto">
+      <div class="chambers">
+        <h3>Address</h3>
+        <p>2nd Floor, Kashi Place<br>Dak Bungalow Road<br>Patna 800001, Bihar</p>
+      </div>
+      <div class="chambers">
+        <h3>Hours</h3>
+        <dl>
+          <div><dt>Monday – Friday</dt><dd>10:00 – 18:00</dd></div>
+          <div><dt>Saturday</dt><dd>10:00 – 14:00</dd></div>
+          <div><dt>Sunday</dt><dd>Closed</dd></div>
+        </dl>
+      </div>
+      <div class="chambers">
+        <h3>Contact</h3>
+        <dl>
+          <div><dt>Telephone</dt><dd><a href="tel:+916122233344" style="text-decoration:underline;display:inline-flex;align-items:center;min-height:44px">+91 612 223 3344</a></dd></div>
+          <div><dt>Email</dt><dd style="overflow-wrap:anywhere"><a href="mailto:chambers@raopartners.example" style="text-decoration:underline;display:inline-flex;align-items:center;min-height:44px;overflow-wrap:anywhere">chambers@raopartners.example</a></dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <p class="foot-brand">Rao &amp; Partners</p>
+        <p>Advocates, Patna. Practising before the Patna High Court and district courts since 2009.</p>
+      </div>
+      <div>
+        <h3>Practice</h3>
+        <a href="#practice">Property &amp; land</a>
+        <a href="#practice">Family</a>
+        <a href="#practice">Corporate</a>
+        <a href="#practice">Civil &amp; writ</a>
+      </div>
+      <div>
+        <h3>Chambers</h3>
+        <a href="tel:+916122233344">+91 612 223 3344</a>
+        <a href="mailto:chambers@raopartners.example">Email chambers</a>
+      </div>
+    </div>
+    <p class="foot-base">
+      © <span id="year"></span> Rao &amp; Partners · A fictional business, built by AS Studio as a design demonstration.
+      Nothing on this page is legal advice, and no advocate–client relationship is created by reading it.
+    </p>
+  </div>
+</footer>
+
+<aside class="demo-badge" aria-label="Demo notice">Concept demo by AS Studio · <a href="../work">see all six</a></aside>
+
+<script src="demo.js"></script>
+<script>
+ASDemo.accordion('.practice-item', '.practice-head');
+ASDemo.year('year');
+ASDemo.reveal();
+
+/* slot picker */
+(function () {
+  var slots = document.querySelectorAll('.slot:not([disabled])');
+  var note = document.getElementById('slotNote');
+
+  Array.prototype.forEach.call(slots, function (slot) {
+    slot.addEventListener('click', function () {
+      var already = slot.getAttribute('aria-pressed') === 'true';
+      Array.prototype.forEach.call(slots, function (s) {
+        s.setAttribute('aria-pressed', 'false');
+      });
+      if (!already) {
+        slot.setAttribute('aria-pressed', 'true');
+        note.textContent = 'Selected: ' + slot.getAttribute('data-slot') +
+          '. Call +91 612 223 3344 to confirm.';
+      } else {
+        note.textContent = '';
+      }
+    });
+  });
+})();
+</script>
 </body>
 </html>
