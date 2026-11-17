@@ -8,8 +8,10 @@
   },
   "scripts": {
     "build": "echo Static site ready",
-    "dev": "vercel dev",
+    "dev": "node tools/dev-server.js",
+    "start": "node tools/dev-server.js",
     "serve": "node tools/dev-server.js",
+    "lint": "node tools/verify.js static",
     "hash": "node tools/hash-password.js",
     "check": "node tools/verify.js",
     "check:demos": "node tools/verify.js demos"

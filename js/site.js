@@ -47,12 +47,55 @@
   }
 
   /* ============================================================
-     Scroll reveal
+     Scroll reveal (IntersectionObserver across all section content)
      ============================================================ */
-  var revealItems = document.querySelectorAll('[data-rv]');
+  var containerClasses = new Set([
+    'packs', 'demos', 'conv', 'steps', 'pillars-grid',
+    'services-grid', 'process-strip', 'faq', 'prose', 'hero-grid'
+  ]);
+
+  /* Never leave data-rv on grid/list wrappers whose children animate individually */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-rv]'), function (el) {
+    var isWrapper = false;
+    containerClasses.forEach(function (cls) {
+      if (el.classList.contains(cls)) isWrapper = true;
+    });
+    if (isWrapper) el.removeAttribute('data-rv');
+  });
+
+  var revealSet = new Set(Array.prototype.slice.call(document.querySelectorAll('[data-rv]')));
+
+  function addRevealTarget(el) {
+    if (!el || el.hidden || el.hasAttribute('data-domain-panel')) return;
+    if (el.closest('[hidden]')) return;
+    if (el.querySelector('.prose, .packs, .demos, .conv, .steps, .faq, [data-rv]')) return;
+    if (!el.hasAttribute('data-rv')) el.setAttribute('data-rv', '');
+    revealSet.add(el);
+  }
+
+  Array.prototype.forEach.call(
+    document.querySelectorAll(
+      'main section .wrap > *, main .pagehead .wrap > *, ' +
+      '.packs > *, .demos > *, .conv > *, .steps > *, ' +
+      '.pillars-grid > *, .services-grid > *, .process-strip > *, ' +
+      '.faq > details, .prose > *, aside'
+    ),
+    function (el) {
+      var isContainer = false;
+      containerClasses.forEach(function (cls) {
+        if (el.classList.contains(cls)) isContainer = true;
+      });
+      if (isContainer) return;
+      addRevealTarget(el);
+    }
+  );
+
+  var revealItems = Array.prototype.slice.call(revealSet).filter(function (el) {
+    return !(el.parentElement && el.parentElement.closest('[data-rv]'));
+  });
 
   if (reduceMotion || !('IntersectionObserver' in window)) {
-    Array.prototype.forEach.call(revealItems, function (el) { el.classList.add('in'); });
+    revealItems.forEach(function (el) { el.classList.add('in'); });
   } else {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
@@ -61,18 +104,17 @@
           io.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
+    }, { threshold: 0.08, rootMargin: '0px 0px -4% 0px' });
 
-    Array.prototype.forEach.call(revealItems, function (el) { io.observe(el); });
+    revealItems.forEach(function (el) { io.observe(el); });
 
-    /* Backstop: if any reveal element is still hidden after 2.5s (observer
-       never fired, e.g. inside a scroll container or a print preview),
+    /* Backstop: if any reveal element is still hidden after 1.6s,
        show it anyway. Content must never stay invisible. */
     setTimeout(function () {
-      Array.prototype.forEach.call(revealItems, function (el) {
+      revealItems.forEach(function (el) {
         if (!el.classList.contains('in')) el.classList.add('in');
       });
-    }, 2500);
+    }, 1600);
   }
 
   /* ============================================================
@@ -82,14 +124,26 @@
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
   /* ============================================================
-     Nav shadow on scroll
+     Nav shadow & scroll progress hairline
      ============================================================ */
   var nav = document.querySelector('.nav');
+  var progressBar = null;
+  if (!reduceMotion && document.body) {
+    progressBar = document.createElement('div');
+    progressBar.className = 'scroll-progress';
+    progressBar.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(progressBar);
+  }
   function onScroll() {
     if (nav) {
       nav.style.boxShadow = window.scrollY > 8
         ? '0 8px 28px -18px rgba(15,23,42,.35)'
         : 'none';
+    }
+    if (progressBar) {
+      var docH = document.documentElement.scrollHeight - window.innerHeight;
+      var ratio = docH > 0 ? Math.min(Math.max(window.scrollY / docH, 0), 1) : 0;
+      progressBar.style.transform = 'scaleX(' + ratio.toFixed(4) + ')';
     }
   }
   window.addEventListener('scroll', onScroll, { passive: true });

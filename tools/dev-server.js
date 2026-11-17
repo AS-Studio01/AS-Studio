@@ -21,7 +21,19 @@ const path = require('path');
 const url = require('url');
 
 const ROOT = path.resolve(__dirname, '..');
-const PORT = parseInt(process.env.PORT, 10) || 3000;
+const DEFAULT_PORT = parseInt(process.env.DEFAULT_APP_PORT, 10) || 3000;
+const RAW_ENV_PORT = parseInt(process.env.PORT, 10);
+const ENV_NGINX_PORT = parseInt(process.env.NGINX_PORT, 10);
+let activePort = (RAW_ENV_PORT && RAW_ENV_PORT !== ENV_NGINX_PORT) ? RAW_ENV_PORT : DEFAULT_PORT;
+
+/* Internal/non-public paths that must never be served over HTTP */
+const BLOCKED_PREFIXES = ['/api/../', '/lib/', '/tools/', '/.aistudio/', '/.git/'];
+const BLOCKED_EXACT = new Set([
+  '/.env', '/.env.example', '/.env.local', '/.gitignore', '/.vercelignore',
+  '/firebase-applet-config.json', '/firebase-blueprint.json', '/firebase.json',
+  '/firestore.rules', '/metadata.json', '/package.json', '/package-lock.json',
+  '/bun.lock', '/vercel.json', '/README.md', '/MIGRATION.md'
+]);
 
 /* Load .env if present (no dependency needed) */
 (function loadEnv() {
@@ -55,6 +67,8 @@ const MIME = {
 
 /* routes that mirror vercel.json */
 const REWRITES = {
+  '/demos': 'demos/index.html',
+  '/demos/': 'demos/index.html',
   '/demos/mitti': 'demos/mitti.html',
   '/demos/rao': 'demos/rao.html',
   '/demos/vitalcare': 'demos/vitalcare.html',
@@ -88,12 +102,17 @@ function readBody(req) {
 
 const server = http.createServer(async function (req, res) {
   const parsed = url.parse(req.url, true);
-  let pathname = decodeURIComponent(parsed.pathname);
+  let pathname = '/';
+  try {
+    pathname = decodeURIComponent(parsed.pathname || '/');
+  } catch (_) {
+    res.writeHead(400); return res.end('Bad request');
+  }
 
   /* ---------- API ---------- */
   if (pathname.startsWith('/api/')) {
     const file = path.join(ROOT, pathname + '.js');
-    if (!fs.existsSync(file)) {
+    if (!file.startsWith(path.join(ROOT, 'api')) || !fs.existsSync(file)) {
       res.writeHead(404, { 'Content-Type': 'application/json' });
       return res.end(JSON.stringify({ error: 'No such endpoint' }));
     }
@@ -128,11 +147,26 @@ const server = http.createServer(async function (req, res) {
     return;
   }
 
+  /* ---------- block non-public files ---------- */
+  if (
+    BLOCKED_EXACT.has(pathname) ||
+    pathname.startsWith('/.') ||
+    BLOCKED_PREFIXES.some(function (p) { return pathname.startsWith(p); })
+  ) {
+    res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+    return res.end('Not found');
+  }
+
   /* ---------- static ---------- */
   if (pathname === '/') pathname = '/index.html';
   if (REWRITES[pathname]) pathname = '/' + REWRITES[pathname];
 
   let file = path.join(ROOT, pathname);
+
+  /* path traversal guard */
+  if (!file.startsWith(ROOT)) {
+    res.writeHead(403); return res.end('Forbidden');
+  }
 
   /* directory index */
   if (fs.existsSync(file) && fs.statSync(file).isDirectory()) {
@@ -140,11 +174,6 @@ const server = http.createServer(async function (req, res) {
   }
   /* extensionless .html */
   if (!fs.existsSync(file) && fs.existsSync(file + '.html')) file += '.html';
-
-  /* path traversal guard */
-  if (!file.startsWith(ROOT)) {
-    res.writeHead(403); return res.end('Forbidden');
-  }
 
   if (!fs.existsSync(file) || !fs.statSync(file).isFile()) {
     const notFound = path.join(ROOT, '404.html');
@@ -161,13 +190,25 @@ const server = http.createServer(async function (req, res) {
   fs.createReadStream(file).pipe(res);
 });
 
-server.listen(PORT, '0.0.0.0', function () {
+function onListening() {
   console.log('\n  AS Studio dev server');
   console.log('  ─────────────────────────────');
-  console.log(`  Site    http://localhost:${PORT}`);
-  console.log(`  Console http://localhost:${PORT}/admin`);
-  console.log(`  API     http://localhost:${PORT}/api/public/config`);
+  console.log(`  Site    http://localhost:${activePort}`);
+  console.log(`  Console http://localhost:${activePort}/admin`);
+  console.log(`  API     http://localhost:${activePort}/api/public/config`);
   console.log('\n  Admin login needs ADMIN_EMAIL / ADMIN_PASSWORD_HASH /');
   console.log('  ADMIN_SESSION_SECRET in .env — generate the hash with:');
   console.log('    node tools/hash-password.js\n');
+}
+
+server.on('error', function (err) {
+  if (err && err.code === 'EADDRINUSE' && activePort !== DEFAULT_PORT) {
+    console.warn(`  [dev] Port ${activePort} in use, switching to ${DEFAULT_PORT}`);
+    activePort = DEFAULT_PORT;
+    server.listen(activePort, '0.0.0.0', onListening);
+  } else {
+    throw err;
+  }
 });
+
+server.listen(activePort, '0.0.0.0', onListening);

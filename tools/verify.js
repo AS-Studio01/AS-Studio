@@ -161,13 +161,20 @@ function staticChecks() {
   check(`${jsFiles.length} JS files parse`, badSyntax.length === 0, badSyntax.join(', '));
 
   group('5. SECRET LEAKS IN PUBLIC FILES');
+  const NON_PUBLIC_ROOT = new Set([
+    'firebase-applet-config.json', 'firebase-blueprint.json', 'firebase.json',
+    'metadata.json', 'package.json', 'package-lock.json', 'vercel.json'
+  ]);
   const publicFiles = [];
   (function walk(dir) {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       if (['node_modules', 'assets', '.git'].includes(entry.name) || entry.name.startsWith('.')) continue;
       const full = path.join(dir, entry.name);
       if (entry.isDirectory()) { if (!['api', 'lib', 'tools'].includes(entry.name)) walk(full); }
-      else if (/\.(html|css|js|json)$/.test(entry.name)) publicFiles.push(full);
+      else if (/\.(html|css|js|json)$/.test(entry.name)) {
+        if (dir === ROOT && NON_PUBLIC_ROOT.has(entry.name)) continue;
+        publicFiles.push(full);
+      }
     }
   })(ROOT);
 
