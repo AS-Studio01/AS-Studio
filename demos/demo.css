@@ -313,3 +313,19 @@ h1 em { font-style: italic; color: var(--accent); }
   }
   .js [data-rv] { opacity: 1; transform: none; }
 }
+
+/* ---------- polish & micro-animations ---------- */
+.btn {
+  transition: transform .18s cubic-bezier(.22, 1, .36, 1), box-shadow .18s cubic-bezier(.22, 1, .36, 1), background-color .18s ease;
+}
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px -10px rgba(0, 0, 0, .22);
+}
+.card, .tile, .menu-item, .service-box, .work-card {
+  transition: transform .24s cubic-bezier(.22, 1, .36, 1), box-shadow .24s cubic-bezier(.22, 1, .36, 1);
+}
+.card:hover, .tile:hover, .menu-item:hover, .service-box:hover, .work-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px -16px rgba(0, 0, 0, .16);
+}
