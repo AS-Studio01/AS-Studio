@@ -248,12 +248,32 @@ window.ASDemo = (function () {
     if (el) el.textContent = String(new Date().getFullYear());
   }
 
+  function toast(msg) {
+    var existing = document.getElementById('demo-toast');
+    if (existing) existing.remove();
+    var el = document.createElement('div');
+    el.id = 'demo-toast';
+    el.textContent = msg;
+    el.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:9999;background:#060b1f;color:#fff;padding:12px 18px;border-radius:12px;font-size:13.5px;font-weight:600;box-shadow:0 16px 36px -12px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.14);';
+    document.body.appendChild(el);
+    setTimeout(function () { if (el.parentNode) el.remove(); }, 3200);
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-demo-toast]');
+    if (btn) {
+      e.preventDefault();
+      toast(btn.getAttribute('data-demo-toast'));
+    }
+  });
+
   return {
     liveStatus: liveStatus,
     menuFilter: menuFilter,
     accordion: accordion,
     cart: cart,
     reveal: reveal,
-    year: year
+    year: year,
+    toast: toast
   };
 })();
