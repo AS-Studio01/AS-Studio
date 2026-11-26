@@ -3,448 +3,81 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Delta — Software for small teams</title>
-<meta name="description" content="Project tracking without the ceremony. Boards, docs and time tracking in one place, priced per team rather than per seat.">
-<meta name="theme-color" content="#0b0c10">
+<title>Delta Studio — Architecture &amp; Interior Objects</title>
+<meta name="description" content="Minimalist residential architecture and bespoke interior objects.">
+<meta name="theme-color" content="#18181b">
 <meta name="robots" content="noindex,follow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap">
 <link rel="stylesheet" href="demo.css">
 <style>
 :root {
   --max: 1160px;
-  --ink: #0b0c10;
-  --body: #4a4f57;
-  --muted: #6b7079;
-  --line: #e3e5e9;
+  --ink: #18181b;
+  --body: #52525b;
+  --muted: #71717a;
+  --line: #e4e4e7;
   --card: #ffffff;
-  --accent: #4f46e5;
+  --accent: #18181b;
   --accent-fg: #fff;
   --bg: #fafafa;
-  --nav-bg: rgba(250, 250, 250, .9);
-  --foot-bg: #0b0c10;
-  --foot-fg: #9aa0a8;
-  --foot-muted: #787e86;
-  --foot-heading: #fff;
-  --display: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --logo-size: 19px;
-  --logo-weight: 700;
-  --h1-weight: 800;
-  --h1-max: 3.9rem;
-  --btn-bg: #0b0c10;
-  --btn-radius: 8px;
-  --card-radius: 12px;
+  --nav-bg: rgba(250, 250, 250, .92);
 }
-body { font-family: var(--font); background: var(--bg); color: var(--ink); }
-
-.mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
-.logo { letter-spacing: -.03em; }
-h1 { letter-spacing: -.035em; line-height: 1.03; }
-h1 em { font-style: normal; color: var(--accent); }
-
-.hero::before {
-  content: "";
-  position: absolute; inset: 0; z-index: -1;
-  background:
-    radial-gradient(ellipse 50% 45% at 82% 16%, rgba(79, 70, 229, .13), transparent 62%),
-    radial-gradient(ellipse 42% 38% at 10% 84%, rgba(14, 165, 233, .10), transparent 64%);
-}
-
-/* app mock */
-.mock {
-  border-radius: 14px; overflow: hidden;
-  border: 1px solid var(--line); background: var(--card);
-  box-shadow: 0 2px 4px rgba(11, 12, 16, .04), 0 40px 80px -40px rgba(11, 12, 16, .3);
-}
-.mock-bar {
-  display: flex; align-items: center; gap: 7px;
-  padding: 11px 14px; border-bottom: 1px solid var(--line);
-  background: #fbfbfc;
-}
-.mock-dot { width: 9px; height: 9px; border-radius: 50%; background: #d6d9de; }
-.mock-title { margin-left: 8px; font-size: 11px; font-weight: 600; color: var(--muted); }
-.mock-body { padding: 16px; display: grid; gap: 10px; }
-
-.ticket {
-  border: 1px solid var(--line); border-radius: 9px; padding: 12px 13px;
-  background: #fff; transition: .2s; cursor: default;
-}
-.ticket:hover { border-color: #c9cdd4; box-shadow: 0 6px 16px -10px rgba(11, 12, 16, .3); }
-.ticket-top { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
-.ticket-id { font-size: 10px; font-weight: 600; color: var(--muted); font-family: "JetBrains Mono", monospace; }
-.ticket-title { font-size: 12.5px; font-weight: 600; line-height: 1.35; letter-spacing: -.005em; }
-.ticket-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 10px; }
-.tagpill {
-  font-size: 9.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
-  padding: 3px 8px; border-radius: 999px;
-}
-.tagpill.todo { background: #eef0f3; color: #5b626b; }
-.tagpill.prog { background: #e8e7fd; color: #4338ca; }
-.tagpill.done { background: #e3f5ec; color: #127a52; }
-.avatar {
-  width: 21px; height: 21px; border-radius: 50%; flex: none;
-  display: grid; place-items: center; font-size: 9px; font-weight: 700; color: #fff;
-}
-
-/* feature grid */
-.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(252px, 1fr)); gap: 16px; grid-auto-rows: 1fr; }
-.feature {
-  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
-  padding: 22px; display: flex; flex-direction: column; transition: .22s;
-}
-.feature:hover { border-color: #c9cdd4; box-shadow: 0 16px 34px -26px rgba(11,12,16,.35); }
-.feature-ic {
-  width: 36px; height: 36px; border-radius: 9px;
-  background: rgba(79, 70, 229, .09); color: var(--accent);
-  display: grid; place-items: center; margin-bottom: 14px;
-}
-.feature h3 { font-size: 14.5px; font-weight: 700; letter-spacing: -.015em; margin-bottom: 6px; }
-.feature p { font-size: 13px; line-height: 1.65; color: var(--body); flex: 1; }
-
-/* pricing */
-.toggle-wrap { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 30px; flex-wrap: wrap; }
-.toggle {
-  display: inline-flex; align-items: center; gap: 10px;
-  background: #eef0f3; border-radius: 999px; padding: 4px;
-}
-.toggle button {
-  min-height: 44px; padding: 0 16px; border-radius: 999px;
-  font-size: 12px; font-weight: 700; color: #5b626b;
-  cursor: pointer; transition: .2s; font-family: var(--font);
-}
-.toggle button[aria-pressed="true"] { background: var(--card); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.1); }
-.save-note { font-size: 11.5px; font-weight: 600; color: #127a52; }
-
-.tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(258px, 1fr)); gap: 16px; grid-auto-rows: 1fr; }
-.tier {
-  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
-  padding: 26px 22px; display: flex; flex-direction: column; position: relative;
-}
-.tier.feat { border-color: var(--ink); border-width: 2px; padding-top: 27px; }
-.tier-badge {
-  position: absolute; top: -12px; left: 22px;
-  background: var(--ink); color: #fff; font-size: 9.5px; font-weight: 800;
-  letter-spacing: .09em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px;
-}
-.tier h3 { font-size: 12px; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; color: var(--muted); }
-.tier-price {
-  font-size: clamp(1.9rem, 3.4vw, 2.4rem); font-weight: 800;
-  letter-spacing: -.04em; line-height: 1; margin-top: 12px;
-}
-.tier-price small { font-size: .34em; font-weight: 600; color: var(--muted); letter-spacing: 0; margin-left: 5px; }
-.tier-desc { font-size: 12.5px; color: var(--body); margin-top: 9px; line-height: 1.6; }
-.tier ul { list-style: none; margin: 18px 0 22px; display: grid; gap: 9px; flex: 1; }
-.tier li { font-size: 12.5px; color: var(--body); display: flex; gap: 9px; line-height: 1.5; }
-.tier li svg { flex: none; margin-top: 2px; color: var(--accent); }
-.tier .btn { width: 100%; }
-
-/* code block */
-.code-card {
-  background: #0b0c10; border-radius: 12px; overflow: hidden;
-  border: 1px solid #22242a;
-}
-.code-head {
-  display: flex; align-items: center; gap: 7px;
-  padding: 11px 15px; border-bottom: 1px solid #1e2027;
-}
-.code-dot { width: 9px; height: 9px; border-radius: 50%; }
-.code-name { margin-left: 8px; font-size: 11px; color: #9aa1aa; font-family: "JetBrains Mono", monospace; }
-.code-body { padding: 18px 16px; overflow-x: auto; }
-.code-body:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.code-body pre { font-family: "JetBrains Mono", monospace; font-size: 12px; line-height: 1.85; color: #c8cdd4; }
-.c-key { color: #a5b4fc; }
-.c-str { color: #86efac; }
-.c-com { color: #8b939e; }
-.c-fn { color: #7dd3fc; }
-.c-num { color: #fcd34d; }
-
-@media (max-width: 900px) {
-  .mock { margin-top: 6px; }
-}
+.dl-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.dl-card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; }
+.dl-card h3 { font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.dl-card p { font-size: 13.5px; color: var(--body); line-height: 1.55; }
+@media (max-width: 900px) { .dl-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
-
+<div class="demo-bar"><span>AS Studio · Live Demo</span><a href="/work">← Back to all demos</a></div>
 <header class="nav">
   <div class="wrap nav-in">
-    <a href="delta.html" class="logo">Delta<span>for small teams</span></a>
-    <nav class="nav-links" aria-label="Main">
-      <a href="#features">Features</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#devs">API</a>
+    <a href="#" class="brand">Delta Studio</a>
+    <nav class="nav-links" aria-label="Delta Studio">
+      <a href="#projects">Projects</a>
+      <a href="#objects">Objects</a>
     </nav>
-    <a class="btn btn-main" href="#pricing" style="min-height:44px;padding:0 18px;font-size:12.5px">Start free</a>
+    <button class="btn btn-accent btn-sm" type="button" data-demo-toast="Your Delta Studio cart is ready.">Bag (<span data-cart-count>0</span>)</button>
   </div>
 </header>
-
-<main id="main">
-
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <span class="eyebrow">Now in open beta</span>
-      <h1>Project tracking<br>without the <em>ceremony.</em></h1>
-      <p class="lede">Boards, docs and time tracking in one place, for teams of three to fifteen. Priced per team rather than per seat, so hiring does not cost you more software money.</p>
-      <div class="hero-actions">
-        <a class="btn btn-main" href="#pricing">Start free — no card</a>
-        <a class="btn btn-line" href="#devs">Read the API docs</a>
-      </div>
-      <p style="font-size:11.5px;color:var(--muted);margin-top:16px">Self-hosted option available. Built by a team of four, funded by customers.</p>
-    </div>
-
-    <div class="mock" role="img" aria-label="Screenshot of a Delta board showing three tickets">
-      <div class="mock-bar">
-        <span class="mock-dot" style="background:#f0a3a3"></span>
-        <span class="mock-dot" style="background:#f2d6a0"></span>
-        <span class="mock-dot" style="background:#a8d8b9"></span>
-        <span class="mock-title">delta / website-rewrite / sprint 14</span>
-      </div>
-      <div class="mock-body">
-        <div class="ticket">
-          <div class="ticket-top">
-            <span class="ticket-id">DEL-241</span>
-            <span class="tagpill prog">In progress</span>
-          </div>
-          <p class="ticket-title">Fix the checkout flow dropping the cart on refresh</p>
-          <div class="ticket-foot">
-            <span style="font-size:10.5px;color:var(--muted)" class="mono">2h 14m</span>
-            <span class="avatar" style="background:#4f46e5">AK</span>
-          </div>
-        </div>
-
-        <div class="ticket">
-          <div class="ticket-top">
-            <span class="ticket-id">DEL-243</span>
-            <span class="tagpill todo">Todo</span>
-          </div>
-          <p class="ticket-title">Add keyboard shortcuts to the board view</p>
-          <div class="ticket-foot">
-            <span style="font-size:10.5px;color:var(--muted)" class="mono">—</span>
-            <span class="avatar" style="background:#0ea5e9">MR</span>
-          </div>
-        </div>
-
-        <div class="ticket">
-          <div class="ticket-top">
-            <span class="ticket-id">DEL-238</span>
-            <span class="tagpill done">Done</span>
-          </div>
-          <p class="ticket-title">Export weekly time log as CSV</p>
-          <div class="ticket-foot">
-            <span style="font-size:10.5px;color:var(--muted)" class="mono">6h 40m</span>
-            <span class="avatar" style="background:#127a52">SP</span>
-          </div>
+<main>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div data-rv>
+        <h1>Quiet spaces &amp; tactile architectural objects.</h1>
+        <p class="lead">Residential architecture, custom timber furniture, and travertine lighting designed in Mumbai.</p>
+        <div class="hero-actions">
+          <a class="btn btn-accent" href="#objects">Shop Objects</a>
+          <button class="btn btn-ghost" type="button" data-demo-toast="Studio consultation request sent!">Book Studio Visit</button>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="features">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>What it does</h2>
-      <p>Four things, done properly, rather than forty things done badly.</p>
-    </div>
-    <div class="features">
-      <div class="feature">
-        <span class="feature-ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="7" height="16" rx="1.6" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="4" width="7" height="10" rx="1.6" stroke="currentColor" stroke-width="1.8"/></svg></span>
-        <h3>Boards that stay honest</h3>
-        <p>Kanban with real WIP limits, so a column cannot quietly become a graveyard of half-finished work.</p>
-      </div>
-      <div class="feature">
-        <span class="feature-ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M5 4h9l5 5v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 12h8M8 16h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
-        <h3>Docs beside the work</h3>
-        <p>Markdown documents that live in the project, not in a separate wiki nobody opens. Link a doc to any ticket.</p>
-      </div>
-      <div class="feature">
-        <span class="feature-ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
-        <h3>Time you can bill</h3>
-        <p>Start a timer from any ticket. Weekly logs export to CSV in the shape your accountant actually wants.</p>
-      </div>
-      <div class="feature">
-        <span class="feature-ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M13.5 6l-3 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <h3>An API with no surprises</h3>
-        <p>REST over JSON, predictable pagination, webhooks for every state change. No GraphQL schema to learn at 11pm.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="pricing" style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
-  <div class="wrap">
-    <div class="sec-head" style="text-align:center">
-      <h2>Priced per team, not per seat</h2>
-      <p style="margin-inline:auto">Hire five more people and your software bill does not move. That is deliberate.</p>
-    </div>
-
-    <div class="toggle-wrap">
-      <div class="toggle" role="group" aria-label="Billing period">
-        <button type="button" data-period="month" aria-pressed="true">Monthly</button>
-        <button type="button" data-period="year" aria-pressed="false">Yearly</button>
-      </div>
-      <span class="save-note" id="saveNote" hidden>Two months free</span>
-    </div>
-
-    <div class="tiers">
-      <div class="tier">
-        <h3>Solo</h3>
-        <p class="tier-price">Free</p>
-        <p class="tier-desc">For one person and their own projects.</p>
-        <ul>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited projects</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Boards and docs</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>One year of history</li>
-        </ul>
-        <a class="btn btn-line" href="#devs">Start free</a>
-      </div>
-
-      <div class="tier feat">
-        <span class="tier-badge">Most teams</span>
-        <h3>Team</h3>
-        <p class="tier-price" data-month="₹2,400" data-year="₹24,000">₹2,400<small>per month</small></p>
-        <p class="tier-desc">Up to fifteen people, everything included.</p>
-        <ul>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited seats (up to 15)</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Time tracking and CSV export</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>API and webhooks</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited history</li>
-        </ul>
-        <a class="btn btn-main" href="#devs">Start 14-day trial</a>
-      </div>
-
-      <div class="tier">
-        <h3>Self-hosted</h3>
-        <p class="tier-price">₹1,20,000<small>one time</small></p>
-        <p class="tier-desc">For teams that cannot send data outside their network.</p>
-        <ul>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Docker Compose or Kubernetes</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited seats, forever</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Source access and migration help</li>
-        </ul>
-        <a class="btn btn-line" href="mailto:sales@delta.example">Talk to us</a>
-      </div>
-    </div>
-
-    <p style="text-align:center;font-size:11.5px;color:var(--muted);margin-top:24px">Prices in INR, exclusive of GST. Cancel any time; your data exports on the way out.</p>
-  </div>
-</section>
-
-<section class="sec" id="devs">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>Built to be scripted against</h2>
-      <p>Every action in the interface is an API call first. If you can click it, you can automate it.</p>
-    </div>
-    <div class="grid-auto" style="align-items:start">
-      <div class="code-card">
-        <div class="code-head">
-          <span class="code-dot" style="background:#f0a3a3"></span>
-          <span class="code-dot" style="background:#f2d6a0"></span>
-          <span class="code-dot" style="background:#a8d8b9"></span>
-          <span class="code-name">create-ticket.sh</span>
+      <div class="dl-card" style="background:#18181b;color:#fafafa;" data-rv>
+        <div>
+          <div style="font-size:12px;color:#a1a1aa;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;">Limited Edition</div>
+          <h3 style="color:#fff;font-size:22px;">Monolith Travertine Lamp</h3>
+          <p style="color:#d4d4d8;">Hand-turned Italian travertine base with warm 2700K dimmable LED.</p>
         </div>
-        <div class="code-body" tabindex="0" role="region" aria-label="API example">
-<pre><span class="c-com"># Create a ticket from a script</span>
-<span class="c-fn">curl</span> -X POST https://api.delta.example/v1/tickets \
-  -H <span class="c-str">"Authorization: Bearer $DELTA_KEY"</span> \
-  -H <span class="c-str">"Content-Type: application/json"</span> \
-  -d <span class="c-str">'{
-    "project": "website-rewrite",
-    "title": "Checkout drops the cart on refresh",
-    "assignee": "ak",
-    "labels": ["bug", "checkout"],
-    "estimate_minutes": <span class="c-num">90</span>
-  }'</span></pre>
-        </div>
-      </div>
-
-      <div>
-        <div class="card" style="margin-bottom:12px">
-          <h3 style="font-size:14px;font-weight:700;margin-bottom:7px">Webhooks for every change</h3>
-          <p style="font-size:12.5px;line-height:1.7;color:var(--body)">Ticket created, moved, assigned, commented or closed — each fires a signed POST. Retries with exponential backoff for 24 hours.</p>
-        </div>
-        <div class="card" style="margin-bottom:12px">
-          <h3 style="font-size:14px;font-weight:700;margin-bottom:7px">Predictable pagination</h3>
-          <p style="font-size:12.5px;line-height:1.7;color:var(--body)">Cursor-based, stable ordering, 100 items per page. Your integration does not break when someone else's data changes mid-scroll.</p>
-        </div>
-        <div class="card">
-          <h3 style="font-size:14px;font-weight:700;margin-bottom:7px">Import from anywhere</h3>
-          <p style="font-size:12.5px;line-height:1.7;color:var(--body)">CSV, Trello, Asana, Linear and GitHub Issues importers. Bring your tickets across in an afternoon, not a weekend.</p>
-        </div>
+        <button class="btn btn-light" type="button" data-cart-add="Monolith Travertine Lamp · ₹14,500">Add to Bag · ₹14,500</button>
       </div>
     </div>
-  </div>
-</section>
-
-<section class="sec" style="background:#0b0c10;color:#fff">
-  <div class="wrap" style="text-align:center;max-width:580px">
-    <h2 style="font-size:clamp(1.7rem,3.6vw,2.5rem);font-weight:800;letter-spacing:-.035em;line-height:1.1;color:#fff">Fourteen days, no card required</h2>
-    <p style="color:#9aa0a8;font-size:14px;margin-top:12px;line-height:1.7">Sign up, invite your team, and see whether it fits. If it does not, export everything and leave.</p>
-    <div class="hero-actions" style="justify-content:center">
-      <a class="btn" href="#pricing" style="background:#fff;color:#0b0c10">Start free</a>
-      <a class="btn" href="#devs" style="border:1px solid rgba(255,255,255,.24);color:#fff">Read the docs</a>
+  </section>
+  <section class="sec" id="objects">
+    <div class="wrap">
+      <div class="sec-head" data-rv><h2>Curated Objects</h2></div>
+      <div class="dl-grid" data-rv>
+        <div class="dl-card"><div><h3>Teak Lounge Chair</h3><p>Reclaimed Burma teak with natural bouclé cushion.</p></div><button class="btn btn-ghost btn-sm" type="button" data-cart-add="Teak Lounge Chair · ₹38,000">Add · ₹38,000</button></div>
+        <div class="dl-card"><div><h3>Brushed Brass Tray</h3><p>Machined solid brass catchall for entryways.</p></div><button class="btn btn-ghost btn-sm" type="button" data-cart-add="Brushed Brass Tray · ₹4,200">Add · ₹4,200</button></div>
+        <div class="dl-card"><div><h3>Stoneware Vase</h3><p>Matte charcoal ceramic, wheel-thrown in Pondicherry.</p></div><button class="btn btn-ghost btn-sm" type="button" data-cart-add="Stoneware Vase · ₹3,600">Add · ₹3,600</button></div>
+      </div>
     </div>
-  </div>
-</section>
-
+  </section>
 </main>
-
 <footer class="foot">
-  <div class="wrap">
-    <div class="foot-grid">
-      <div>
-        <p class="foot-brand">Delta</p>
-        <p>Project tracking for teams of three to fifteen. Built by four people, funded by customers.</p>
-      </div>
-      <div>
-        <h3>Product</h3>
-        <a href="#features">Features</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#devs">API</a>
-      </div>
-      <div>
-        <h3>Company</h3>
-        <a href="mailto:hello@delta.example">hello@delta.example</a>
-        <a href="#pricing">Self-hosted</a>
-      </div>
-    </div>
-    <p class="foot-base">© <span id="year"></span> Delta · A fictional product, built by AS Studio as a design demonstration.</p>
-  </div>
+  <div class="wrap foot-base">Built by <a href="/" style="color:#fff;text-decoration:underline;">AS Studio</a> · <a href="/contact" style="color:#fff;text-decoration:underline;">Start a project</a></div>
 </footer>
-
-<aside class="demo-badge" aria-label="Demo notice">Concept demo by AS Studio · <a href="../work">see all six</a></aside>
-
 <script src="demo.js"></script>
-<script>
-ASDemo.year('year');
-ASDemo.reveal();
-
-/* ---- billing period toggle ---- */
-(function () {
-  var buttons = document.querySelectorAll('[data-period]');
-  var prices = document.querySelectorAll('[data-month]');
-  var saveNote = document.getElementById('saveNote');
-
-  Array.prototype.forEach.call(buttons, function (b) {
-    b.addEventListener('click', function () {
-      var period = b.getAttribute('data-period');
-      Array.prototype.forEach.call(buttons, function (x) { x.setAttribute('aria-pressed', 'false'); });
-      b.setAttribute('aria-pressed', 'true');
-
-      Array.prototype.forEach.call(prices, function (el) {
-        var amount = el.getAttribute(period === 'year' ? 'data-year' : 'data-month');
-        var suffix = period === 'year' ? 'per year' : 'per month';
-        el.innerHTML = amount + '<small>' + suffix + '</small>';
-      });
-
-      if (saveNote) saveNote.hidden = period !== 'year';
-    });
-  });
-})();
-</script>
 </body>
 </html>
