@@ -1004,8 +1004,8 @@ button { font: inherit; color: inherit; }
 /* Only hide-to-reveal when JS is actually running. Without the .js class
    every section renders immediately — never a blank page. */
 .js [data-rv] {
-  opacity: 0;
-  transform: translateY(20px);
+  opacity: 1;
+  transform: none;
   transition: opacity .7s var(--ease), transform .7s var(--ease);
 }
 .js [data-rv].in { opacity: 1; transform: none; }
