@@ -329,3 +329,31 @@ h1 em { font-style: italic; color: var(--accent); }
   transform: translateY(-3px);
   box-shadow: 0 16px 36px -16px rgba(0, 0, 0, .16);
 }
+
+/* ---------- Axinq-style high-contrast tech polish ---------- */
+body {
+  background: #060b1f !important;
+  color: #f8fafc !important;
+}
+.nav {
+  background: rgba(6, 11, 31, .88) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, .08) !important;
+}
+.brand, .nav-links a {
+  color: #f8fafc !important;
+}
+.hero h1, .sec h2, .menu-item h3, .vc-card h3, .at-card h3, .ap-card h3, .rao-card h3, .dl-card h3 {
+  color: #ffffff !important;
+}
+.hero .lead, .sec .lead, .menu-item p, .vc-card p, .at-card p, .ap-card p, .rao-card p, .dl-card p, .review-card p {
+  color: #cbd5e1 !important;
+}
+.menu-item, .vc-card, .at-card, .ap-card, .rao-card, .dl-card, .review-card {
+  background: rgba(255, 255, 255, .04) !important;
+  border: 1px solid rgba(255, 255, 255, .1) !important;
+}
+.btn-ghost {
+  background: rgba(255, 255, 255, .06) !important;
+  color: #f8fafc !important;
+  border-color: rgba(255, 255, 255, .16) !important;
+}
