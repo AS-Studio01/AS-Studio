@@ -250,6 +250,18 @@
       "destination": "/demos/mitti.html"
     },
     {
+      "source": "/demos/mitti-menu",
+      "destination": "/demos/mitti-menu.html"
+    },
+    {
+      "source": "/demos/mitti-reserve",
+      "destination": "/demos/mitti-reserve.html"
+    },
+    {
+      "source": "/demos/atelier",
+      "destination": "/demos/atelier.html"
+    },
+    {
       "source": "/demos/rao",
       "destination": "/demos/rao.html"
     },
