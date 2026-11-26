@@ -3,120 +3,445 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>VitalCare Dental &amp; Health — Modern Clinic, Bengaluru</title>
-<meta name="description" content="Calm, transparent dental and preventive healthcare in Indiranagar, Bengaluru. Book appointments online in 30 seconds.">
-<meta name="theme-color" content="#0f4c5c">
+<title>VitalCare Clinic — Multispecialty care in Patna</title>
+<meta name="description" content="Six departments, fifteen doctors, same-day appointments. General medicine, paediatrics, orthopaedics, dermatology, gynaecology and dentistry in Patna.">
+<meta name="theme-color" content="#0a5c53">
 <meta name="robots" content="noindex,follow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="demo.css">
 <style>
 :root {
-  --max: 1160px;
-  --ink: #0f292e;
-  --body: #3e5b61;
-  --muted: #5d7b82;
-  --line: #d9e7ea;
+  --max: 1140px;
+  --ink: #0b2b2c;
+  --body: #3f5c5d;
+  --muted: #5b7273;
+  --line: #d6e5e4;
   --card: #ffffff;
-  --accent: #0f766e;
+  --accent: #0a5c53;
   --accent-fg: #fff;
-  --bg: #f4f9fa;
-  --nav-bg: rgba(244, 249, 250, .92);
+  --bg: #f3f8f7;
+  --nav-bg: rgba(243, 248, 247, .94);
+  --foot-bg: #0b2b2c;
+  --foot-fg: #a8c4c1;
+  --foot-muted: #7d9b99;
+  --foot-heading: #fff;
+  --display: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --logo-size: 19px;
+  --logo-weight: 800;
+  --h1-weight: 800;
+  --h1-max: 3.6rem;
+  --btn-bg: #0a5c53;
+  --btn-radius: 10px;
+  --card-radius: 14px;
 }
-.vc-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 6px 14px; border-radius: 999px;
-  background: rgba(15, 118, 110, .1); color: var(--accent);
-  font-size: 12.5px; font-weight: 700; margin-bottom: 16px;
+body { font-family: var(--font); background: var(--bg); color: var(--ink); }
+
+.nav { border-bottom: 1px solid var(--line); }
+.logo { letter-spacing: -.03em; }
+
+h1 { letter-spacing: -.035em; line-height: 1.04; }
+h1 em { font-style: normal; color: var(--accent); }
+
+.hero::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  background:
+    radial-gradient(ellipse 55% 50% at 82% 18%, rgba(10, 92, 83, .10), transparent 64%),
+    radial-gradient(ellipse 45% 40% at 8% 82%, rgba(20, 150, 130, .09), transparent 66%);
 }
-.vc-panel {
-  background: #0f292e; color: #f0fdfa; border-radius: 22px; padding: 26px;
-  box-shadow: 0 24px 54px -20px rgba(15, 41, 46, .4);
+
+.quick-actions { display: grid; gap: 10px; }
+.quick {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 14px; padding: 16px 18px; min-height: 72px;
+  transition: .2s;
 }
-.vc-kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 16px 0 18px; }
-.vc-kpi { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 14px; padding: 14px; }
-.vc-kpi strong { display: block; font-size: 20px; font-weight: 800; color: #fff; }
-.vc-kpi span { font-size: 12px; color: #99f6e4; }
-.vc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-.vc-card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; }
-.vc-card h3 { font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
-.vc-card p { font-size: 13.5px; color: var(--body); line-height: 1.55; }
-@media (max-width: 900px) { .vc-grid { grid-template-columns: 1fr; } }
+.quick:hover { border-color: var(--accent); transform: translateX(3px); }
+.quick-ic {
+  flex: none; width: 42px; height: 42px; border-radius: 11px;
+  background: rgba(10, 92, 83, .1); color: var(--accent);
+  display: grid; place-items: center;
+}
+.quick-t { font-size: 13.5px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+.quick-s { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+
+/* departments */
+.dept-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; grid-auto-rows: 1fr; }
+.dept {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 22px; display: flex; flex-direction: column; transition: .2s;
+}
+.dept:hover { border-color: var(--accent); box-shadow: 0 14px 30px -20px rgba(11, 43, 44, .3); }
+.dept-ic { width: 38px; height: 38px; border-radius: 10px; background: rgba(10, 92, 83, .09); color: var(--accent); display: grid; place-items: center; margin-bottom: 14px; }
+.dept h3 { font-size: 16px; font-weight: 700; letter-spacing: -.02em; margin-bottom: 6px; }
+.dept p { font-size: 13px; line-height: 1.65; color: var(--body); flex: 1; }
+.dept-meta { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 11.5px; font-weight: 600; color: var(--muted); display: flex; justify-content: space-between; gap: 10px; }
+
+/* doctor roster */
+.roster { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.doc { display: flex; align-items: center; gap: 16px; background: var(--card); padding: 16px 18px; flex-wrap: wrap; }
+.doc-av {
+  flex: none; width: 46px; height: 46px; border-radius: 50%;
+  background: rgba(10, 92, 83, .1); color: var(--accent);
+  display: grid; place-items: center; font-size: 15px; font-weight: 800;
+}
+.doc-i { flex: 1; min-width: 150px; }
+.doc-n { font-size: 14.5px; font-weight: 700; letter-spacing: -.01em; }
+.doc-q { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.doc-tag {
+  font-size: 10.5px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase;
+  padding: 5px 10px; border-radius: 999px;
+  background: rgba(10, 92, 83, .09); color: var(--accent); white-space: nowrap;
+}
+.doc-tag.off { background: #eef0f2; color: #5b6169; }
+
+/* booking */
+.book { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: clamp(20px, 3vw, 30px); }
+.field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.field label { font-size: 12.5px; font-weight: 600; color: var(--ink); }
+.field input, .field select {
+  width: 100%; min-height: 46px; padding: 10px 13px;
+  border: 1px solid #c2d6d4; border-radius: 10px; font: inherit; font-size: 14px;
+  background: #fff; color: var(--ink); transition: .15s;
+}
+.field input:focus, .field select:focus {
+  outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(10, 92, 83, .13);
+}
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; }
+.form-grid .full { grid-column: 1 / -1; }
+.form-note { font-size: 12px; color: var(--muted); margin-top: 12px; line-height: 1.6; }
+.form-ok {
+  display: none; margin-top: 14px; padding: 13px 15px; border-radius: 10px;
+  background: rgba(10, 92, 83, .08); border: 1px solid rgba(10, 92, 83, .25);
+  color: #064e46; font-size: 13px; font-weight: 600; line-height: 1.6;
+}
+.form-ok.show { display: block; }
+
+.stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 14px; margin-top: 26px; }
+.stat { text-align: center; }
+.stat-n { font-size: clamp(1.6rem, 3vw, 2.1rem); font-weight: 800; letter-spacing: -.03em; color: var(--accent); }
+.stat-l { font-size: 11px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); margin-top: 3px; }
+
+@media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
-<div class="demo-bar"><span>AS Studio · Live Demo</span><a href="/work">← Back to all demos</a></div>
+<a class="skip" href="#main">Skip to content</a>
+
 <header class="nav">
   <div class="wrap nav-in">
-    <a href="#" class="brand">VitalCare Clinic</a>
-    <nav class="nav-links" aria-label="VitalCare">
-      <a href="#treatments">Treatments</a>
+    <a href="vitalcare.html" class="logo">VitalCare<span>clinic · patna</span></a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#departments">Departments</a>
       <a href="#doctors">Doctors</a>
-      <a href="#book">Book Visit</a>
+      <a href="#book">Book</a>
     </nav>
-    <a class="btn btn-accent btn-sm" href="#book">Book Appointment</a>
+    <a class="btn btn-main" href="tel:+916122200011" style="min-height:44px;padding:0 18px;font-size:12.5px">Call: +91 612 220 0011</a>
   </div>
 </header>
-<main>
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div data-rv>
-        <div class="vc-badge">✓ Same-Day Slots · Indiranagar, Bengaluru</div>
-        <h1>Calm, transparent dental &amp; preventive care.</h1>
-        <p class="lead">No surprise bills, no rushed waiting rooms. Digital X-rays, gentle cleanings, and clear treatment plans before we begin.</p>
-        <div class="hero-actions">
-          <a class="btn btn-accent" href="#treatments">View Treatments &amp; Fees</a>
-          <button class="btn btn-ghost" type="button" data-demo-toast="Appointment slot held for Tomorrow at 11:00 AM with Dr. Meera Nair!">Hold 11:00 AM Slot</button>
+
+<main id="main">
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow" style="display:inline-flex;align-items:center;gap:8px">
+        <span style="width:7px;height:7px;border-radius:50%;background:#2e8b57;box-shadow:0 0 0 3px rgba(46,139,87,.18)"></span>
+        Open today · walk-ins welcome until 7pm
+      </span>
+      <h1>Care that fits<br>around <em>your day.</em></h1>
+      <p class="lede">Six departments under one roof in Patna. Most appointments are available the same day, and no referral is needed to see a specialist.</p>
+      <div class="hero-actions">
+        <a class="btn btn-main" href="#book">Book an appointment</a>
+        <a class="btn btn-line" href="#doctors">See our doctors</a>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><div class="stat-n" data-count="15">0</div><div class="stat-l">Doctors</div></div>
+        <div class="stat"><div class="stat-n" data-count="6">0</div><div class="stat-l">Departments</div></div>
+        <div class="stat"><div class="stat-n" data-count="18">0</div><div class="stat-l">Years open</div></div>
+      </div>
+    </div>
+
+    <div class="quick-actions">
+      <a class="quick" href="#book">
+        <span class="quick-ic" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M8 3v4M16 3v4M3 10h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </span>
+        <span><span class="quick-t">Book an appointment</span><span class="quick-s">Same-day slots usually available</span></span>
+      </a>
+      <a class="quick" href="tel:+916122200011">
+        <span class="quick-ic" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 3h3l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        </span>
+        <span><span class="quick-t">Speak to reception</span><span class="quick-s">+91 612 220 0011 · 8am–8pm</span></span>
+      </a>
+      <a class="quick" href="#departments">
+        <span class="quick-ic" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        </span>
+        <span><span class="quick-t">Find a department</span><span class="quick-s">Six specialities, one building</span></span>
+      </a>
+      <a class="quick" href="#doctors">
+        <span class="quick-ic" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.6" stroke="currentColor" stroke-width="1.8"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </span>
+        <span><span class="quick-t">Today's duty roster</span><span class="quick-s">See who is consulting now</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="departments">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Departments</h2>
+      <p>Consultation fees are shown per visit. Follow-up within seven days is ₹200 regardless of department.</p>
+    </div>
+    <div class="dept-grid">
+      <div class="dept">
+        <span class="dept-ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
+        <h3>General medicine</h3>
+        <p>Fevers, infections, diabetes and blood pressure management, and the everyday complaints that need a doctor rather than a search engine.</p>
+        <div class="dept-meta"><span>4 doctors</span><span>₹400</span></div>
+      </div>
+      <div class="dept">
+        <span class="dept-ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="9" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M6 21a6 6 0 0 1 12 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <h3>Paediatrics</h3>
+        <p>Newborn checks, growth monitoring and childhood immunisation. We keep the paediatric waiting area separate and quieter.</p>
+        <div class="dept-meta"><span>3 doctors</span><span>₹500</span></div>
+      </div>
+      <div class="dept">
+        <span class="dept-ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M7 3v6a3 3 0 0 0 3 3h4a3 3 0 0 1 3 3v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="7" cy="19" r="2" stroke="currentColor" stroke-width="1.8"/><circle cx="17" cy="5" r="2" stroke="currentColor" stroke-width="1.8"/></svg></span>
+        <h3>Orthopaedics</h3>
+        <p>Fractures, joint pain, sports injuries and physiotherapy referrals. Digital X-ray on site.</p>
+        <div class="dept-meta"><span>2 doctors</span><span>₹600</span></div>
+      </div>
+      <div class="dept">
+        <span class="dept-ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" stroke="currentColor" stroke-width="1.8"/><path d="M9 10h.01M15 10h.01M9 15c1.5-1.2 4.5-1.2 6 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <h3>Dermatology</h3>
+        <p>Acne, eczema, hair loss and pigmentation. We tell you honestly when a treatment is cosmetic and not medical.</p>
+        <div class="dept-meta"><span>2 doctors</span><span>₹550</span></div>
+      </div>
+      <div class="dept">
+        <span class="dept-ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="11" r="6" stroke="currentColor" stroke-width="1.8"/><path d="M12 17v4M9 21h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <h3>Gynaecology</h3>
+        <p>Antenatal care, menstrual health and fertility consultations. Female doctors available on request.</p>
+        <div class="dept-meta"><span>2 doctors</span><span>₹550</span></div>
+      </div>
+      <div class="dept">
+        <span class="dept-ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M8 3c0 4 3 4 3 8s-3 4-3 8M16 3c0 4-3 4-3 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <h3>Dentistry</h3>
+        <p>Cleaning, fillings, extractions and root canal. Emergency dental appointments held open each afternoon.</p>
+        <div class="dept-meta"><span>2 doctors</span><span>₹350</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="doctors" style="background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Today's roster</h2>
+      <p>Updated each morning at 8am. Times may shift if a doctor is called to an emergency.</p>
+    </div>
+    <div class="roster">
+      <div class="doc"><span class="doc-av" aria-hidden="true">SA</span><span class="doc-i"><span class="doc-n">Dr. Shabnam Akhtar</span><span class="doc-q">MBBS, MD · General medicine</span></span><span class="doc-tag">Available now</span></div>
+      <div class="doc"><span class="doc-av" aria-hidden="true">RV</span><span class="doc-i"><span class="doc-n">Dr. Rakesh Verma</span><span class="doc-q">MBBS, MS · Orthopaedics</span></span><span class="doc-tag">Available now</span></div>
+      <div class="doc"><span class="doc-av" aria-hidden="true">PK</span><span class="doc-i"><span class="doc-n">Dr. Priya Kumari</span><span class="doc-q">MBBS, DCH · Paediatrics</span></span><span class="doc-tag">Available now</span></div>
+      <div class="doc"><span class="doc-av" aria-hidden="true">MS</span><span class="doc-i"><span class="doc-n">Dr. Manoj Sinha</span><span class="doc-q">MBBS, MD · Dermatology</span></span><span class="doc-tag off">After 4pm</span></div>
+      <div class="doc"><span class="doc-av" aria-hidden="true">NK</span><span class="doc-i"><span class="doc-n">Dr. Nusrat Khan</span><span class="doc-q">MBBS, MS · Gynaecology</span></span><span class="doc-tag">Available now</span></div>
+      <div class="doc"><span class="doc-av" aria-hidden="true">AT</span><span class="doc-i"><span class="doc-n">Dr. Anil Thakur</span><span class="doc-q">BDS, MDS · Dentistry</span></span><span class="doc-tag off">After 5pm</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="book">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Book an appointment</h2>
+      <p>We will confirm by phone within one hour during clinic hours. No payment is taken online.</p>
+    </div>
+    <div class="grid-auto" style="align-items:start">
+      <form class="book" id="bookForm" novalidate>
+        <div class="form-grid">
+          <div class="field full">
+            <label for="bkName">Patient name</label>
+            <input type="text" id="bkName" name="name" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="bkPhone">Phone number</label>
+            <input type="tel" id="bkPhone" name="phone" required autocomplete="tel" inputmode="tel">
+          </div>
+          <div class="field">
+            <label for="bkDept">Department</label>
+            <select id="bkDept" name="dept" required>
+              <option value="">Choose…</option>
+              <option>General medicine</option>
+              <option>Paediatrics</option>
+              <option>Orthopaedics</option>
+              <option>Dermatology</option>
+              <option>Gynaecology</option>
+              <option>Dentistry</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="bkDate">Preferred date</label>
+            <input type="date" id="bkDate" name="date" required>
+          </div>
+          <div class="field">
+            <label for="bkTime">Preferred time</label>
+            <select id="bkTime" name="time">
+              <option>Morning (8am – 12pm)</option>
+              <option>Afternoon (12pm – 4pm)</option>
+              <option>Evening (4pm – 8pm)</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="bkNote">Anything we should know? (optional)</label>
+            <input type="text" id="bkNote" name="note" maxlength="200">
+          </div>
+        </div>
+        <button class="btn btn-main" type="submit" style="width:100%">Request appointment</button>
+        <p class="form-ok" id="bookOk" role="status"></p>
+        <p class="form-note">This is a demonstration form. In a real clinic build it would send to the reception desk and trigger an SMS confirmation.</p>
+      </form>
+
+      <div>
+        <div class="card" style="margin-bottom:14px">
+          <h3 style="font-size:15px;font-weight:700;margin-bottom:8px">Emergency</h3>
+          <p style="font-size:13px;color:var(--body);line-height:1.7">For chest pain, severe bleeding, breathing difficulty or loss of consciousness, call <strong>108</strong> or go directly to the nearest emergency department. Do not wait for an appointment.</p>
+        </div>
+        <div class="card" style="margin-bottom:14px">
+          <h3 style="font-size:15px;font-weight:700;margin-bottom:8px">Insurance</h3>
+          <p style="font-size:13px;color:var(--body);line-height:1.7">We accept cashless treatment through Star Health, HDFC Ergo and New India Assurance. Bring your policy card and a photo ID.</p>
+        </div>
+        <div class="card">
+          <h3 style="font-size:15px;font-weight:700;margin-bottom:8px">Getting here</h3>
+          <p style="font-size:13px;color:var(--body);line-height:1.7">Plot 8, Bailey Road, near Patna Women's College, Patna 800001. Paid parking for twelve cars; the lift is on the north side.</p>
         </div>
       </div>
-      <div class="vc-panel" data-rv>
-        <div style="display:flex;justify-content:space-between;font-size:13px;color:#99f6e4;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:12px;">
-          <span>VitalCare · Today's Availability</span><span>Open</span>
-        </div>
-        <div class="vc-kpis">
-          <div class="vc-kpi"><strong>4 Slots</strong><span>Available today</span></div>
-          <div class="vc-kpi"><strong>₹600</strong><span>Consultation fee</span></div>
-          <div class="vc-kpi"><strong>4.9 ★</strong><span>480+ Patient reviews</span></div>
-          <div class="vc-kpi"><strong>15 min</strong><span>Zero-wait guarantee</span></div>
-        </div>
-        <button class="btn btn-accent" style="width:100%;" type="button" data-demo-toast="Booking request sent! Reception will confirm via WhatsApp in 5 mins.">Book Instant Consultation</button>
-      </div>
     </div>
-  </section>
-  <section class="sec" id="treatments">
-    <div class="wrap">
-      <div class="sec-head" data-rv><h2>Treatments &amp; Transparent Pricing</h2><p class="lead">Every fee is shared upfront before any procedure.</p></div>
-      <div class="vc-grid" data-rv>
-        <div class="vc-card"><div><h3>Routine Checkup &amp; Cleaning</h3><p>Ultrasonic scaling, polishing, and digital cavity screening in 30 minutes.</p></div><button class="btn btn-ghost btn-sm" type="button" data-demo-toast="Selected: Routine Checkup & Cleaning (₹1,200)">Book · ₹1,200</button></div>
-        <div class="vc-card"><div><h3>Clear Aligners</h3><p>3D-scanned custom aligners with monthly progress check-ins.</p></div><button class="btn btn-ghost btn-sm" type="button" data-demo-toast="Selected: Clear Aligner 3D Scan Consultation">Free 3D Scan</button></div>
-        <div class="vc-card"><div><h3>Pediatric Gentle Care</h3><p>Calm, kid-friendly checkups, sealants, and preventive fluoride care.</p></div><button class="btn btn-ghost btn-sm" type="button" data-demo-toast="Selected: Pediatric Gentle Care (₹800)">Book · ₹800</button></div>
-      </div>
-    </div>
-  </section>
-  <section class="sec" id="doctors">
-    <div class="wrap">
-      <div class="sec-head" data-rv><h2>Meet Your Doctors</h2></div>
-      <div class="vc-grid" data-rv>
-        <div class="vc-card"><div><h3>Dr. Meera Nair, MDS</h3><p>12+ years in restorative &amp; cosmetic dentistry. Former senior resident, Manipal.</p></div></div>
-        <div class="vc-card"><div><h3>Dr. Kabir Verma, BDS</h3><p>Orthodontics &amp; clear aligner specialist focused on painless, minimal-visit care.</p></div></div>
-        <div class="vc-card"><div><h3>Dr. Ananya Rao, MDS</h3><p>Pediatric &amp; preventive dentistry with a calm, anxiety-free approach.</p></div></div>
-      </div>
-    </div>
-  </section>
-  <section class="sec" id="book">
-    <div class="wrap">
-      <div class="vc-panel" data-rv>
-        <h2 style="color:#fff;margin-bottom:8px;">Ready for a calmer clinic visit?</h2>
-        <p style="color:#ccfbf1;margin-bottom:18px;">Open Mon – Sat · 9:00 AM to 8:00 PM · 100 Feet Road, Indiranagar</p>
-        <button class="btn btn-accent" type="button" data-demo-toast="Appointment confirmed! Calendar invite sent.">Confirm Appointment</button>
-      </div>
-    </div>
-  </section>
+  </div>
+</section>
+
 </main>
+
 <footer class="foot">
-  <div class="wrap foot-base">Built by <a href="/" style="color:#fff;text-decoration:underline;">AS Studio</a> · <a href="/contact" style="color:#fff;text-decoration:underline;">Start a project</a></div>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <p class="foot-brand">VitalCare</p>
+        <p>Multispecialty clinic, Bailey Road, Patna. Consultation 8am–8pm, Monday to Saturday.</p>
+      </div>
+      <div>
+        <h3>Clinic</h3>
+        <a href="#departments">Departments</a>
+        <a href="#doctors">Doctors</a>
+        <a href="#book">Book an appointment</a>
+      </div>
+      <div>
+        <h3>Reach us</h3>
+        <a href="tel:+916122200011">+91 612 220 0011</a>
+        <a href="mailto:care@vitalcare.example">care@vitalcare.example</a>
+      </div>
+    </div>
+    <p class="foot-base">
+      © <span id="year"></span> VitalCare Clinic · A fictional business, built by AS Studio as a design demonstration.
+      Nothing here is medical advice. In an emergency, call 108.
+    </p>
+  </div>
 </footer>
+
+<aside class="demo-badge" aria-label="Demo notice">Concept demo by AS Studio · <a href="../work">see all six</a></aside>
+
 <script src="demo.js"></script>
+<script>
+ASDemo.year('year');
+ASDemo.reveal();
+
+/* animated stat counters */
+(function () {
+  var stats = document.querySelectorAll('[data-count]');
+  if (!stats.length) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    Array.prototype.forEach.call(stats, function (el) {
+      el.textContent = el.getAttribute('data-count');
+    });
+    return;
+  }
+  var started = false;
+  function run() {
+    if (started) return;
+    started = true;
+    Array.prototype.forEach.call(stats, function (el) {
+      var target = parseInt(el.getAttribute('data-count'), 10);
+      var start = null;
+      function step(ts) {
+        if (!start) start = ts;
+        var p = Math.min((ts - start) / 1100, 1);
+        el.textContent = String(Math.round(target * (1 - Math.pow(1 - p, 3))));
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (e) {
+      if (e[0].isIntersecting) { run(); io.disconnect(); }
+    }, { threshold: .3 });
+    io.observe(stats[0]);
+  } else run();
+})();
+
+/* booking form */
+(function () {
+  var form = document.getElementById('bookForm');
+  var ok = document.getElementById('bookOk');
+  var dateInput = document.getElementById('bkDate');
+  if (dateInput) {
+    var today = new Date().toISOString().split('T')[0];
+    dateInput.min = today;
+    dateInput.value = today;
+  }
+  if (!form) return;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = document.getElementById('bkName');
+    var phone = document.getElementById('bkPhone');
+    var dept = document.getElementById('bkDept');
+    var bad = false;
+    [name, phone, dept].forEach(function (el) {
+      if (!el.value.trim()) {
+        el.style.borderColor = '#c0392b';
+        el.setAttribute('aria-invalid', 'true');
+        bad = true;
+      } else {
+        el.style.borderColor = '';
+        el.removeAttribute('aria-invalid');
+      }
+    });
+    if (bad) {
+      ok.className = 'form-ok show';
+      ok.style.background = 'rgba(192,57,43,.08)';
+      ok.style.borderColor = 'rgba(192,57,43,.3)';
+      ok.style.color = '#8c2a1f';
+      ok.textContent = 'Please fill in the patient name, phone number and department.';
+      return;
+    }
+    ok.className = 'form-ok show';
+    ok.style.background = '';
+    ok.style.borderColor = '';
+    ok.style.color = '';
+    ok.textContent = 'Thank you, ' + name.value.split(' ')[0] +
+      '. Reception will call ' + phone.value + ' within the hour to confirm.';
+    form.reset();
+    if (dateInput) dateInput.value = new Date().toISOString().split('T')[0];
+  });
+})();
+</script>
 </body>
 </html>

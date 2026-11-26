@@ -259,18 +259,7 @@ window.ASDemo = (function () {
     setTimeout(function () { if (el.parentNode) el.remove(); }, 3200);
   }
 
-  var cartCount = 0;
   document.addEventListener('click', function (e) {
-    var addBtn = e.target.closest('[data-cart-add]');
-    if (addBtn) {
-      e.preventDefault();
-      cartCount += 1;
-      document.querySelectorAll('[data-cart-count]').forEach(function (el) {
-        el.textContent = String(cartCount);
-      });
-      toast('Added ' + addBtn.getAttribute('data-cart-add') + ' (' + cartCount + ' in bag)');
-      return;
-    }
     var btn = e.target.closest('[data-demo-toast]');
     if (btn) {
       e.preventDefault();

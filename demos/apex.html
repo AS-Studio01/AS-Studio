@@ -3,92 +3,508 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Apex Cloud — Developer Infrastructure &amp; Observability</title>
-<meta name="description" content="Sub-millisecond edge routing, real-time logs, and zero-config deployments for modern engineering teams.">
-<meta name="theme-color" content="#090d16">
+<title>Apex Residences — Apartments on Bailey Road, Patna</title>
+<meta name="description" content="Two and three bedroom apartments in Patna. Floor plans, pricing and an EMI calculator. Site visits daily from 10am to 6pm.">
+<meta name="theme-color" content="#101418">
 <meta name="robots" content="noindex,follow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="demo.css">
 <style>
 :root {
-  --max: 1160px;
-  --ink: #0f172a;
-  --body: #475569;
-  --muted: #64748b;
-  --line: #e2e8f0;
+  --max: 1180px;
+  --ink: #101418;
+  --body: #4e565e;
+  --muted: #666e76;
+  --line: #e0e3e7;
   --card: #ffffff;
-  --accent: #2563eb;
+  --accent: #a67c2e;
   --accent-fg: #fff;
-  --bg: #f8fafc;
-  --nav-bg: rgba(248, 250, 252, .92);
+  --bg: #f6f6f4;
+  --nav-bg: rgba(246, 246, 244, .94);
+  --foot-bg: #101418;
+  --foot-fg: #a9b1b9;
+  --foot-muted: #79828b;
+  --foot-heading: #fff;
+  --display: "Fraunces", Georgia, serif;
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --logo-size: 20px;
+  --logo-weight: 600;
+  --h1-weight: 600;
+  --h1-max: 4.1rem;
+  --btn-bg: #101418;
+  --btn-radius: 3px;
+  --card-radius: 6px;
 }
-.ap-console { background: #090d16; color: #f8fafc; border-radius: 22px; padding: 26px; border: 1px solid rgba(255,255,255,.1); }
-.ap-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-.ap-card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
-.ap-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; color: var(--ink); }
-.ap-card p { font-size: 13.5px; color: var(--body); line-height: 1.55; }
-@media (max-width: 900px) { .ap-grid { grid-template-columns: 1fr; } }
+body { font-family: var(--font); background: var(--bg); color: var(--ink); }
+
+.logo { letter-spacing: .06em; text-transform: uppercase; }
+.logo span { letter-spacing: .2em; color: #5c646d; }
+h1 { letter-spacing: -.025em; line-height: 1.02; font-optical-sizing: auto; }
+h1 em { font-style: normal; color: var(--accent); }
+
+/* hero has a dark band for contrast with the pale body */
+.hero { background: #101418; color: #f2f4f6; padding-bottom: clamp(50px, 7vw, 90px); }
+.hero .lede { color: #a9b1b9; }
+.hero .eyebrow { color: #d8b877; }
+.hero h1 { color: #fff; }
+.hero h1 em { color: #d8b877; }
+.hero .btn-line { background: transparent; border-color: rgba(255,255,255,.26); color: #fff; }
+.hero .btn-line:hover { border-color: #d8b877; color: #d8b877; }
+.hero .btn-main { background: #d8b877; color: #101418; }
+.hero .btn-main:hover { background: #e8cc93; color: #101418; }
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px 20px;
+  margin-top: 34px; padding-top: 26px; border-top: 1px solid rgba(255,255,255,.14);
+}
+@media (max-width: 520px) {
+  .hero-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.hero-stat { min-width: 0; }
+.hero-stat b { display: block; font-family: var(--display); font-size: 25px; font-weight: 600; color: #d8b877; letter-spacing: -.01em; }
+.hero-stat span { font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #8b949e; line-height: 1.45; display: block; margin-top: 3px; }
+
+/* building illustration */
+.building { border-radius: 6px; overflow: hidden; background: #1a1f24; border: 1px solid rgba(255,255,255,.1); }
+.building svg { width: 100%; height: auto; display: block; }
+
+/* filters */
+.filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+.filt {
+  min-height: 44px; padding: 0 16px; border-radius: 3px;
+  border: 1px solid var(--line); background: var(--card);
+  font-size: 11.5px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--body); cursor: pointer; transition: .2s; font-family: var(--font);
+}
+.filt[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.filt:hover:not([aria-pressed="true"]) { border-color: var(--accent); color: var(--accent); }
+
+/* plan cards */
+.plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(268px, 1fr)); gap: 18px; grid-auto-rows: 1fr; }
+.plan {
+  background: var(--card); border: 1px solid var(--line); border-radius: 6px;
+  display: flex; flex-direction: column; overflow: hidden; transition: .25s;
+}
+.plan:hover { border-color: var(--accent); box-shadow: 0 20px 44px -30px rgba(16,20,24,.35); }
+.plan-plan { background: #f0f1f2; padding: 22px; aspect-ratio: 4/3; display: grid; place-items: center; }
+.plan-plan svg { width: 100%; height: auto; }
+.plan-body { padding: 20px; display: flex; flex-direction: column; flex: 1; }
+.plan h3 { font-family: var(--display); font-size: 21px; font-weight: 600; letter-spacing: -.01em; margin-bottom: 4px; }
+.plan-area { font-size: 12px; color: #5c646d; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
+.plan-price { margin: 14px 0 0; font-family: var(--display); font-size: 24px; font-weight: 600; letter-spacing: -.01em; }
+.plan-price small { font-family: var(--font); font-size: 11.5px; font-weight: 500; color: #5c646d; display: block; margin-top: 2px; letter-spacing: 0; text-transform: none; }
+.plan ul { list-style: none; margin: 16px 0 20px; display: grid; gap: 7px; flex: 1; }
+.plan li { font-size: 12.5px; color: var(--body); display: flex; gap: 9px; line-height: 1.5; }
+.plan li::before { content: ""; flex: none; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); margin-top: 7px; }
+.plan .btn { width: 100%; }
+.plan[hidden] { display: none; }
+
+/* EMI calculator */
+.calc { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: clamp(20px, 3vw, 30px); }
+.calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 22px; }
+.cfield { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.cfield label { font-size: 12px; font-weight: 600; color: var(--ink); display: flex; justify-content: space-between; gap: 10px; }
+.cfield label output { font-weight: 700; color: #7d5b1c; font-variant-numeric: tabular-nums; }
+.cfield input[type="range"] { width: 100%; height: 44px; accent-color: var(--accent); cursor: pointer; }
+.cfield input[type="number"] {
+  width: 100%; min-height: 44px; padding: 9px 12px;
+  border: 1px solid #c9cfd6; border-radius: 4px; font: inherit; font-size: 14px; background: #fff;
+}
+.cfield input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(166,124,46,.15); }
+.emi-out {
+  margin-top: 6px; padding: 22px; border-radius: 4px;
+  background: #101418; color: #fff;
+}
+.emi-out .lbl { font-size: 10.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #79828b; }
+.emi-out .val { font-family: var(--display); font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 600; letter-spacing: -.02em; color: #d8b877; margin-top: 5px; line-height: 1.1; }
+.emi-out .note { font-size: 11.5px; color: #79828b; margin-top: 10px; line-height: 1.6; }
+
+.amenities { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; }
+.amenity { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 18px; }
+.amenity-ic { color: var(--accent); margin-bottom: 10px; }
+.amenity h3 { font-size: 13.5px; font-weight: 700; margin-bottom: 4px; }
+.amenity p { font-size: 11.5px; color: var(--muted); line-height: 1.55; }
+
+@media (max-width: 700px) { .calc-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
-<div class="demo-bar"><span>AS Studio · Live Demo</span><a href="/work">← Back to all demos</a></div>
+<a class="skip" href="#main">Skip to content</a>
+
 <header class="nav">
   <div class="wrap nav-in">
-    <a href="#" class="brand">Apex Cloud</a>
-    <nav class="nav-links" aria-label="Apex Cloud">
-      <a href="#platform">Platform</a>
-      <a href="#pricing">Pricing</a>
+    <a href="apex.html" class="logo">Apex<span>residences</span></a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#plans">Residences</a>
+      <a href="#emi">EMI calculator</a>
+      <a href="#amenities">Amenities</a>
     </nav>
-    <button class="btn btn-accent btn-sm" type="button" data-demo-toast="Sandbox workspace provisioned! Check your email for API keys.">Start Free</button>
+    <a class="btn btn-main" href="#visit" style="min-height:44px;padding:0 18px;font-size:12.5px">Book a site visit</a>
   </div>
 </header>
-<main>
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div data-rv>
-        <h1>Deploy globally in 12 seconds. Zero DevOps.</h1>
-        <p class="lead">Edge compute, instant rollbacks, and real-time OpenTelemetry logs built for fast-moving product teams.</p>
-        <div class="hero-actions">
-          <button class="btn btn-accent" type="button" data-demo-toast="Sandbox workspace provisioned!">Deploy Now</button>
-          <a class="btn btn-ghost" href="#platform">Explore Architecture</a>
+
+<main id="main">
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Bailey Road · possession March 2027</span>
+      <h1>Thirty-one homes.<br><em>Not thirty-one copies.</em></h1>
+      <p class="lede">Two and three bedroom apartments on a quiet stretch of Bailey Road. Corner units get three-sided light; every home gets a utility balcony and covered parking.</p>
+      <div class="hero-actions">
+        <a class="btn btn-main" href="#plans">See the floor plans</a>
+        <a class="btn btn-line" href="#visit">Book a site visit</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><b>31</b><span>Homes</span></div>
+        <div class="hero-stat"><b>2.4</b><span>Acres site</span></div>
+        <div class="hero-stat"><b>RERA</b><span>Registered</span></div>
+        <div class="hero-stat"><b>24</b><span>Months to possession</span></div>
+      </div>
+    </div>
+    <div class="building">
+      <svg viewBox="0 0 400 320" role="img" aria-label="Illustration of the Apex Residences building at dusk">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a2530"/><stop offset="60%" stop-color="#243342"/><stop offset="100%" stop-color="#2d3f51"/>
+          </linearGradient>
+          <linearGradient id="tower" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#3a4b5c"/><stop offset="55%" stop-color="#4a6072"/><stop offset="100%" stop-color="#33434f"/>
+          </linearGradient>
+        </defs>
+        <rect width="400" height="320" fill="url(#sky)"/>
+        <circle cx="316" cy="66" r="26" fill="#e8cc93" opacity=".16"/>
+        <circle cx="316" cy="66" r="15" fill="#e8cc93" opacity=".3"/>
+        <path d="M0 268h400v52H0z" fill="#141a20"/>
+        <rect x="96"  y="96"  width="76" height="176" fill="#2b3947"/>
+        <rect x="176" y="52"  width="104" height="220" fill="url(#tower)"/>
+        <rect x="284" y="118" width="72" height="154" fill="#2b3947"/>
+        <g fill="#d8b877" opacity=".82">
+          <rect x="190" y="70"  width="12" height="9"/><rect x="212" y="70"  width="12" height="9"/><rect x="234" y="70"  width="12" height="9"/><rect x="256" y="70"  width="12" height="9"/>
+          <rect x="190" y="92"  width="12" height="9"/><rect x="234" y="92"  width="12" height="9"/>
+          <rect x="212" y="114" width="12" height="9"/><rect x="256" y="114" width="12" height="9"/>
+          <rect x="190" y="136" width="12" height="9"/><rect x="234" y="136" width="12" height="9"/><rect x="256" y="136" width="12" height="9"/>
+          <rect x="212" y="158" width="12" height="9"/><rect x="190" y="158" width="12" height="9"/>
+          <rect x="234" y="180" width="12" height="9"/><rect x="256" y="180" width="12" height="9"/>
+          <rect x="190" y="202" width="12" height="9"/><rect x="212" y="202" width="12" height="9"/><rect x="234" y="202" width="12" height="9"/>
+          <rect x="256" y="224" width="12" height="9"/><rect x="212" y="224" width="12" height="9"/>
+        </g>
+        <g fill="#8c7440" opacity=".5">
+          <rect x="108" y="112" width="10" height="8"/><rect x="128" y="112" width="10" height="8"/><rect x="148" y="112" width="10" height="8"/>
+          <rect x="108" y="136" width="10" height="8"/><rect x="148" y="136" width="10" height="8"/>
+          <rect x="128" y="160" width="10" height="8"/><rect x="108" y="160" width="10" height="8"/>
+          <rect x="108" y="184" width="10" height="8"/><rect x="128" y="184" width="10" height="8"/><rect x="148" y="184" width="10" height="8"/>
+          <rect x="296" y="136" width="10" height="8"/><rect x="316" y="136" width="10" height="8"/><rect x="336" y="136" width="10" height="8"/>
+          <rect x="296" y="160" width="10" height="8"/><rect x="336" y="160" width="10" height="8"/>
+          <rect x="316" y="184" width="10" height="8"/><rect x="296" y="184" width="10" height="8"/>
+          <rect x="296" y="208" width="10" height="8"/><rect x="316" y="208" width="10" height="8"/><rect x="336" y="208" width="10" height="8"/>
+        </g>
+        <g stroke="#5b7387" stroke-width="1" opacity=".55">
+          <path d="M176 96h104M176 120h104M176 144h104M176 168h104M176 192h104M176 216h104M176 240h104"/>
+        </g>
+        <path d="M96 272h260v8H96z" fill="#0d1216"/>
+        <circle cx="120" cy="284" r="3" fill="#e8cc93" opacity=".55"/>
+        <circle cx="200" cy="284" r="3" fill="#e8cc93" opacity=".55"/>
+        <circle cx="280" cy="284" r="3" fill="#e8cc93" opacity=".55"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="plans">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Residences</h2>
+      <p>Prices are for the unit itself and exclude stamp duty, registration and parking. Rates are revised at the start of each quarter.</p>
+    </div>
+
+    <div class="filters" role="group" aria-label="Filter by number of bedrooms">
+      <button class="filt" data-bed="all" aria-pressed="true" type="button">All homes</button>
+      <button class="filt" data-bed="2" aria-pressed="false" type="button">2 bedroom</button>
+      <button class="filt" data-bed="3" aria-pressed="false" type="button">3 bedroom</button>
+    </div>
+
+    <div class="plans" id="planList">
+
+      <article class="plan" data-bed="2">
+        <div class="plan-plan">
+          <svg viewBox="0 0 200 150" role="img" aria-label="Floor plan of a two bedroom unit">
+            <rect width="200" height="150" fill="#f0f1f2"/>
+            <g stroke="#9aa3ac" stroke-width="2.5" fill="none">
+              <rect x="18" y="16" width="164" height="118"/>
+              <path d="M18 84h164M96 16v68M140 84v50"/>
+            </g>
+            <g stroke="#b6bec6" stroke-width="1" fill="none">
+              <path d="M96 44h6M96 66h6M140 104h6M140 124h6"/>
+            </g>
+            <g fill="#767f88" font-family="Inter, sans-serif" font-size="7" font-weight="600" text-anchor="middle">
+              <text x="57" y="52">BEDROOM 1</text>
+              <text x="57" y="60" font-size="5.5" font-weight="400">12'0" × 11'6"</text>
+              <text x="136" y="52">BEDROOM 2</text>
+              <text x="136" y="60" font-size="5.5" font-weight="400">11'0" × 10'6"</text>
+              <text x="57" y="118">LIVING</text>
+              <text x="57" y="126" font-size="5.5" font-weight="400">16'6" × 12'0"</text>
+              <text x="118" y="118">KITCHEN</text>
+              <text x="170" y="112">BALCONY</text>
+            </g>
+            <circle cx="22" cy="20" r="2" fill="#a67c2e"/>
+          </svg>
+        </div>
+        <div class="plan-body">
+          <h3>Type A · Corner two bed</h3>
+          <span class="plan-area">1,180 sq ft · East facing</span>
+          <p class="plan-price">₹68.5 lakh<small>Base price, ₹5,800 per sq ft</small></p>
+          <ul>
+            <li>Two bedrooms, two bathrooms</li>
+            <li>Utility balcony and one covered car park</li>
+            <li>Corner unit with three-sided light</li>
+          </ul>
+          <a class="btn btn-main" href="#visit">Enquire about Type A</a>
+        </div>
+      </article>
+
+      <article class="plan" data-bed="2">
+        <div class="plan-plan">
+          <svg viewBox="0 0 200 150" role="img" aria-label="Floor plan of a compact two bedroom unit">
+            <rect width="200" height="150" fill="#f0f1f2"/>
+            <g stroke="#9aa3ac" stroke-width="2.5" fill="none">
+              <rect x="18" y="16" width="164" height="118"/>
+              <path d="M18 80h164M104 16v64M56 80v54"/>
+            </g>
+            <g fill="#767f88" font-family="Inter, sans-serif" font-size="7" font-weight="600" text-anchor="middle">
+              <text x="61" y="50">BEDROOM</text>
+              <text x="61" y="58" font-size="5.5" font-weight="400">11'6" × 11'0"</text>
+              <text x="148" y="50">BEDROOM</text>
+              <text x="148" y="58" font-size="5.5" font-weight="400">10'6" × 10'0"</text>
+              <text x="37" y="112">UTILITY</text>
+              <text x="118" y="112">LIVING + DINING</text>
+              <text x="118" y="120" font-size="5.5" font-weight="400">19'0" × 12'6"</text>
+            </g>
+            <circle cx="22" cy="20" r="2" fill="#a67c2e"/>
+          </svg>
+        </div>
+        <div class="plan-body">
+          <h3>Type B · Compact two bed</h3>
+          <span class="plan-area">985 sq ft · West facing</span>
+          <p class="plan-price">₹57.2 lakh<small>Base price, ₹5,800 per sq ft</small></p>
+          <ul>
+            <li>Two bedrooms, one bathroom</li>
+            <li>Utility balcony and one covered car park</li>
+            <li>Best value per square foot on site</li>
+          </ul>
+          <a class="btn btn-main" href="#visit">Enquire about Type B</a>
+        </div>
+      </article>
+
+      <article class="plan" data-bed="3">
+        <div class="plan-plan">
+          <svg viewBox="0 0 200 150" role="img" aria-label="Floor plan of a three bedroom unit">
+            <rect width="200" height="150" fill="#f0f1f2"/>
+            <g stroke="#9aa3ac" stroke-width="2.5" fill="none">
+              <rect x="12" y="14" width="176" height="122"/>
+              <path d="M12 78h176M76 14v64M120 78v58M154 14v64"/>
+            </g>
+            <g fill="#767f88" font-family="Inter, sans-serif" font-size="6.5" font-weight="600" text-anchor="middle">
+              <text x="44" y="46">BEDROOM 1</text>
+              <text x="44" y="54" font-size="5" font-weight="400">13'0" × 11'6"</text>
+              <text x="98" y="46">BEDROOM 2</text>
+              <text x="98" y="54" font-size="5" font-weight="400">11'6" × 10'6"</text>
+              <text x="161" y="46">BEDROOM 3</text>
+              <text x="161" y="54" font-size="5" font-weight="400">11'0" × 10'0"</text>
+              <text x="44" y="110">LIVING</text>
+              <text x="44" y="118" font-size="5" font-weight="400">20'0" × 13'0"</text>
+              <text x="137" y="108">KITCHEN + DINING</text>
+              <text x="178" y="104">BALC.</text>
+            </g>
+            <circle cx="16" cy="18" r="2" fill="#a67c2e"/>
+          </svg>
+        </div>
+        <div class="plan-body">
+          <h3>Type C · Three bed</h3>
+          <span class="plan-area">1,540 sq ft · North-East facing</span>
+          <p class="plan-price">₹89.3 lakh<small>Base price, ₹5,800 per sq ft</small></p>
+          <ul>
+            <li>Three bedrooms, three bathrooms</li>
+            <li>Two balconies and two covered car parks</li>
+            <li>Separate utility room off the kitchen</li>
+          </ul>
+          <a class="btn btn-main" href="#visit">Enquire about Type C</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="emi" style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Estimate your monthly payment</h2>
+      <p>A rough guide, not a loan offer. Your bank's rate and terms will differ.</p>
+    </div>
+    <div class="calc">
+      <div class="calc-grid">
+        <div class="cfield">
+          <label for="emiPrice">Property price <output id="emiPriceOut">₹68,50,000</output></label>
+          <input type="range" id="emiPrice" min="5720000" max="8930000" step="100000" value="6850000">
+        </div>
+        <div class="cfield">
+          <label for="emiDown">Down payment <output id="emiDownOut">₹13,70,000</output></label>
+          <input type="range" id="emiDown" min="500000" max="4000000" step="50000" value="1370000">
+        </div>
+        <div class="cfield">
+          <label for="emiRate">Interest rate <output id="emiRateOut">8.5%</output></label>
+          <input type="range" id="emiRate" min="6.5" max="12" step="0.1" value="8.5">
+        </div>
+        <div class="cfield">
+          <label for="emiYears">Tenure <output id="emiYearsOut">20 years</output></label>
+          <input type="range" id="emiYears" min="5" max="30" step="1" value="20">
         </div>
       </div>
-      <div class="ap-console" data-rv>
-        <div style="font-family:monospace;font-size:12.5px;color:#93c5fd;margin-bottom:12px;">$ apex deploy --prod</div>
-        <div style="font-family:monospace;font-size:12.5px;color:#cbd5e1;line-height:1.8;">
-          ✓ Building edge bundle (1.4s)<br>
-          ✓ Propagating to 38 regions<br>
-          ✓ Health check passed (99.99% SLA)<br>
-          <span style="color:#4ade80;">Live → https://app.apexcloud.dev</span>
-        </div>
+      <div class="emi-out">
+        <p class="lbl">Estimated monthly instalment</p>
+        <p class="val" id="emiVal">—</p>
+        <p class="note" id="emiNote">Calculated on the values above. Excludes stamp duty, registration, insurance and processing fees.</p>
       </div>
     </div>
-  </section>
-  <section class="sec" id="platform">
-    <div class="wrap">
-      <div class="sec-head" data-rv><h2>Built for production scale.</h2></div>
-      <div class="ap-grid" data-rv>
-        <div class="ap-card"><h3>38 Edge Regions</h3><p>Sub-30ms latency worldwide with automatic failover and DDoS mitigation.</p></div>
-        <div class="ap-card"><h3>Instant Rollbacks</h3><p>Revert any deployment in 200ms with immutable build snapshots.</p></div>
-        <div class="ap-card"><h3>Live Log Streaming</h3><p>Filter structured JSON logs and traces in real time without extra agents.</p></div>
+  </div>
+</section>
+
+<section class="sec" id="amenities">
+  <div class="wrap">
+    <div class="sec-head"><h2>What is on site</h2></div>
+    <div class="amenities">
+      <div class="amenity">
+        <div class="amenity-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="currentColor" stroke-width="1.7"/></svg></div>
+        <h3>Covered parking</h3><p>One bay per two-bed, two per three-bed.</p>
+      </div>
+      <div class="amenity">
+        <div class="amenity-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+        <h3>Power backup</h3><p>Full DG backup for common areas and lifts.</p>
+      </div>
+      <div class="amenity">
+        <div class="amenity-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 20V9l8-5 8 5v11" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 20v-6h6v6" stroke="currentColor" stroke-width="1.7"/></svg></div>
+        <h3>Clubhouse</h3><p>Gym, indoor games and a small library on the ground floor.</p>
+      </div>
+      <div class="amenity">
+        <div class="amenity-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M5 8l7-5 7 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Rainwater harvesting</h3><p>Two recharge pits and a 40,000 litre sump.</p>
+      </div>
+      <div class="amenity">
+        <div class="amenity-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 20h18M6 20V9l6-5 6 5v11" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></div>
+        <h3>Two lifts</h3><p>One passenger, one stretcher-compatible service lift.</p>
+      </div>
+      <div class="amenity">
+        <div class="amenity-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.7"/><path d="M8 12h8M12 8v8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+        <h3>Visitor parking</h3><p>Eight surface bays near the gate.</p>
       </div>
     </div>
-  </section>
-  <section class="sec" id="pricing">
-    <div class="wrap">
-      <div class="ap-console" data-rv>
-        <h2 style="color:#fff;margin-bottom:8px;">Start free, scale when you grow.</h2>
-        <p style="color:#94a3b8;margin-bottom:18px;">Hobby tier is free forever. Pro teams start at $20/seat/month.</p>
-        <button class="btn btn-accent" type="button" data-demo-toast="Pro trial activated for 14 days!">Start 14-Day Pro Trial</button>
-      </div>
+  </div>
+</section>
+
+<section class="sec" id="visit" style="background:#101418;color:#f2f4f6">
+  <div class="wrap" style="text-align:center;max-width:640px">
+    <h2 style="font-family:var(--display);font-size:clamp(1.8rem,3.6vw,2.6rem);font-weight:600;letter-spacing:-.02em;color:#fff;line-height:1.1">Book a site visit</h2>
+    <p style="color:#a9b1b9;font-size:14.5px;margin-top:12px;line-height:1.7">The site office is open daily from 10am to 6pm. Walk in, or book ahead and we will have the plans laid out and coffee ready.</p>
+    <div class="hero-actions" style="justify-content:center">
+      <a class="btn" href="tel:+916120000000" style="background:#d8b877;color:#101418">Call +91 612 000 0000</a>
+      <a class="btn" href="mailto:sales@apexresidences.example" style="border:1px solid rgba(255,255,255,.26);color:#fff">Email sales</a>
     </div>
-  </section>
+    <p style="color:#79828b;font-size:11.5px;margin-top:20px;line-height:1.7">Project RERA number: BR/PAT/RERA/2025/0442. Details on the RERA Bihar website.</p>
+  </div>
+</section>
+
 </main>
+
 <footer class="foot">
-  <div class="wrap foot-base">Built by <a href="/" style="color:#fff;text-decoration:underline;">AS Studio</a> · <a href="/contact" style="color:#fff;text-decoration:underline;">Start a project</a></div>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <p class="foot-brand">Apex</p>
+        <p>Thirty-one apartments on Bailey Road, Patna. Possession March 2027.</p>
+      </div>
+      <div>
+        <h3>Project</h3>
+        <a href="#plans">Residences</a>
+        <a href="#emi">EMI calculator</a>
+        <a href="#amenities">Amenities</a>
+      </div>
+      <div>
+        <h3>Sales office</h3>
+        <a href="tel:+916120000000">+91 612 000 0000</a>
+        <a href="mailto:sales@apexresidences.example">Email sales</a>
+      </div>
+    </div>
+    <p class="foot-base">
+      © <span id="year"></span> Apex Residences · A fictional business, built by AS Studio as a design demonstration.
+      Not a real estate offer. Prices and plans shown are illustrative.
+    </p>
+  </div>
 </footer>
+
+<aside class="demo-badge" aria-label="Demo notice">Concept demo by AS Studio · <a href="../work">see all six</a></aside>
+
 <script src="demo.js"></script>
+<script>
+ASDemo.year('year');
+ASDemo.reveal();
+
+/* ---- bedroom filter ---- */
+(function () {
+  var buttons = document.querySelectorAll('.filt');
+  var plans = document.querySelectorAll('.plan');
+  Array.prototype.forEach.call(buttons, function (b) {
+    b.addEventListener('click', function () {
+      var bed = b.getAttribute('data-bed');
+      Array.prototype.forEach.call(buttons, function (x) { x.setAttribute('aria-pressed', 'false'); });
+      b.setAttribute('aria-pressed', 'true');
+      Array.prototype.forEach.call(plans, function (p) {
+        p.hidden = !(bed === 'all' || p.getAttribute('data-bed') === bed);
+      });
+    });
+  });
+})();
+
+/* ---- EMI calculator ---- */
+(function () {
+  var price = document.getElementById('emiPrice');
+  var down = document.getElementById('emiDown');
+  var rate = document.getElementById('emiRate');
+  var years = document.getElementById('emiYears');
+  var val = document.getElementById('emiVal');
+
+  var fmt = function (n) { return '₹' + Math.round(n).toLocaleString('en-IN'); };
+
+  function calc() {
+    var p = Number(price.value) - Number(down.value);
+    var r = Number(rate.value) / 100 / 12;
+    var n = Number(years.value) * 12;
+
+    document.getElementById('emiPriceOut').textContent = fmt(Number(price.value));
+    document.getElementById('emiDownOut').textContent = fmt(Number(down.value));
+    document.getElementById('emiRateOut').textContent = Number(rate.value).toFixed(1) + '%';
+    document.getElementById('emiYearsOut').textContent = years.value + ' years';
+
+    if (p <= 0) { val.textContent = '—'; return; }
+    var monthly = r === 0 ? p / n : (p * r) / (1 - Math.pow(1 + r, -n));
+    val.textContent = fmt(monthly);
+
+    var total = monthly * n;
+    var note = document.getElementById('emiNote');
+    note.textContent = 'Total repayment ' + fmt(total) +
+      ', of which ' + fmt(total - p) + ' is interest over ' +
+      years.value + ' years. Excludes stamp duty, registration, insurance and processing fees.';
+  }
+
+  [price, down, rate, years].forEach(function (el) {
+    el.addEventListener('input', calc);
+  });
+  calc();
+})();
+</script>
 </body>
 </html>
