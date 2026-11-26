@@ -3,494 +3,88 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Atelier North — Homeware, made slowly</title>
-<meta name="description" content="Ceramics, textiles and lighting made in small runs by independent workshops. Free delivery over ₹5,000 across India.">
-<meta name="theme-color" content="#f4f1ec">
+<title>Atelier Lin — Handwoven Linen &amp; Objects</title>
+<meta name="description" content="Small-batch handwoven linen apparel and home objects crafted in Jaipur.">
+<meta name="theme-color" content="#1c1917">
 <meta name="robots" content="noindex,follow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="demo.css">
 <style>
 :root {
-  --max: 1180px;
-  --ink: #1c1b19;
-  --body: #55524c;
-  --muted: #6f6a63;
-  --line: #e2ddd4;
+  --max: 1160px;
+  --ink: #1c1917;
+  --body: #57534e;
+  --muted: #78716c;
+  --line: #e7e5e4;
   --card: #ffffff;
-  --accent: #9a6b3f;
+  --accent: #1c1917;
   --accent-fg: #fff;
-  --bg: #f4f1ec;
-  --nav-bg: rgba(244, 241, 236, .94);
-  --foot-bg: #1c1b19;
-  --foot-fg: #b5aea3;
-  --foot-muted: #8a8377;
-  --foot-heading: #fff;
-  --display: "DM Serif Display", Georgia, serif;
-  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --logo-size: 27px;
-  --logo-weight: 400;
-  --h1-weight: 400;
-  --h1-max: 4.6rem;
-  --btn-bg: #1c1b19;
-  --btn-radius: 4px;
-  --card-radius: 4px;
+  --bg: #fafaf9;
+  --nav-bg: rgba(250, 250, 249, .92);
+  --font-display: "Cormorant Garamond", Georgia, serif;
 }
-body { font-family: var(--font); background: var(--bg); color: var(--ink); }
-
-.logo { letter-spacing: 0; }
-.logo span { color: #5f5b54; }
-h1 { letter-spacing: -.01em; line-height: 1.02; }
-h1 em { font-style: italic; color: var(--accent); }
-
-.hero::before {
-  content: "";
-  position: absolute; inset: 0; z-index: -1;
-  background: radial-gradient(ellipse 50% 55% at 84% 24%, rgba(154, 107, 63, .10), transparent 66%);
-}
-
-/* cart button in nav */
-.cart-btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  min-height: 44px; padding: 0 16px; border-radius: 999px;
-  border: 1px solid var(--line); background: var(--card);
-  font-size: 12.5px; font-weight: 600; cursor: pointer; transition: .2s;
-  font-family: var(--font);
-}
-.cart-btn:hover { border-color: var(--ink); }
-.cart-dot {
-  min-width: 19px; height: 19px; border-radius: 999px;
-  background: var(--ink); color: #fff; font-size: 10.5px; font-weight: 800;
-  display: inline-grid; place-items: center; padding: 0 5px;
-}
-
-/* product grid */
-.products {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(238px, 1fr));
-  gap: 26px 18px; grid-auto-rows: 1fr; margin-top: 34px;
-}
-.product { display: flex; flex-direction: column; }
-.product-img {
-  position: relative; aspect-ratio: 4 / 5; border-radius: 4px;
-  background: #eae5dc; overflow: hidden; margin-bottom: 14px;
-  display: grid; place-items: center;
-}
-.product-img svg { width: 62%; height: auto; }
-.product-badge {
-  position: absolute; top: 12px; left: 12px;
-  font-size: 9.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
-  background: var(--ink); color: #fff; padding: 5px 9px; border-radius: 2px;
-}
-.product h3 { font-family: var(--display); font-size: 19px; font-weight: 400; letter-spacing: 0; margin-bottom: 3px; }
-.product-desc { font-size: 12px; color: var(--muted); line-height: 1.55; flex: 1; }
-.product-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; }
-.product-price { font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
-.add-btn {
-  min-height: 44px; padding: 0 16px; border-radius: 3px;
-  border: 1px solid var(--ink); background: transparent; color: var(--ink);
-  font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
-  cursor: pointer; transition: .2s; font-family: var(--font); white-space: nowrap;
-}
-.add-btn:hover { background: var(--ink); color: #fff; }
-.add-btn:disabled { background: var(--accent); border-color: var(--accent); color: #fff; }
-
-/* cart drawer */
-.drawer-scrim {
-  position: fixed; inset: 0; background: rgba(28, 27, 25, .45);
-  z-index: 300; opacity: 0; pointer-events: none; transition: opacity .3s;
-}
-.drawer-scrim.open { opacity: 1; pointer-events: auto; }
-.drawer {
-  position: fixed; top: 0; right: 0; bottom: 0; z-index: 301;
-  width: min(420px, 100vw); background: var(--card);
-  transform: translateX(100%); transition: transform .34s cubic-bezier(.22, 1, .36, 1);
-  display: flex; flex-direction: column; box-shadow: -20px 0 60px -30px rgba(0,0,0,.4);
-}
-.drawer.open { transform: none; }
-.drawer-head {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 20px 22px; border-bottom: 1px solid var(--line);
-}
-.drawer-head h2 { font-family: var(--display); font-size: 21px; font-weight: 400; }
-.drawer-close {
-  width: 44px; height: 44px; display: grid; place-items: center;
-  border-radius: 50%; font-size: 22px; line-height: 1; cursor: pointer;
-  transition: background .2s;
-}
-.drawer-close:hover { background: #f0ece5; }
-.drawer-body { flex: 1; overflow-y: auto; padding: 18px 22px; }
-.cart-empty { font-size: 13.5px; color: var(--muted); padding: 30px 0; text-align: center; }
-.cart-line {
-  display: flex; justify-content: space-between; gap: 14px;
-  padding: 13px 0; border-bottom: 1px solid var(--line);
-}
-.cart-name { font-size: 13.5px; font-weight: 500; line-height: 1.4; }
-.cart-name small { display: block; font-size: 11.5px; color: var(--muted); margin-top: 3px; font-weight: 400; }
-.cart-price { font-size: 13.5px; font-weight: 600; white-space: nowrap; }
-.drawer-foot { padding: 20px 22px calc(20px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); }
-.drawer-total {
-  display: flex; justify-content: space-between; align-items: baseline;
-  font-size: 13px; color: var(--muted); margin-bottom: 14px;
-}
-.drawer-total strong { font-size: 20px; color: var(--ink); font-weight: 600; letter-spacing: -.02em; }
-.drawer-foot .btn { width: 100%; }
-
-/* textile swatches */
-.swatches { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 18px; }
-.swatch {
-  width: 46px; height: 46px; border-radius: 50%;
-  border: 2px solid transparent; box-shadow: inset 0 0 0 1px rgba(0,0,0,.08);
-  cursor: pointer; transition: .2s;
-}
-.swatch:hover { transform: scale(1.06); }
-.swatch[aria-pressed="true"] { border-color: var(--ink); }
-
-.split { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(26px, 5vw, 60px); align-items: center; }
-.story-img {
-  aspect-ratio: 4/3; border-radius: 4px; background: #e6e0d5;
-  display: grid; place-items: center; overflow: hidden;
-}
-.story-img svg { width: 70%; height: auto; }
-
-@media (max-width: 860px) { .split { grid-template-columns: 1fr; } }
+.at-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.at-card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; }
+.at-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+.at-card h3 { font-size: 18px; font-weight: 700; color: var(--ink); margin: 4px 0 6px; }
+.at-card p { font-size: 13.5px; color: var(--body); line-height: 1.55; }
+@media (max-width: 900px) { .at-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
-
+<div class="demo-bar"><span>AS Studio · Live Demo</span><a href="/work">← Back to all demos</a></div>
 <header class="nav">
   <div class="wrap nav-in">
-    <a href="atelier.html" class="logo">Atelier North<span>homeware</span></a>
-    <nav class="nav-links" aria-label="Main">
-      <a href="#shop">Shop</a>
-      <a href="#story">Our makers</a>
-      <a href="#care">Care</a>
+    <a href="#" class="brand">Atelier Lin</a>
+    <nav class="nav-links" aria-label="Atelier Lin">
+      <a href="#collection">Collection</a>
+      <a href="#craft">Our Craft</a>
     </nav>
-    <button class="cart-btn" id="cartBtn" type="button" aria-haspopup="dialog">
-      Basket <span class="cart-dot" data-cart-count aria-label="0 items in basket">0</span>
-    </button>
+    <button class="btn btn-accent btn-sm" type="button" data-demo-toast="Your Atelier Lin bag is ready (0 items).">Bag (0)</button>
   </div>
 </header>
-
-<main id="main">
-
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <span class="eyebrow">Made in small runs</span>
-      <h1>Things for the<br>home that <em>age well.</em></h1>
-      <p class="lede">Ceramics, textiles and lighting from independent workshops across India. We buy in small quantities, so what you get is rarely one of thousands.</p>
-      <div class="hero-actions">
-        <a class="btn btn-main" href="#shop">Browse the shop</a>
-        <a class="btn btn-line" href="#story">Meet the makers</a>
+<main>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div data-rv>
+        <h1>Handwoven linen, made to soften with age.</h1>
+        <p class="lead">Small-batch garments and table objects loomed in Jaipur using 100% European flax and natural botanical dyes.</p>
+        <div class="hero-actions">
+          <a class="btn btn-accent" href="#collection">Shop Autumn Edit</a>
+          <button class="btn btn-ghost" type="button" data-demo-toast="Lookbook PDF sent to your inbox!">Download Lookbook</button>
+        </div>
+      </div>
+      <div class="at-card" style="background:#1c1917;color:#fafaf9;" data-rv>
+        <div>
+          <span class="at-tag" style="color:#a8a29e;">Featured Piece</span>
+          <h3 style="color:#fff;font-size:24px;">The Raw Sand Overshirt</h3>
+          <p style="color:#d6d3d1;">180 GSM stone-washed linen. Cut for an effortless, boxy drape. Ships worldwide in 48 hours.</p>
+        </div>
+        <button class="btn btn-light" type="button" data-demo-toast="Added The Raw Sand Overshirt (₹4,800) to bag!">Add to Bag · ₹4,800</button>
       </div>
     </div>
-    <div class="story-img">
-      <svg viewBox="0 0 200 160" role="img" aria-label="Three hand-thrown ceramic vessels">
-        <rect width="200" height="160" fill="#eae5dc"/>
-        <ellipse cx="100" cy="145" rx="82" ry="7" fill="#d9d2c6"/>
-        <path d="M52 78c0-9 5-13 5-21h30c0 8 5 12 5 21 0 26-8 34-20 34s-20-8-20-34z" fill="#b5855a"/>
-        <ellipse cx="72" cy="57" rx="15" ry="4" fill="#9a6b3f"/>
-        <path d="M96 68c0-8 4-11 4-18h26c0 7 4 10 4 18 0 30-7 40-17 40s-17-10-17-40z" fill="#c9a77f"/>
-        <ellipse cx="113" cy="50" rx="13" ry="3.5" fill="#a8835c"/>
-        <path d="M136 88c0-6 3-9 3-14h22c0 5 3 8 3 14 0 18-6 24-14 24s-14-6-14-24z" fill="#8d6647"/>
-        <ellipse cx="150" cy="74" rx="11" ry="3" fill="#75533a"/>
-      </svg>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="shop">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>The shop</h2>
-      <p>Free delivery across India over ₹5,000. Everything is made to be used, not displayed.</p>
-    </div>
-
-    <div class="products">
-      <article class="product">
-        <div class="product-img">
-          <span class="product-badge">Small run</span>
-          <svg viewBox="0 0 120 150" aria-hidden="true">
-            <ellipse cx="60" cy="136" rx="42" ry="5" fill="#d9d2c6"/>
-            <path d="M34 62c0-7 4-10 4-16h44c0 6 4 9 4 16 0 46-11 60-26 60s-26-14-26-60z" fill="#b5855a"/>
-            <ellipse cx="60" cy="46" rx="22" ry="5.5" fill="#9a6b3f"/>
-            <path d="M34 84c8 4 18 6 26 6s18-2 26-6" fill="none" stroke="#9a6b3f" stroke-width="2" opacity=".5"/>
-          </svg>
-        </div>
-        <h3>Stoneware vase</h3>
-        <p class="product-desc">Wheel-thrown in Khurja. Slight variation in glaze from piece to piece.</p>
-        <div class="product-foot">
-          <span class="product-price">₹2,400</span>
-          <button class="add-btn" type="button" data-add="Stoneware vase" data-price="2400">Add</button>
-        </div>
-      </article>
-
-      <article class="product">
-        <div class="product-img">
-          <svg viewBox="0 0 120 150" aria-hidden="true">
-            <rect x="24" y="34" width="72" height="94" rx="3" fill="#c9a77f"/>
-            <rect x="24" y="34" width="72" height="16" rx="3" fill="#a8835c"/>
-            <path d="M38 66h44M38 80h44M38 94h30" stroke="#8d6647" stroke-width="2" opacity=".45"/>
-          </svg>
-        </div>
-        <h3>Linen cushion cover</h3>
-        <p class="product-desc">Stonewashed European flax, 45 × 45 cm. Hidden zip, machine washable.</p>
-        <div class="product-foot">
-          <span class="product-price">₹1,150</span>
-          <button class="add-btn" type="button" data-add="Linen cushion cover" data-price="1150">Add</button>
-        </div>
-      </article>
-
-      <article class="product">
-        <div class="product-img">
-          <span class="product-badge">Last few</span>
-          <svg viewBox="0 0 120 150" aria-hidden="true">
-            <path d="M60 20v14" stroke="#8d6647" stroke-width="2.5"/>
-            <path d="M34 44h52l-9 26H43z" fill="#d8cbb4"/>
-            <ellipse cx="60" cy="72" rx="17" ry="5" fill="#c0b096"/>
-            <circle cx="60" cy="86" r="6" fill="#f0e9da" opacity=".95"/>
-          </svg>
-        </div>
-        <h3>Paper pendant shade</h3>
-        <p class="product-desc">Hand-folded washi paper on a bamboo frame. 38 cm wide, E27 fitting.</p>
-        <div class="product-foot">
-          <span class="product-price">₹3,200</span>
-          <button class="add-btn" type="button" data-add="Paper pendant shade" data-price="3200">Add</button>
-        </div>
-      </article>
-
-      <article class="product">
-        <div class="product-img">
-          <svg viewBox="0 0 120 150" aria-hidden="true">
-            <ellipse cx="60" cy="118" rx="34" ry="6" fill="#d9d2c6"/>
-            <path d="M42 118c0-24 6-30 6-46h24c0 16 6 22 6 46z" fill="#8d6647"/>
-            <ellipse cx="60" cy="72" rx="17" ry="4.5" fill="#75533a"/>
-            <path d="M52 34c0 6 4 8 8 8s8-2 8-8" fill="none" stroke="#b5855a" stroke-width="2.5"/>
-          </svg>
-        </div>
-        <h3>Brass candle holder</h3>
-        <p class="product-desc">Solid brass, unlacquered so it darkens with use. For standard taper candles.</p>
-        <div class="product-foot">
-          <span class="product-price">₹890</span>
-          <button class="add-btn" type="button" data-add="Brass candle holder" data-price="890">Add</button>
-        </div>
-      </article>
-
-      <article class="product">
-        <div class="product-img">
-          <svg viewBox="0 0 120 150" aria-hidden="true">
-            <rect x="22" y="48" width="76" height="66" rx="2" fill="#e2d9c9"/>
-            <rect x="22" y="48" width="76" height="8" fill="#c9bda8"/>
-            <path d="M32 70h56M32 84h56M32 98h40" stroke="#b0a48e" stroke-width="2" opacity=".5"/>
-            <rect x="22" y="48" width="4" height="66" fill="#c9bda8"/>
-          </svg>
-        </div>
-        <h3>Cotton throw</h3>
-        <p class="product-desc">Handloom cotton in undyed natural and madder. 130 × 180 cm with fringe.</p>
-        <div class="product-foot">
-          <span class="product-price">₹2,950</span>
-          <button class="add-btn" type="button" data-add="Cotton throw" data-price="2950">Add</button>
-        </div>
-      </article>
-
-      <article class="product">
-        <div class="product-img">
-          <span class="product-badge">Small run</span>
-          <svg viewBox="0 0 120 150" aria-hidden="true">
-            <path d="M30 118V72c0-16 13-28 30-28s30 12 30 28v46z" fill="#b5855a"/>
-            <ellipse cx="60" cy="72" rx="30" ry="8" fill="#9a6b3f"/>
-            <path d="M30 96h60" stroke="#9a6b3f" stroke-width="2" opacity=".4"/>
-          </svg>
-        </div>
-        <h3>Serving bowl</h3>
-        <p class="product-desc">Speckled clay with a clear glaze inside. Holds about 1.5 litres.</p>
-        <div class="product-foot">
-          <span class="product-price">₹1,650</span>
-          <button class="add-btn" type="button" data-add="Serving bowl" data-price="1650">Add</button>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="story" style="background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
-  <div class="wrap split">
-    <div>
-      <span class="eyebrow">Our makers</span>
-      <h2 style="font-family:var(--display);font-size:clamp(1.8rem,3.4vw,2.5rem);font-weight:400;line-height:1.1;margin-bottom:16px">We work with seven workshops, not seven factories.</h2>
-      <p style="font-size:14.5px;line-height:1.8;color:var(--body);margin-bottom:14px">Each piece comes from a workshop we have visited, in Khurja, Bhuj, Jaipur and Auroville. We pay before the run begins, not after it sells, and we buy the whole run so nobody is left holding stock.</p>
-      <p style="font-size:14.5px;line-height:1.8;color:var(--body)">That is why quantities are small and reorders are slow. It is also why the person who made your vase was paid properly for it.</p>
-      <div class="swatches" role="group" aria-label="Available glaze colours">
-        <button class="swatch" type="button" aria-pressed="true" style="background:#b5855a" aria-label="Terracotta glaze"></button>
-        <button class="swatch" type="button" aria-pressed="false" style="background:#c9a77f" aria-label="Sand glaze"></button>
-        <button class="swatch" type="button" aria-pressed="false" style="background:#8d6647" aria-label="Walnut glaze"></button>
-        <button class="swatch" type="button" aria-pressed="false" style="background:#e2d9c9" aria-label="Bone glaze"></button>
-        <button class="swatch" type="button" aria-pressed="false" style="background:#5f6b5a" aria-label="Moss glaze"></button>
+  </section>
+  <section class="sec" id="collection">
+    <div class="wrap">
+      <div class="sec-head" data-rv><h2>Autumn / Winter Edit</h2></div>
+      <div class="at-grid" data-rv>
+        <div class="at-card"><div><span class="at-tag">Apparel</span><h3>Pleated Wide Trouser</h3><p>High-waisted, breathable linen with horn buttons.</p></div><button class="btn btn-ghost btn-sm" type="button" data-demo-toast="Added Pleated Wide Trouser (₹5,200) to bag">Add · ₹5,200</button></div>
+        <div class="at-card"><div><span class="at-tag">Home</span><h3>Indigo Table Runner</h3><p>Hand-dyed natural indigo, 240cm length.</p></div><button class="btn btn-ghost btn-sm" type="button" data-demo-toast="Added Indigo Table Runner (₹2,400) to bag">Add · ₹2,400</button></div>
+        <div class="at-card"><div><span class="at-tag">Apparel</span><h3>Relaxed Studio Kurta</h3><p>Unbleached khadi-linen blend for everyday wear.</p></div><button class="btn btn-ghost btn-sm" type="button" data-demo-toast="Added Relaxed Studio Kurta (₹3,900) to bag">Add · ₹3,900</button></div>
       </div>
     </div>
-    <div class="story-img">
-      <svg viewBox="0 0 200 150" role="img" aria-label="A potter's hands shaping a vessel on a wheel">
-        <rect width="200" height="150" fill="#e6e0d5"/>
-        <ellipse cx="100" cy="118" rx="46" ry="8" fill="#d3cabb"/>
-        <path d="M74 108c0-14 5-18 5-28h42c0 10 5 14 5 28z" fill="#b5855a"/>
-        <ellipse cx="100" cy="80" rx="21" ry="5" fill="#9a6b3f"/>
-        <path d="M58 96c9-6 16-8 16-16M142 96c-9-6-16-8-16-16" stroke="#c0a37c" stroke-width="6" stroke-linecap="round" fill="none"/>
-      </svg>
+  </section>
+  <section class="sec" id="craft">
+    <div class="wrap">
+      <div class="sec-head" data-rv><h2>Zero-waste, small-batch production.</h2><p class="lead">Every piece is cut to order in batches of 30, eliminating deadstock and supporting 14 master weavers.</p></div>
     </div>
-  </div>
-</section>
-
-<section class="sec" id="care">
-  <div class="wrap">
-    <div class="sec-head"><h2>Care &amp; returns</h2></div>
-    <div class="grid-auto">
-      <div class="card">
-        <h3 style="font-family:var(--display);font-size:18px;font-weight:400;margin-bottom:8px">Ceramics</h3>
-        <p style="font-size:13px;line-height:1.7;color:var(--body)">Dishwasher safe on a low setting, though hand washing keeps the glaze brighter for longer. Do not put them in the microwave if there is a metallic lustre.</p>
-      </div>
-      <div class="card">
-        <h3 style="font-family:var(--display);font-size:18px;font-weight:400;margin-bottom:8px">Textiles</h3>
-        <p style="font-size:13px;line-height:1.7;color:var(--body)">Cold machine wash, gentle cycle, no bleach. Expect a little shrinkage on the first wash — that is the nature of handloom cotton, not a fault.</p>
-      </div>
-      <div class="card">
-        <h3 style="font-family:var(--display);font-size:18px;font-weight:400;margin-bottom:8px">Returns</h3>
-        <p style="font-size:13px;line-height:1.7;color:var(--body)">Fourteen days from delivery, unused and in original packaging. We cover return shipping if the piece arrived damaged or differs from the listing.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
+  </section>
 </main>
-
 <footer class="foot">
-  <div class="wrap">
-    <div class="foot-grid">
-      <div>
-        <p class="foot-brand">Atelier North</p>
-        <p>Homeware from independent Indian workshops. Small runs, fair pay, made to last.</p>
-      </div>
-      <div>
-        <h3>Shop</h3>
-        <a href="#shop">All pieces</a>
-        <a href="#care">Care &amp; returns</a>
-        <a href="#story">Our makers</a>
-      </div>
-      <div>
-        <h3>Contact</h3>
-        <a href="mailto:hello@ateliernorth.example">hello@ateliernorth.example</a>
-        <a href="tel:+919000000000">+91 90000 00000</a>
-      </div>
-    </div>
-    <p class="foot-base">© <span id="year"></span> Atelier North · A fictional business, built by AS Studio as a design demonstration.</p>
-  </div>
+  <div class="wrap foot-base">Built by <a href="/" style="color:#fff;text-decoration:underline;">AS Studio</a> · <a href="/contact" style="color:#fff;text-decoration:underline;">Start a project</a></div>
 </footer>
-
-<!-- cart drawer -->
-<div class="drawer-scrim" id="scrim"></div>
-<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" aria-hidden="true" inert>
-  <div class="drawer-head">
-    <h2 id="drawerTitle">Your basket</h2>
-    <button class="drawer-close" id="drawerClose" type="button" aria-label="Close basket">&times;</button>
-  </div>
-  <div class="drawer-body" id="cartList"></div>
-  <div class="drawer-foot">
-    <div class="drawer-total"><span>Subtotal</span><strong data-cart-total>₹0</strong></div>
-    <button class="btn btn-main" type="button" id="checkoutBtn">Checkout</button>
-  </div>
-</aside>
-
-<aside class="demo-badge" aria-label="Demo notice">Concept demo by AS Studio · <a href="../work">see all six</a></aside>
-
 <script src="demo.js"></script>
-<script>
-ASDemo.year('year');
-ASDemo.reveal();
-
-var basket = ASDemo.cart({
-  key: 'atelier-cart',
-  currency: '₹',
-  countSel: '[data-cart-count]',
-  totalSel: '[data-cart-total]',
-  listSel: '#cartList'
-});
-
-/* ---- drawer open/close ---- */
-(function () {
-  var drawer = document.getElementById('drawer');
-  var scrim = document.getElementById('scrim');
-  var openBtn = document.getElementById('cartBtn');
-  var closeBtn = document.getElementById('drawerClose');
-  var lastFocus = null;
-
-  function open() {
-    lastFocus = document.activeElement;
-    drawer.classList.add('open');
-    scrim.classList.add('open');
-    drawer.removeAttribute('inert');
-    drawer.setAttribute('aria-hidden', 'false');
-    closeBtn.focus();
-    document.body.style.overflow = 'hidden';
-  }
-  function close() {
-    /* move focus out *before* hiding the subtree, otherwise the browser
-       leaves focus on a node inside aria-hidden and axe flags it */
-    if (lastFocus && lastFocus.focus) lastFocus.focus();
-    drawer.classList.remove('open');
-    scrim.classList.remove('open');
-    drawer.setAttribute('aria-hidden', 'true');
-    drawer.setAttribute('inert', '');
-    document.body.style.overflow = '';
-  }
-
-  openBtn.addEventListener('click', open);
-  closeBtn.addEventListener('click', close);
-  scrim.addEventListener('click', close);
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && drawer.classList.contains('open')) close();
-  });
-
-  /* keep focus inside the drawer while it is open */
-  drawer.addEventListener('keydown', function (e) {
-    if (e.key !== 'Tab') return;
-    var f = drawer.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-    if (!f.length) return;
-    var first = f[0], last = f[f.length - 1];
-    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-  });
-
-  document.getElementById('checkoutBtn').addEventListener('click', function () {
-    var btn = this;
-    btn.textContent = 'Demo only — nothing charged';
-    btn.disabled = true;
-    setTimeout(function () {
-      btn.textContent = 'Checkout';
-      btn.disabled = false;
-    }, 2000);
-  });
-
-  /* reopen the drawer after adding so the basket is visible */
-  Array.prototype.forEach.call(document.querySelectorAll('[data-add]'), function (b) {
-    b.addEventListener('click', function () {
-      setTimeout(function () {
-        if (window.innerWidth > 900) open();
-      }, 320);
-    });
-  });
-})();
-
-/* ---- glaze swatches ---- */
-(function () {
-  var swatches = document.querySelectorAll('.swatch');
-  Array.prototype.forEach.call(swatches, function (s) {
-    s.addEventListener('click', function () {
-      Array.prototype.forEach.call(swatches, function (o) { o.setAttribute('aria-pressed', 'false'); });
-      s.setAttribute('aria-pressed', 'true');
-    });
-  });
-})();
-</script>
 </body>
 </html>
