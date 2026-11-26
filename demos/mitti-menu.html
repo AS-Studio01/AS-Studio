@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Menu — Mitti Café</title>
+<meta name="robots" content="noindex,follow">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="demo.css">
+</head>
+<body>
+<div class="demo-bar"><span>AS Studio · Live Demo</span><a href="/work">← Back to all demos</a></div>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="/demos/mitti" class="brand">Mitti Café</a>
+    <nav class="nav-links" aria-label="Mitti Café">
+      <a href="/demos/mitti">Home</a>
+      <a href="/demos/mitti-menu">Menu</a>
+      <a href="/demos/mitti-reserve">Reserve</a>
+    </nav>
+    <a class="btn btn-accent btn-sm" href="/demos/mitti-reserve">Bag (<span data-cart-count>0</span>)</a>
+  </div>
+</header>
+<main>
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <h1>Full Kitchen &amp; Roastery Menu</h1>
+        <p class="lead">Tap any item to add it to your pickup bag.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;">
+        <div class="menu-item"><div><h3>Chikmagalur Pour-Over · ₹240</h3><p>Washed Arabica, notes of roasted hazelnut &amp; dark cocoa.</p></div><button class="btn btn-ghost btn-sm" type="button" data-cart-add="Chikmagalur Pour-Over · ₹240">Add to Bag</button></div>
+        <div class="menu-item"><div><h3>Cardamom Jaggery Latte · ₹210</h3><p>Double espresso over steamed milk and organic palm jaggery.</p></div><button class="btn btn-ghost btn-sm" type="button" data-cart-add="Cardamom Jaggery Latte · ₹210">Add to Bag</button></div>
+        <div class="menu-item"><div><h3>Avocado &amp; Chili Tartine · ₹340</h3><p>House-fermented sourdough, smashed avocado, toasted sesame.</p></div><button class="btn btn-ghost btn-sm" type="button" data-cart-add="Avocado & Chili Tartine · ₹340">Add to Bag</button></div>
+        <div class="menu-item"><div><h3>Shakshuka Skillet · ₹380</h3><p>Spiced tomato ragù, two poached eggs, warm pita.</p></div><button class="btn btn-ghost btn-sm" type="button" data-cart-add="Shakshuka Skillet · ₹380">Add to Bag</button></div>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="demo.js"></script>
+</body>
+</html>
