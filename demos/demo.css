@@ -288,8 +288,8 @@ h1 em { font-style: italic; color: var(--accent); }
 
 /* ---------- reveal ---------- */
 .js [data-rv] {
-  opacity: 0;
-  transform: translateY(16px);
+  opacity: 1;
+  transform: none;
   transition: opacity .6s ease, transform .6s ease;
 }
 .js [data-rv].in { opacity: 1; transform: none; }
